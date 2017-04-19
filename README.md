@@ -35,7 +35,7 @@ The starter-code provides the basic layout and organization for this assignment.
 
 ## Introduction
 
-![](https://s3-eu-west-1.amazonaws.com/ih-materials/uploads/upload_676b436fcf47e71b1f85cbd8d318a080.png)
+<img src="https://s3-eu-west-1.amazonaws.com/ih-materials/uploads/upload_676b436fcf47e71b1f85cbd8d318a080.png" width="400" />
 
 You may already know how Passport works and how to integrate it in your projects. Now is time to practice by creating an Express application with Passport.
 
