@@ -1,29 +1,40 @@
-var express = require('express');
-var path = require('path');
-var favicon = require('serve-favicon');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
-var app = express();
-var index = require('./routes/index');
-var users = require('./routes/users');
+/*jshint esversion: 6*/
+
+const express       = require('express');
+const path          = require('path');
+const favicon       = require('serve-favicon');
+const logger        = require('morgan');
+const cookieParser  = require('cookie-parser');
+const bodyParser    = require('body-parser');
+const app           = express();
+const index         = require('./routes/index');
+const users         = require('./routes/users');
 const passportRouter = require("./routes/passportRouter");
+
 //mongoose configuration
-const mongoose = require("mongoose");
+const mongoose      = require("mongoose");
 mongoose.connect("mongodb://localhost/passport-local");
+
 //require the user model
-const User = require("./models/user");
+const User          = require("./models/user");
 const session       = require("express-session");
 const bcrypt        = require("bcrypt");
 const passport      = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
-const flash = require("connect-flash");
+const flash         = require("connect-flash");
 
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-// app.js
+app.use(session({
+  secret: "our-passport--strategy-app",
+  resave: true,
+  saveUninitialized: true
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
 passport.serializeUser((user, cb) => {
   cb(null, user.id);
 });
@@ -35,15 +46,8 @@ passport.deserializeUser((id, cb) => {
   });
 });
 
-app.use(passport.initialize());
-app.use(passport.session());
-app.use(session({
-  secret: "our-passport--strategy-app",
-  resave: true,
-  saveUninitialized: true
-}));
-
 app.use(flash());
+
 
 passport.use(new LocalStrategy({
   passReqToCallback: true
@@ -70,10 +74,6 @@ passport.use(new LocalStrategy({
 // Routes
 const router = require("./routes/passportRouter");
 app.use('/', router);
-
-
-
-
 
 
 //enable sessions here
