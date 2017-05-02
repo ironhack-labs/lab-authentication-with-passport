@@ -1,10 +1,12 @@
-var express = require('express');
-var path = require('path');
-var favicon = require('serve-favicon');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
-var app = express();
+/*jshint esversion: 6 */
+
+const express = require('express');
+const path = require('path');
+const favicon = require('serve-favicon');
+const logger = require('morgan');
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
+const app = express();
 
 var index = require('./routes/index');
 var users = require('./routes/users');
@@ -19,19 +21,62 @@ const bcrypt        = require("bcrypt");
 const passport      = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const flash = require("connect-flash");
+const auth = require('./helpers/auth');
+const FbStrategy = require('passport-facebook').Strategy;
+
 
 
 
 
 
 //enable sessions here
+app.use(session({
+  secret: "our-passport-local-strategy-app",
+  resave: true,
+  saveUninitialized: true
+}));
 
 
 
+// The following code always needs to be placed before the passport.initialize() function.
+// this helps to keep the amount of data in the session as small as we need
+app.use(flash());
+passport.use(new LocalStrategy({
+  passReqToCallback: true
+}, (req, username, password, next) => {
+  User.findOne({ username }, (err, user) => {
+    if (err) {
+      return next(err);
+    }
+    if (!user) {
+      return next(null, false, { message: "Incorrect username" });
+    }
+    if (!bcrypt.compareSync(password, user.password)) {
+      return next(null, false, { message: "Incorrect password" });
+    }
 
-//initialize passport and session here
+    return next(null, user);
+  });
+}));
 
+passport.use(new FbStrategy({
+  clientID: "1083159341784386",
+  clientSecret: "b919b1969616dbb9e8645105df740801",
+  callbackURL: "http://localhost:3000/passport/facebook/callback"
+}, (accessToken,refreshToken,profile, done) => {
+  done(null, profile);
+}));
+passport.serializeUser((user,cb) => {
+  cb(null, user);
+});
+passport.deserializeUser((user, cb) => {
+  cb(null, user);
+});
 
+app.use(auth.setCurrentUser);
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 
 
