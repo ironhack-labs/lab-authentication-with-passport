@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Passport</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <h1>Welcome Future User</h1>
+    <form id="form" action="/signup" method="post">
+      <label for="username">Name:</label>
+      <input type="text" name="username">
+      <label for="password">Password:</label>
+      <input type="password" name="password">
+      <% if (typeof(errorMessage) != "undefined") { %>
+        <div class="error-message"><%= errorMessage %></div>
+      <% } %>
+      <button type="submit" name="button">Sign Up!</button>
+    </form>
+    <p class="account-message">
+      Already have an account? <a href="/login">Log in</a>
+    </p>
+  </body>
+</html>
