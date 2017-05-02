@@ -19,6 +19,7 @@ const bcrypt        = require("bcrypt");
 const passport      = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const flash = require("connect-flash");
+const passportHelp      = require("./helpers/passportHelp");
 
 
 
@@ -46,8 +47,24 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 // require in the routers
+app.use(session({
+  secret: "our-passport-local-strategy-app",
+  resave: true,
+  saveUninitialized: true
+}));
+
+
+app.use(flash());
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+// app.use(auth.setCurrentUser);
+
+
+
 app.use('/', index);
-app.use('/', users);
+app.use('/user', users);
 app.use('/', passportRouter);
 
 
