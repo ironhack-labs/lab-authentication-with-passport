@@ -10,28 +10,29 @@ const passport      = require("passport");
 
 
 
-router.get("/private-page", ensureLogin.ensureLoggedIn(), (req, res) => {
-  res.render("passport/private", { user: req.user });
+router.get('/private', ensureLogin.ensureLoggedIn(), (req, res) => {
+  res.render('passport/private', { user: req.user });
 });
 
 
 //get login page
-router.get("/login", (req, res, next)=>{
-  res.render("auth/login");
+router.get('/login', (req, res, next)=>{
+  res.render('passport/login');
 });
 
 
 //send login details using the passport middleware
 router.post("/login", passport.authenticate("local", {
-  successRedirect: "/",
+  successRedirect: "/private",
   failureRedirect: "/login",
   failureFlash: true,
   passReqToCallback: true
 }));
 
 
-router.get("/signup", (req, res, next)={
-  res.render("auth/signup");
+//sign up
+router.get('/signup', (req, res, next)=>{
+  res.render('passport/signup');
 });
 
 //authorize and authenticate username and password
@@ -40,13 +41,13 @@ router.post('/signup', (req, res, next) =>{
   const password = req.body.password;
 
   if (username === "" || password === "") {
-    res.render("auth/signup", { message: "Indicate username and password" });
+    res.render("passport/signup", { message: "Indicate username and password" });
     return;
   }
 
   User.findOne({ username }, "username", (err, user) => {
     if (user !== null) {
-      res.render("auth/signup", { message: "The username already exists" });
+      res.render("passport/signup", { message: "The username already exists" });
       return;
     }
 
@@ -60,9 +61,9 @@ router.post('/signup', (req, res, next) =>{
 
     newUser.save((err) => {
       if (err) {
-        res.render("auth/signup", { message: "Something went wrong" });
+        res.render("passport/signup", { message: "Something went wrong" });
       } else {
-        res.redirect("/");
+        res.render("passport/private");
       }
     });
   });
