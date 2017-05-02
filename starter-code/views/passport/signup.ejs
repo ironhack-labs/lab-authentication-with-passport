@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Title</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <form id="form" action="/signup" method="POST">
+        <label for="username">Username</label><br>
+        <input type="text" name="username"
+          placeholder="AnakinSkywalker">
+
+        <br><br>
+        <label for="password">Password</label><br>
+        <input type="password" name="password"
+          placeholder="DeathStar">
+        <br><br>
+        <% if (typeof(errorMessage) != "undefined") { %>
+          <div class="error-message"><%= errorMessage %></div>
+        <% } %>
+        <button>Create account</button>
+
+        <p class="account-message">
+          Do you already have an account?
+          <a href="/login">Login</a>
+        </p>
+
+      </form>
+  </body>
+</html>
