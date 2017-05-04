@@ -4,12 +4,12 @@
 
 ## Learning Goals
 
-After this lesson, you will be able to:
+After this lesson, you will:
 
 - Develop an understanding of how authentication and authorization work in a web application.
 - Understand why these features are useful.
-- Use Passport in an Express application.
-- Implement sign-up and login features with Passport.
+- Be able to use Passport in an Express application.
+- Be able to implement sign-up and login features with Passport.
 
 ## Requirements
 
@@ -31,13 +31,13 @@ In the Pull request name, add your campus, first name and last name separated by
 
 ## Deliverables
 
-The starter-code provides the basic layout and organization for this assignment. Please push everything you need to make it work properly on GitHub before creating the pull request.
+The starter-code provides the basic layout and organization for this assignment. Please push everything you need to make it work properly to GitHub before creating the pull request.
 
 ## Introduction
 
 ![](https://s3-eu-west-1.amazonaws.com/ih-materials/uploads/upload_676b436fcf47e71b1f85cbd8d318a080.png)
 
-You may already know how Passport works and how to integrate it in your projects. Now is time to practice by creating an Express application with Passport.
+You may already know how Passport works and how to integrate it in your projects. Now it's time to practice by creating an Express application with Passport.
 
 ## Iteration #1: The Sign-up Feature
 
@@ -51,7 +51,7 @@ Finally, add a post route to your `passportRoute` to receive the data from the s
 
 ## Iteration #2: The Login Feature
 
-In order to add the login feature, let's add 1 get route to our router to display the login page. Once we have that, let's add a form to our `views/passport/login.ejs` file. The form should make a POST request to `/login`. Once have the form, let's add another route to the router to receive that data and log the user in.
+In order to add the login feature, let's add 1 get route to our router to display the login page. Once we have that, let's add a form to our `views/passport/login.ejs` file. The form should make a POST request to `/login`. Once we have the form, let's add another route to the router to receive that data and log the user in.
 
 **But Wait**
 
