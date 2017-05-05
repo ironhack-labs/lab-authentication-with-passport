@@ -13,27 +13,25 @@ const passportRouter = require("./routes/passportRouter");
 const mongoose = require("mongoose");
 mongoose.connect("mongodb://localhost/passport-local");
 //require the user model
-const User = require("./models/user");
+const User          = require("./models/user");
 const session       = require("express-session");
 const bcrypt        = require("bcrypt");
 const passport      = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
-const flash = require("connect-flash");
-
-
-
+const flash         = require("connect-flash");
 
 
 //enable sessions here
-
-
-
+app.use(session({
+  secret: "our-passport-local-strategy-app",
+  resave: true,
+  saveUninitialized: true
+}));
 
 //initialize passport and session here
-
-
-
-
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(flash());
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -53,16 +51,35 @@ app.use('/', passportRouter);
 
 
 
-
 //passport code here
+passport.serializeUser((user, cb) => {
+  cb(null, user.id);
+});
 
+passport.deserializeUser((id, cb) => {
+  User.findOne({ "_id": id }, (err, user) => {
+    if (err) { return cb(err); }
+    cb(null, user);
+  });
+});
 
+passport.use(new LocalStrategy({
+  passReqToCallback: true
+}, (req, username, password, next) => {
+  User.findOne({ username  }, (err, user) => {
+    if (err) {
+      return next(err);
+    }
+    if (!user) {
+      return next(null, false, { message: "Incorrect username" });
+    }
+    if (!bcrypt.compareSync(password, user.password)) {
+      return next(null, false, { message: "Incorrect password" });
+    }
 
-
-
-
-
-
+    return next(null, user);
+  });
+}));
 
 
 // catch 404 and forward to error handler
