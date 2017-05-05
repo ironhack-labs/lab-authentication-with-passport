@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+ <head>
+   <title>Passport Project - Sign Up</title>
+   <link rel='stylesheet' href='/stylesheets/style.css' />
+ </head>
+ <body>
+
+<form action="/signup" method="POST" id="form">
+
+ <h1>Create a New Profile</h1>
+
+ <!-- first name -->
+ <label for="username">Enter your First Name</label>
+ <input type="text" name="username" id="username">
+
+
+ <!-- password -->
+ <label for="password">Enter Password</label>
+ <input type="password" name="password" id="password">
+
+
+
+<button type="submit">Submit</button>
+
+<% if (typeof(errorMessage) != "undefined") { %>
+   <div class="error-message"><%= errorMessage %></div>
+ <% } %>
+
+
+</form>
+
+ </body>
+</html>
