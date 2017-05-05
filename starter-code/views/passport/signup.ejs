@@ -1,0 +1,11 @@
+<h2>Sign up</h2>
+<form class="" action="/signup" method="post">
+  <label for="username">Username: </label>
+  <input type="text" name="username" required="">
+  <label for="password">Password: </label>
+  <input type="password" name="password" required="">
+  <button>Sign up</button>
+  <% if (typeof(errorMsg) !== 'undefined'){   %>
+    <p>ERROR: <%=errorMsg%></p>
+  <% }                                        %>
+</form>
