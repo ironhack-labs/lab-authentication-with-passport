@@ -15,8 +15,59 @@ router.get("/private-page", ensureLogin.ensureLoggedIn(), (req, res) => {
 });
 
 
+router.get("/signup", (req, res, next) => {
+ res.render("passport/signup");
+});
 
+router.get("/login", (req, res, next) => {
+ res.render("passport/login");
+});
 
+router.post("/login",  passport.authenticate("local", {
+  successRedirect: "/private-page",
+  failureRedirect: "/login",
+  failureFlash: true,
+  passReqToCallback: true
+}));
+
+router.post("/signup", (req, res, next) => {
+ var username = req.body.username;
+ var password = req.body.password;
+
+ if (username === "" || password === "") {
+   res.render("passport/signup", { message: "Indicate username and password" });
+   return;
+ }
+
+ User.findOne({ username }, "username", (err, user) => {
+   if (user !== null) {
+     res.render("passport/signup", { message: "The username already exists" });
+     return;
+   }
+
+   var salt     = bcrypt.genSaltSync(bcryptSalt);
+   var hashPass = bcrypt.hashSync(password, salt);
+
+   var newUser = User({
+     username,
+     password: hashPass
+   });
+
+   newUser.save((err) => {
+     if (err) {
+       res.render("passport/signup", { message: "The username already exists" });
+     } else {
+       res.redirect("/login");
+     }
+   });
+ });
+});
+
+router.get("/logout", (req, res) => {
+  console.log("Hi");
+ req.logout();
+ res.redirect("/login");
+});
 
 
 module.exports = router;
