@@ -1,3 +1,4 @@
+/*jshint esversion: 6*/
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
@@ -11,7 +12,7 @@ var users = require('./routes/users');
 const passportRouter = require("./routes/passportRouter");
 //mongoose configuration
 const mongoose = require("mongoose");
-mongoose.connect("mongodb://localhost/passport-local");
+mongoose.connect("mongodb://localhost:27017/passport-local");
 //require the user model
 const User = require("./models/user");
 const session       = require("express-session");
@@ -25,13 +26,50 @@ const flash = require("connect-flash");
 
 
 //enable sessions here
+app.use(session({
+  secret: "our-passport-local-strategy-app",
+  resave: true,
+  saveUninitialized: true
+}));
 
 
-
+app.use(flash());
 
 //initialize passport and session here
+passport.serializeUser((user, cb) => {
+ console.log(user.hasOwnProperty("id"));
+ cb(null, user.id);
+});
+
+passport.deserializeUser((id, cb) => {
+ User.findOne({ "_id": id }, (err, user) => {
+   if (err) { return cb(err); }
+   cb(null, user);
+ });
+});
+
+passport.use(new LocalStrategy({
+ passReqToCallback: true
+}, (req, username, password, next) => {
+ User.findOne({ username }, (err, user) => {
+   if (err) {
+     return next(err);
+   }
+   if (!user) {
+     return next(null, false, { message: "Incorrect username" });
+   }
+   if (!bcrypt.compareSync(password, user.password)) {
+     return next(null, false, { message: "Incorrect password" });
+   }
+
+   return next(null, user);
+ });
+}));
 
 
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 
 
