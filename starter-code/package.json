@@ -14,9 +14,17 @@
     "ejs": "~2.5.2",
     "express": "~4.14.0",
     "express-session": "^1.15.0",
+    "mongo": "^0.1.0",
+    "mongoose": "^4.8.2",
     "morgan": "~1.7.0",
     "passport": "^0.3.2",
     "passport-local": "^1.0.0",
     "serve-favicon": "~2.3.0"
-  }
+  },
+  "main": "app.js",
+  "devDependencies": {},
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
 }
