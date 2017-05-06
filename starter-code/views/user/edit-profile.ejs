@@ -1,0 +1,24 @@
+<h2> Edit Your Profile </h2>
+
+<form method="post" action="/we-skipped-over-the-post">
+  <label for="name-input"> Your Name </label>
+  <input  id="name-input" type="text"
+      name="profileName" value="<%= user.name %>">
+  <br>
+
+  <label for="username-input"> Account Name </label>
+  <input  id="username-input" type="text"
+      name="profileUsername" value="<%= user.username %>">
+  <br>
+
+  <label for="current-password-input"> Current Password </label>
+  <input  id="current-password-input" type="password"
+      name="profileCurrentPassword">
+  <br>
+
+  <label for="new-password-input"> New Password </label>
+  <input  id="new-password-input" type="password"
+      name="profileNewPassword">
+
+  <button> Save </button>
+</form>
