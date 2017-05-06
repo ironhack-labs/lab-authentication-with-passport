@@ -5,6 +5,9 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var app = express();
+const layouts      = require('express-ejs-layouts');
+
+
 
 var index = require('./routes/index');
 var users = require('./routes/users');
@@ -24,15 +27,29 @@ const flash = require("connect-flash");
 
 
 
+
 //enable sessions here
 
+app.use(session({
+  secret: 'my cool passport app',
 
+  resave: true,
+  saveUnitialized: true
+}));
 
 
 //initialize passport and session here
 
+app.use(passport.initialize());
+app.use(passport.session());
 
+app.use((req, res, next) => {
+  if (req.user) {
+    res.locals.user = req.user;
+  }
 
+  next();
+});
 
 
 // view engine setup
@@ -45,6 +62,9 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(layouts);
+app.locals.title = "Passport";
+
 // require in the routers
 app.use('/', index);
 app.use('/', users);
@@ -57,11 +77,66 @@ app.use('/', passportRouter);
 //passport code here
 
 
+passport.serializeUser((user, cb) => {
+  cb(null, user.id);
+});
+
+
+passport.deserializeUser((userId, cb) => {
+  User.findById(userId, (err, theUser)=> {
+    if (err) {
+      cb(err);
+      return;
+    }
+
+    cb(null, theUser);
+  });
+});
 
 
 
+passport.use( new LocalStrategy(
+  {
+    usernameField: 'loginUsername',
+    passwordField: 'loginPassword'
+  },
 
+  (loginUsername, loginPassword, next) => {
+    User.findOne(
+      { username: loginUsername },
+      (err, theUser) => {
 
+        if(err) {
+          next(err);
+          return;
+        }
+
+        if(!theUser) {
+          next(null, false);
+          return;
+        }
+console.log(loginPassword);
+console.log(theUser.encryptedPassword);
+console.log(theUser);
+
+        if (!bcrypt.compareSync(loginPassword, theUser.encryptedPassword)) {
+          next(null, false);
+          return;
+        }
+        next(null, theUser);
+      }
+    );
+  }
+) );
+
+// const index = require('./routes/index');
+// app.use('/', index);
+
+const myAuthRoutes = require('./routes/passportRouter.js');
+app.use('/', myAuthRoutes);
+
+const myUserRoutes = require('./routes/users.js');
+app.use('/', myUserRoutes);
 
 
 
