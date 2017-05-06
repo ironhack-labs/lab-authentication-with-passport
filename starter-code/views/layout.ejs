@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Passport Exercise</title>
+  </head>
+
+  <header>
+    <h1>Passport Exercise</h1>
+
+    <nav>
+      <ul class="nav">
+        <li><a href="/">Home</a></li>
+        <% if (typeof user !== 'undefined') { %>
+          <li><a href="/logout">Log Out</a></li>
+        <% } else { %>
+          <li><a href="/signup">Sign Up</a></li>
+          <li><a href="/login">Log In</a></li>
+        <% } %>
+      </ul>
+    </nav>
+  </header>
+
+  <body>
+    <%- body %>
+  </body>
+
+<footer>
+  Made with &hearts; by Guss <br>
+  Copyright (c) 2017 Guss All Rights Reserved.
+</footer>
+
+</html>

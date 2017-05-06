@@ -1,5 +1,10 @@
 <h2>Sign Up</h2>
 
+<% if (typeof errorMessage !== 'undefined') { %>
+  <p class="error"><%= errorMessage %></p>
+  <br>
+<% } %>
+
 <form class="signup-form" action="/signup" method="post">
 
   <label for="username-input">Username</label>

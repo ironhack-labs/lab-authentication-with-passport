@@ -57,10 +57,20 @@ passportRoute.post('/signup', (req, res, next) => {
           next(err);
           return;
         }
+
+        // redirect to home page
+        res.redirect('/');
       });
     }
   );
 });
+
+
+passportRoute.get('/login', (req, res, next) => {
+  res.render('passport/login');
+}),
+
+passportRoute.post('/login');
 
 
 module.exports = passportRoute;
