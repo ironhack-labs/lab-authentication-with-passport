@@ -5,7 +5,12 @@
     <link rel='stylesheet' href='/stylesheets/style.css' />
   </head>
   <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
+    <% if (typeof user !== 'undefined') { %>
+    <h1>
+    Hello <%= user.name %> welcome to <%= title %>
+    <% } %>
+
+    </h1>
+
   </body>
 </html>
