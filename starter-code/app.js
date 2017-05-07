@@ -1,37 +1,23 @@
-const express = require('express');
-const path = require('path');
-const favicon = require('serve-favicon');
-const logger = require('morgan');
-const cookieParser = require('cookie-parser');
-const bodyParser = require('body-parser');
-const layouts = require('express-ejs-layouts');
+const express        = require('express');
+const path           = require('path');
+const favicon        = require('serve-favicon');
+const logger         = require('morgan');
+const cookieParser   = require('cookie-parser');
+const bodyParser     = require('body-parser');
+const layouts        = require('express-ejs-layouts');
+const mongoose       = require("mongoose");
+const session        = require("express-session");
+const passport       = require("passport");
+const bcrypt         = require("bcrypt");
+
+const flash          = require("connect-flash");
+const LocalStrategy  = require("passport-local").Strategy;
+
+mongoose.connect("mongodb://localhost/passport-local");
+
 const app = express();
 
-//mongoose configuration
-const mongoose = require("mongoose");
-mongoose.connect("mongodb://localhost/passport-local");
-//require the user model
 const User = require("./models/user");
-const session       = require("express-session");
-const bcrypt        = require("bcrypt");
-const passport      = require("passport");
-const LocalStrategy = require("passport-local").Strategy;
-const flash = require("connect-flash");
-
-
-
-
-
-//enable sessions here
-
-
-
-
-//initialize passport and session here
-
-
-
-
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -44,6 +30,79 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(layouts);
+
+app.use( session( {
+  secret: 'this is my passport lab homework on 05/06/17',
+
+  // options to prevent warnings in the terminal
+  resave: true,
+  saveUninitialized: true
+}));
+
+// After session middleware and before routes!
+app.use(passport.initialize());
+app.use(passport.session());
+
+app.use( (req, res, next) => {
+  if (req.user) {
+    res.locals.user = req.user;
+  }
+
+  next();
+});
+
+// what to save in the session
+passport.serializeUser( (user, cb) => {
+  cb(null, user._id);
+});
+
+// how to get rest of the info
+passport.deserializeUser( (userId, cb) => {
+
+  // find the user by their _id
+  User.findById(userId, (err, theUser) => {
+    if (err) {
+      next(err);
+      return;
+    }
+
+    // give passport the user
+    cb(null, theUser);
+  });
+});
+
+
+passport.use(new LocalStrategy(
+  {
+    usernameField: 'usernameInput',
+    passwordField: 'passwordInput'
+  },
+
+  (username, password, next) => {
+
+    User.findOne(
+      {username: username},
+      (err, theUser) => {
+        if (err) {
+          next(err);
+          return;
+        }
+
+        if (!theUser) {
+          next(null, false);
+          return;
+        }
+
+        if (!bcrypt.compareSync(password, theUser.password)) {
+          next(null, false);
+          return;
+        }
+
+        next(null, theUser);
+      }
+    );
+  }
+));
 
 
 // BEGIN ROUTES
@@ -58,17 +117,6 @@ const passportRouter = require("./routes/passportRouter");
 app.use('/', passportRouter);
 // -------------------------------------
 // END ROUTES
-
-
-
-
-
-//passport code here
-
-
-
-
-
 
 
 
