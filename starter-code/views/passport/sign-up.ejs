@@ -1,0 +1,44 @@
+<center>
+
+  <h3> Sign Up </h3>
+  <br>
+  <% if (typeof errorMessage !== "undefined") { %>
+    <div class="error">
+      <%= errorMessage %>
+    </div>
+    <% } %>
+      <br>
+
+      <form class="form-horizontal" method="post" action="/signup">
+        <!-- If I wanted the user to enter their name -->
+        <!-- <label for="name-input" class="col-sm-2 control-label"> Your Name: </label>
+        <div class="col-sm-10">
+          <input id="name-input" type="text" name="signupName" class="form-control">
+          <br>
+        </div>
+        <br> -->
+
+        <label for="username-input" class="col-sm-2 control-label"> User Name: </label>
+        <div class="col-sm-10">
+          <input id="username-input" type="text" name="signupUsername" class="form-control">
+          <br>
+        </div>
+        <br>
+
+        <label for="password-input" class="col-sm-2 control-label"> Password: </label>
+        <div class="col-sm-10">
+          <input id="password-input" type="password" name="signupPassword" class="form-control">
+          <br>
+        </div>
+        <br>
+
+        <br>
+        <button> Sign Up </button>
+      </form>
+
+      <br>
+      <p>
+        Do you already have an account?
+        <a href="/login"> Log In </a>
+      </p>
+</center>
