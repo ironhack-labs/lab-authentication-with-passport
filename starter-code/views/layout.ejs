@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/jpg" href="/images/lock.jpeg" />
+
+  <title>
+    <%= title %>
+  </title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <link rel="stylesheet" href="/stylesheets/style.css">
+</head>
+
+<body>
+  <header>
+
+    <nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container-fluid">
+        <div class="row">
+          <center>
+
+            <div class="col-md-4">
+              <a href="/"> Home </a>
+              <!-- if user is logged in -->
+
+            </div>
+
+            <% if (typeof user !== 'undefined') { %>
+
+              <div class="col-md-4">
+                <a href="/passport/private"> Private Message </a>
+              </div>
+
+              <div class="col-md-4">
+                <a href="/logout"> Log Out </a>
+              </div>
+
+              <% } else { %>
+
+                <div class="col-md-4">
+                  <a href="/signup"> Sign Up </a>
+                </div>
+
+                <div class="col-md-4">
+                  <a href="/login"> Log In </a>
+                </div>
+                <% } %>
+        </div>
+      </div>
+      </center>
+    </nav>
+  </header>
+  <center>
+    <h2> Passport App </h2>
+    <%- body %>
+
+      <br>
+      <footer>
+        <p> Made with <span style="color:#af3a7e;"> &hearts;</span> at Ironhack. </p>
+      </footer>
+  </center>
+
+</body>
+
+</html>

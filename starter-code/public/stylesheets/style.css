@@ -1,8 +1,47 @@
 body {
   padding: 50px;
+  background-color: #92dbd4;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+p{
+  font-size: 20px;
+}
+
+.error {
+  font-size: 20px;
+  color: red;
 }
 
 a {
-  color: #00B7FF;
+  color: #1b3451;
+}
+
+a:hover {
+  color: #3fb53c;
+  font-size: 20px;
+}
+
+nav {
+  padding-top: 15px;
+}
+
+button {
+  background-color: white;
+  color: black;
+  border: 2px solid #e7e7e7;
+  box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24), 0 17px 50px 0 rgba(0, 0, 0, 0.19);
+}
+
+button:hover {
+  background-color: #e7e7e7;
+}
+
+img {
+  border: 1px solid;
+  padding: 10px;
+}
+
+footer {
+  padding-top: 20px;
+  font-size: 20px;
 }

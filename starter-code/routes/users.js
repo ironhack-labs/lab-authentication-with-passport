@@ -1,6 +1,19 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const ensure = require('connect-ensure-login');
 
+const routerThingy = express.Router();
 
+routerThingy.get('/passport/private',
 
-module.exports = router;
+ensure.ensureLoggedIn('/login'),
+
+(req, res, next) => {
+  // if(!req.user){
+  //   res.redirect('/login');
+  //   return;
+  // }
+  res.render('passport/private.ejs');
+}
+);
+
+module.exports = routerThingy;
