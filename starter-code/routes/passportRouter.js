@@ -37,7 +37,7 @@ router.post('/signup', ensureLogin.ensureNotLoggedIn('/'), (req, res, next) => {
     { username: 1},
     //3rd arg -> callback
     (err, foundUser) => {
-      //Don't let he user register if the username is taken
+      //Don't let the user register if the username is taken
       console.log(foundUser);
       if (foundUser) {
         res.render('passport/signup.ejs', {
@@ -51,7 +51,7 @@ router.post('/signup', ensureLogin.ensureNotLoggedIn('/'), (req, res, next) => {
 
       const theUser = new User({
         username: req.body.signupUsername,
-        encryptedPassword: hashPass
+        password: hashPass
       });
 
       theUser.save((err) => {
@@ -68,6 +68,23 @@ router.post('/signup', ensureLogin.ensureNotLoggedIn('/'), (req, res, next) => {
 
 });
 
+router.get('/login',
+  ensureLogin.ensureNotLoggedIn('/'),
+  (req, res, next) => {
+  res.render('passport/login.ejs');
+});
+
+  // <form method="post" action="/login"
+router.post('/login',
+
+  ensureLogin.ensureNotLoggedIn('/'),
+
+  passport.authenticate('local', {
+      //local as in "LocalStrategy" - our method of logging in
+    successRedirect: '/private-page',  //if successful
+    failureRedirect: '/login'  //if unsuccessful
+  })
+);
 
 
 
