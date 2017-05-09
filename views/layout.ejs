@@ -7,13 +7,19 @@
   </head>
   <body>
     <header>
-      <h1>Authentication Application .</h1>
+      <h1> Authentication Application .</h1>
     <nav>
       <ul>
         <li> <a href="/"> Home </a> </li>
+
+      <% if (typeof user !== 'undefined') { %>
+          <li><a href="/private"> Home </a> </li>
+          <!-- <li> <a href="/logout"> Log Out </a> </li> -->
+      <% } else {%>
+
         <li><a href="/signup"> Sign Up </a></li>
         <li> <a href="/login"> Log In </a></li>
-      </ul>
+        <%}%>
     </nav>
     </header>
     <%- body %>

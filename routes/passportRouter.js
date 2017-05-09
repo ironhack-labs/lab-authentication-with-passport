@@ -10,7 +10,6 @@ const passport       = require("passport");
 
 //signup GET
 router.get("/signup",
-  //redirects to home page if you ARE logged in
   ensure.ensureNotLoggedIn('/'),
   (req, res, next) => {
     if(req.user){
@@ -47,10 +46,10 @@ router.post("/signup",
           return;
         }
 
-    const salt = bcrypt.genSaltSync(10);
+    const salt     = bcrypt.genSaltSync(10);
     const hashPass = bcrypt.hashSync(signupPassword, salt);
 
-    const theUser = new User({
+    const theUser  = new User({
       name: req.body.signupName,
       username: signupUsername,
       encryptedPassword: hashPass
@@ -77,16 +76,14 @@ router.get('/login',
 router.post('/login',
   ensure.ensureNotLoggedIn('/'),
 
-  passport.authenticate('local',{ // use the localStrategy code to configure
-    successRedirect: '/', //succesful redirects to homepage
-    failureRedirect: '/login' //unsuccesful login -> redircets back to the login page
+  passport.authenticate('local',{
+    successRedirect: '/',
+    failureRedirect: '/login'
   } )
 );
-
 
 router.get("/private-page", ensure.ensureLoggedIn(), (req, res) => {
   res.render("passport/private", { user: req.user });
 });
-
 
 module.exports = router;
