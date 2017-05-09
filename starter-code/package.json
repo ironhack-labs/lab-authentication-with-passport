@@ -14,9 +14,13 @@
     "ejs": "~2.5.2",
     "express": "~4.14.0",
     "express-session": "^1.15.0",
+    "mongoose": "^4.9.8",
     "morgan": "~1.7.0",
     "passport": "^0.3.2",
     "passport-local": "^1.0.0",
     "serve-favicon": "~2.3.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.11.0"
   }
 }
