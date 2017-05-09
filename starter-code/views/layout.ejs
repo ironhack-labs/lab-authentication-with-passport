@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+
+  </head>
+  <body>
+    <header>
+      <h1>My App</h1>
+      <ul>
+        <li><a href="/"> Home </a></li>
+
+        <% if (typeof user !== "undefined"){ %>
+          <li><a href="/private-page"> Private page </a></li>
+          <li><a href="/logout"> Log Out </a></li>
+        <% } else {%>
+          <li><a href="/signup"> Sign Up </a></li>
+          <li><a href="/login"> Log In </a></li>
+        <%}%>
+      </ul>
+    </header>
+    <%- body %>
+
+    <footer>
+      <p>Made with 💙 at Ironhack.</p>
+    </footer>
+  </body>
+</html>
