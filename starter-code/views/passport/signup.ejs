@@ -1,0 +1,32 @@
+<h2>Account Creation</h2>
+
+<!-- Custom Error Message Below -->
+<% if (typeof errorMessage !== "undefined") { %>
+  <div class="error">
+    <%= errorMessage %>
+  </div>
+<% } %>
+<br>
+<br>
+
+<!-- Making a post submission to the action="signup" -->
+<form method="post" action="/signup">
+  <label for="name-input">Your Name: </label>
+  <input  id="name-input" type="text" name="signupName">
+  <br>
+
+  <label for="username-input">Account Name: </label>
+  <input  id="username-input" type="text" name="signupUsername">
+  <br>
+
+  <label for="password-input">Your Password: </label>
+  <input  id="password-input" type="password" name="signupPassword">
+  <br>
+
+  <button> Submit </button>
+</form>
+
+<p>
+  Do you really have an account?
+  <a href="/login"> Login </a>
+</p>
