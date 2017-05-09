@@ -10,11 +10,81 @@ const passport      = require("passport");
 
 
 
-router.get("/private-page", ensureLogin.ensureLoggedIn(), (req, res) => {
-  res.render("passport/private", { user: req.user });
+router.get('/private-page', ensureLogin.ensureLoggedIn('/'), (req, res, next) => {
+  res.render('passport/private.ejs', { user: req.user });
 });
 
+router.get('/signup', ensureLogin.ensureNotLoggedIn('/'), (req, res, next) => {
+  res.render('passport/signup.ejs');
+});
 
+router.post('/signup', ensureLogin.ensureNotLoggedIn('/'), (req, res, next) => {
+
+  const signupUsername = req.body.signupUsername;
+  const signupPassword = req.body.signupPassword;
+
+  if (signupUsername === '' || signupPassword === '') {
+    res.render('passport/signup.ejs', {
+      errorMessage: 'Please provide both username and password'
+    });
+    return;
+  }
+
+  User.findOne(
+    //1st arg -> criteria of the findOne
+    { username: signupUsername},
+    //2nd arg -> projection (which fields)
+    { username: 1},
+    //3rd arg -> callback
+    (err, foundUser) => {
+      //Don't let the user register if the username is taken
+      console.log(foundUser);
+      if (foundUser) {
+        res.render('passport/signup.ejs', {
+          errorMessage: 'Username is taken, sir or madam.'
+        });
+        return;
+      }
+
+      const salt = bcrypt.genSaltSync(10);
+      const hashPass = bcrypt.hashSync(signupPassword, salt);
+
+      const theUser = new User({
+        username: req.body.signupUsername,
+        password: hashPass
+      });
+
+      theUser.save((err) => {
+        if (err) {
+          next(err);
+          return;
+        }
+
+        res.redirect('/');
+      });
+
+    }
+  );
+
+});
+
+router.get('/login',
+  ensureLogin.ensureNotLoggedIn('/'),
+  (req, res, next) => {
+  res.render('passport/login.ejs');
+});
+
+  // <form method="post" action="/login"
+router.post('/login',
+
+  ensureLogin.ensureNotLoggedIn('/'),
+
+  passport.authenticate('local', {
+      //local as in "LocalStrategy" - our method of logging in
+    successRedirect: '/private-page',  //if successful
+    failureRedirect: '/login'  //if unsuccessful
+  })
+);
 
 
 

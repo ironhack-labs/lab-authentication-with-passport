@@ -25,13 +25,20 @@ const flash = require("connect-flash");
 
 
 //enable sessions here
+app.use(session({
+  secret: 'my cool homework app',
+  //these two options are there to prevent warnings
+  resave: true,
+  saveUninitialized: true
+}));
 
 
 
 
 //initialize passport and session here
 
-
+app.use(passport.initialize());
+app.use(passport.session());
 
 
 
@@ -56,6 +63,80 @@ app.use('/', passportRouter);
 
 //passport code here
 
+//This is middlewear sets the user variable for all views
+//(only if logged in)
+// user:req.user for all renders
+app.use((req, res, next) => {
+  if(req.user) {
+    res.locals.user = req.user;
+  }
+  next();
+});
+
+// Determines what to save in the session (what to put in the box)
+passport.serializeUser((user, cb) => {
+  //"cb" is short for callback
+  cb(null, user._id);
+});
+
+
+// Where to get the rest of the user's information (given whats in the box)
+passport.deserializeUser((userId, cb) => {
+  //"cb" is short for callback
+  User.findById(userId, (err, theUser) => {
+    if (err) {
+      cb(err);
+      return;
+    }
+    //sending the user's info to passport
+    cb(null, theUser);
+  });
+});
+
+passport.use(new LocalStrategy(
+  //1st arg -> options to customize LocalStrategy
+  {
+    //
+    // Examples: <input name = "loginEail">
+    usernameField: 'loginUsername',
+    // <input name = "loginPassword">
+    passwordField: 'loginPassword'
+  },
+
+  //2nd arg -> callback for the logic that validates login
+  (loginUsername, loginPassword, next) => {
+    User.findOne(
+      { username: loginUsername },
+
+      (err, theUser) => {
+        //Tell passport if there was an error (nothing we can do)
+        if(err) {
+          next(err);
+          return;
+        }
+
+        //Tell passport if there is no user with given username
+        if(!theUser) {
+          //          false in 2nd arg means "Log in Failed"
+          //             |
+          next(null, false);
+          return;
+        }
+
+        // Tell passport if the passwords don't match
+        if (!bcrypt.compareSync(loginPassword, theUser.password)) {
+            //          false in 2nd arg means "Login failed"
+            next(null, false);
+            return;
+        }
+
+        //Give passport the user's details (SUCCESS)
+        next(null, theUser);
+        // -> this user goes to passport.serializeUser()
+
+    });
+  }
+) );
 
 
 
