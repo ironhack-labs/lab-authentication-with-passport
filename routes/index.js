@@ -10,7 +10,11 @@ router.get('/', function(req, res, next) {
   console.log('USER(from passport)');
   console.log(req.user);
 
-  res.render('index',{
+if (req.user){
+  res.render('passport/private');
+}
+
+  res.render('passport/private',{
     user: req.user
   });
 });
