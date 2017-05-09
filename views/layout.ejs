@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/stylesheets/style.css">
+  </head>
+  <body>
+    <header>
+      <h1> Authentication Application .</h1>
+    <nav>
+      <ul>
+        <li> <a href="/"> Home </a> </li>
+
+      <% if (typeof user !== 'undefined') { %>
+          <li><a href="/private"> Home </a> </li>
+          <!-- <li> <a href="/logout"> Log Out </a> </li> -->
+      <% } else {%>
+
+        <li><a href="/signup"> Sign Up </a></li>
+        <li> <a href="/login"> Log In </a></li>
+        <%}%>
+    </nav>
+    </header>
+    <%- body %>
+    <footer>
+      <p>  Made with Peace and Love &hearts;</p>
+    </footer>
+  </body>
+</html>
