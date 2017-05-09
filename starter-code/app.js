@@ -4,6 +4,7 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var layouts = require('express-ejs-layouts');
 var app = express();
 
 var index = require('./routes/index');
@@ -46,24 +47,69 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 // require in the routers
-app.use('/', index);
-app.use('/', users);
-app.use('/', passportRouter);
 
+app.use(layouts);
 
-
-
+app.use(session({
+  secret: "our-passport-local-strategy-lab",
+  resave:true,
+  saveUninitialized: true
+}))
 
 //passport code here
 
+app.use(passport.initialize());
+app.use(passport.session());
 
+app.use((req,res,next)=>{
+  if (req.user) {
+    res.locals.user=req.user;
+  }
+  next();
+});
 
+passport.serializeUser((user,cb)=>{
+  cb(null,user._id);
+});
 
+passport.deserializeUser((userId,cb)=>{
+  User.findById(userId,(err,theUser)=>{
+    if (err) {
+      next(err);
+      return;
+    }
+    cb(null,theUser);
+  });
+});
 
+passport.use(new LocalStrategy(
+  {usernameField:'uernameInput',
+  passwordField:'passwordInput'},
+  (username,password,next)=>{
+    User.findOne(
+      {username: username},
+      (err,theUser)=>{
+        if(err) {
+          next(err);
+          return;
+        }
+        if (!theUser) {
+          next(null,false);
+          return;
+        }
+        if(!bcrypt.compareSync(password,theUser.password)){
+          next(null,false);
+          return;
+        }
+        next(null,theUser);
+      }
+    );
+  }
+));
 
-
-
-
+app.use('/', index);
+app.use('/', users);
+app.use('/', passportRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
