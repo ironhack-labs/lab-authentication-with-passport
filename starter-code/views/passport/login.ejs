@@ -1,0 +1,23 @@
+<h2> Log In </h2>
+
+<% if (errorMessage.length > 0) { %>
+  <div class="error"> <%= errorMessage %> </div>
+<% } %>
+<br>
+<form method="post" action="/login">
+  <label for="username-input"> Account name </label>
+  <!-- has to match with        usernameField: 'loginUsername' -->
+  <input  id="username-input" type="text" name="loginUsername">
+  <br>
+
+  <label for="password-input"> Password </label>
+  <!-- hast to match with           passwordField: 'loginPassword' -->
+  <input  id="password-input" type="password" name="loginPassword">
+  <br>
+
+  <button> Log In </button>
+</form>
+
+<p> Don't have an account?
+  <a href="/signup"> Sign Up </a>
+</p>

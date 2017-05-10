@@ -1,7 +1,7 @@
 const express        = require("express");
-const router         = express.Router();
+const passportRouter = express.Router();
 // User model
-const User           = require("../models/user");
+const User           = require("../models/user.js");
 // Bcrypt to encrypt passwords
 const bcrypt         = require("bcrypt");
 const bcryptSalt     = 10;
@@ -10,18 +10,18 @@ const passport       = require("passport");
 
 
 
-router.get("/private-page", ensureLogin.ensureLoggedIn(), (req, res) => {
+passportRouter.get("/private-page", ensureLogin.ensureLoggedIn(), (req, res) => {
   res.render("passport/private", { user: req.user });
 });
 
-router.get('/signup',
+passportRouter.get('/signup',
   ensureLogin.ensureNotLoggedIn('/'),
   (req, res, next) => {
   res.render('passport/signup.ejs');
 });
 
-router.post('/signup',
-  ensureLogin.ensureNotLoggedIn('/')),
+passportRouter.post('/signup',
+  ensureLogin.ensureNotLoggedIn('/'),
   (req, res, next) => {
     const signupUsername = req.body.signupUsername;
     const signupPassword = req.body.signupPassword;
@@ -42,16 +42,51 @@ router.post('/signup',
           return;
         }
         if (foundUser) {
-          res.render('passport/signup,ejs', {
+          res.render('passport/signup.ejs', {
             errorMessage: 'Username already exists'
           });
           return;
         }
+        const salt = bcrypt.genSaltSync(10);
+        const hashPass = bcrypt.hashSync(signupPassword, salt);
 
+        const theUser = new User ({
+          username: signupUsername,
+          encryptedPassword: hashPass
+        });
+
+        theUser.save((err) => {
+          if (err) {
+            next(err);
+            return;
+          }
+
+          res.redirect('/');
+        });
       }
-    )
-
+    );
   }
+);
+
+passportRouter.get('/login', (req, res, next) => {
+  res.render('passport/login.ejs');
+});
+// <form method="post" action="/login">
+passportRouter.post('/login',
+  passport.authenticate('local', {
+    successRedirect: '/',
+    failureRedirect: '/login',
+
+  } )
+);
+
+passportRouter.get('/logout', (req, res, next) => {
+  // req.logout() method provided by Passport
+  req.logout();
+
+
+  res.redirect('/');
+});
 
 
 
@@ -59,4 +94,5 @@ router.post('/signup',
 
 
 
-module.exports = router;
+
+module.exports = passportRouter;
