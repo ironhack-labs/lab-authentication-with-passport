@@ -1,11 +1,11 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-  </head>
-  <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
-  </body>
-</html>
+<h1><%= title %></h1>
+
+<% if ( successMessage.length > 0 ) { %>
+  <div class='success'> <%= successMessage %> </div>
+<% } %>
+
+<% if (typeof user !== 'undefined') { %>
+  <p> Hello, <%= user.username %> </p>
+<% } %>
+
+<p>Welcome to <%= title %></p>

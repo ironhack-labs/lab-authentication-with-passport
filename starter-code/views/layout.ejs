@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="/stylesheets/style.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+     integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  </head>
+  <body>
+    <header>
+      <h1> Passport App </h1>
+
+      <ul>
+        <li><a href="/"> Home </a> </li>
+
+      <%  if (typeof user !== 'undefined') { %>
+        <li><a href="/private-page"> Easter Egg </a> </li>
+        <li><a href="/logout"> Log Out </a> </li>
+
+      <% } else { %>
+
+        <li><a href="/signup"> Sign Up </a> </li>
+        <li><a href="/login"> Log In </a> </li>
+
+      <% } %>
+      </ul>
+    </header>
+
+    <%- body %>
+
+    <footer>
+      <p> Made by Art™ </p>
+    </footer>
+  </body>
+</html>
