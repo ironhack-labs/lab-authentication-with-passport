@@ -13,3 +13,10 @@ a {
   border-radius: 3px;
   padding: 15px;
 }
+
+.success {
+  background-color: green;
+  color: black;
+  border-radius: 3px;
+  padding: 15px;
+}

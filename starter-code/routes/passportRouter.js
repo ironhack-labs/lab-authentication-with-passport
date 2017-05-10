@@ -61,6 +61,11 @@ passportRouter.post('/signup',
             return;
           }
 
+          req.flash(
+            'success',
+            'You have successfully registered!'
+          );
+
           res.redirect('/');
         });
       }
@@ -69,14 +74,17 @@ passportRouter.post('/signup',
 );
 
 passportRouter.get('/login', (req, res, next) => {
-  res.render('passport/login.ejs');
+  res.render('passport/login.ejs', {
+    errorMessage: req.flash('error')
+  });
 });
 // <form method="post" action="/login">
 passportRouter.post('/login',
   passport.authenticate('local', {
     successRedirect: '/',
+    successFlash: true,
     failureRedirect: '/login',
-
+    failureFlash: true
   } )
 );
 
@@ -84,15 +92,9 @@ passportRouter.get('/logout', (req, res, next) => {
   // req.logout() method provided by Passport
   req.logout();
 
+  req.flash('success', 'You have logged out successfully');
 
   res.redirect('/');
 });
-
-
-
-
-
-
-
 
 module.exports = passportRouter;

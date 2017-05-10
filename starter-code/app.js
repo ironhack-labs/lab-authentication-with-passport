@@ -23,7 +23,7 @@ const flash          = require('connect-flash');
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
-app.locals.title = 'Express - Generated with ArtGenerator(pre-alpha)';
+app.locals.title = 'Express';
 
 app.use(logger('dev'));
 app.use(bodyParser.json());
