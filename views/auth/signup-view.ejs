@@ -1,0 +1,38 @@
+<h2> Sign Up </h2>
+
+<% if (typeof errorMessage !== "undefined") { %>
+  <div class="error col-md-10"> <%= errorMessage %> </div>
+<% } %>
+<div class="col-md-1"></div>
+<div class="col-md-7 login-wrapper">
+<form method="post" action="/signup" enctype="multipart/form-data">
+  <div class="form-group">
+  <label for="name-input"> Your Name </label>
+  <input  id="name-input" type="text" name="signupName" class="form-control">
+  </div>
+  <br>
+  <div class="form-group">
+  <label for="username-input"> Your Username </label>
+  <input  id="username-input" type="text" name="signupUsername" class="form-control">
+  <br>
+  </div>
+
+  <div class="form-group">
+  <label for="password-input"> Password </label>
+  <input  id="password-input" type="password" name="signupPassword" class="form-control">
+  </div>
+  <br>
+
+  <div class="form-group">
+  <label for="photo" class="control-label"> Upload Your Pic </label>
+  <input type="file" name="photo" class="file" value="">
+  </div>
+
+  <button type="button submit" class="btn btn-default"> Sign Up </button>
+</form>
+
+<p>
+  Do you already have an account?
+  <a href="/login"> Log In </a>
+</p>
+</div>

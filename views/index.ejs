@@ -1,0 +1,11 @@
+<h1><%= title %></h1>
+
+<% if (successMessage.length > 0) { %>
+  <div class="success"> <%= successMessage %> </div>
+<% } %>
+
+<% if (typeof user !== 'undefined') { %>
+  <p> Hello, <%= user.name %>. </p>
+  <img src="<%= user.pic_path %>" alt="<%= user.pic_name %>" width="300px"/>
+<% } %>
+<p>Welcome to <%= title %></p>
