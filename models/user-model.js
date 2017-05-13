@@ -7,7 +7,9 @@ const userSchema = new Schema({
   username: { type: String },
   encryptedPassword: { type: String },
   pic_path: String,
-  pic_name: String
+  pic_name: String,
+  facebookID: String,
+  googleID: String
 },
 
 {

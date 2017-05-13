@@ -1,0 +1,20 @@
+<% if (games.length === 0) { %>
+  <h2> You Don't Have Games Yet </h2>
+<% } else { %>
+  <h2> Your Games </h2>
+  <% if (successMessage.length > 0) { %>
+    <div class="success"> <%= successMessage %> </div>
+  <% } %>
+  <ul>
+    <% games.forEach((oneGame) => { %>
+      <li>
+        <h3> <%= oneGame.name %> </h3>
+        <p> <%= oneGame.description %> </p>
+        <img src="<%= oneGame.photoAddress %>">
+      </li>
+    <% }) %>
+  </ul>
+<% } %>
+<a href="/games/new">
+  Create a Game
+</a>

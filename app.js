@@ -10,7 +10,14 @@ const session      = require('express-session');
 const passport     = require('passport');
 const flash        = require('connect-flash');
 
-mongoose.connect('mongodb://localhost/passport-local');
+require('dotenv').config();
+
+require('./config/passport-config.js');
+
+
+
+
+mongoose.connect(process.env.MONGODB_URI);
 
 const app = express();
 
@@ -47,57 +54,6 @@ app.use((req, res, next) => {
   next();
 });
 
-passport.serializeUser((user, cb) => {
-  cb(null, user._id);
-});
-
-const User = require('./models/user-model.js');
-
-passport.deserializeUser((userId, cb) => {
-  User.findById(userId, (err, theUser) => {
-    if (err) {
-      cb(err);
-      return;
-    }
-
-    cb(null, theUser);
-  });
-});
-
-const LocalStrategy = require('passport-local').Strategy;
-
-const bcrypt = require('bcrypt');
-
-passport.use( new LocalStrategy (
-  {
-    usernameField: 'loginUsername',
-    passwordField: 'loginPassword'
-
-  },
-
-  (loginUsername, loginPassword, next) => {
-      User.findOne({ username: loginUsername }, (err, theUser) => {
-        if (err) {
-          next(err);
-          return;
-        }
-
-        if (!theUser) {
-          next(null, false, { message: 'Wrong username, buddy'});
-          return;
-        }
-
-        if (!bcrypt.compareSync(loginPassword, theUser.encryptedPassword)) {
-          next(null, false, {message: 'Wrong passport, friend!'});
-          return;
-        }
-
-        next(null, theUser, {
-          message: `Login for ${theUser.username} succesful.`
-        });
-      });
-  }
-));
 
 
 const index = require('./routes/index');
@@ -108,6 +64,9 @@ app.use('/', myAuthRoutes);
 
 const myUserRoutes = require('./routes/user-routes.js');
 app.use('/', myUserRoutes);
+
+const myGameRoutes = require('./routes/game-routes.js');
+app.use('/', myGameRoutes);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

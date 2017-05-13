@@ -42,7 +42,7 @@
                     <span class="sr-only">Toggle navigation</span>
                     Menu <i class="fa fa-bars"></i>
                 </button>
-                <a class="navbar-brand" href="/">PASSPORT AUTH</a>
+                <a class="navbar-brand" href="/">NOTFORNOOBS</a>
             </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->
@@ -52,16 +52,21 @@
                         <a href="/">Home</a>
                     </li>
                     <% if (typeof user !== 'undefined') { %>
-                      
+
+                      <li><a href="/games"> Your Games</a></li>
                       <li><a href="/profile/edit"> Edit Profile</a></li>
                       <li><a href="/logout"> Logout</a></li>
                       <li>
-                        <div class="col-xs-3 profile-pic">
-                          <a href="#"><img src="<%= user.pic_path %>" alt="<%= user.pic_name %>" class="img-circle" width="70px"/></a>
-                        </div>
-                        <div class="col-xs-2 profile-icon">
-                          <a href="/"><%= user.name %></a>
-                        </div>
+                        <!-- <div class="col-m-3 profile-pic"> -->
+                          <% if(!user.pic_path && !googleID) { %>
+                            <a href="#"><img src="<%= user.pic_path %>" alt="<%= user.pic_name %>" class="img-circle" width="70px"/></a>
+                          <% } else { %>
+                            <li class="prof-pic"><a href="#"><img src="http://graph.facebook.com/<%= user.facebookID %>/picture?type=square" class="img-circle" width="35px"/></a></li>
+                          <% } %>
+                        <!-- </div>
+                        <div class="col-m-5 profile-icon"> -->
+                          <li><a href="/"><%= user.name %></a></li>
+                        <!-- </div> -->
                       </li>
                     <% } else { %>
                       <li>
@@ -80,14 +85,14 @@
 
     <!-- Page Header -->
     <!-- Set your background image for this header on the line below. -->
-    <header class="intro-header" style="background-image: url('/img/contact-bg.jpg')">
+    <header class="intro-header" style="background-image: url('/img/fifa.jpg')">
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                     <div class="site-heading">
-                        <h1>PASSPORT AUTH APP</h1>
+                        <h1>NOTFORNOOBS</h1>
                         <hr class="small">
-                        <span class="subheading">by Duks</span>
+                        <span class="subheading">Video Game Reviews by experts.</span>
                     </div>
                 </div>
             </div>

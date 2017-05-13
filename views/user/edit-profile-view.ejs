@@ -1,20 +1,22 @@
 <h2> Edit Your Profile </h2>
-
 <% if (typeof errorMessage !== "undefined") { %>
   <div class="error col-md-10"> <%= errorMessage %> </div>
 <% } %>
+<% if (successMessage.length > 0) { %>
+  <div class="success"> <%= successMessage %> </div>
+<% } %>
 <div class="col-md-1"></div>
 <div class="col-md-7 login-wrapper">
-<form method="post" action="/we-skipped-over-the-post">
+<form method="post" action="/profile/edit">
   <div class="form-group">
   <label for="name-input"> Your Name </label>
-  <input  id="name-input" type="text" name="profileName" class="form-control" value="<% user.name %>">
+  <input  id="name-input" type="text" name="profileName" class="form-control" value="<%= user.name %>">
   <br>
   </div>
 
   <div class="form-group">
   <label for="username-input"> Account Name </label>
-  <input  id="username-input" type="text" name="profilename" class="form-control" value=<% user.username %>>
+  <input  id="username-input" type="text" name="profileUsername" class="form-control" value=<%= user.username %>>
   </div>
   <br>
 
@@ -24,6 +26,12 @@
   </div>
   <br>
 
-  <button type="button submit" class="btn btn-default"> Login </button>
+  <div class="form-group">
+  <label for="new-password-input"> New Password </label>
+  <input  id="new-password-input" type="password" name="profileNewPassword" class="form-control">
+  </div>
+  <br>
+
+  <button type="button submit" class="btn btn-default"> Save Changes </button>
 </form>
 </div>

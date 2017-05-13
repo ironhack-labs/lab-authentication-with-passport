@@ -98,4 +98,20 @@ authRoutes.get('/logout', (req, res, next) => {
   res.redirect('/');
 });
 
+authRoutes.get('/auth/facebook', passport.authenticate('facebook'));
+authRoutes.get('/auth/facebook/callback', passport.authenticate('facebook', {
+  successRedirect: '/',
+  failureRedirect: '/'
+}));
+
+authRoutes.get("/auth/google", passport.authenticate("google", {
+  scope: ["https://www.googleapis.com/auth/plus.login",
+          "https://www.googleapis.com/auth/plus.profile.emails.read"]
+}));
+
+authRoutes.get("/auth/google/callback", passport.authenticate("google", {
+  failureRedirect: "/",
+  successRedirect: "/"
+}));
+
 module.exports = authRoutes;
