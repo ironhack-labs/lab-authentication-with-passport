@@ -53,6 +53,12 @@ app.use( session({
 app.use(flash());
 
 //*******************************************************
+// passport initialize here ......
+//*******************************************************
+app.use(passport.initialize());
+app.use(passport.session());
+
+//*******************************************************
 // custom middleware here ......
 //*******************************************************
 // make the user info available globally
@@ -62,13 +68,6 @@ app.use((req, res, next) => {
   }
   next();
 });
-
-//*******************************************************
-// passport initialize here ......
-//*******************************************************
-app.use(passport.initialize());
-app.use(passport.session());
-
 
 //*******************************************************
 // routes here ......
