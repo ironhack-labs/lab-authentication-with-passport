@@ -85,12 +85,9 @@ authRoutes.post('/signup',
   });
 
 authRoutes.get('/login',
-
-
       //        redirects to '/' (home page) if you ARE logged in
       //                      |
     ensure.ensureNotLoggedIn('/'),
-
     (req, res, next) => {
       res.render('passport/login-view.ejs');
     }
@@ -118,6 +115,7 @@ authRoutes.get('/logout', (req, res, next) => {
 
   res.redirect('/');
 });
-
-
+authRoutes.get("/private-page", ensure.ensureLoggedIn(), (req, res) => {
+  res.render("passport/private", { user: req.user });
+});
 module.exports = authRoutes;
