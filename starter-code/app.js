@@ -1,79 +1,97 @@
-var express = require('express');
-var path = require('path');
-var favicon = require('serve-favicon');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
-var app = express();
+const express       = require('express');
+const path          = require('path');
+const favicon       = require('serve-favicon');
+const logger        = require('morgan');
+const cookieParser  = require('cookie-parser');
+const bodyParser    = require('body-parser');
+const layouts       = require('express-ejs-layouts');
+const mongoose      = require('mongoose');
+const session       = require('express-session');
+const passport      = require('passport');
+const flash         = require('connect-flash');
+const LocalStrategy = require('passport-local').Strategy;
+const ensureLogin   = require("connect-ensure-login");
 
-var index = require('./routes/index');
-var users = require('./routes/users');
-const passportRouter = require("./routes/passportRouter");
-//mongoose configuration
-const mongoose = require("mongoose");
-mongoose.connect("mongodb://localhost/passport-local");
-//require the user model
-const User = require("./models/user");
-const session       = require("express-session");
-const bcrypt        = require("bcrypt");
-const passport      = require("passport");
-const LocalStrategy = require("passport-local").Strategy;
-const flash = require("connect-flash");
+//**********************************************************
+// require the code contained in passport-config
+//**********************************************************
+require('./config/passport-config.js');
 
-
-
-
-
-//enable sessions here
-
-
-
-
-//initialize passport and session here
-
-
-
-
+// moongose db && express app
+mongoose.connect('mongodb://localhost/db_my-passport');
+const app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
+// default value for title local
+app.locals.title = 'Express - Generated with IronGenerator';
 
+// uncomment after placing your favicon in /public
+//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-// require in the routers
+app.use(layouts);
+
+//*******************************************************
+// session middleware here ......
+//*******************************************************
+
+app.use( session({
+  secret            :  'my passport app',
+  resave            :  true,
+  saveUninitialized :  true
+}) );
+
+//*******************************************************
+// flash message middleware here ......
+//*******************************************************
+app.use(flash());
+
+//*******************************************************
+// custom middleware here ......
+//*******************************************************
+// make the user info available globally
+app.use((req, res, next) => {
+  if(req.user){
+    res.locals.user = req.user;
+  }
+  next();
+});
+
+//*******************************************************
+// passport initialize here ......
+//*******************************************************
+app.use(passport.initialize());
+app.use(passport.session());
+
+
+//*******************************************************
+// routes here ......
+//*******************************************************
+
+const index = require('./routes/index');
 app.use('/', index);
-app.use('/', users);
-app.use('/', passportRouter);
 
+const myAuthRoutes = require('./routes/auth-routes');
+app.use('/', myAuthRoutes);
 
-
-
-
-//passport code here
-
-
-
-
-
-
-
-
-
+const myUserRoutes = require('./routes/user-routes');
+app.use('/', myUserRoutes);
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  var err = new Error('Not Found');
+app.use((req, res, next) => {
+  const err = new Error('Not Found');
   err.status = 404;
   next(err);
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use((err, req, res, next) => {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
