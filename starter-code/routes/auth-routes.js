@@ -110,6 +110,24 @@ authRoutes.get('/logout', (req, res, next) => {
   res.redirect('/');
 });
 
+//****************************************************************************
+// Route 6 -> facebook login
+authRoutes.get('/auth/facebook', passport.authenticate('facebook'));
+authRoutes.get('/auth/facebook/callback', passport.authenticate('facebook', {
+  successRedirect: '/user-home',
+  failureRedirect: '/login'
+}));
+
+//****************************************************************************
+// Route 7 -> google login
+authRoutes.get('/auth/google', passport.authenticate('google', {
+  scope: [ "https://www.googleapis.com/auth/plus.login",
+           "https://www.googleapis.com/auth/plus.profile.emails.read" ]
+}));
+authRoutes.get('/auth/google/callback', passport.authenticate('google', {
+  successRedirect: '/user-home',
+  failureRedirect: '/login'
+}));
 
 
 

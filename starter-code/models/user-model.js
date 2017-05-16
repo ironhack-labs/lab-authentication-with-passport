@@ -3,11 +3,15 @@ const Schema   = mongoose.Schema;
 
 // define the Schema with username and password
 const userSchema = new Schema({
-  firstName : { type : String },
-  lastName  : { type : String },
-  username  : { type : String },
-  encryptedPassword  : { type : String }
-}, {
+  firstName          : { type : String },
+  lastName           : { type : String },
+  username           : { type : String },
+  encryptedPassword  : { type : String },
+  // social login strategy
+  facebookId         : { type : String },
+  googleId           : { type : String }
+}, 
+{
   timestamps: true
 });
 
