@@ -1,0 +1,9 @@
+<div class="col-sm-8 col-sm-offset-2 text">
+    <h1><strong>USER HOME PAGE</strong></h1>
+    <% if (typeof user !== 'undefined') { %>
+        <p>Hello, <%= user.firstName %> </p>
+    <% } %>
+    <% if (typeof successMessage !== 'undefined' && successMessage.length > 0) { %>
+        <div class="alert alert-success success" role="alert"> <strong><%= successMessage %></strong> </div>
+    <% } %>
+</div>
