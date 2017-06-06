@@ -1,0 +1,70 @@
+<% if (successMessage.length > 0) { %>
+  <div class="success row left-wrapper"> <%= successMessage %> </div>
+<% } %>
+<% if (errorMessage.length > 0) { %>
+  <div class="error row left-wrapper"> <%= errorMessage %> </div>
+<% } %>
+<div class="col-md-9">
+  <div class="row left-wrapper">
+    <h4> Replies </h4>
+    <div class="row">
+    <i class="fa fa-arrow-left" aria-hidden="true"><a href="/games/<%= game._id %>">&nbsp back to game</a></i><br>
+    </div>
+    <% if (forum.replies.length === 0) { %>
+      No Replies :( Be the first to <a href="#" data-toggle="modal" data-target="#myModal">reply.</a>
+    <% } %>
+    <div class="row review-wrapper"></div>
+
+</div>
+
+    <!-- Trigger the modal with a button -->
+
+</div>
+
+<div class="col-md-3">
+  <div class="row right-wrapper">
+    <h4>Welcome to RAWVOX</h4>
+    Sign up to get the latest news on video games.<br>
+    <form class="form-inline">
+      <label class="sr-only" for="inlineFormInput">Email</label>
+      <input type="email" class="form-control mb-1 mr-sm-1 mb-sm-0" id="inlineFormInput" placeholder="JaneDoe@gmail.com"><br>
+      <button type="submit" class="btn-small btn">Submit</button>
+    </form>
+  </div>
+  <div class="row right-wrapper">
+    <h4>Latest Forums</h4>
+  </div>
+</div>
+
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Reply <%= game.name %> Forum</h4>
+        <% if (typeof user === 'undefined') { %>
+          <strong><a href="/login">Please Login</a></strong>
+        <% } %>
+
+      </div>
+      <div class="modal-body">
+        <form method="post" action="/games/<%= game._id %>/reviews">
+          <div class="form-group">
+          <label   for="content-input"> Your Reply (Min. 50 characters) </label>
+          <textarea id="content-input" onkeyup="countChar(this)" name="reviewContent" class="form-control" minlength=50 maxlength='250' required></textarea>
+          <div id="charNum"></div>
+          </div>
+          <br>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button class="btn btn-default"> Submit Review </button>
+      </form>
+      </div>
+    </div>
+
+  </div>
+</div>

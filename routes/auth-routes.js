@@ -12,13 +12,12 @@ const authRoutes  = express.Router();
 authRoutes.get('/signup',
   ensure.ensureNotLoggedIn('/'),
   (req, res, next) => {
-  res.render('auth/signup-view.ejs');
+  res.render('auth/signup-view.ejs', { layout: 'layout-log.ejs' });
 });
 
-authRoutes.post('/signup', upload.single('photo'), (req, res, next) => {
+authRoutes.post('/signup', (req, res, next) => {
   const signupUsername = req.body.signupUsername;
   const signupPassword = req.body.signupPassword;
-  const photo = req.file;
 
   if (signupUsername === "" || signupPassword === ""){
     res.render('auth/signup-view.ejs', {
@@ -27,15 +26,22 @@ authRoutes.post('/signup', upload.single('photo'), (req, res, next) => {
     return;
   }
 
-  if (!photo){
+  if (signupUsername.length < 5) {
     res.render('auth/signup-view.ejs', {
-      errorMessage: 'Please upload a profile pic'
+      errorMessage: 'Username must be at least 5 characters'
+    });
+    return;
+  }
+
+  if (signupPassword.length < 5) {
+    res.render('auth/signup-view.ejs', {
+      errorMessage: 'Password must be at least 5 characters'
     });
     return;
   }
 
   User.findOne(
-    { username: signupUsername },
+    { username: req.body.signupUsername },
     { username: 1 },
     (err, foundUser) => {
       if (err) {
@@ -57,8 +63,6 @@ authRoutes.post('/signup', upload.single('photo'), (req, res, next) => {
         name: req.body.signupName,
         username: req.body.signupUsername,
         encryptedPassword: hashPass,
-        pic_path: `/img/${req.file.filename}`,
-        pic_name: req.file.originalname
       });
 
       theUser.save((err) => {
@@ -67,8 +71,8 @@ authRoutes.post('/signup', upload.single('photo'), (req, res, next) => {
           return;
         }
         req.flash(
-          'succesfulSignup',
-          'You have registered succesfully!'
+          'success',
+          "You have registered succesfully! Login Now"
         );
         res.redirect('/');
       });
@@ -81,7 +85,8 @@ authRoutes.get('/login',
   ensure.ensureNotLoggedIn('/'),
   (req, res, next) => {
   res.render('auth/login-view.ejs', {
-    errorMessage: req.flash('error')
+    errorMessage: req.flash('error'),
+    layout: 'layout-log.ejs'
   });
 });
 

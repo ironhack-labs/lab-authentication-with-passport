@@ -3,9 +3,9 @@
 <% if (typeof errorMessage !== "undefined") { %>
   <div class="error col-md-10"> <%= errorMessage %> </div>
 <% } %>
-<div class="col-md-1"></div>
-<div class="col-md-7 login-wrapper">
-<form method="post" action="/games">
+<div class="col-md-2"></div>
+<div class="col-md-8 login-wrapper">
+<form method="post" action="/games" enctype="multipart/form-data">
   <div class="form-group">
   <label for="game-name-input"> Title Name </label>
   <input  id="game-name-input" type="text" name="gameName" class="form-control">
@@ -18,6 +18,12 @@
   <textarea class="form-control" rows="5" id="game-desc-input" name="gameDescription"></textarea>
   </div>
   <br>
+
+  <div class="form-group">
+  <label for="game-video-input"> Youtube Video ID </label>
+  <input  id="game-video-input" type="text" name="gameYoutube" class="form-control">
+  <br>
+  </div>
 
   <div class="form-group">
   <label for="photo" class="control-label"> Cover </label>

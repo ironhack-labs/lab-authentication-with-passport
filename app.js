@@ -26,7 +26,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 // default value for title local
-app.locals.title = 'THE WALRUS CONNECTION';
+app.locals.title = 'RAWVOX';
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
@@ -67,6 +67,12 @@ app.use('/', myUserRoutes);
 
 const myGameRoutes = require('./routes/game-routes.js');
 app.use('/', myGameRoutes);
+
+const myReviewRoutes = require('./routes/review-routes.js');
+app.use('/', myReviewRoutes);
+
+const myForumRoutes = require('./routes/forum-routes.js');
+app.use('/', myForumRoutes);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

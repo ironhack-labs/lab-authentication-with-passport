@@ -3,10 +3,18 @@
  * Copyright 2013-2017 Start Bootstrap
  * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap/blob/gh-pages/LICENSE)
  */
+ html {
+     height:100%;
+     padding: 0;
+     margin: 0;
+ }
 body {
-  font-family: 'Lora', 'Times New Roman', serif;
-  font-size: 20px;
-  color: #333333;
+  font-family: 'Open Sans','Lora', 'Times New Roman', serif;
+  font-size: 17px;
+  color: #8F8D8E;
+  height:100%;
+  padding: 0;
+  margin: 0;
 }
 p {
   line-height: 1.5;
@@ -15,7 +23,9 @@ p {
 p a {
   text-decoration: underline;
 }
-h1,
+h1 {
+  font-family: 'VT323', 'Open Sans', Helvetica, Arial, sans-serif;
+}
 h2,
 h3,
 h4,
@@ -30,10 +40,6 @@ a {
 a:hover,
 a:focus {
   color: #7D479E;
-}
-a img:hover,
-a img:focus {
-  cursor: zoom-in;
 }
 blockquote {
   color: #777777;
@@ -115,21 +121,21 @@ hr.small {
     /* when the user scrolls down, we hide the header right above the viewport */
     position: fixed;
     top: -76px;
-    background-color: rgba(255, 255, 255, 0.9);
-    border-bottom: 1px solid #f2f2f2;
+    background-color: rgba(83, 50, 107, 0.9);
+    border-bottom: 1px solid #53326B;
     -webkit-transition: -webkit-transform 0.3s;
     -moz-transition: -moz-transform 0.3s;
     transition: transform 0.3s;
   }
   .navbar-custom.is-fixed .navbar-brand {
-    color: #333333;
+    color: #fff;
   }
   .navbar-custom.is-fixed .navbar-brand:hover,
   .navbar-custom.is-fixed .navbar-brand:focus {
     color: #7D479E;
   }
   .navbar-custom.is-fixed .nav li a {
-    color: #333333;
+    color: #fff;
   }
   .navbar-custom.is-fixed .nav li a:hover,
   .navbar-custom.is-fixed .nav li a:focus {
@@ -340,11 +346,44 @@ form .row:first-child .floating-label-form-group {
 .btn {
   font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   text-transform: uppercase;
+  color: #fff;
+  background-color: #7D479D;
   font-size: 14px;
   font-weight: 800;
   letter-spacing: 1px;
   border-radius: 0;
   padding: 15px 25px;
+}
+
+.btn-small {
+  font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  text-transform: uppercase;
+  color: #fff;
+  background-color: #7D479D;
+  font-size: 13px;
+  font-weight: 300;
+  letter-spacing: 1px;
+  border-radius: 0;
+  padding: 5px 15px;
+  margin-top: 5px;
+}
+
+.btn-small a {
+  color: #fff!important;
+  text-decoration: none;
+}
+
+.btn-small:hover,
+.btn-small:focus {
+  background-color: #7D479E;
+  border: 1px solid #7D479E;
+  color: white;
+}
+
+
+.btn a {
+  color: #fff!important;
+  text-decoration: none;
 }
 .btn-lg {
   font-size: 16px;
@@ -437,6 +476,9 @@ body {
 .success{
   background-color: green;
   color: #fff;
+  border-radius: 3px;
+  padding: 15px;
+  width: 60%;
 }
 .face {
   background-color: #3B5998;
@@ -470,6 +512,103 @@ body {
   color: #8247A1;
 }
 
+.fa-arrow-left {
+  color: #8247A1;
+  margin-bottom: 20px;
+}
+
 .icon-cog {
   color: #8247A1;
+}
+
+.color-container {
+  border-radius: 5px 5px 0px 0px;
+  height: 70%;
+}
+.desc{
+  padding: 10px;
+  border-radius:  0px 0px 5px 5px;
+  height: 30%;
+  background-color: #ddd;
+}
+
+.colorbox{
+  height: 500px;
+  width: 320px;
+
+  margin: 20px;
+  border-radius: 10px 10px 0px 0px;
+  box-shadow: 0px 0px 20px #ddd;
+}
+.back-main{
+  background-color: #fff;
+}
+
+.logback {
+  /*height: 101%;*/
+  width: 100%;
+  background-image: url('../img/Rawvox Background.jpg');
+  background-size: contain;
+  background-position: bottom;
+  background-repeat: no-repeat;
+  background-color: #7D479D;
+}
+
+.user-profile {
+  padding: 40px 10px 40px 10px;
+  background-color: #ddd;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.overlay-game {
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+.left-wrapper {
+  margin-bottom: 20px;
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 3px;
+  border-color: #E8E8E8;
+  padding: 2%;
+  margin-right: 10px;
+
+}
+
+.right-wrapper {
+  font-size: 15px;
+  margin-bottom: 20px;
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 3px;
+  border-color: #E8E8E8;
+  padding: 3%;
+}
+
+.review-wrapper {
+  /*background-color: #ddd;
+  color: #000;*/
+  font-size: 15px;
+  margin: 10px 10px 10px 10px;
+  padding: 10px 5px 10px 5px;
+}
+
+.small-text {
+  font-size: 15px!important;
+  font-weight: bold!important;
+}
+
+.upvote-review {
+  padding: 5px;
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 5px;
+  border-color: #ddd;
+  margin-top: 10px;
+}
+
+.forum-header {
+  display: inline;
 }

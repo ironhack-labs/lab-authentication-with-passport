@@ -1,13 +1,13 @@
 <h2> Edit Your Profile </h2>
-<% if (typeof errorMessage !== "undefined") { %>
+<% if (errorMessage.length > 0) { %>
   <div class="error col-md-10"> <%= errorMessage %> </div>
 <% } %>
 <% if (successMessage.length > 0) { %>
   <div class="success"> <%= successMessage %> </div>
 <% } %>
-<div class="col-md-1"></div>
-<div class="col-md-7 login-wrapper">
-<form method="post" action="/profile/edit">
+<div class="col-md-2"></div>
+<div class="col-md-8 login-wrapper">
+<form method="post" action="/profile/edit" enctype="multipart/form-data">
   <div class="form-group">
   <label for="name-input"> Your Name </label>
   <input  id="name-input" type="text" name="profileName" class="form-control" value="<%= user.name %>">
@@ -29,6 +29,12 @@
   <div class="form-group">
   <label for="new-password-input"> New Password </label>
   <input  id="new-password-input" type="password" name="profileNewPassword" class="form-control">
+  </div>
+  <br>
+
+  <div class="form-group">
+  <label for="photo" class="control-label"> Upload Your Pic </label>
+  <input type="file" name="photo" class="file" value="">
   </div>
   <br>
 

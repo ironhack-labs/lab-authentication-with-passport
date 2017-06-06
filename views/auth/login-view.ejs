@@ -1,20 +1,22 @@
-<h2> Login </h2>
-
-<% if (errorMessage.length > 0 ) { %>
-  <div class="error col-md-10"> <%= errorMessage %> </div>
-<% } %>
-<div class="col-md-1"></div>
-<div class="col-md-7 login-wrapper">
+<div class="col-md-2"></div>
+<div class="col-md-8 login-wrapper">
+  <% if (errorMessage.length > 0 ) { %>
+    <div class="error col-md-12 row"> <%= errorMessage %> </div>
+  <% } %>
 <form method="post" action="/login">
   <div class="form-group">
+    <h3> Login </h3>
+    <div class="row">
+    <i class="fa fa-arrow-left" aria-hidden="true"><a href="/">&nbsp back to rawbox</a></i><br>
+    </div>
   <label for="username-input"> Your Username </label>
-  <input  id="username-input" type="text" name="loginUsername" class="form-control">
+  <input  id="username-input" type="text" name="loginUsername" class="form-control" required>
   <br>
   </div>
 
   <div class="form-group">
   <label for="password-input"> Password </label>
-  <input  id="password-input" type="password" name="loginPassword" class="form-control">
+  <input  id="password-input" type="password" name="loginPassword" class="form-control" required>
   </div>
   <br>
 

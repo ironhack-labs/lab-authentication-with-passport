@@ -24,6 +24,13 @@
 
     <link href="https://fonts.googleapis.com/css?family=VT323" rel="stylesheet" type='text/css'>
 
+    <script>
+      function countChar(val) {
+        var len = val.value.length;
+        $('#charNum').text(len + '/250');
+      };
+    </script>
+
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -60,7 +67,7 @@
                       <li><a href="/profile/reviews">Your Reviews</a></li>
                       <li><a href="#">Forums</a></li>
                       <li>
-                        <!-- <div class="col-m-3 profile-pic"> -->
+                        <!-- <div clas="col-m-3 profile-pic"> -->
                           <% if(!user.facebookID) { %>
                             <li class="prof-pic"><a href="/profile/edit"><img src="<%= user.pic_path %>" alt="<%= user.pic_name %>" class="img-circle" width="35px"/></a></li>
                           <% } else { %>
@@ -89,14 +96,25 @@
 
     <!-- Page Header -->
     <!-- Set your background image for this header on the line below. -->
-    <header class="intro-header" style="background-image: url('/img/Rawvox Background.jpg')">
-        <div class="container">
+    <header class="intro-header" style="background-image: url('<%= game.pic_path %>')">
+        <div class="container overlay-game">
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                     <div class="site-heading">
-                        <h1>Game Reviews<br> & Forums</h1>
+                        <h1><%= game.name %> Forums</h1>
                         <hr class="small">
-                        <span class="subheading">Built by gamers for gamers.</span>
+                        <span class="subheading">
+                          Topic: <%= forum.content %><br>
+                          <div class="row forum-header">
+                            by:
+                            <% if(!forum.authorF) { %>
+                              <img src="<%= forum.author.pic_path %>" alt="<%= forum.authorPic %>" class="img-circle" width="35px"/>
+                            <% } else { %>
+                              <img src="http://graph.facebook.com/<%= forum.authorF %>/picture?type=square" class="img-circle" width="35px"/>
+                            <% } %>
+                            <%= forum.authorName %>
+                          </div>
+                        </span>
                     </div>
                 </div>
             </div>
@@ -107,7 +125,7 @@
 
     <div class="container">
     <div class="row">
-        <div class="col-lg-8 col-lg-offset-2 col-md-12 col-md-offset-1 back-main">
+        <div class="col-lg-10 col-lg-offset-1 col-md-12 col-md-offset-1 back-main">
             <%- body -%>
         </div>
     </div>
@@ -164,7 +182,7 @@
     <!-- <script src="js/contact_me.js"></script> -->
 
     <!-- Theme JavaScript -->
-    <script src="/js/clean-blog.js"></script>
+    <script src="/js/clean-blog.min.js"></script>
 
 </body>
 
