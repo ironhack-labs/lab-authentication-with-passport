@@ -42,7 +42,7 @@
   <% var sumStars = []; %>
 
   <% oneGame.reviews.forEach((zereview)=>{ %>
-    <% sumStars.push(review.stars) %>
+    <% sumStars.push(zereview.stars) %>
   <% }) %>
   <% var reviewsSum =  sumStars.reduce((a, b) => a + b, 0); %>
 

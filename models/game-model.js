@@ -21,7 +21,9 @@ const gameSchema = new Schema({
     type: String
 }],
   forums: [ Forum.schema ],
-  owner: String
+  owner: String,
+  youtubeId: String,
+
 },
 
 {
