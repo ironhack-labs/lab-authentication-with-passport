@@ -1,0 +1,78 @@
+
+
+<% if (successMessage.length > 0) { %>
+  <div class="success"> <%= successMessage %> </div>
+<% } %>
+
+<% if (typeof user === 'undefined') { %>
+<div class="container-fluid">
+<div class="row">
+  <div class="col-md-5">
+    <img src="/img/VOXDRAGON.png">
+  </div>
+  <div class="col-md-7">
+    <p> Raw Vox surfaces the best video games, every day. It's a place for  enthusiasts to share and geek out about the latest mobile games, console titles and hardware releases in the Video Gaming Industry.</p>
+    <div class="btn btn-default"><a href="/signup">Sign Up</a></div>
+  </div>
+</div>
+</div>
+<% } %>
+
+<% if (typeof user !== 'undefined') { %>
+<div class="container-fluid">
+<div class="row">
+  <div class="col-md-5">
+    <img src="/img/VOXREX.png">
+  </div>
+  <div class="col-md-7">
+    <p> Hello, <%= user.name %>.<br>
+    Welcome to <%= title %>!</p>
+  </div>
+</div>
+</div>
+<% } %>
+
+<hr>
+
+<center><h1><%= title %> MOST POPULAR</h1></center>
+&nbsp;
+&nbsp;
+
+<% games.forEach((oneGame) => { %>
+  <% var sumStars = []; %>
+
+  <% oneGame.reviews.forEach((zereview)=>{ %>
+    <% sumStars.push(zereview.stars) %>
+  <% }) %>
+  <% var reviewsSum =  sumStars.reduce((a, b) => a + b, 0); %>
+
+
+  <% if (oneGame.reviews.length > 0) { %>
+  <%  var reviewAverage = reviewsSum / oneGame.reviews.length %>
+  <% var roundedAvg = (Math.round(reviewAverage * 2) / 2).toFixed(1) %>
+  <% } %>
+  <div class="row left-wrapper">
+    <div class="col-md-5">
+      <img src="<%= oneGame.pic_path %>" width="100%">
+    </div>
+    <div class="col-md-7">
+      <h2> <%= oneGame.name %> </h2>
+      <p><%= oneGame.desc %><br>
+      <span class="small-text">
+      <%  if (oneGame.reviews.length > 0) { %>
+       <%= roundedAvg %>/ 5.0 from <%= oneGame.reviews.length%>
+     <% } else { %>
+       No
+     <% } %>
+       reviews | <%= oneGame.upvotes %> Upvotes | RV Score: 5/5</span></p>
+      <div class="row">
+      <div class="col-md-6">
+        <a href="/games/<%= oneGame._id %>" class="btn btn-default"><%= oneGame.reviews.length %> Reviews</a>
+      </div>
+      <div class="col-md-6">
+        <a href="/games/<%= oneGame._id %>" class="btn btn-default">More Details</i></a>
+      </div>
+    </div>
+  </div>
+  </div>
+<% }); %>

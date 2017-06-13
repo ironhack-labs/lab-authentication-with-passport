@@ -1,0 +1,187 @@
+<% if (typeof successMessage !== 'undefined') { %>
+<% if (successMessage.length > 0) { %>
+  <div class="success row left-wrapper"> <%= successMessage %> </div>
+<% } %>
+<% } %>
+<% if (typeof errorMessage !== 'undefined') { %>
+<% if (errorMessage.length > 0) { %>
+  <div class="error row left-wrapper"> <%= errorMessage %> </div>
+<% } %>
+<% } %>
+<div class="col-md-9">
+  <div class="row left-wrapper">
+    <div class="col-md-5">
+      <img src="<%= game.pic_path %>" width="100%">
+    </div>
+    <div class="col-md-7">
+      <h2> <%= game.name %> </h2>
+      <p><%= game.desc %></p>
+      <div class="row">
+      <div class="col-md-6">
+        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal">Review It</button>
+      </div>
+      <div class="col-md-6">
+        <form method="post" action="/games/<%= game._id %>/upvote">
+        <button class="btn btn-default"><%= game.upvotes %> Upvotes</button>
+        </form>
+      </div>
+    </div>
+  </div>
+  </div>
+  <div class="row">
+    <center>
+    <iframe width="600px" height='400px' src="https://www.youtube.com/embed/<%= game.youtubeId %>" frameborder="0" allowfullscreen></iframe>
+    </center>
+  </div>
+  <br>
+
+  <div class="row left-wrapper">
+    <h4> Reviews </h4>
+    <% if (game.reviews.length === 0) { %>
+      No Reviews :( Be the first to <a href="#" data-toggle="modal" data-target="#myModal">review it.</a>
+    <% } %>
+      <% game.reviews.forEach((oneReview) => { %>
+        <div class="row review-wrapper">
+          <div class="col-md-2">
+            <% if(!oneReview.authorF) { %>
+              <img src="<%= oneReview.authorPic %>" class="img-circle" width="55px"/>
+            <% } else { %>
+              <img src="http://graph.facebook.com/<%= oneReview.authorF %>/picture?type=square" class="img-circle" width="55px"/>
+            <% } %>
+          </div>
+          <div class="col-md-10">
+            <strong>⭐️ <%= oneReview.stars %> out of 5 ⭐️ </strong><br>
+            <%= oneReview.content %> <br>
+            <span class="review-author"><strong> By: <%= oneReview.authorName %> </strong> </span>
+            <div class="row">
+              <div class="col-sm-2">
+                <form method="post" action="/<%= game._id %>/<%= oneReview._id %>/upvote">
+                <button class="fa fa-level-up upvote-review" aria-hidden="true">Upvote</button>
+              </form>
+              </div>
+              <div class="col-sm-3">
+                <i class="fa upvote-review" aria-hidden="true">
+                  <% if (oneReview.upvotes > 0) { %>
+                    <%= oneReview.upvotes %> Upvotes
+                  <% } else { %>
+                    No Upvotes
+                  <% } %>
+                </i>
+              </div>
+          </div>
+        </div>
+        </div>
+      <% }) %>
+
+</div>
+
+    <a href="/games/<%= game._id %>/edit">
+      Edit
+    </a>
+    <br>
+
+    <form method="post" action="/games/<%= game._id %>/delete">
+      <button> Delete </button>
+    </form>
+
+    <!-- Trigger the modal with a button -->
+
+</div>
+
+<div class="col-md-3">
+  <div class="row right-wrapper">
+    <h4>Welcome to RAWVOX</h4>
+    Sign up to get the latest news on video games.<br>
+    <form class="form-inline">
+      <label class="sr-only" for="inlineFormInput">Email</label>
+      <input type="email" class="form-control mb-1 mr-sm-1 mb-sm-0" id="inlineFormInput" placeholder="JaneDoe@gmail.com"><br>
+      <button type="submit" class="btn-small btn">Submit</button>
+    </form>
+  </div>
+  <div class="row right-wrapper">
+    <h4>Latest Forums</h4>
+    <button type="button" class="fa fa-gamepad upvote-review" data-toggle="modal" aria-hidden="true" data-target="#forumModal"> Create Forum</button><hr>
+    <% if (game.forums.length === 0) { %>
+      No Forums :( Be the first to <a href="#" data-toggle="modal" data-target="#forumModal">create one</a>
+    <% } %>
+    <% game.forums.forEach((oneForum) => { %>
+      <a href="/games/<%= game.id %>/forums/<%= oneForum.id %>">
+        <%= oneForum.content %>
+      </a><br>
+    <% }) %>
+
+
+  </div>
+</div>
+
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Review <%= game.name %></h4>
+        <% if (typeof user === 'undefined') { %>
+          <strong><a href="/login">Please Login</a></strong>
+        <% } %>
+
+      </div>
+      <div class="modal-body">
+        <form method="post" action="/games/<%= game._id %>/reviews">
+          <div class="form-group">
+          <label   for="content-input"> Your Review (Min. 50 characters) </label>
+          <textarea id="content-input" onkeyup="countChar(this)" name="reviewContent" class="form-control" minlength=50 maxlength='250' required></textarea>
+          <div id="charNum"></div>
+          </div>
+          <br>
+
+          <div class="form-group">
+          <label for="stars-input"> Rating (1-5 Stars) </label>
+          <input  id="stars-input" type="number" name="reviewStars" class="form-control" min="1" max="5" required>
+          </div>
+          <br>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button class="btn btn-default"> Submit Review </button>
+      </form>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Modal -->
+<div id="forumModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Creating Forum for <%= game.name %></h4>
+        <% if (typeof user === 'undefined') { %>
+          <strong><a href="/login">Please Login</a></strong>
+        <% } %>
+
+      </div>
+      <div class="modal-body">
+        <form method="post" action="/<%= game._id %>/forums/new">
+          <div class="form-group">
+          <label   for="content-input"> Topic or question (Min. 50 characters) </label>
+          <textarea id="content-input" onkeyup="countsChar(this)" name="forumContent" class="form-control" minlength=50 maxlength='250' required></textarea>
+          <div id="charNums"></div>
+          </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button class="btn btn-default"> Create Forum </button>
+      </form>
+      </div>
+    </div>
+
+  </div>
+</div>

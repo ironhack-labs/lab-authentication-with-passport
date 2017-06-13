@@ -1,0 +1,30 @@
+<h2> All Users </h2>
+
+<% if (successMessage.length > 0) { %>
+  <div class="success"> <%= successMessage %> </div>
+<% } %>
+
+  <% users.forEach((oneUser) => { %>
+    <div class="row user-profile">
+      <div class="col-md-4">
+        <% if(!oneUser.facebookID) { %>
+          <img src="<%= oneUser.pic_path %>" alt="<%= oneUser.pic_name %>" class="img-circle" width="100px"/>
+        <% } else { %>
+          <img src="http://graph.facebook.com/<%= oneUser.facebookID %>/picture?type=square" class="img-circle" width="100px"/>
+        <% } %>
+        <h3> <%= oneUser.name %> </h3>
+      </div>
+      <div class="col-md-6">
+        <p> Role: <%= oneUser.role %> </p>
+        <p> Username: <%= oneUser.username %> </p>
+        <p> Facebook ID: <%= oneUser.facebookID %> </p>
+        <p> Google ID: <%= oneUser.googleID %> </p>
+        <% if (oneUser.role !== 'admin') { %>
+          <form method="post" action="/users/<%= oneUser._id %>/admin">
+            <button class="btn btn-default"> Upgrade </button>
+          </form>
+
+      <% } %>
+      </div>
+    </div>
+  <% }) %>
