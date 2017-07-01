@@ -1,0 +1,19 @@
+<h2> Password testing </h2>
+<form action="/login" method="POST">
+  <div class="form-group">
+    <label for="username">Username:</label>
+    <input class="form-control" type="text" name="username">
+  </div>
+  <div class="form-group">
+    <label for="password">Password:</label>
+    <input class="form-control" type="password" name="password">
+  </div>
+  <% if (typeof message != "undefined") { %>
+    <div class="error-message"><%= message %></div>
+  <% } %>
+  <div>
+    <input class="btn btn-default" type="submit" value="Log In">
+  </div>
+</form>
+<button class="btn btn-default"><a href="/auth/facebook">Log In With Facebook</a> </button>
+<button class="btn btn-default"><a href="/auth/google">Log In With Google</a> </button>
