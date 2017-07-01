@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <% include ../partials/head %>
+    <title>Authentication with passport</title>
+</head>
+<body>
+
+    <div class="centered" id="container">
+        <img src="/images/favicon.ico">
+    </div>
+
+    <% if (user) { %>
+    <button class="btn btn-info" id="home"> <a href="/">Home</a></button>
+
+    <form method="post" action="/logout">
+        <button id="logout" class="btn btn-danger" type="submit">
+          Logout
+        </button>
+    </form>
+    <% } %>
+
+    <%- body %>
+
+    <% if (typeof messages !== "undefined") { %>
+
+        <% if (messages.error && messages.error.length > 0) { %>
+          <p class="message error centered col-xs-4"><%= messages.error %></p>
+        <% } %>
+
+        <% if (messages.success) { %>
+          <p class="message success centered col-xs-4"><%= messages.success %></p>
+        <% } %>
+
+    
+    <% } %>
+
+</body>
+</html>
