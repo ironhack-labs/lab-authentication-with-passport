@@ -1,0 +1,31 @@
+<% if (!user) { %>
+<form method="post" action="/login">
+
+    <div class="form-group centered col-xs-4">
+        <label for="username">User name:</label>
+        <input class="form-control centered" type="text" name="username" placeholder="username">
+    </div>
+
+    <div class="form-group centered col-xs-4">
+        <label for="password">Password</label>
+        <input class="form-control centered"type="password" name="password" placeholder="password">
+    </div>
+
+    <button type="submit" class="btn btn-success center-block btn-submit">Login</button>
+</form>
+
+<p class="centered">Don't have an account yet? <a href="/signup"> Sign up</a></p>
+  
+  <div class="centered">
+    <a class="btn btn-primary" href="/auth/google">Login with Google+</a>
+    <a class="btn btn-primary" href="/auth/facebook">Login With Facebook</a>
+  </div>
+
+<% } else {%>
+    <p>You are already signed in as <%= user.username %>. You can go to your <a href="/private">
+        private area </a> or <a href="/private">log out</a> from your account</p> 
+<% } %>
+
+
+ 
+
