@@ -9,7 +9,6 @@ const flash = require('connect-flash')
 const app = express()
 
 const index = require('./routes/index')
-const users = require('./routes/users')
 const passportRouter = require('./routes/passportRouter')
 
 // mongoose configuration
@@ -148,7 +147,6 @@ app.use(passport.session())
 
 // require the routers
 app.use('/', index)
-app.use('/', users)
 app.use('/', passportRouter)
 
 // catch 404 and forward to error handler

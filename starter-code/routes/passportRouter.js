@@ -12,7 +12,9 @@ const passport = require('passport')
 
 // Signup get
 router.get('/signup', (req, res, next) => {
-  res.render('passport/signup')
+  res.render('passport/signup', {
+    user: req.user
+  })
 })
 
 // Signup post
@@ -23,6 +25,7 @@ router.post('/signup', (req, res, next) => {
 
   if (username === '' || password === '') {
     return res.render('passport/signup', {
+      user: req.user,
       messages: {
         error: 'Your username and password cannot be empty'
       }
@@ -30,6 +33,7 @@ router.post('/signup', (req, res, next) => {
   }
   if (password !== password2) {
     return res.render('passport/signup', {
+      user: req.user,
       messages: {
         error: 'Your passwords don\'t match'
       }
@@ -46,6 +50,7 @@ router.post('/signup', (req, res, next) => {
   newUser.save((err) => {
     if (err) {
       res.render('passport/signup', {
+        user: req.user,
         messages: {
           error: 'There was a problem with your signup. That user already exists'
         }

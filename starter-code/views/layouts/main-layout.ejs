@@ -10,6 +10,7 @@
         <img src="/images/favicon.ico">
     </div>
 
+    <% if (user) { %>
     <button class="btn btn-info" id="home"> <a href="/">Home</a></button>
 
     <form method="post" action="/logout">
@@ -17,12 +18,13 @@
           Logout
         </button>
     </form>
+    <% } %>
 
     <%- body %>
 
     <% if (typeof messages !== "undefined") { %>
 
-        <% if (messages.error) { %>
+        <% if (messages.error && messages.error.length > 0) { %>
           <p class="message error centered col-xs-4"><%= messages.error %></p>
         <% } %>
 
