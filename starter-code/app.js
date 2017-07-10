@@ -5,6 +5,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var app = express();
+const debug = require('debug')('passport-js:' + path.basename(__filename));
 
 var index = require('./routes/index');
 var users = require('./routes/users');
