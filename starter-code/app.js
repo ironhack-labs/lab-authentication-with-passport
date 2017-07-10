@@ -9,15 +9,13 @@ var app = express();
 var index = require('./routes/index');
 var users = require('./routes/users');
 const passportRouter = require("./routes/passportRouter");
+
 //mongoose configuration
 const mongoose = require("mongoose");
 mongoose.connect("mongodb://localhost/passport-local");
 //require the user model
 const User = require("./models/user");
 const session       = require("express-session");
-const bcrypt        = require("bcrypt");
-const passport      = require("passport");
-const LocalStrategy = require("passport-local").Strategy;
 const flash = require("connect-flash");
 
 
@@ -27,10 +25,20 @@ const flash = require("connect-flash");
 //enable sessions here
 
 
+app.use(session({
+  secret: "klsjdfhglkjhsdlkf",
+  resave: true,
+  saveUninitialized: true
+}));
+
 
 
 //initialize passport and session here
+// require('./passport/local'); // aqui es necesario justo antes de inicializar passport requerir la config de la estrategia passport
+// const local = require("./passport/local");
 
+// app.use(passport.initialize());
+// app.use(passport.session());
 
 
 
@@ -45,10 +53,10 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
 // require in the routers
 app.use('/', index);
-app.use('/', users);
-app.use('/', passportRouter);
+app.use('/auth', passportRouter);
 
 
 
