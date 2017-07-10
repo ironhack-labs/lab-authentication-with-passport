@@ -4,13 +4,14 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-const auth = require("./routes/auth");
+
 
 var app = express();
 
 
 var index = require('./routes/index');
 var users = require('./routes/users');
+const auth = require('./routes/auth');
 const passportRouter = require("./routes/passportRouter");
 //mongoose configuration
 const mongoose = require("mongoose");
@@ -35,6 +36,40 @@ app.use(session({
   resave: true,
   saveUninitialized: true
 }));
+
+
+//initialize passport and session here
+// app.js
+app.use(passport.initialize());
+app.use(passport.session());
+
+
+
+
+
+// view engine setup
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
+
+
+app.use(logger('dev'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({
+  extended: false
+}));
+app.use(cookieParser());
+app.use(express.static(path.join(__dirname, 'public')));
+// require in the routers
+app.use('/', index);
+app.use('/auth', auth);
+
+
+
+
+
+
+//passport code here
+
 
 passport.serializeUser((user, cb) => {
   cb(null, user.id);
@@ -72,40 +107,6 @@ passport.use(new LocalStrategy((username, password, next) => {
     return next(null, user);
   });
 }));
-
-
-//initialize passport and session here
-// app.js
-app.use(passport.initialize());
-app.use(passport.session());
-
-
-
-
-
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'ejs');
-
-
-app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({
-  extended: false
-}));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
-// require in the routers
-app.use('/', index);
-app.use('/auth', auth);
-
-
-
-
-
-
-//passport code here
-
 
 
 

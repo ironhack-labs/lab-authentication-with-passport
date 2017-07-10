@@ -15,6 +15,7 @@ authRoutes.get("/signup", (req, res, next) => {
 });
 
 authRoutes.post("/signup", (req, res, next) => {
+
   const username = req.body.username;
   const password = req.body.password;
 console.log("redirect");
@@ -66,5 +67,8 @@ authRoutes.post("/login", passport.authenticate("local", {
   passReqToCallback: true
 }));
 
-
+authRoutes.get("/logout", (req, res) => {
+  req.logout();
+  res.redirect("/");
+});
 module.exports = authRoutes;
