@@ -25,12 +25,17 @@ const flash = require("connect-flash");
 
 
 //enable sessions here
+app.use(session({
+  secret: "our-passport-local-strategy-app",
+  resave: true,
+  saveUninitialized: true
+}));
 
-
-
+require('./passport/local');
 
 //initialize passport and session here
-
+app.use(passport.initialize());
+app.use(passport.session());
 
 
 
@@ -49,6 +54,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', index);
 app.use('/', users);
 app.use('/', passportRouter);
+
 
 
 
