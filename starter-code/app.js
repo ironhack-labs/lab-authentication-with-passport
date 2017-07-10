@@ -14,12 +14,8 @@ const passportRouter = require("./routes/passportRouter");
 const mongoose = require("mongoose");
 mongoose.connect("mongodb://localhost/passport-local");
 
-//require the user model
-const User = require("./models/user");
-const session       = require("express-session");
-const bcrypt        = require("bcrypt");
-const passport      = require("passport");
-const LocalStrategy = require("passport-local").Strategy;
+const session = require("express-session");
+const passport = require("passport");
 const flash = require("connect-flash");
 
 //enable sessions here
@@ -30,7 +26,7 @@ app.use(session({
 }));
 
 //initialize passport and session here
-require("passport/passportLocal");
+require("./passport/passportLocal");
 app.use(passport.initialize());
 app.use(passport.session());
 
