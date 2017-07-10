@@ -14,9 +14,16 @@ router.get("/private-page", ensureLogin.ensureLoggedIn(), (req, res) => {
   res.render("passport/private", { user: req.user });
 });
 
+router.get("/private-page", ensureLogin.ensureLoggedIn(), (req, res) => {
+  res.render("passport/signup", { user: req.user });
+});
 
+app.post('/signup', (req, res) => {
+  let email    = req.body.email;
+  let password = req.body.password;
 
-
+  res.send(`Email: ${email}, Password: ${password}`);
+});
 
 
 module.exports = router;
