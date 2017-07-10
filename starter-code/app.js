@@ -13,6 +13,7 @@ const passportRouter = require("./routes/passportRouter");
 const mongoose = require("mongoose");
 mongoose.connect("mongodb://localhost/passport-local");
 //require the user model
+app.use('/',passportRouter);
 const User = require("./models/user");
 const session       = require("express-session");
 const bcrypt        = require("bcrypt");
@@ -50,20 +51,7 @@ app.use('/', index);
 app.use('/', users);
 app.use('/', passportRouter);
 
-
-
-
-
 //passport code here
-
-
-
-
-
-
-
-
-
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
