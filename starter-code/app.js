@@ -15,16 +15,11 @@ const mongoose = require("mongoose");
 mongoose.connect("mongodb://localhost/passport-local");
 //require the user model
 const User = require("./models/user");
-const session       = require("express-session");
+const session = require("express-session");
 const flash = require("connect-flash");
 
 
-
-
-
 //enable sessions here
-
-
 app.use(session({
   secret: "klsjdfhglkjhsdlkf",
   resave: true,
@@ -32,25 +27,25 @@ app.use(session({
 }));
 
 
-
 //initialize passport and session here
-// require('./passport/local'); // aqui es necesario justo antes de inicializar passport requerir la config de la estrategia passport
-// const local = require("./passport/local");
-
-// app.use(passport.initialize());
-// app.use(passport.session());
-
-
+// var passport = require("./passport/local")();  // Lo que devuelve el require es una funcion por lo que con () la ejecutamos en este momento
+const passport = require("passport");
+require('./passport/local');  // Esto devuelve una funcion que ejecutamos en este instante.
+app.use(passport.initialize());
+app.use(passport.session());
 
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
+app.use(flash());
 
 app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({
+  extended: false
+}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -59,18 +54,7 @@ app.use('/', index);
 app.use('/auth', passportRouter);
 
 
-
-
-
 //passport code here
-
-
-
-
-
-
-
-
 
 
 // catch 404 and forward to error handler
