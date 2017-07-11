@@ -66,7 +66,7 @@ app.use('/', authRoutes);
 
 app.use('/', index);
 app.use('/', users);
-app.use('/', passportRouter);
+//app.use('/', passportRouter);
 
 
 
