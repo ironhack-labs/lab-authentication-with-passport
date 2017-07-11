@@ -9,6 +9,10 @@ const User = require("../models/user");
 const bcrypt = require("bcrypt");
 const bcryptSalt = 10;
 
+
+const ensureLogin = require("connect-ensure-login");
+
+
 authRoutes.get("/signup", (req, res, next) => {
     res.render("auth/signup");
 });
@@ -44,6 +48,38 @@ authRoutes.post("/signup", (req, res, next) => {
             }
         });
     });
+
+
+});
+
+
+authRoutes.get("/login", (req, res, next) => {
+    res.render("auth/login");
+});
+
+authRoutes.post("/login", passport.authenticate("local", {
+    successRedirect: "/",
+    failureRedirect: "/login",
+    failureFlash: true,
+    passReqToCallback: true
+}));
+
+
+authRoutes.get("/login", (req, res, next) => {
+    res.render("auth/login", { "message": req.flash("error") });
+});
+
+
+// route to put below the rest of the routes
+// In here ?!?!?!?!?!?!?!?!?!?!?!?!!?
+authRoutes.get("/private-page", ensureLogin.ensureLoggedIn(), (req, res) => {
+    res.render("private", { user: req.user });
+});
+
+
+authRoutes.get("/logout", (req, res) => {
+    req.logout();
+    res.redirect("/login");
 });
 
 module.exports = authRoutes;

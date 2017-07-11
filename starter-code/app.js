@@ -14,14 +14,15 @@ const mongoose = require("mongoose");
 mongoose.connect("mongodb://localhost/passport-local");
 //require the user model
 const User = require("./models/user");
-const session = require("express-session");
-const bcrypt = require("bcrypt");
-const passport = require("passport");
-const LocalStrategy = require("passport-local").Strategy;
+// const session = require("express-session");
+// const bcrypt = require("bcrypt");
+// // const passport = require("passport");
+// const LocalStrategy = require("passport-local").Strategy;
 const flash = require("connect-flash");
 
 const authRoutes = require("./routes/auth-routes");
 app.use('/', authRoutes);
+
 
 
 
