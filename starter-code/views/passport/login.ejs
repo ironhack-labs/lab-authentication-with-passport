@@ -1,0 +1,27 @@
+    <nav>
+      <a href="/">Index</a> |
+      <a href="/private">Private</a> |
+      <a href="/signup">Signup</a> |
+      <a href="/login">Login In</a> |
+      <a href="/logout">Log Out</a>
+    </nav>
+
+
+    <form action="/login" method="POST">
+      <div>
+        <label for="username">Username:</label>
+        <input type="text" name="username">
+      </div>
+      <div>
+        <label for="password">Password:</label>
+        <input type="password" name="password">
+      </div>
+      <% if (typeof errorMessage !== "undefined") { %>
+        <div class="error-message"><%= errorMessage %></div>
+      <% } %>
+      <br><br>
+
+      <div>
+        <input type="submit" value="Log In">
+      </div>
+    </form>
