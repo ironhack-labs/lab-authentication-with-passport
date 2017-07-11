@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
+    "start-dev": "nodemon ./bin/www",
     "start": "nodemon ./bin/www"
   },
   "dependencies": {
@@ -18,5 +19,8 @@
     "passport": "^0.3.2",
     "passport-local": "^1.0.0",
     "serve-favicon": "~2.3.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.11.0"
   }
 }
