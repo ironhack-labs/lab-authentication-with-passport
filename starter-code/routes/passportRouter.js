@@ -7,6 +7,7 @@ const bcrypt         = require("bcrypt");
 const bcryptSalt     = 10;
 const ensureLogin    = require("connect-ensure-login");
 const passport       = require("passport");
+const logout         = require('express-passport-logout');
 
 
 
@@ -53,8 +54,8 @@ authRoutes.get("/login", (req,res,next) => {
 } )
 
 authRoutes.post("/login", passport.authenticate("local", {
-  successRedirect:"/signup",
-  failureRedirect:"/",
+  successRedirect:"/private-page",
+  failureRedirect:"/login",
   failureFlash: true,
   passReqToCallback:false
 }) )
@@ -64,8 +65,10 @@ authRoutes.get("/private-page", ensureLogin.ensureLoggedIn(), (req, res) => {
   res.render("passport/private", { user: req.user });
 });
 
-
-
+authRoutes.get("/logout", (req, res) => {
+  req.logout();
+  res.redirect("/login");
+});
 
 
 module.exports = authRoutes;
