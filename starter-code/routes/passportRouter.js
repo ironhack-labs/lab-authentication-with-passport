@@ -10,7 +10,7 @@ const passport = require("passport");
 var auth    = require('../helpers/auth');
 
 router.get("/signup", (req, res) => {
-  res.render("passport/signup");
+  res.render("passport/signup", { "message": req.flash("error") });
 });
 
 
