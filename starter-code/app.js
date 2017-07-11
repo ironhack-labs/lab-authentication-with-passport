@@ -21,7 +21,6 @@ const User = require("./models/user");
 const flash = require("connect-flash");
 
 const authRoutes = require("./routes/auth-routes");
-app.use('/', authRoutes);
 
 
 
@@ -41,19 +40,30 @@ const LocalStrategy = require("passport-local").Strategy;
 
 
 
-
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
-
+// APPRENDRE CETTE CONNERIE PAR COEUR
+// ================================================
+// ORDRE COMPLETEMENT CRITIQUE SINON TOUT CRASH
 app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+
 app.use(cookieParser());
+app.use(session({
+    secret: "our-passport-local-strategy-app",
+    resave: true,
+    saveUninitialized: true
+}));
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(express.static(path.join(__dirname, 'public')));
 // require in the routers
+app.use('/', authRoutes);
+
 app.use('/', index);
 app.use('/', users);
 app.use('/', passportRouter);
@@ -91,14 +101,9 @@ passport.use(new LocalStrategy((username, password, next) => {
 
 //passport code here
 
-app.use(session({
-    secret: "our-passport-local-strategy-app",
-    resave: true,
-    saveUninitialized: true
-}));
 
-app.use(passport.initialize());
-app.use(passport.session());
+// app.use(passport.initialize());
+// app.use(passport.session());
 
 
 
@@ -122,5 +127,7 @@ app.use(function(err, req, res, next) {
     res.status(err.status || 500);
     res.render('error');
 });
+
+
 
 module.exports = app;
