@@ -13,36 +13,35 @@ const passportRouter = require("./routes/passportRouter");
 const mongoose = require("mongoose");
 mongoose.connect("mongodb://localhost/passport-local");
 //require the user model
-const User = require("./models/user");
-const session       = require("express-session");
-const bcrypt        = require("bcrypt");
-const passport      = require("passport");
+const User = require("./models/User");
+const session = require("express-session");
+const bcrypt = require("bcrypt");
+const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const flash = require("connect-flash");
+const dbURL = require('./models/db').dbURL;
 
-
-
-
-
-//enable sessions here
-
-
-
-
-//initialize passport and session here
-
-
-
-
-
-// view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
+app.use(flash());
+
+app.use(session({
+  secret: "jhsaflishflasjdhflksadjhflskdhflasd",
+  resave: true,
+  saveUninitialized: true
+}));
+
+require('./passport/local');
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({
+  extended: false
+}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 // require in the routers
@@ -50,12 +49,7 @@ app.use('/', index);
 app.use('/', users);
 app.use('/', passportRouter);
 
-
-
-
-
 //passport code here
-
 
 
 
