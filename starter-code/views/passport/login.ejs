@@ -1,0 +1,20 @@
+<form action="/login" method="POST" id="form">
+    <h2>Login</h2>
+    <label for="username">Username</label><br>
+    <input type="text" name="username" placeholder="user name" required >
+
+    <br><br>
+    <label for="password">Password</label>
+    <input type="password" name="password" placeholder="password" required >
+
+    <br><br>
+    <% if ( message != "") { %>
+        <div class="error-message">
+            <%= message %>
+        </div>
+        <% } %>
+            <button>Sign in</button>
+            <p class="account-message">
+                Don't have an account? <a href="/signup">Sign Up</a>
+            </p>
+</form>
