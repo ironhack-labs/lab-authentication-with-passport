@@ -48,11 +48,12 @@ authRoutes.post("/signup", (req, res, next) => {
 });
 
 authRoutes.get("/login", (req,res,next) => {
+  console.log(req.session);
   res.render('passport/login');
 } )
 
 authRoutes.post("/login", passport.authenticate("local", {
-  succesRedirect:"/signup",
+  successRedirect:"/signup",
   failureRedirect:"/",
   failureFlash: true,
   passReqToCallback:false
