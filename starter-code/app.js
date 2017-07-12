@@ -7,12 +7,12 @@ const bodyParser = require('body-parser');
 const app = express();
 const expressLayouts = require('express-ejs-layouts');
 
-const index = require('./routes/index');
-const users = require('./routes/users');
 const passportRouter = require("./routes/passportRouter");
+
 //mongoose configuration
 const mongoose = require("mongoose");
 mongoose.connect("mongodb://localhost/passport-local");
+
 //require the user model
 const User = require("./models/user");
 const session       = require("express-session");
@@ -129,8 +129,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(expressLayouts);
 
 // require in the routers
-app.use('/', index);
-app.use('/', users);
 app.use('/', passportRouter);
 
 

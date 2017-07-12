@@ -8,7 +8,9 @@ const bcryptSalt     = 10;
 const ensureLogin = require("connect-ensure-login");
 const passport      = require("passport");
 
-
+router.get("/", (req, res, next) => {
+  res.render('index', { title: 'Passport testing' });
+});
 
 router.get("/private-page", ensureLogin.ensureLoggedIn(), (req, res) => {
   res.render("passport/private", { user: req.user });
@@ -88,5 +90,12 @@ router.get("/auth/google/callback", passport.authenticate("google", {
   failureRedirect: "/",
   successRedirect: "/private-page"
 }));
+
+router.get("/logout", (req, res, next) => {
+  req.session.destroy((err) => {
+    // cannot access session here
+    res.redirect("/login");
+  });
+});
 
 module.exports = router;
