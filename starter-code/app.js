@@ -12,7 +12,7 @@ var users = require('./routes/users');
 const passportRouter = require("./routes/passportRouter");
 //mongoose configuration
 const mongoose = require("mongoose");
-mongoose.connect("mongodb://localhost/passport-local");
+mongoose.connect("mongodb://localhost/project2");
 //require the user model
 const User = require("./models/user");
 const session       = require("express-session");
