@@ -1,0 +1,18 @@
+<form action="/signup" method="POST" >
+        
+    <div class="form-group">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" class="form-control" placeholder="User">
+    </div>
+
+    <div class="form-group">
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" class="form-control" placeholder="Password">
+    </div>
+    
+    <% if (typeof errorMessage != "undefined") { %>
+        <div class="error-message"><%= errorMessage %></div>
+    <% } %>
+
+    <button type="submit" class="btn btn-lg btn-primary">Sign Up Now</button>
+</form>
