@@ -14,6 +14,36 @@ router.get("/private-page", ensureLogin.ensureLoggedIn(), (req, res) => {
   res.render("passport/private", { user: req.user });
 });
 
+router.get("/signup", (req, res, next) => {
+  res.render("passport/signup.ejs");
+})
+
+
+router.post("/signup", (req, res, next) => {
+  const {email, psw} = req.body;
+
+      if (username === "" || password === "") {
+        res.render("auth/signup", {
+          errorMessage: "Don't mess with me ! Indicate a username and a password to sign up !"
+        });
+        return;
+      }
+
+      const newUser = new User({
+        username,
+        password
+      });
+
+      newUser.save()
+      .then(() => {
+        res.render("/passport/login")
+      }).catch((err) => {
+        res.render("passport/signup", {
+          errorMessage: "Something went wrong when signing up"
+        });
+      })
+})
+
 
 
 
