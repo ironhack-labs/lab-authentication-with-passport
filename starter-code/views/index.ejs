@@ -7,5 +7,17 @@
   <body>
     <h1><%= title %></h1>
     <p>Welcome to <%= title %></p>
+
+    <% if (!user) { %>
+       <a href="/login"> LOGIN  </a>
+    <% } %>
+
+        <% if (user) { %>
+           <a href="/logout"> LOGOUT </a>
+           <div>
+           <a href="/private-page">PRIVATE </a>
+         </div>
+        <% } %>
+
   </body>
 </html>
