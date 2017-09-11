@@ -15,9 +15,9 @@ const mongoose = require("mongoose");
 mongoose.connect("mongodb://localhost/passport-local");
 //require the user model
 const User = require("./models/user");
-const session       = require("express-session");
-const bcrypt        = require("bcrypt");
-const passport      = require("passport");
+const session = require("express-session");
+const bcrypt = require("bcrypt");
+const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const flash = require("connect-flash");
 
@@ -30,11 +30,10 @@ app.use(session({
   saveUninitialized: true
 }));
 
-
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
-app.set("layout", "layouts/main-layout");
+app.set("layout", "layout/main-layout");
 
 app.use(expressLayouts);
 app.use(logger('dev'));
@@ -48,6 +47,8 @@ app.use('/', users);
 app.use('/', passportRouter);
 
 
+app.use(passport.initialize());
+app.use(passport.session());
 //
 // //passport code here
 // passport.use(new LocalStrategy({
@@ -91,10 +92,6 @@ passport.use(new LocalStrategy((username, password, next) => {
   });
 }));
 
-
-
-app.use(passport.intialize());
-app.use(passport.session());
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

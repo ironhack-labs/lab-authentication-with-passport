@@ -12,7 +12,7 @@ const passport      = require("passport");
 
 router.use((req, res, next) => {
   if (req.session.currentUser) { next(); }
-  else next(); }
+  else next(); 
 });
 
 
