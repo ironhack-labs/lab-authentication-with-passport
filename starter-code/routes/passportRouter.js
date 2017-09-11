@@ -5,8 +5,9 @@ const User           = require("../models/user");
 // Bcrypt to encrypt passwords
 const bcrypt         = require("bcrypt");
 const bcryptSalt     = 10;
-const ensureLogin = require("connect-ensure-login");
-const passport      = require("passport");
+const ensureLogin    = require("connect-ensure-login");
+const passport       = require("passport");
+
 
 
 
@@ -39,18 +40,26 @@ router.post("/signup", (req, res, next) => {
     const newUser = new User({
       username,
       password: hashPass
-    });
+    })
 
-    newUser.save((err) => {
-      if (err) {
-        res.render("passport/signup", { message: "Something went wrong" });
-      } else {
-        res.redirect("/");
-      }
-    });
+    .save()
+    .then(user => res.redirect('/'))
+    .catch(e => res.render("auth/signup", { message: "Something went wrong" }));
+
   });
 });
 
+
+router.get('/login',(req,res) =>{
+  res.render('passport/login',{ message: req.flash("error") });
+});
+
+router.post("/login", passport.authenticate("local", {
+  successRedirect: "/",
+  failureRedirect: "/login",
+  failureFlash: true,
+  passReqToCallback: true
+}));
 
 
 
