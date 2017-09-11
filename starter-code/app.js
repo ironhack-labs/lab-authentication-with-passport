@@ -19,18 +19,32 @@ const bcrypt        = require("bcrypt");
 const passport      = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const flash = require("connect-flash");
+const MongoStore = require("connect-mongo")(session)
+
 
 
 
 
 
 //enable sessions here
+app.use(session({
+  secret: "passport-local-strategy-app",
+  resave: true,
+  saveUninitialized: true,
+  store: new MongoStore({
+    mongooseConnection: mongoose.connection,
+    ttl: 24 * 60 * 60
+  })
+}))
 
+require("./passport/serializers")
+require("./passport/local")
 
 
 
 //initialize passport and session here
-
+app.use(passport.initialize())
+app.use(passport.session())
 
 
 
