@@ -24,6 +24,7 @@ mongoose.connect("mongodb://localhost/passport-local")
 
 
 //enable sessions here
+app.use(flash())
 app.use(session({
   secret: "our-passport-local-strategy-app",
   resave: true,
@@ -34,6 +35,8 @@ app.use(session({
   })
 }))
 
+require('./passport/serializers');
+require('./passport/local');
 //initialize passport and session here
 app.use(passport.initialize())
 app.use(passport.session())
