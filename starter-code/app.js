@@ -5,6 +5,7 @@ const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const app = express();
+const mongoose = require("mongoose");
 
 const index = require('./routes/index');
 const users = require('./routes/users');
@@ -12,8 +13,8 @@ const authRoutes = require('./routes/auth');
 
 const passportRouter = require("./routes/passportRouter");
 //mongoose configuration
-const mongoose = require("mongoose");
-mongoose.connect("mongodb://localhost/passport-local");
+mongoose.connect("mongodb://localhost/passport-local",{useMongoClient:true})
+        .then(()=> debug("connected to db!"));
 //require the user model
 const User = require("./models/User.js");
 const session       = require("express-session");
@@ -21,7 +22,7 @@ const bcrypt        = require("bcrypt");
 const passport      = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const flash = require("connect-flash");
-
+const MongoStore = require("connect-mongo")(session);
 
 
 
@@ -31,10 +32,35 @@ const flash = require("connect-flash");
 
 
 
+
+// view engine setup
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
+
+app.use(flash());
+
+app.use((req,res,next) =>{
+  res.locals.title = "Auth example";
+  next();
+});
 //initialize passport and session here
 
+app.use(session({
+  secret: "our-passport-local-strategy-app",
+  resave: true,
+  saveUninitialized: true,
+  store: new MongoStore({
+    mongooseConnection: mongoose.connection,
+    ttl: 24 * 60 * 60 // 1 day
+  })
+}));
 
 
+
+require('./passport/serializers');
+require('./passport/local');
+app.use(passport.initialize());
+app.use(passport.session());
 
 
 // view engine setup

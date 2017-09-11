@@ -42,27 +42,20 @@ authRoutes.post("/signup", (req, res, next) => {
   });
 });
 
-authRoutes.get('/login',(req,res) =>{
-  res.render('auth/login',{ message: req.flash("error") });
+authRoutes.get("/login", (req, res, next) => {
+  res.render("../views/passport/login.ejs");
 });
-
 authRoutes.post("/login", passport.authenticate("local", {
-  successRedirect: "/",
+  successRedirect: "/private-page",
   failureRedirect: "/login",
   failureFlash: true,
   passReqToCallback: true
 }));
 
-authRoutes.post('/logout',(req,res) =>{
+authRoutes.get('/logout',(req,res) =>{
   req.logout();
-  res.redirect("/");
+  res.redirect("/login");
 });
 
-
-authRoutes.get("/auth/facebook", passport.authenticate("facebook"));
-authRoutes.get("/auth/facebook/callback", passport.authenticate("facebook", {
-  successRedirect: "/",
-  failureRedirect: "/"
-}));
 
 module.exports = authRoutes
