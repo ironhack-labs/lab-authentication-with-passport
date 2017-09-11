@@ -1,0 +1,16 @@
+<form action="/signup" method="post">
+  <label for="username">User name:</label><br>
+  <input type="text" id="username" name="username">
+  <br><br>
+
+  <label for="password">Password:</label><br>
+  <input type="password" id="password" name="password">
+  
+  <% if (typeof(errorMessage) != "undefined") { %>
+    <br><br>
+    <%= errorMessage %>
+  <% } %>
+  <br><br><button>Sign up</button>
+</form>
+
+<br><br><a href="/">Back to home</a>

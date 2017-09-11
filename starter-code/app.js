@@ -8,6 +8,11 @@ const expressLayouts = require('express-ejs-layouts');
 
 const app = express();
 
+app.use((req,res,next) =>{
+  res.locals.title = "Passport auth";
+  next();
+});
+
 const index = require('./routes/index');
 const users = require('./routes/users')
 const passportRouter = require("./routes/passportRouter");
