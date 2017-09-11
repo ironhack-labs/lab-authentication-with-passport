@@ -1,32 +1,38 @@
-var express = require('express');
-var path = require('path');
-var favicon = require('serve-favicon');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
-var app = express();
-
-var index = require('./routes/index');
-var users = require('./routes/users');
-const passportRouter = require("./routes/passportRouter");
-//mongoose configuration
-const mongoose = require("mongoose");
-mongoose.connect("mongodb://localhost/passport-local");
-//require the user model
-const User = require("./models/User");
-const session       = require("express-session");
-const bcrypt        = require("bcrypt");
-const passport      = require("passport");
-const LocalStrategy = require("passport-local").Strategy;
+const express = require('express');
+const path = require('path');
+const favicon = require('serve-favicon');
+const logger = require('morgan');
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
+const expressLayouts = require('express-ejs-layouts');
+const session = require("express-session");
+const passport = require("passport");
 const flash = require("connect-flash");
 const MongoStore = require("connect-mongo")(session);
 
-app.use((req, res, next) => {
-  res.locals.title = "Auth with Passport";
+const authRoutes = require('./routes/passportRouter');
+
+const debug = require('debug')("app:"+path.basename(__filename).split('.')[0]);
+
+const mongoose = require("mongoose");
+mongoose.connect("mongodb://localhost/passport-local",{useMongoClient:true})
+        .then(()=> debug("connected to db!"));
+
+var app = express();
+
+// view engine setup
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
+app.set('layout','index');
+app.use(expressLayouts);
+
+app.use(flash());
+
+app.use((req,res,next) =>{
+  res.locals.title = "Auth example";
+  next();
 });
 
-
-//enable sessions here
 app.use(session({
   secret: "our-passport-local-strategy-app",
   resave: true,
@@ -37,43 +43,22 @@ app.use(session({
   })
 }));
 
-
-//initialize passport and session here
 require('./passport/serializers');
 require('./passport/local');
 
 app.use(passport.initialize());
 app.use(passport.session());
 
-
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'ejs');
-
-
+// uncomment after placing your favicon in /public
+//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-// require in the routers
-app.use('/', index);
-app.use('/', users);
-app.use('/', passportRouter);
 
-
-
-
-
-//passport code here
-
-
-
-
-
-
-
-
+app.use('/', authRoutes);
+app.get('/', (req,res) => res.render('home',{user:req.user}));
 
 
 // catch 404 and forward to error handler
