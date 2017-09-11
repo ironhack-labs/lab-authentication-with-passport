@@ -13,26 +13,37 @@ const passportRouter = require("./routes/passportRouter");
 const mongoose = require("mongoose");
 mongoose.connect("mongodb://localhost/passport-local");
 //require the user model
-const User = require("./models/user");
+const User = require("./models/User");
 const session       = require("express-session");
 const bcrypt        = require("bcrypt");
 const passport      = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const flash = require("connect-flash");
+const MongoStore = require("connect-mongo")(session);
 
-
-
+app.use((req, res, next) => {
+  res.locals.title = "Auth with Passport";
+});
 
 
 //enable sessions here
-
-
+app.use(session({
+  secret: "our-passport-local-strategy-app",
+  resave: true,
+  saveUninitialized: true,
+  store: new MongoStore({
+    mongooseConnection: mongoose.connection,
+    ttl: 24 * 60 * 60 // 1 day
+  })
+}));
 
 
 //initialize passport and session here
+require('./passport/serializers');
+require('./passport/local');
 
-
-
+app.use(passport.initialize());
+app.use(passport.session());
 
 
 // view engine setup
