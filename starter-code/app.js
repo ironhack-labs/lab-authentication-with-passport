@@ -4,6 +4,7 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+const expressLayouts = require('express-ejs-layouts');
 var app = express();
 var index = require('./routes/index');
 var users = require('./routes/users');
@@ -24,8 +25,6 @@ const authRoutes = require('./routes/passportRouter');
 
 
 
-
-
 //enable sessions here
 app.use(session({
   secret: "our-passport-local-strategy-app",
@@ -39,6 +38,8 @@ app.use(session({
 
 
 
+app.use(passport.initialize());
+app.use(passport.session());
 
 //initialize passport and session here
 
@@ -57,9 +58,13 @@ passport.deserializeUser((id, cb) => {
 
 
 
+
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
+app.use(flash());
+
 
 
 app.use(logger('dev'));
@@ -67,16 +72,14 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.set('layout','layout/layout');
+app.use(expressLayouts);
 // require in the routers
-app.use('/', authRoutes);
-app.get('/', (req,res) => res.render('passport/login',{user:req.user}));
-app.use('/', index);
-app.use('/', users);
+// app.use('/auth', authRoutes);
+app.get('/', (req,res) => res.render('passport/signup',{user:req.user}));
+// app.use('/', index);
+// app.use('/', users);
 app.use('/', passportRouter);
-
-
-
-
 
 //passport code here
 
