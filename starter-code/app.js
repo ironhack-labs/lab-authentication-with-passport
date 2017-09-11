@@ -11,7 +11,7 @@ var users = require('./routes/users');
 const passportRouter = require("./routes/passportRouter");
 //mongoose configuration
 const mongoose = require("mongoose");
-mongoose.connect("mongodb://localhost/passport-local");
+mongoose.connect("mongodb://localhost/passport-local", {useMongoClient: true});
 //require the user model
 const User = require("./models/user");
 const session       = require("express-session");
@@ -90,9 +90,11 @@ app.use(function(err, req, res, next) {
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
+  if (res.headerSent) { 
+    res.status(err.status || 500);
+    res.render('error');
+    console.error()
+  }
 });
 
 module.exports = app;
