@@ -4,6 +4,7 @@ const favicon = require('serve-favicon');
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
+const expressLayouts = require('express-ejs-layouts');
 const app = express();
 
 const index = require('./routes/index');
@@ -19,10 +20,6 @@ const bcrypt        = require("bcrypt");
 const passport      = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const flash = require("connect-flash");
-
-const index = require('./routes/index');
-const users = require('./routes/users');
-const passportRouter = require('./routes/passportRouter');
 
 //enable sessions here
 
@@ -51,7 +48,7 @@ app.use('/', users);
 app.use('/', passportRouter);
 
 
-// 
+//
 // //passport code here
 // passport.use(new LocalStrategy({
 //   passReqToCallback: true
