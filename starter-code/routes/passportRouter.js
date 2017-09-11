@@ -7,12 +7,12 @@ const bcrypt         = require("bcrypt");
 const bcryptSalt     = 10;
 const ensureLogin = require("connect-ensure-login");
 const passport      = require("passport");
-
+const flash = require("connect-flash");
 
 
 router.use((req, res, next) => {
   if (req.session.currentUser) { next(); }
-  else next(); 
+  else next();
 });
 
 
@@ -51,11 +51,23 @@ router.post("/signup", (req, res, next) => {
       if (err) {
         res.render("passport/signup", { message: "Something went wrong" });
       } else {
-        res.redirect("/");
+        res.redirect("/private");
       }
     });
   });
 });
+
+router.get("/login", (req, res, next) => {
+  res.render("passport/login");
+});
+
+router.post("/login", passport.authenticate("local", {
+  successRedirect: "/passport/private",
+  failureRedirect: "/passport/login",
+  failureFlash: true,
+  passReqToCallback: true
+}));
+
 
 
 

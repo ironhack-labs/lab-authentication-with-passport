@@ -22,6 +22,9 @@ const LocalStrategy = require("passport-local").Strategy;
 const flash = require("connect-flash");
 
 //enable sessions here
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(flash());
 
 //initialize passport and session here
 app.use(session({
@@ -29,6 +32,7 @@ app.use(session({
   resave: true,
   saveUninitialized: true
 }));
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -47,23 +51,20 @@ app.use('/', users);
 app.use('/', passportRouter);
 
 
-app.use(passport.initialize());
-app.use(passport.session());
-//
-// //passport code here
-// passport.use(new LocalStrategy({
-//   passReqToCallback: true
-// }, (req, username, password, next) => {
-//   User.findOne({ username }, (err, user) => {
-//     // ...
-//
-// app.use(flash());
-// passport.use(new LocalStrategy({
-//   passReqToCallback: true
-// }, (req, username, password, next) => {
-//   User.findOne({ username }, (err, user) => {
-//     // ...
 
+passport.use(new LocalStrategy({
+  passReqToCallback: true
+}, (req, username, password, next) => {
+  User.findOne({ username }, (err, user) => {
+    if (!user) {
+      return next(null, false, { message: "Incorrect username" });
+    }
+    if (!bcrypt.compareSync(password, user.password)) {
+      return next(null, false, { message: "Incorrect password" });
+    }
+    return next(null, user);
+  });
+}));
 
 //Passport De/Serializer & Strategy
 passport.serializeUser((user, cb) => {
@@ -77,27 +78,13 @@ passport.deserializeUser((id, cb) => {
   });
 });
 
-passport.use(new LocalStrategy((username, password, next) => {
-  User.findOne({ username }, (err, user) => {
-    if (err) {
-      return next(err);
-    }
-    if (!user) {
-      return next(null, false, { message: "Incorrect username" });
-    }
-    if (!bcrypt.compareSync(password, user.password)) {
-      return next(null, false, { message: "Incorrect password" });
-    }
-    return next(null, user);
-  });
-}));
 
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   const err = new Error('Not Found');
   err.status = 404;
-  next(err);
+  next(err);auth
 });
 
 // error handler
