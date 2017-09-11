@@ -55,8 +55,12 @@ router.get('/login', (req, res, next) => {
   res.render('passport/login', {message: req.flash("error")});
 })
 
+router.get("/private-page", ensureLogin.ensureLoggedIn(), (req, res) => {
+  res.render('private', { user: req.user } )
+});
+
 router.post("/login", passport.authenticate("local", {
-  successRedirect: "/",
+  successRedirect: "/private-page",
   failureRedirect: "/login",
   failureFlash: true,
   passReqToCallback: true
