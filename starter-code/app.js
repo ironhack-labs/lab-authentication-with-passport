@@ -1,44 +1,58 @@
-var express = require('express');
-var path = require('path');
-var favicon = require('serve-favicon');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
-var app = express();
+const express = require('express');
+const path = require('path');
+const favicon = require('serve-favicon');
+const logger = require('morgan');
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
+const expressLayouts = require('express-ejs-layouts');
 
-var index = require('./routes/index');
-var users = require('./routes/users');
+const app = express();
+
+app.use((req,res,next) =>{
+  res.locals.title = "Passport auth";
+  next();
+});
+
+const index = require('./routes/index');
+const users = require('./routes/users')
 const passportRouter = require("./routes/passportRouter");
 //mongoose configuration
 const mongoose = require("mongoose");
-mongoose.connect("mongodb://localhost/passport-local");
+mongoose.connect("mongodb://localhost/passport-local", {useMongoClient:true})
+  .then(() => console.log("Connected to db!"));
 //require the user model
-const User = require("./models/user");
+const User          = require("./models/user");
 const session       = require("express-session");
+const MongoStore = require("connect-mongo")(session);
 const bcrypt        = require("bcrypt");
 const passport      = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
-const flash = require("connect-flash");
+const flash         = require("connect-flash");
 
+// Session
+app.use(session({
+  secret: "passport-local-strategy-app",
+  resave: true,
+  saveUninitialized: true,
+  store: new MongoStore({
+    mongooseConnection: mongoose.connection,
+    ttl: 24 * 60 * 60 // 1 day
+  })
+}));
 
+require('./passport/serializers');
+require('./passport/local');
 
-
-
-//enable sessions here
-
-
-
-
-//initialize passport and session here
-
-
-
-
+app.use(passport.initialize());
+app.use(passport.session());
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
+app.set('layout','layout');
+app.use(expressLayouts);
 
+app.use(flash());
 
 app.use(logger('dev'));
 app.use(bodyParser.json());

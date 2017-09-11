@@ -1,11 +1,12 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-  </head>
-  <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
-  </body>
-</html>
+<p>Welcome to <%= title %></p>
+
+<% if(user) { %>
+  <h2>Hola usuario <%= user.username %></h2>
+  <a href="/private-page">Go to your page</a><br>
+  <form action="/logout" method="POST">
+    <button>Logout</button>
+  </form>
+<% }else{ %>
+  <a href="/signup">Signup</a> or 
+  <a href="/login">Login</a>
+<% } %>
