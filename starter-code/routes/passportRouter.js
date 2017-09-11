@@ -7,18 +7,17 @@ const bcrypt         = require("bcrypt");
 const bcryptSalt     = 10;
 const ensureLogin = require("connect-ensure-login");
 const passport      = require("passport");
-const flash = require("connect-flash");
 
+
+router.get("/private", ensureLogin.ensureLoggedIn(), (req, res) => {
+  res.render("passport/private", { user: req.user });
+});
 
 router.use((req, res, next) => {
   if (req.session.currentUser) { next(); }
   else next();
 });
 
-
-router.get("/private-page", ensureLogin.ensureLoggedIn(), (req, res) => {
-  res.render("passport/private", { user: req.user });
-});
 
 router.get("/signup", (req, res, next) => {
   res.render("passport/signup");
@@ -58,16 +57,15 @@ router.post("/signup", (req, res, next) => {
 });
 
 router.get("/login", (req, res, next) => {
-  res.render("passport/login");
+  res.render("passport/login", {"message": req.flash("error")});
 });
 
 router.post("/login", passport.authenticate("local", {
-  successRedirect: "/passport/private",
-  failureRedirect: "/passport/login",
+  successRedirect: "/private",
+  failureRedirect: "login",
   failureFlash: true,
   passReqToCallback: true
 }));
-
 
 
 
