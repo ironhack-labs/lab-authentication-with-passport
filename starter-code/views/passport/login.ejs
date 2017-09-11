@@ -1,0 +1,17 @@
+<h1>Login</h1>
+
+<form action="/login" method="post">
+  <label for="username" name="username">User name</label>
+  <input type="text" name="username">
+
+  <label for="password" name="password">Password</label>
+  <input type="password" name="password">
+
+  <% if (typeof message != "undefined") { %>
+    <p> <%= message %> </p>
+  <% } %>
+
+  <button type="submit" name="button">Login</button>
+
+
+</form>
