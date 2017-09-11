@@ -1,11 +1,23 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-  </head>
-  <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
-  </body>
+
+<head>
+  <title>
+    <%= title %>
+  </title>
+  <link rel='stylesheet' href='/stylesheets/style.css' />
+</head>
+
+<body>
+  <h1><%= title %></h1>
+  <p>Welcome to
+    <%= title %>
+  </p>
+  <a href='/login'>Login</a>
+  <a href="/signup">signup</a>
+  <form action="/logout" method="POST">
+    <button>Logout</button>
+  </form>
+</body>
+
 </html>
