@@ -9,17 +9,11 @@ const ensureLogin = require("connect-ensure-login");
 const passport      = require("passport");
 
 
-// router.use((req, res, next) => {
-//   if (req.session.user) {
-//     res.redirect('/private-page');
-//   }
-// });
-
-router.get('/', (req, res, next) => {
+router.get('/', ensureNotAuthenticated, (req, res, next) => {
   res.render('passport/signup');
 });
 
-router.post('/signup', (req, res, next) => {
+router.post('/signup', ensureNotAuthenticated, (req, res, next) => {
 
       const newUser = User({
           username: req.body.username,
@@ -61,15 +55,22 @@ router.post('/signup', (req, res, next) => {
 
 
 
-router.get('/login', (req, res, next) => {
+router.get('/login', ensureNotAuthenticated, (req, res, next) => {
   res.render('passport/login');
 });
 
 router.post('/login', passport.authenticate("local", {
     successRedirect: '/private-page',
     failureRedirect: "/login",
-    failureFlash: true,
-    passReqToCallback: true
 }));
+
+function ensureNotAuthenticated(req, res, next) {
+  if (!req.isAuthenticated()) {
+    return next(); 
+  } else {
+    res.redirect('private-page')
+  }
+}
+
 
 module.exports = router;
