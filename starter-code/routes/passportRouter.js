@@ -68,5 +68,33 @@ router.post("/login", passport.authenticate("local", {
 }));
 
 
+router.get("/auth/facebook", passport.authenticate("facebook"));
+router.get("/auth/facebook/callback", passport.authenticate("facebook", {
+  successRedirect: "/private",
+  failureRedirect: "login"
+}));
+
+
+router.get("/auth/google", passport.authenticate("google", {
+  scope: ["https://www.googleapis.com/auth/plus.login",
+          "https://www.googleapis.com/auth/plus.profile.emails.read"]
+}));
+
+router.get("/auth/google/callback", passport.authenticate("google", {
+  failureRedirect: "/",
+  successRedirect: "/private"
+}));
+
+router.get("/logout", (req, res, next) => {
+  if (!req.session.currentUser) { res.redirect("/"); return; }
+
+  req.session.destroy((err) => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.redirect("/login");
+    }
+  });
+});
 
 module.exports = router;
