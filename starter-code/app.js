@@ -33,13 +33,12 @@ const User = require("./models/user")
 //enable sessions here
 
 app.use(session({
-  secret: "passport-local-secret",
-  cookie: {
-    maxAge: 60000
-  },
+  secret: "passport-local-session",
+  resave: true,
+  saveUninitialized: true,
   store: new MongoStore({
     mongooseConnection: mongoose.connection,
-    ttl: 24 * 60 * 60 // 1 day 
+    ttl: 24 * 60 * 60 // 1 day
   })
 }))
 
