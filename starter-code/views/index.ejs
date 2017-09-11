@@ -1,3 +1,12 @@
 <p>Welcome to <%= title %></p>
 
-<a href="/signup">Sign up</a>
+<% if(user) { %>
+  <h2>Hola usuario <%= user.username %></h2>
+  <a href="/private-page">Go to your page</a><br>
+  <form action="/logout" method="POST">
+    <button>Logout</button>
+  </form>
+<% }else{ %>
+  <a href="/signup">Signup</a> or 
+  <a href="/login">Login</a>
+<% } %>

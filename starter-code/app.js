@@ -29,26 +29,30 @@ const passport      = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const flash         = require("connect-flash");
 
+// Session
+app.use(session({
+  secret: "passport-local-strategy-app",
+  resave: true,
+  saveUninitialized: true,
+  store: new MongoStore({
+    mongooseConnection: mongoose.connection,
+    ttl: 24 * 60 * 60 // 1 day
+  })
+}));
 
+require('./passport/serializers');
+require('./passport/local');
 
-
-
-//enable sessions here
-
-
-
-
-//initialize passport and session here
-
-
-
-
+app.use(passport.initialize());
+app.use(passport.session());
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 app.set('layout','layout');
 app.use(expressLayouts);
+
+app.use(flash());
 
 app.use(logger('dev'));
 app.use(bodyParser.json());
