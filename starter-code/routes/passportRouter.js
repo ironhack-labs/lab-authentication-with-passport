@@ -28,6 +28,25 @@ router.post("/signup", (req, res, next) => {
     return;
   }
 
+  User.findOne({ username }, "username", (err, user) => {
+    if (user !== null) {
+      res.render("auth/signup", { message: "The username already exists" });
+      return;
+    }
+
+    const salt = bcrypt.genSaltSync(bcryptSalt);
+    const hashPass = bcrypt.hashSync(password, salt);
+
+    const newUser = new User({
+      username,
+      password: hashPass
+    })
+    .save()
+    .then(user => res.redirect('/'))
+    .catch(e => res.render("auth/signup", { message: "Something went wrong" }));
+
+  });
+
 });
 
 //LOGIN
