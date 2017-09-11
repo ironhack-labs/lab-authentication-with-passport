@@ -14,9 +14,40 @@ router.get("/private-page", ensureLogin.ensureLoggedIn(), (req, res) => {
   res.render("passport/private", { user: req.user });
 });
 
+router.get('/signup', (req, res, next) => {
+  res.render('passport/signup')
+})
 
+router.post('/signup', (req, res, next) => {
+	const username = req.body.username
+	const password = req.body.password
 
+	if (username === '' || password === '') {
+		res.render('auth/signup', {
+			errorMessage: 'Indicate a username and password to sign up'
+		})
+		return
+	}
 
+	User.findOne({'username': username}).then(user => {
+		if (user) {
+			res.render('passport/signup', {
+				errorMessage: 'User already exists'
+			})
+			return
+		}
 
+		const salt = bcrypt.genSaltSync(bcryptSalt)
+		const hashPass = bcrypt.hashSync(password, salt)
+
+		new User({
+			username: username,
+			password: hashPass,
+		})
+		.save()
+		.then(() => res.redirect('/'))
+		.catch(e => next(e))
+	})
+})
 
 module.exports = router;
