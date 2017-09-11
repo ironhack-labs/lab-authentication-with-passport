@@ -17,25 +17,25 @@ router.get("/private-page", ensureLogin.ensureLoggedIn(), (req, res) => {
 });
 
 router.get("/signup", (req, res, next) => {
-  res.render("views/passport/signup");
+  res.render("./passport/signup");
 });
 
 router.post("/signup", (req, res, next) => {
     const username = req.body.username;
     const password = req.body.password;
     if (username === "" || password === "") {
-      res.render("auth/signup", {
+      res.render("passport/signup", {
         message: "Indicate username and password"
       });
       return;
     }
-    User.findeOne({
+    User.findOne({
       username
     }, "username", (err, user) => {
 
       if (user !== null) {
 
-        res.render("auth/signup", {
+        res.render("passport/signup", {
           message: "el usuario existe"
         });
         return;
@@ -49,17 +49,17 @@ router.post("/signup", (req, res, next) => {
         })
         .save()
         .then(user => res.redirect('/'))
-        .catch(e => res.render("auth/signup", {
+        .catch(e => res.render("passport/signup", {
           message: "Something went wrong"
         }));
 
     });
     router.get('/login',(req,res) =>{
-    res.render('auth/login',{ message: req.flash("error") });
+    res.render('passport/login',{ message: req.flash("error") });
   });
 
   router.post("/login", passport.authenticate("local", {
-    successRedirect: "/",
+    successRedirect: "/private",
     failureRedirect: "/login",
     failureFlash: true,
     passReqToCallback: true
