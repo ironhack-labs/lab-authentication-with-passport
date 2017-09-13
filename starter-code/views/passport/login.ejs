@@ -1,0 +1,21 @@
+<form action="/login-process" method="post">
+
+  <%  if(flashError.length > 0){ %>
+      <p class="error-message"> <%= flashError %> </p>
+  <%  }  %>
+
+
+   <label for="username-id"> Username </label>
+   <br>
+   <input id="username-id" type="text" name="signupUser">
+
+   <br>
+
+   <label for="password-id"> Password </label>
+   <br>
+   <input id="password-id" type="password" name="signupPassword" >
+
+    <br>
+    <br>
+    <button> Login </button>
+</form>

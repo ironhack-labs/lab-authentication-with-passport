@@ -1,0 +1,22 @@
+<h2> Sign Up</h2>
+
+<form action="/signup-process" method="post">
+
+  <%  if (typeof feedbackMessage !== 'undefined'){ %>
+    <p class="error-message"> <%= feedbackMessage %> </p>
+<%  }  %>
+
+   <label for="username-id"> Username </label>
+   <br>
+   <input id="username-id" type="text" name="signupUser">
+
+   <br>
+
+   <label for="password-id"> Password </label>
+   <br>
+   <input id="password-id" type="password" name="signupPassword" >
+
+    <br>
+    <br>
+    <button> Sign Up </button>
+</form>
