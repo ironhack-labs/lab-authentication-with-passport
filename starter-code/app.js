@@ -20,13 +20,22 @@ const passport      = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const flash = require("connect-flash");
 
-
+require('./config/passport-config.js');
 
 
 
 //enable sessions here
 
+app.use(session(
+  {
+  secret: 'Fuck this',
+  resave: true,
+  saveUninitialized: true
+}
+));
 
+app.use(passport.initialize());
+app.use(passport.session());
 
 
 //initialize passport and session here
@@ -49,6 +58,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', index);
 app.use('/', users);
 app.use('/', passportRouter);
+
 
 
 
