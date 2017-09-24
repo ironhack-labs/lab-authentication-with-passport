@@ -1,0 +1,22 @@
+<header>
+  <nav>
+    <a href="/">Home</a>
+    <a href="/signup">Sign Up</a>
+    <a href="/login">Log In</a>
+  </nav>
+</header>
+<h2>Log In</h2>
+<% if(typeof unsuccessful != 'undefined'){ %>
+  <p><%= unsuccessful %></p>
+<%}%>
+
+<% if(typeof logoutSucess != 'undefined'){ %>
+  <p><%= logoutSucess %></p>
+<%}%>
+<form action="/login-process" method="post">
+<label for="username">Username</label>
+<input id="username" type="text" name="username" placeholder="john@example.com">
+<label for="password">Password</label>
+<input id="password" type="password" name="password" placeholder="*********">
+<button>Submit</button>
+</form>

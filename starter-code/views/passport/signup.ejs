@@ -1,0 +1,18 @@
+<header>
+  <nav>
+    <a href="/">Home</a>
+    <a href="/signup">Sign Up</a>
+    <a href="/login">Log In</a>
+  </nav>
+</header>
+  <h2>Sign Up Form</h2>
+  <% if(typeof unsuccessful != 'undefined'){ %>
+    <p><%= unsuccessful %></p>
+  <%}%>
+<form action="/signup-process" method="post">
+  <label for="username">Username</label>
+  <input id="username" type="text" name="username" placeholder="john@example.com">
+  <label for="password">Password</label>
+  <input id="password" type="password" name="password" placeholder="*********">
+  <button>Submit</button>
+</form>
