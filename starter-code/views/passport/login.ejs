@@ -1,0 +1,13 @@
+<h1>Login</h1>
+
+<form action="/login" method="POST">
+  <input type="text" name="username" value=""placeholder="username" required>
+  <input type="text" name="password" value=""placeholder="password" required>
+  <button type="submit" name="button">submit</button>
+</form>
+
+<% if (message) {%>
+<p>
+  <%= message %>
+</p>
+<%}%>
