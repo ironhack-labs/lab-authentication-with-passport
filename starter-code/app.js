@@ -19,6 +19,7 @@ const bcrypt        = require("bcrypt");
 const passport      = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const flash = require("connect-flash");
+const authRoutes=require("./routes/auth-routes");
 
 
 
@@ -49,6 +50,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', index);
 app.use('/', users);
 app.use('/', passportRouter);
+app.use('/',authRoutes);
 
 
 
