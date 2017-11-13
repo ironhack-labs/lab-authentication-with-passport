@@ -11,10 +11,15 @@ var users = require('./routes/users');
 const passportRouter = require("./routes/passportRouter");
 //mongoose configuration
 const mongoose = require("mongoose");
-mongoose.connect("mongodb://localhost/passport-local");
+
+const dbName = "mongodb://localhost/lab-passport";
+mongoose.connect(dbName, {useMongoClient:true})
+        .then(() => debug(`Connected to db: ${dbName}`));
+
 //require the user model
 const User = require("./models/user");
 const session       = require("express-session");
+const MongoStore = require("connect-mongo")(session);
 const bcrypt        = require("bcrypt");
 const passport      = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
@@ -43,6 +48,21 @@ app.set('view engine', 'ejs');
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(session({
+  secret: "basic-auth-secret",
+  cookie: { maxAge: 60*60*24*2 }, // 2 days
+  store: new MongoStore({
+    mongooseConnection: mongoose.connection,
+    ttl: 24 * 60 * 60 // 1 day
+  })
+}));
+app.use((req,res,next) =>{
+  res.locals.user = req.session.currentUser;
+  next();
+})
+
+
+
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 // require in the routers
