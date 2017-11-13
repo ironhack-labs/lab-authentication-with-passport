@@ -7,6 +7,7 @@ const router = express.Router();
 const bcryptSalt = 10;
 const flash = require("connect-flash");
 const passport = require("passport");
+const ensureLogin = require("connect-ensure-login");
 
 router.get("/signup", (req, res, next) => {
   res.render("auth/signup");
@@ -45,19 +46,33 @@ router.post("/signup", (req, res, next) => {
   });
 });
 
+// router.get("/login", (req, res, next) => {
+//   res.render("auth/login");
+// });
+
 router.get("/login", (req, res, next) => {
-  res.render("auth/login");
+  res.render("auth/login", { "message": req.flash("error") });
 });
+console.log(flash);
 
 router.post("/login", passport.authenticate("local", {
-  successRedirect: "/",
+  successRedirect: "/private",
   failureRedirect: "/login",
   failureFlash: true,
   passReqToCallback: true
 }));
 
-router.get("/login", (req, res, next) => {
-  res.render("auth/login", { "message": req.flash("error") });
+// router.get("/login", (req, res, next) => {
+//   res.render("auth/login", { "message": req.flash() });
+// });
+
+router.get("/private", ensureLogin.ensureLoggedIn(), (req, res) => {
+  res.render("auth/private", { user: req.user });
+});
+
+router.get("/logout", (req, res) => {
+  req.logout();
+  res.redirect("/login");
 });
 
 module.exports = router;

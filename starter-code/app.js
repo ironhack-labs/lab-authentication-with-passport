@@ -35,15 +35,16 @@ app.use(session({
 passport.serializeUser((user, cb) => {
   cb(null, user._id);
 });
-
+console.log(passport);
 passport.deserializeUser((id, cb) => {
   User.findOne({ "_id": id }, (err, user) => {
     if (err) { return cb(err); }
     cb(null, user);
   });
 });
+app.use(flash());
+passport.use(new LocalStrategy({passReqToCallback: true}, (req, username, password, next) => {
 
-passport.use(new LocalStrategy((username, password, next) => {
   User.findOne({ username }, (err, user) => {
     if (err) {
       return next(err);
@@ -76,7 +77,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(flash());
+
+
 
 // require in the routers
 app.use('/', index);
