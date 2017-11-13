@@ -1,13 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Login</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+  </head>
 <body>
-  <h2>SignUp Page</h2>
-  <form class="" action="/auth/signup" method="post">
-    <label for="username">Username</label><br>
-    <input type="text" name="username" placeholder="Caticorn"><br>
-    <label for="password">Password</label><br>
-    <input type="password" name="password"><br>
-    <button>Sign up</button>
-  </form>
-  <%if (typeof(errorMessage)!== "undefined") { %>
-    <%=errorMessage%>
-  <%}%>
+  <div class="mainbody">
+    <h1>SignUp Page</h1>
+    <form class="" action="/auth/signup" method="post">
+      <label for="username">Username</label><br>
+      <input type="text" name="username" placeholder="Caticorn"><br>
+      <label for="password">Password</label><br>
+      <input type="password" name="password"><br>
+      <button class="nicebtn">Sign Up</button>
+    </form>
+    <%if (typeof(errorMessage)!== "undefined") { %>
+      <%=errorMessage%>
+    <%}%>
+  </div>
 </body>

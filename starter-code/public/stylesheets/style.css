@@ -1,8 +1,48 @@
 body {
   padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font-family: 'Open Sans', sans-serif;
+  background-image: url("../images/cat.jpg");
 }
 
 a {
   color: #00B7FF;
+}
+
+.coolbtn {
+  background-color: #89C4F4;
+  padding: 10px 15px;
+  font-weight: bold;
+  border-radius: 5px;
+  border: 1px solid black;
+}
+
+.nicebtn {
+  background-color: #26A65B;
+  padding: 8px 12px;
+  font-weight: bold;
+  color: white;
+  border-radius: 5px;
+  border: 1px solid black;
+}
+
+.mainbody {
+  width: 60%;
+  margin: 0 auto;
+  background-color: white;
+  padding: 50px 0;
+  text-align: center;
+  border-radius: 25px;
+  border: 1px solid black;
+}
+
+.mainbody h1 {
+  margin-bottom: 50px;
+}
+
+.mainbody button {
+  margin: 0px 20px;
+}
+
+.mainbody input {
+  margin: 15px;
 }
