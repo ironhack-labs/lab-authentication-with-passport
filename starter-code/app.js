@@ -9,11 +9,13 @@ var app = express();
 var index = require('./routes/index');
 var users = require('./routes/users');
 const passportRouter = require("./routes/passportRouter");
+
 //mongoose configuration
 const mongoose = require("mongoose");
 mongoose.connect("mongodb://localhost/passport-local");
+
 //require the user model
-const User = require("./models/user");
+const User = require("./models/User");
 const session       = require("express-session");
 const bcrypt        = require("bcrypt");
 const passport      = require("passport");
@@ -45,6 +47,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
 // require in the routers
 app.use('/', index);
 app.use('/', users);
