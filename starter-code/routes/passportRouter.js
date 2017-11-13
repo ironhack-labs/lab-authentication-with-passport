@@ -62,7 +62,7 @@ router.get('/login', (req, res, next) => {
 });
 
 router.post('/login', passport.authenticate('local', {
-  successRedirect: '/',
+  successRedirect: '/private-page',
   failureRedirect: '/login',
   failureFlash: true,
   passReqToCallback: true,
@@ -71,10 +71,6 @@ router.post('/login', passport.authenticate('local', {
 router.get("/private-page", ensureLogin.ensureLoggedIn(), (req, res) => {
   res.render("passport/private", { user: req.user });
 });
-
-
-
-
 
 
 module.exports = router;
