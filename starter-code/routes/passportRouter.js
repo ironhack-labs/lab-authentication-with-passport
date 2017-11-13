@@ -26,7 +26,7 @@ passportRouter.post("/signup", (req, res, next) => {
 
   console.log(req.body);
   if (username === "" || password === "") {
-    res.render("auth/signup", {
+    res.render("passport/signup", {
       errorMessage: "Indicate a username and a password to sign up"
     });
     return;
@@ -34,7 +34,7 @@ passportRouter.post("/signup", (req, res, next) => {
 
   User.findOne({ "username": username }, "username", (err, user) => {
     if (user !== null) {
-      res.render("auth/signup", {
+      res.render("passport/signup", {
         errorMessage: "The username already exists"
       });
       return;
@@ -50,7 +50,7 @@ passportRouter.post("/signup", (req, res, next) => {
 
     newUser.save((err) => {
       if (err) {
-        res.render("auth/signup", {
+        res.render("passport/signup", {
           errorMessage: "Something went wrong when signing up"
         });
       } else {
@@ -61,4 +61,4 @@ passportRouter.post("/signup", (req, res, next) => {
 });
 
 
-module.exports = router;
+module.exports = passportRouter;
