@@ -42,7 +42,9 @@ passport.deserializeUser((id, cb) => {
   });
 });
 
-passport.use(new LocalStrategy((username, password, next) => {
+passport.use(new LocalStrategy({
+  passReqToCallback: true
+}, (req, username, password, next) => {
   User.findOne({ username }, (err, user) => {
     if (err) {
       return next(err);
@@ -63,6 +65,7 @@ passport.use(new LocalStrategy((username, password, next) => {
 
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(flash());
 
 
 
