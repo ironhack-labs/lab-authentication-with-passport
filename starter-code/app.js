@@ -14,11 +14,13 @@ const flash = require("connect-flash");
 const app = express();
 
 const index = require('./routes/index');
-const users = require('./routes/users');
 const passportRouter = require("./routes/passportRouter");
+const authRouter = require("./routes/auth");
+
 //mongoose configuration
 const mongoose = require("mongoose");
 mongoose.connect("mongodb://localhost/passport-local");
+
 //require the user model
 
 
@@ -48,8 +50,8 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 // require in the routers
 app.use('/', index);
-app.use('/', users);
 app.use('/', passportRouter);
+app.use('/', authRouter);
 
 
 
