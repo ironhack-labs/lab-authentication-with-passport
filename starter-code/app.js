@@ -41,7 +41,8 @@ passport.deserializeUser((id, cb) => {
   });
 });
 
-passport.use(new LocalStrategy((username, password, next) => {
+app.use(flash());
+passport.use(new LocalStrategy({ passReqToCallback: true }, (req, username, password, next) => {
   User.findOne({ username }, (err, user) => {
     if (err) {
       return next(err);
@@ -77,20 +78,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', index);
 app.use('/', users);
 app.use('/', passportRouter);
-
-
-
-
-
-//passport code here
-
-
-
-
-
-
-
-
 
 
 // catch 404 and forward to error handler

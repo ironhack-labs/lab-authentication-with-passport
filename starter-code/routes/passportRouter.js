@@ -52,7 +52,7 @@ router.post("/signup", (req, res, next) => {
 });
 
 router.get("/login", (req, res, next) => {
-  res.render("passport/login");
+  res.render("passport/login", { "message": req.flash("error") });
 });
 
 router.post("/login", passport.authenticate("local", {
@@ -64,6 +64,11 @@ router.post("/login", passport.authenticate("local", {
 
 router.get("/private", ensureLogin.ensureLoggedIn(), (req, res) => {
   res.render("passport/private", { user: req.user });
+});
+
+router.get("/logout", (req, res) => {
+  req.logout();
+  res.redirect("/login");
 });
 
 module.exports = router;
