@@ -60,18 +60,19 @@ authRoutes.post("/signup", (req, res, next) => {
 });
 
 authRoutes.get("/login", (req, res, next) => {
+
   res.render("passport/login");
 });
 
 authRoutes.post("/login", passport.authenticate("local", {
-  successRedirect: "/",
-  failureRedirect: "passport/login",
+  successRedirect: "/passport/private",
+  failureRedirect: "/login",
   failureFlash: true,
   passReqToCallback: true
 }));
 
-authRoutes.get("passport/private", ensureLogin.ensureLoggedIn(), (req, res) => {
-  res.render("private", { user: req.user });
+authRoutes.get("/passport/private", ensureLogin.ensureLoggedIn(), (req, res) => {
+  res.render("passport/private", { user: req.user });
 });
 
 module.exports = authRoutes;
