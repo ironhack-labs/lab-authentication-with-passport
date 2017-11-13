@@ -8,7 +8,10 @@ var app = express();
 
 var index = require('./routes/index');
 var users = require('./routes/users');
+const authRoutes = require("./routes/authRoutes");
 const passportRouter = require("./routes/passportRouter");
+
+
 //mongoose configuration
 const mongoose = require("mongoose");
 mongoose.connect("mongodb://localhost/passport-local");
@@ -23,15 +26,46 @@ const flash = require("connect-flash");
 
 
 
+passport.serializeUser((user, cb) => {
+  cb(null, user._id);
+});
+
+passport.deserializeUser((id, cb) => {
+  User.findOne({ "_id": id }, (err, user) => {
+    if (err) { return cb(err); }
+    cb(null, user);
+  });
+});
+
+passport.use(new LocalStrategy((username, password, next) => {
+  User.findOne({ username }, (err, user) => {
+    if (err) {
+      return next(err);
+    }
+    if (!user) {
+      return next(null, false, { message: "Incorrect username" });
+    }
+    if (!bcrypt.compareSync(password, user.password)) {
+      return next(null, false, { message: "Incorrect password" });
+    }
+
+    return next(null, user);
+  });
+}));
 
 //enable sessions here
 
-
+app.use(session({
+  secret: "our-passport-local-strategy-app",
+  resave: true,
+  saveUninitialized: true
+}));
 
 
 //initialize passport and session here
 
-
+app.use(passport.initialize());
+app.use(passport.session());
 
 
 
@@ -48,6 +82,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 // require in the routers
 app.use('/', index);
 app.use('/', users);
+app.use('/', authRoutes);
 app.use('/', passportRouter);
 
 
