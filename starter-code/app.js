@@ -58,7 +58,7 @@ app.use(session({
 //initialize passport and session here
 app.use(passport.initialize());
 app.use(passport.session());
-
+app.use(flash());
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');

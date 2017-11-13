@@ -15,7 +15,10 @@ router.get("/private-page", ensureLogin.ensureLoggedIn(), (req, res) => {
 router.get('/login', (req, res, next) =>{
   res.render('passport/login');
 });
-
+router.get("/logout", (req, res) => {
+  req.logout();
+  res.redirect("/login");
+});
 router.post("/login", passport.authenticate("local", {
   successRedirect: "/private-page",
   failureRedirect: "/login",
@@ -56,13 +59,10 @@ router.post('/signup', (req, res, next) =>{
       });
 
       newUser.save((err) => {
-        res.redirect("/signup");
+        res.redirect("/login");
       });
     });
 });
 
-router.get("/private-page", ensureLogin.ensureLoggedIn(), (req, res) => {
-  res.render("passport/private", { user: req.user });
-});
 
 module.exports = router;
