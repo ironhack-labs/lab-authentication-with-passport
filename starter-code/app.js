@@ -1,24 +1,25 @@
-var express = require('express');
-var path = require('path');
-var favicon = require('serve-favicon');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
-var app = express();
-
-var index = require('./routes/index');
-var users = require('./routes/users');
-const passportRouter = require("./routes/passportRouter");
-//mongoose configuration
-const mongoose = require("mongoose");
-mongoose.connect("mongodb://localhost/passport-local");
-//require the user model
+const express = require('express');
+const path = require('path');
+const favicon = require('serve-favicon');
+const logger = require('morgan');
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
 const User = require("./models/user");
 const session       = require("express-session");
 const bcrypt        = require("bcrypt");
 const passport      = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const flash = require("connect-flash");
+
+const app = express();
+
+const index = require('./routes/index');
+const users = require('./routes/users');
+const passportRouter = require("./routes/passportRouter");
+//mongoose configuration
+const mongoose = require("mongoose");
+mongoose.connect("mongodb://localhost/passport-local");
+//require the user model
 
 
 
