@@ -9,6 +9,22 @@ const bcrypt = require("bcrypt");
 const bcryptSalt = 10;
 const ensureLogin = require("connect-ensure-login");
 const passport = require("passport");
+const session    = require("express-session");
+
+
+
+
+router.get("/login", (req, res, next) => {
+  res.render("passport/login", {message: req.flash("error")});
+});
+
+router.post("/login", passport.authenticate("local", {
+  successRedirect: "/",
+  failureRedirect: "/login",
+  failureFlash: true,
+  passReqToCallback: true,
+  
+}));
 
 
 
@@ -18,18 +34,18 @@ router.get("/private-page", ensureLogin.ensureLoggedIn(), (req, res) => {
   });
 });
 
-router.get("/signup",(req,res) => {
+router.get("/signup", (req, res) => {
   res.render("passport/signup");
-  
+
 });
 
 router.post("/signup", (req, res, next) => {
   var username = req.body.username;
   var password = req.body.password;
-  var salt     = bcrypt.genSaltSync(bcryptSalt);
+  var salt = bcrypt.genSaltSync(bcryptSalt);
   var hashPass = bcrypt.hashSync(password, salt);
 
-  var newUser  = User({
+  var newUser = User({
     username,
     password: hashPass
   });
@@ -45,15 +61,9 @@ router.post("/signup", (req, res, next) => {
     res.redirect("/");
   });
 
-  
+
 });
 
-router.get("/login",(req,res) => {
-res.render("passport/login");
-});
 
-router.post("/login",(req,res) => {
-  res.redirect("/");
-})
 
 module.exports = router;
