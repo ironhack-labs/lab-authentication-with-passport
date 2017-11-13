@@ -16,6 +16,7 @@ const passportRouter = require("./routes/passportRouter");
 const mongoose = require("mongoose");
 mongoose.connect("mongodb://localhost/passport-local");
 //require the user model
+const User = require ('./models/user')
 const flash = require("connect-flash");
 
 

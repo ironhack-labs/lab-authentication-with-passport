@@ -9,7 +9,6 @@ const ensureLogin = require("connect-ensure-login");
 const passport      = require("passport");
 
 
-
 router.get("/private-page", ensureLogin.ensureLoggedIn(), (req, res) => {
   res.render("passport/private", { user: req.user });
 });
@@ -56,11 +55,15 @@ router.get("/login", (req, res, next) => {
 });
 
 router.post("/login", passport.authenticate("local", {
-  successRedirect: "/",
+  successRedirect: "/private-page",
   failureRedirect: "passport/login",
   failureFlash: true,
   passReqToCallback: true
 }));
 
+router.get("/logout", (req, res) => {
+  req.logout();
+  res.redirect("/login");
+});
 
 module.exports = router;
