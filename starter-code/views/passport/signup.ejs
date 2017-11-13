@@ -1,0 +1,13 @@
+<body>
+
+  <form class="" action="/auth/signup" method="post">
+    <label for="username">Username</label><br>
+    <input type="text" name="username" placeholder="Caticorn"><br>
+    <label for="password">Password</label><br>
+    <input type="password" name="password"><br>
+    <button>Sign up</button>
+  </form>
+  <%if (typeof(errorMessage)!== "undefined") { %>
+    <%=errorMessage%>
+  <%}%>
+</body>
