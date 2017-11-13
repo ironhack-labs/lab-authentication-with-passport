@@ -7,28 +7,19 @@ a {
   color: #00B7FF;
 }
 
-  /* unvisited link */
-
-a:link {
-  color: red;
-}
+ a {
+   text-decoration: none;
+ }
 
 
-/* visited link */
-
-a:visited {
-  color: green;
-}
-
-
-/* mouse over link */
-
-a:hover {
-  color: hotpink;
-}
-
-
-/* selected link */
-
-a:active {
-  color: blue;
+  .button {
+    background-color: #4CAF50;
+    /* Green */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+  }

@@ -5,11 +5,15 @@
     <link rel='stylesheet' href='/stylesheets/style.css' />
   </head>
   <body>
+
+
     <h1><%= title %></h1>
     <p>Welcome to <%= title %></p>
-
-    <a href="/signup">SignUp</a>
-    <a href="/login">login</a>
-     <a href="/private-page">Private Page</a>
+    <img src="http://passportinfoguide.com/wp-content/uploads/2013/11/passport.jpg" alt="passport">
+<br>
+    <a href="/signup"> <button name="button" class='button'>SignUp</button> </a>
+    <a href="/login"> <button name="button" class='button'>Login</button> </a>
+    <a href="/private-page"> <button name="button" class='button'>Private</button> </a>
+    <form action="/logout" method="post"> <button name="button" class='button'>Logout</button> </form>
   </body>
 </html>
