@@ -11,6 +11,10 @@
     <div class="error-message"><%= message %></div>
   <% } %>
   <br><br>
+  <% if (typeof(errorMessage) != "undefined") { %>
+    <div class="error-message"><%= errorMessage %></div>
+  <% } %>
+  <br><br>
   
   <button>Create account</button>
 

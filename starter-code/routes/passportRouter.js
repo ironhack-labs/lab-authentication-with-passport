@@ -34,11 +34,26 @@ router.post("/signup", (req, res, next) => {
     password: hashPass
   });
 
+  if (username === "" || password === "") {
+    res.render("passport/signup", {
+      errorMessage: "Indicate a username and a password to sign up"
+    });
+    return;
+  }
+
   newUser.save((err) => {
     res.redirect("/");
   });
+
+  
 });
 
+router.get("/login",(req,res) => {
+res.render("passport/login");
+});
 
+router.post("/login",(req,res) => {
+  res.redirect("/");
+})
 
 module.exports = router;
