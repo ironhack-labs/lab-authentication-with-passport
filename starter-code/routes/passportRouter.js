@@ -62,5 +62,8 @@ router.post("/login", passport.authenticate("local", {
   passReqToCallback: true
 }));
 
+router.get("/private", ensureLogin.ensureLoggedIn(), (req, res) => {
+  res.render("passport/private", { user: req.user });
+});
 
 module.exports = router;
