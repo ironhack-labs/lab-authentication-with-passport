@@ -1,11 +1,36 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-  </head>
-  <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
-  </body>
+
+<head>
+  <title>
+    <%= title %>
+  </title>
+  <link rel='stylesheet' href='/stylesheets/style.css' />
+</head>
+
+<body>
+  <h1>
+    <%= title %>
+  </h1>
+  <p>Welcome to
+    <%= title %>
+  </p>
+
+  <% if (loggedIn) { %>
+    <a href="/logout">Logout</a>
+    <%  } else { %>
+      <a href="/login">Login</a>
+      <a href="/signup">Sign Up</a>
+      <%  } %>
+</body>
+
 </html>
+
+
+<!-- router.get("/", function(req, res, next) {
+  if (req.session.currentUser) {
+    res.render("index", { title: "Express", loggedIn: true });
+  } else {
+    res.render("index", { title: "Express", loggedIn: false });
+  }
+}); -->
