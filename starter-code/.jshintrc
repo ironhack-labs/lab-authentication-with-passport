@@ -1,0 +1,17 @@
+{
+  "strict": true,
+  "globalstrict": true,
+  "esversion": 6,
+  "globals": {
+    "console": true,
+    "module": true,
+    "require": true,
+    "setInterval": true,
+    "clearInterval": true,
+    "setTimeout" : true,
+    "process" : true,
+    "__dirname":true,
+    "global":true,
+    "users":true
+  }
+}
