@@ -31,10 +31,13 @@ const authRoutes=require("./routes/auth-routes");
 
 
 //initialize passport and session here
-
-
-
-
+app.use(session({
+  secret: "our-passport-local-strategy-app",
+  resave: true,
+  saveUninitialized: true
+}));
+app.use(passport.initialize());
+app.use(passport.session());
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -52,20 +55,33 @@ app.use('/', users);
 app.use('/', passportRouter);
 app.use('/',authRoutes);
 
-
-
-
-
 //passport code here
+passport.serializeUser((user, cb) => {
+  cb(null, user._id);
+});
 
+passport.deserializeUser((id, cb) => {
+  User.findOne({ "_id": id }, (err, user) => {
+    if (err) { return cb(err); }
+    cb(null, user);
+  });
+});
 
+passport.use(new LocalStrategy((username, password, next) => {
+  User.findOne({ username }, (err, user) => {
+    if (err) {
+      return next(err);
+    }
+    if (!user) {
+      return next(null, false, { message: "Incorrect username" });
+    }
+    if (!bcrypt.compareSync(password, user.password)) {
+      return next(null, false, { message: "Incorrect password" });
+    }
 
-
-
-
-
-
-
+    return next(null, user);
+  });
+}));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
