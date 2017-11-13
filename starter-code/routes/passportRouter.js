@@ -61,4 +61,17 @@ passportRouter.post("/signup", (req, res, next) => {
 });
 
 
+//LOGIN
+passportRouter.get("/login", (req, res, next) => {
+  res.render("passport/login");
+});
+
+passportRouter.post("/login", passport.authenticate("local", {
+  successRedirect: "/",
+  failureRedirect: "/login",
+  failureFlash: true,
+  passReqToCallback: true
+}));
+
+
 module.exports = passportRouter;
