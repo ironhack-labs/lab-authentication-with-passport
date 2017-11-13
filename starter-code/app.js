@@ -15,25 +15,21 @@ const app = express();
 
 const index = require('./routes/index');
 const passportRouter = require("./routes/passportRouter");
-const authRouter = require("./routes/auth");
 
 //mongoose configuration
 const mongoose = require("mongoose");
 mongoose.connect("mongodb://localhost/passport-local");
 
-//require the user model
-
-
-
-
-
 //enable sessions here
-
-
-
+app.use(session({
+  secret: "our-passport-local-strategy-app",
+  resave: true,
+  saveUninitialized: true
+}));
 
 //initialize passport and session here
-
+app.use(passport.initialize());
+app.use(passport.session());
 
 
 
@@ -51,7 +47,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 // require in the routers
 app.use('/', index);
 app.use('/', passportRouter);
-app.use('/', authRouter);
 
 
 
