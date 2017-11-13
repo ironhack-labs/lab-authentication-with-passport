@@ -7,6 +7,8 @@ const bcrypt         = require("bcrypt");
 const bcryptSalt     = 10;
 const ensureLogin = require("connect-ensure-login");
 const passport      = require("passport");
+const LocalStrategy = require("passport-local").Strategy;
+const session       = require("express-session");
 
 router.get("/signup", (req, res, next) => {
   res.render("passport/signup");
@@ -45,13 +47,25 @@ router.post("/signup", (req, res, next) => {
   });
 });
 
+
+
+router.get("/login", (req, res, next) => {
+    res.render("passport/login", { "message": req.flash("error") });
+});
+
+router.post("/login", passport.authenticate("local", {
+  successRedirect: "/private-page",
+  failureRedirect: "/login",
+  failureFlash: true,
+  passReqToCallback: true
+}));
+
 router.get("/private-page", ensureLogin.ensureLoggedIn(), (req, res) => {
   res.render("passport/private", { user: req.user });
 });
 
-
-
-
-
-
+router.get("/logout", (req, res) => {
+  req.logout();
+  res.redirect("/login");
+});
 module.exports = router;
