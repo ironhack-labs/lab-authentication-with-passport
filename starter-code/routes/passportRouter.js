@@ -79,7 +79,10 @@ router.post('/signup', function(req, res, next) {
                 if (err) {
                     next(err);
                 }
-                res.redirect("/");
+                req.login(newUser, () => {
+                    res.redirect("/private-page");
+                });
+
             });
         });
 });
