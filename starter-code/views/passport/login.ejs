@@ -1,0 +1,15 @@
+<h2>Login</h2>
+<form action="/passport/login" method="POST" class="form-container">
+  <label for="username">User Name</label>
+  <input type="text" name="username">
+  <br><br>
+  <label for="password">Password</label>
+  <input type="password" name="password">
+    <button>Log in</button>
+  <p class="account-message">
+  Don't you have an account? <a href="/passport/signup">Signup</a>
+</p>
+<% if (typeof(errorMessage) != "undefined") { %>
+  <div class="error-message"><%= errorMessage %></div>
+  <% }%>
+</form>
