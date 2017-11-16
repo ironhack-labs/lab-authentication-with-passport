@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title> Passport Users</title>
+    <link rel="stylesheet" href="/stylesheets/style.css">
+  </head>
+  <body>
+    <header>
+      <h1> Passport Users</h1>
+
+      <nav>
+        <a href="/">Home</a>
+        <% if (currentUser) { %>
+          <a href="/private-page">Private </a>
+            <b><%=currentUser.email%></b>
+      <% } else { %>
+        <a href="/signup">Sign Up</a>
+        <a href="/login">Log In</a>
+    <%  } %>
+      </nav>
+    </header>
+
+    <%- body %>
+
+    <footer>
+      <p>
+        Made by Josh and Imran
+      </p>
+    </footer>
+  </body>
+</html>
