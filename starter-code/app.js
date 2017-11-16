@@ -5,6 +5,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var app = express();
+const layouts      = require('express-ejs-layouts');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
@@ -20,6 +21,10 @@ const passport      = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const flash = require("connect-flash");
 
+require("./config/mongoose-setup");
+
+require("./config/passport-setup");
+
 
 
 
@@ -30,7 +35,21 @@ const flash = require("connect-flash");
 
 
 //initialize passport and session here
+app.use(
+  session({
+    resave: true,
+    saveUninitialized: true,
+    secret: 'this string is to avoid errors'
+  })
+);
+app.use(passport.initialize());
+app.use(passport.session());
 
+app.use((req,res,next) => {
+    res.locals.currentUser = req.user;
+
+    next();
+});
 
 
 
@@ -45,6 +64,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(layouts);
 // require in the routers
 app.use('/', index);
 app.use('/', users);
