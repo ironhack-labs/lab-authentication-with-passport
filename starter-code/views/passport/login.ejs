@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>
+        LogIn
+    </title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+</head>
+
+<body>
+    <form id="form" action="/login" method="POST">
+        <label for="username">Username</label><br>
+        <input type="text" name="username" placeholder="PUT NAME">
+
+        <br><br>
+        <label for="password">Password</label><br>
+        <input type="password" name="password" placeholder="PUT NOT STUPID PASS">
+        <br><br>
+
+        <button>LogIn</button>
+    </form>
+    <% if(typeof message !== undefined){%>
+        <h1><%= message %></h1>
+
+        <%}%>
+
+</body>
+
+</html>
