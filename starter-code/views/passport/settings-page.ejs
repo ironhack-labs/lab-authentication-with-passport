@@ -1,0 +1,17 @@
+<h2>Edit Your Profile</h2>
+
+<p>
+  Your username is <b> <%= currentUser.username %> </b>
+</p>
+
+<p>
+  <small> (For "security reasons" we don't allow changing Passwords.) </small>
+</p>
+
+<form id="form" method="" action="">
+  <label for="full-name-input"> User Name </label>
+  <input id="full-name-input" type="text" placeholder="e.g Robert Enyiwork"
+   name="editUserName" value="<%= currentUser.username %>">
+
+  <button> Save Change </button>
+</form>

@@ -1,8 +1,98 @@
 body {
   padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font-size: 20px;
+  background-color: #f1f1f1
 }
 
 a {
   color: #00B7FF;
+}
+
+#form {
+  margin: 30px auto;
+  width: 380px;
+}
+
+#form label {
+  color: #000;
+  display: inline-block;
+  margin-bottom: 10px;
+  text-align: center;
+  width: 100%;
+}
+
+#form input,
+#form button {
+  box-sizing: border-box;
+  font-size: 14px;
+  outline: 0;
+  padding: 4px;
+  width: 100%;
+}
+
+#form button {
+  background: #43a3e6;
+  border: 1px solid #43a3e6;
+  border-radius: 4px;
+  color: #000;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 14px;
+  padding: 8px 16px;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: .3s ease background;
+  width: 100%;
+}
+
+#form button:hover {
+  background: #fff;
+  color: #43a3e6;
+  transition: .3s ease background;
+}
+
+.error-message {
+  background: #C70039;
+  box-sizing: border-box;
+  color: #fff;
+  margin: 20px auto;
+  padding: 20px;
+  width: 50%;
+}
+nav{
+
+  float: right;
+
+}
+.nav{
+  text-decoration: none;
+  padding-top: 55px;
+  padding-right: 55px;
+
+}
+.img{
+  padding-left: 20px;
+padding-top: 30px;
+width: 75px;
+}
+.head{
+padding-bottom: 25px;
+background-color: #d8d8d8;
+
+}
+
+
+.food{
+  float: left;
+  margin-top: 300px;
+}
+.h1{
+  font-size: 3em;
+  text-align: center;
+
+}
+.div{
+  font-size: 20px;
+  text-align: center;
 }

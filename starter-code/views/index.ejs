@@ -1,11 +1,13 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-  </head>
-  <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
-  </body>
-</html>
+<% if (currentUser) { %>
+  <p>Hello, <%= currentUser.username %>! </p>
+<% } %>
+<p>Welcome to <%= title %></p>
+
+<% if (currentUser) { %>
+  <p>Did you know you have your account since,
+   <%= currentUser.createdAt %>? </p>
+<% } else { %>
+    <p>
+    You should <a href="/signup">sign up TODAY </a>!
+    </p>
+<% } %>
