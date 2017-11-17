@@ -4,24 +4,32 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+const layouts = require("express-ejs-layouts");
 var app = express();
 
 var index = require('./routes/index');
 var users = require('./routes/users');
 const passportRouter = require("./routes/passportRouter");
+
+
 //mongoose configuration
-const mongoose = require("mongoose");
-mongoose.connect("mongodb://localhost/passport-local");
+// const mongoose = require("mongoose");
+// mongoose.connect("mongodb://localhost/passport-local");
+require("./config/mongoose-setup");
+require("./config/passport-setup");
+
+
 //require the user model
+
 const User = require("./models/user");
 const session       = require("express-session");
 const bcrypt        = require("bcrypt");
 const passport      = require("passport");
-const LocalStrategy = require("passport-local").Strategy;
+// const LocalStrategy = require("passport-local").Strategy;
 const flash = require("connect-flash");
 
 
-
+app.locals.title = 'Authentication with passport';
 
 
 //enable sessions here
@@ -30,7 +38,21 @@ const flash = require("connect-flash");
 
 
 //initialize passport and session here
+app.use(
+  session({
+    resave: true,
+    saveUninitialized: true,
+    secret: 'this string is to avoid a deprecation warning'
+  })
+);
+app.use(passport.initialize());
+app.use(passport.session());
 
+app.use((req, res, next) => {
+  res.locals.currentUser = req.user;
+
+  next();
+});
 
 
 
@@ -39,7 +61,7 @@ const flash = require("connect-flash");
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
-
+app.use(layouts);
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
