@@ -10,7 +10,9 @@ var index = require('./routes/index');
 var users = require('./routes/users');
 const passportRouter = require("./routes/passportRouter");
 //mongoose configuration
+
 const mongoose = require("mongoose");
+mongoose.Promise = Promise;
 mongoose.connect("mongodb://localhost/passport-local");
 //require the user model
 const User = require("./models/user");
@@ -25,12 +27,26 @@ const flash = require("connect-flash");
 
 
 //enable sessions here
-
-
+app.use(session({
+  resave: true,
+  saveUninitialized: true,
+  secret: 'this string is to avoid errors'
+}));
 
 
 //initialize passport and session here
+passport.serializeUser((userFromDb, cb) => {
+  cb(null, userFromDb._id);
+});
 
+passport.deserializeUser((idFromSession, cb) => {
+  UserModel.findById(idFromSession).then(userFromDb => {
+    cb(null, userFromDb);
+  }).catch(error => {
+    cb(error);
+  });
+});
+//strategies
 
 
 
@@ -53,12 +69,15 @@ app.use('/', passportRouter);
 
 
 
-
 //passport code here
 
 
-
-
+app.use(passport.initialize());
+app.use(passport.session());
+app.use((req, res, next) => {
+  res.locals.user = req.user;
+  next();
+});
 
 
 
