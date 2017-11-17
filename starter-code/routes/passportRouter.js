@@ -1,7 +1,7 @@
 const express        = require("express");
 const router         = express.Router();
 // User model
-const User           = require("../models/user");
+const UserModel           = require("../models/user");
 // Bcrypt to encrypt passwords
 const bcrypt         = require("bcrypt");
 const bcryptSalt     = 10;
@@ -21,27 +21,20 @@ router.get("/signup", (req, res, next) => {
 
 router.post("/process-signup", (req, res, next) => {
   if (req.body.signupPassword.length < 8 ||
-                              // No special characters
       req.body.signupPassword.match(/[^a-z0-9]/i) === null
   ) {
       res.locals.errorMessage = "Password is invalid";
       res.render("passport/signup");
-      // early return to prevent the rest of the code from running
       return;
   }
 
-  //query the database to see if the email is taken
-  User.findOne({email: req.body.signupEmail})
+  UserModel.findOne({username: req.body.signupUsername})
     .then((userFromDb) => {
-        // userFromDb will be null if the email IS NOT taken
 
-        // display the form again if the email is taken
         if (userFromDb !== null) {
-            res.locals.errorMessage = "This email is already registered.";
+            res.locals.errorMessage = "This username is taken.";
             res.render("passport/signup");
 
-            // early return to stop the function since there's an error
-            // (prevents the rest of the code from running)
             return;
         }
         // generate a new salt for this user's password
@@ -50,9 +43,8 @@ router.post("/process-signup", (req, res, next) => {
         const scrambledPassword = bcrypt.hashSync(req.body.signupPassword, salt);
 
         // register the new user
-        const theUser = new User({
-            fullName: req.body.signupFullName,
-            email:    req.body.signupEmail,
+        const theUser = new UserModel({
+            username: req.body.signupUsername,
             encryptedPassword: scrambledPassword
         });
         // return the promise of the next database query
@@ -70,7 +62,58 @@ router.post("/process-signup", (req, res, next) => {
 });
 
 
+//LOG IN
+router.get("/login", (req, res, next) => {
+    if (req.user) {
+        res.redirect("/");
 
+        return;
+    }
+
+    res.render("passport/login");
+});
+
+router.post("/process-login", (req, res, next) => {
+
+  UserModel.findOne({username: req.body.loginUsername})
+    .then((userFromDb) => {
+        if(userFromDb === null) {
+
+            res.locals.errorMesage = "Incorrect Username.";
+            res.render("passport/login");
+
+            return;
+        }
+
+        const isPasswordGood = bcrypt.compareSync(req.body.loginPassword, userFromDb.encryptedPassword);
+
+        if(isPasswordGood === false) {
+            res.locals.errorMessage = "Password is incorrect.";
+            res.render("passport/login");
+            // if there is an error, prevent the rest of the code from running
+            return;
+        }
+        // CREDENTIALS ARE GOOD! We need to log the users in.
+
+        // Passport defines the "reg.login()" method
+        // for us to specify when to log in a user into the session
+        req.login(userFromDb, (err) => {
+            // check to see if the log in worked
+            if (err) {
+              // if it didn't show the error page
+              next(err);
+            }
+            else {
+              // if it worked, redirect to the home page
+              res.redirect("/");
+            }
+        }); // req.login()
+    }) // then()
+
+    .catch( (err) => {
+      next(err);
+    });
+});
 
 
 
