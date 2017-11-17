@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Express Signup</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <nav>
+      <h1>Log In</h1>
+      <p>Welcome to Here</p>
+      <a href="/">Home</a>
+      <% if (currentUser) { %>
+
+            <a href="/private"> Private Page </a>
+            <a href="/logout"> Log Out </a>
+            <br />
+
+            <b> <%= currentUser.username %> </b>
+          <% } else { %>
+
+            <a href="/signup"> Sign Up </a>
+            <a href="/login"> Log In </a>
+
+          <% } %>
+    </nav>
+
+    <% if (typeof errorMessage !== "undefined") { %>
+      <p class="error-message"> <%= errorMessage %> </p>
+    <% } %>
+
+    <form id="form" method="post" action="/process-login">
+      <label for="username-input"> Email </label>
+      <input id="username-input" type="text" placeholder="e.g. SexyBeast" name="loginUsername" />
+      <br />
+
+      <label for="password-input"> Password </label>
+      <input id="password-input" type="password" placeholder="e.g. Swordfish" name="loginPassword" />
+      <br />
+
+      <button> Log In </button>
+    </form>
+
+    <p>
+      Don't have an account?
+      <a href="/signup"> Sign Up </a>
+    </p>
+  </body>
+</html>

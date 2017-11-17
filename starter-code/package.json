@@ -6,6 +6,7 @@
     "start": "nodemon ./bin/www"
   },
   "dependencies": {
+    "bcrypt": "^1.0.3",
     "body-parser": "~1.15.2",
     "connect-ensure-login": "^0.1.1",
     "connect-flash": "^0.1.1",
@@ -14,7 +15,10 @@
     "ejs": "~2.5.2",
     "express": "~4.14.0",
     "express-session": "^1.15.0",
+    "express-sessions": "^1.0.6",
+    "mongoose": "^4.13.3",
     "morgan": "~1.7.0",
+    "nodemon": "^1.12.1",
     "passport": "^0.3.2",
     "passport-local": "^1.0.0",
     "serve-favicon": "~2.3.0"
