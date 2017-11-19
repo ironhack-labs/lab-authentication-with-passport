@@ -1,8 +1,17 @@
 body {
   padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  background-image: url("../media/citySkyLine.gif");
+  background-repeat: no-repeat;
+  background-size: cover;
+  font-size: 20px;
 }
 
 a {
   color: #00B7FF;
+  padding-left: 2px;
+}
+
+span {
+  font-family: Comic Sans MS;
 }

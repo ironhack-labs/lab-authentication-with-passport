@@ -1,9 +1,21 @@
-<div>Private page</div>
-<% if (user) { %>
-  <div>
-    <h1>Who's the best developer?</h1>
-    <h1>You are, <span style="color: red;"><%= user.username%></span>. You are. </h1>
-    <img src="http://media.giphy.com/media/UsK5GqD3e0huU/giphy.gif" alt="You rock.">
-    <a href="/">Index</a>
-  </div>
-<% } %>
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Express Signup</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <div>Private page</div>
+    <% if (user) { %>
+
+    <a href="/">Home</a>
+
+      <div>
+        <h1>Who's the best developer?</h1>
+        <h1>You are, <span style="color: red;"><%= user.username%></span>. You are. </h1>
+        <img src="http://media.giphy.com/media/UsK5GqD3e0huU/giphy.gif" alt="You rock.">
+        
+      </div>
+    <% } %>
+  </body>
+</html>
