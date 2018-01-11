@@ -30,25 +30,20 @@ app.use(session({
   saveUninitialized: true
 }));
 
-
-
-
-
 //initialize passport and session here
 app.use(passport.initialize());
 app.use(passport.session());
 
-
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
-
 
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(flash());
 
 // require in the routers
 app.use('/', index);
@@ -67,6 +62,7 @@ passport.deserializeUser((id, cb) => {
   });
 });
 
+
 passport.use(new LocalStrategy((username, password, next) => {
   User.findOne({ username }, (err, user) => {
     if (err) {
@@ -78,13 +74,9 @@ passport.use(new LocalStrategy((username, password, next) => {
     if (!bcrypt.compareSync(password, user.password)) {
       return next(null, false, { message: "Incorrect password" });
     }
-
     return next(null, user);
   });
 }));
-
-
-
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
