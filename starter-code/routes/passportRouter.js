@@ -34,6 +34,12 @@ router.get("/private-page", ensureLogin.ensureLoggedIn(), (req, res) => {
 passport.authenticate('local'),
   (req, res, next)=>{
   return res.redirect("/");
+})
+.get("/private-page", (req, res, next)=>{
+  if(req.user){
+    return res.render("private");
+  }
+  return res.redirect("/login")
 });
 
 
