@@ -9,14 +9,8 @@ const expressLayouts = require('express-ejs-layouts');
 const mongoose = require("mongoose");
 mongoose.connect("mongodb://localhost/passport-local");
 
-//Esto va en config passport
-// const User = require("./models/user");
-// const LocalStrategy = require("passport-local").Strategy;
-
 const passport = require("passport");
 
-
-// const bcrypt = require("bcrypt");
 // const flash = require("connect-flash");
 
 //enable sessions here
@@ -26,7 +20,7 @@ const MongoStore = require("connect-mongo")(session);
 
 
 require('./configs/db-config'); 
-// require('./configs/passport.config').setup(passport); 
+require('./configs/passport.config').setup(passport); 
 
 
 const index = require('./routes/index');
@@ -74,8 +68,8 @@ app.use(session({
 }));
 
 //SIEMPRE DEBAJO DE LA DE SESSION y antes de las rutas
-// app.use(passport.initialize());
-// app.use(passport.session());
+app.use(passport.initialize());
+app.use(passport.session());
 
 
 // require in the routers
