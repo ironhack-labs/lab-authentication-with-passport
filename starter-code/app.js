@@ -4,6 +4,7 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+const expressLayouts = require('express-ejs-layouts');
 var app = express();
 
 var index = require('./routes/index');
@@ -15,27 +16,24 @@ mongoose.connect("mongodb://localhost/passport-local");
 //require the user model
 const User = require("./models/user");
 const session       = require("express-session");
+const MongoStore = require('connect-mongo')(session);
 const bcrypt        = require("bcrypt");
 const passport      = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const flash = require("connect-flash");
 
-
-
-
-
 //enable sessions here
-
 
 
 
 //initialize passport and session here
 
-
-
-
+require('./configs/db.config');
+require('./configs/passport.config').setup(passport);
 
 // view engine setup
+//app.use(expressLayouts); // por qué me falla al ejecutarlo?
+app.set('layout', 'layouts/main');
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
@@ -44,6 +42,22 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(session({
+  secret: 'Super Secret',
+  resave: false,
+  saveUninitialized: true,
+  cookie: {
+    secure: false,
+    httpOnly: true,
+    maxAge: 60 * 60 * 24 * 1000
+  },
+  store: new MongoStore({
+    mongooseConnection: mongoose.connection,
+    ttl: 24 * 60 * 60
+  })
+}));
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(express.static(path.join(__dirname, 'public')));
 // require in the routers
 app.use('/', index);

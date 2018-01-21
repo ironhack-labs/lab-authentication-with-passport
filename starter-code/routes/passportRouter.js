@@ -6,11 +6,17 @@ const User           = require("../models/user");
 const bcrypt         = require("bcrypt");
 const bcryptSalt     = 10;
 const ensureLogin = require("connect-ensure-login");
+
+const authController = require('../controllers/auth.controller');
 const passport      = require("passport");
 
+router.get('/signup', authController.signup); // ruta /signup o /passport/signup?
+router.post('/signup', authController.doSignup);
 
+router.get('/login', authController.login);
+router.post('/login', authController.doLogin);
 
-router.get("/private-page", ensureLogin.ensureLoggedIn(), (req, res) => {
+router.get("/private", ensureLogin.ensureLoggedIn(), (req, res) => {
   res.render("passport/private", { user: req.user });
 });
 
