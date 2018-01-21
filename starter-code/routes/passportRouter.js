@@ -13,7 +13,10 @@ const passport      = require("passport");
 router.get('/signup', authController.signup); // ruta /signup o /passport/signup?
 router.post('/signup', authController.doSignup);
 
-router.get("/private-page", ensureLogin.ensureLoggedIn(), (req, res) => {
+router.get('/login', authController.login);
+router.post('/login', authController.doLogin);
+
+router.get("/private", ensureLogin.ensureLoggedIn(), (req, res) => {
   res.render("passport/private", { user: req.user });
 });
 
