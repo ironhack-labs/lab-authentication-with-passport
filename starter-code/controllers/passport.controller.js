@@ -32,9 +32,7 @@ module.exports.doSignup = (req, res, next) => {
         user.save()
           .then(() => {
             req.session.currentUser = user;
-            res.render("passport/private", {
-              user: user
-            });
+            res.redirect('/login');
           }).catch(error => {
             if (error instanceof mongoose.Error.ValidationError) {
               res.render('passport/signup', {
@@ -84,15 +82,26 @@ module.exports.doLogin = (req, res, next) => {
           if (error) {
             next(error);
           } else {
-            res.render('passport/private', {
-              user: {
-                username: username
-              },
-              error: validations
-            });
+            res.redirect('/private-page');
+            // res.render('passport/private', {
+            //   user: {
+            //     username: username
+            //   },
+            //   error: validations
+            // });
           }
         });
       }
     })(req, res, next);
   }
+};
+
+module.exports.logout = (req, res, next) => {
+  req.session.destroy(error => {
+      if (error) {
+          next(error);
+      } else {
+          res.redirect("/login");
+      }
+  });
 };
