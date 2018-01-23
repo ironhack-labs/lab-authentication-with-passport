@@ -7,6 +7,7 @@ const bcrypt         = require("bcrypt");
 const bcryptSalt     = 10;
 const ensureLogin = require("connect-ensure-login");
 const passport      = require("passport");
+const passController = require("../controllers/passport.controller");
 
 
 
@@ -15,7 +16,7 @@ router.get("/private-page", ensureLogin.ensureLoggedIn(), (req, res) => {
 });
 
 
-
+router.get('/signup', passController.signup);
 
 
 

@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "nodemon ./bin/www"
+    "start": "nodemon ./bin/www",
+    "dev": "DEBUG=basic-auth:* nodemon ./bin/www"
   },
   "dependencies": {
     "body-parser": "~1.15.2",
@@ -13,10 +14,17 @@
     "debug": "~2.2.0",
     "ejs": "~2.5.2",
     "express": "~4.14.0",
-    "express-session": "^1.15.0",
+    "express-ejs-layouts": "^2.3.1",
+    "express-layouts": "^1.0.0",
+    "express-session": "^1.15.6",
+    "mongoose": "^5.0.1",
     "morgan": "~1.7.0",
     "passport": "^0.3.2",
     "passport-local": "^1.0.0",
     "serve-favicon": "~2.3.0"
-  }
+  },
+  "main": "app.js",
+  "author": "",
+  "license": "ISC",
+  "description": ""
 }
