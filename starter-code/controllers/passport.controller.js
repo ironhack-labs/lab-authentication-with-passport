@@ -4,11 +4,8 @@ const bcrypt = require("bcrypt");
 const bcryptSalt = 10;
 const passport = require("passport");
 
-module.exports.signup = (req, res) => {
-    /*if (req.body.currentUser = true) {
-    res.redirect('/');
-    }
-    else {*/
+module.exports.signup = (req, res, next) => {
+
     res.render('passport/signup',{ user: req.user });
   }
  }
@@ -22,10 +19,10 @@ module.exports.signup = (req, res) => {
                  user = new User(req.body);
                  user.save()
                      .then(() => {
-                         res.redirect('/login');
+                         res.redirect('passport/login');
                      }).catch(error => {
                          if (error instanceof mongoose.Error.ValidationError) {
-                             res.render('pass/signup', { user: user, error: error.errors })
+                             res.render('passport/signup', { user: user, error: error.errors })
                          } else {
                              next(error);
                          }
@@ -35,11 +32,7 @@ module.exports.signup = (req, res) => {
  }
 
  module.exports.privatePage = (req, res, next) => {
-     //console.log(req.session);
-     /*if (req.session.currentUser) {
-       res.redirect('/');
-     }
-     else {*/
+     
        res.render('passport/private'{ user: req.user });
      };
 
