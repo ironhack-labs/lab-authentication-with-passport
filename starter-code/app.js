@@ -59,6 +59,9 @@ app.use(session({
     ttl: 24 * 60 * 60
   })
 }));
+
+app.use(passport.initialize());
+app.use(passport.session());
 // require in the routers
 app.use('/passport', passportRouter);
 app.use('/', index);
@@ -70,9 +73,6 @@ app.use('/', users);
 
 
 //passport code here
-
-app.use(passport.initialize());
-app.use(passport.session());
 
 
 

@@ -28,8 +28,10 @@ module.exports.setup = (passport) => {
                 user.checkPassword(password)
                     .then(match => {
                         if (match) {
+                            console.log("ADFAFSFS");
                             next(null, user);
                         } else {
+                            console.log("ERROR");
                             next(null, null, { password: 'Invalid username or password' })
                         }
                     })
@@ -46,6 +48,6 @@ module.exports.isAuthenticated = (req, res, next) => {
     if (req.isAuthenticated) {
         next();
     } else {
-        res.redirect('/login');
+        res.render('passport/login');
     }
 }

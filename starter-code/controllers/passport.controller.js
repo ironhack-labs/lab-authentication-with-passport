@@ -3,11 +3,15 @@ const User = require('../models/user.model');
 const passport = require('passport');
 
 module.exports.signup = (req, res, next) => {
+    console.log('jjj');
     res.render('passport/signup');
 }
 
+module.exports.private = (req, res, next) => {
+    res.render('passport/private', {user: req.session.username});
+}
+
 module.exports.doSignup = (req, res, next) => {
-    
     User.findOne({ username: req.body.username })
         .then(user => {
             if (user != null) {
@@ -40,7 +44,6 @@ module.exports.login = (req, res, next) => {
 }
 
 module.exports.doLogin = (req, res, next) => {
-    console.log("HOLA");
     const username = req.body.username;
     const password = req.body.password;
     if (!username || !password) {
@@ -52,17 +55,20 @@ module.exports.doLogin = (req, res, next) => {
             }
         });
     } else {
+        user = username;
         passport.authenticate('local-auth', (error, user, validation) => {
             if (error) {
                 next(error);
             } else if (!user) {
+                console.log('hhhh');
                 res.render('passport/login', { error: validation });
             } else {
+                console.log('ame');
                 req.login(user, (error) => {
                     if (error) {
                         next(error);
                     } else {
-                        res.redirect('passport/private');
+                        res.render('passport/private');
                     }
                 });
             }
