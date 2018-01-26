@@ -1,17 +1,18 @@
-var express = require('express');
-var path = require('path');
-var favicon = require('serve-favicon');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
-var app = express();
+const express = require('express');
+const path = require('path');
+const favicon = require('serve-favicon');
+const logger = require('morgan');
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
+const expressLayouts = require('express-ejs-layouts');
+const app = express();
 
-var index = require('./routes/index');
-var users = require('./routes/users');
+require('./configs/db.config');
+
+const index = require('./routes/index');
+const users = require('./routes/users');
 const passportRouter = require("./routes/passportRouter");
-//mongoose configuration
-const mongoose = require("mongoose");
-mongoose.connect("mongodb://localhost/passport-local");
+
 //require the user model
 const User = require("./models/user");
 const session       = require("express-session");
@@ -36,6 +37,8 @@ const flash = require("connect-flash");
 
 
 // view engine setup
+app.use(expressLayouts);
+app.set('layout', 'layouts/main');
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
@@ -67,7 +70,7 @@ app.use('/', passportRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
-  var err = new Error('Not Found');
+  const err = new Error('Not Found');
   err.status = 404;
   next(err);
 });

@@ -1,11 +1,13 @@
 {
-  "name": "starter-code",
+  "name": "lab-authentication-with-passport",
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "nodemon ./bin/www"
+    "start": "node ./bin/www",
+    "dev": "DEBUG=lab-authentication-with-passport* nodemon ./bin/www"
   },
   "dependencies": {
+    "bcrypt": "^1.0.3",
     "body-parser": "~1.15.2",
     "connect-ensure-login": "^0.1.1",
     "connect-flash": "^0.1.1",
@@ -13,7 +15,9 @@
     "debug": "~2.2.0",
     "ejs": "~2.5.2",
     "express": "~4.14.0",
+    "express-ejs-layouts": "^2.3.1",
     "express-session": "^1.15.0",
+    "mongoose": "^5.0.1",
     "morgan": "~1.7.0",
     "passport": "^0.3.2",
     "passport-local": "^1.0.0",
