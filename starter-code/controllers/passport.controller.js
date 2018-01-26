@@ -47,6 +47,14 @@ module.exports.doSignup = (req, res) => {
         })
 };
 
+module.exports.login = (req, res) => {
+    res.render("passport/login", { user: req.user });
+};
+
+module.exports.doLogin = (req, res) => {
+    res.render("passport/private", { user: req.user });
+};
+
 module.exports.privatePage = (req, res) => {
     res.render("passport/private", { user: req.user });
 };

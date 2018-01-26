@@ -5,6 +5,7 @@ const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const expressLayouts = require('express-ejs-layouts');
+const mongoose = require('mongoose');
 const app = express();
 
 require('./configs/db.config');
@@ -18,23 +19,29 @@ const User = require("./models/user");
 const session       = require("express-session");
 const bcrypt        = require("bcrypt");
 const passport      = require("passport");
-const LocalStrategy = require("passport-local").Strategy;
 const flash = require("connect-flash");
-
-
-
-
+const MongoStore = require('connect-mongo')(session);
 
 //enable sessions here
-
-
-
+app.use(cookieParser());
+app.use(session({
+  secret: 'Super Secret',
+  resave: false,
+  saveUninitialized: true,
+  cookie: {
+    secure: false,
+    httpOnly: true,
+    maxAge: 60 * 60 * 24 * 1000
+  },
+  store: new MongoStore({
+    mongooseConnection: mongoose.connection,
+    ttl: 24 * 60 * 60
+  })
+}));
 
 //initialize passport and session here
-
-
-
-
+app.use(passport.initialize());
+app.use(passport.session());
 
 // view engine setup
 app.use(expressLayouts);
@@ -52,21 +59,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', index);
 app.use('/', users);
 app.use('/', passportRouter);
-
-
-
-
-
-//passport code here
-
-
-
-
-
-
-
-
-
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
