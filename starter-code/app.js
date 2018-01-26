@@ -16,11 +16,18 @@ const passportRouter = require("./routes/passportRouter");
 
 //require the user model
 const User = require("./models/user");
-const session       = require("express-session");
-const bcrypt        = require("bcrypt");
-const passport      = require("passport");
+const session = require("express-session");
+const bcrypt = require("bcrypt");
+const passport = require("passport");
 const flash = require("connect-flash");
 const MongoStore = require('connect-mongo')(session);
+
+
+app.use(logger('dev'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(express.static(path.join(__dirname, 'public')));
+
 
 //enable sessions here
 app.use(cookieParser());
@@ -50,11 +57,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 
-app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+
 // require in the routers
 app.use('/', index);
 app.use('/', users);

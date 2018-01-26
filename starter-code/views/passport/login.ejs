@@ -1,3 +1,4 @@
+<% if(typeof user == 'undefined') { %>
 <div class="container">
     <div class="row text-center">
         <div class="col-xs-12 col-sm-4 col-sm-offset-4">
@@ -35,3 +36,8 @@
         </div>
     </div>   
 </div>
+<% } 
+else { %>
+    <h2>Welcome <%= user.username %></h2>
+    <a href="/private-page">Private Page</a>
+<% } %>

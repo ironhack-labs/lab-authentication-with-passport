@@ -14,7 +14,6 @@ module.exports.signup = (req, res) => {
 module.exports.doSignup = (req, res) => {
     User.findOne({username: req.body.username})
         .then(user => {
-            console.log("findOne then");
             if(user != null) {
                 res.render('passport/signup', {
                     user: req.body,
@@ -48,13 +47,26 @@ module.exports.doSignup = (req, res) => {
 };
 
 module.exports.login = (req, res) => {
-    res.render("passport/login", { user: req.user });
+    res.render("passport/login");
 };
 
 module.exports.doLogin = (req, res) => {
-    res.render("passport/private", { user: req.user });
+    User.findOne({username: req.body.username})
+        .then(user => {
+            if(user != null) {
+                res.render("passport/private", { user: req.body });
+            }
+            else {
+                res.render('passport/login', {
+                    error: {
+                        password: "Username or password incorrect"
+                    }
+                });
+            }
+        })
 };
 
 module.exports.privatePage = (req, res) => {
+    // res.send(req.user);
     res.render("passport/private", { user: req.user });
 };
