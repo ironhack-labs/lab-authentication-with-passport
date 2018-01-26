@@ -5,6 +5,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var app = express();
+const expressLayouts = require('express-ejs-layouts');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
@@ -39,7 +40,11 @@ const flash = require("connect-flash");
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
-
+//layouts
+app.use(expressLayouts);
+app.set('layout', 'layouts/layout');
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
