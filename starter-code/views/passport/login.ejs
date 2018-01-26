@@ -1,0 +1,43 @@
+<% if(typeof user == 'undefined') { %>
+<div class="container">
+    <div class="row text-center">
+        <div class="col-xs-12 col-sm-4 col-sm-offset-4">
+            <form class="form-signin" action="/login" method="post">
+                <h2 class="form-signin-heading">Log In</h2>
+                <div class="form-group">
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <i class="fa fa-user"></i>
+                        </span>
+                        <input class="form-control login-input" placeholder="Username" type="text" name="username">
+                    </div>
+
+                    <div>
+                        <% if(typeof(error) != 'undefined' && error.email) { %>
+                        <small class="text-danger"> <%= error.email %> </small>
+                        <% } %>
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <i class="fa fa-lock"></i>
+                        </span>
+                        <input class="form-control login-input-pass" placeholder="Password" type="password" name="password">
+                    </div>
+                    <div>
+                        <% if(typeof(error) != 'undefined' && error.password) { %>
+                        <small class="text-danger"> <%= error.password %> </small>
+                        <% } %>
+                    </div>
+                </div>
+    
+                <button class="btn btn-primary btn-block btn-center" type="submit">Log In</button>
+            </form>
+            <a href="/signup"><button class="btn">Sign Up</button></a>
+        </div>
+    </div>   
+</div>
+<% } 
+else { %>
+    <h2>Welcome <%= user.username %></h2>
+    <a href="/private-page">Private Page</a>
+<% } %>
