@@ -1,18 +1,16 @@
 <div class="row">
     <div class="col-xs-12 col-sm-4 col-sm-offset-4">
-      <form action="/signup" method="POST">
+      <form action="/passport/signup" method="POST">
         <div class="form-group <%= typeof error != 'undefined' && error.username ? 'has-error' : '' %>">
+          <h1 class="display-4"> Sign up </h1>
           <div class="input-group">
             <span class="input-group-addon">
               <i class="fa fa-user"></i>
             </span>
             <input type="text" name="username" class="form-control" placeholder="Username" value="<%= typeof user != 'undefined' && user.username ? user.username : '' %>">
           </div>
-          <% if (typeof(error) != 'undefined' && error.username) { %>
-            <label class="control-label"> <%= error.username %> </label>
-          <% } %>
+         
         </div>
-  
         <div class="form-group <%= typeof error != 'undefined' && error.password ? 'has-error' : '' %>">
           <div class="input-group">
             <span class="input-group-addon">
@@ -20,8 +18,8 @@
             </span>
             <input type="password" name="password" class="form-control" placeholder="Password">
           </div>
-          <% if (typeof(error) != 'undefined' && error.password) { %>
-            <label class="control-label"><%= error.password %></label>
+          <% if (typeof(message) != 'undefined' && message) { %>
+            <label class="control-label"><%= message %></label>
           <% } %>
         </div>
   
