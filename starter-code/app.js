@@ -4,59 +4,75 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var app = express();
-
-var index = require('./routes/index');
-var users = require('./routes/users');
-const passportRouter = require("./routes/passportRouter");
-//mongoose configuration
+var flash = require('connect-flash');
+const expressLayouts = require('express-ejs-layouts');
 const mongoose = require("mongoose");
-mongoose.connect("mongodb://localhost/passport-local");
-//require the user model
-const User = require("./models/user");
 const session       = require("express-session");
 const bcrypt        = require("bcrypt");
 const passport      = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
-const flash = require("connect-flash");
+const MongoStore = require("connect-mongo")(session);
+var app = express();
+app.use(flash());
+
+require('./configs/db.config'); 
+require('./configs/passport.config').setup(passport); 
+
+var index = require('./routes/index');
+var users = require('./routes/users');
+var passportRouter = require('./routes/passportRouter');
 
 
-
-
-
-//enable sessions here
-
-
-
-
-//initialize passport and session here
-
-
-
-
-
-// view engine setup
+app.use(expressLayouts);
+app.set('layout', 'layouts/layout');
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
+
+//mongoose configuration
+
+
+//require the user model
+
+//enable sessions here
+
+//initialize passport and session here
+
+// view engine setup
 
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(session({
+  secret: 'Super Secret',
+  resave: false,
+  saveUninitialized: true,
+  cookie: {
+    secure: false,
+    httpOnly: true,
+    maxAge: 60 * 60 * 24 * 1000
+  },
+  store: new MongoStore({
+    mongooseConnection: mongoose.connection,
+    ttl: 24 * 60 * 60
+  })
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
 // require in the routers
+app.use('/passport', passportRouter);
 app.use('/', index);
 app.use('/', users);
-app.use('/', passportRouter);
+
 
 
 
 
 
 //passport code here
-
-
 
 
 
