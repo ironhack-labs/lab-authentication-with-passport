@@ -5,6 +5,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var app = express();
+const expressLayouts = require('express-ejs-layouts');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
@@ -39,12 +40,31 @@ const flash = require("connect-flash");
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
-
+//layouts
+app.use(expressLayouts);
+app.set('layout', 'layouts/layout');
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(session({
+   secret: 'Super Secret',
+   resave: false,
+   saveUninitialized: true,
+   cookie: {
+     secure: false,
+     httpOnly: true,
+     maxAge: 60 * 60 * 24 * 1000
+   },
+   store: new MongoStore({
+     mongooseConnection: mongoose.connection,
+     ttl: 24 * 60 * 60
+   })
+ })));
+
 // require in the routers
 app.use('/', index);
 app.use('/', users);
@@ -55,7 +75,8 @@ app.use('/', passportRouter);
 
 
 //passport code here
-
+app.use(passport.initialize());
+app.use(passport.session());
 
 
 
