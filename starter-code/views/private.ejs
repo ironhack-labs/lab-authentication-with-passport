@@ -1,0 +1,7 @@
+<h1>Private page</h1>
+<% if (user) { %>
+  <div>
+      <h2>you are <% user.username %></h2>
+    <a href="/logout">Logout</a>
+  </div>
+<% } %>
