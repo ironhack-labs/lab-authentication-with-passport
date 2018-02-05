@@ -19,6 +19,7 @@ const bcrypt        = require("bcrypt");
 const passport      = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const flash = require("connect-flash");
+const serialize = require("./routes/serialize")
 
 
 
@@ -41,20 +42,30 @@ app.set('view engine', 'ejs');
 
 
 app.use(logger('dev'));
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+
+// app.js
+app.use(session({
+  secret: "our-passport-local-strategy-app",
+  resave: true,
+  saveUninitialized: true
+}));
+
+
+//passport code here
+app.use(flash());
+app.use(passport.initialize());
+app.use(passport.session());
+
+
 // require in the routers
 app.use('/', index);
 app.use('/', users);
 app.use('/', passportRouter);
 
-
-
-
-
-//passport code here
 
 
 
