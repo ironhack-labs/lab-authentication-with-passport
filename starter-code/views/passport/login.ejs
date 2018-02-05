@@ -1,0 +1,14 @@
+<% if (typeof message != "undefined") { %>
+<div class="error-message"><%= message %></div>
+<% } %>
+
+<form action="/login" method="POST">
+  <label for="username">Name</label>
+  <input type="text" name="username" id="username">
+  <br>
+  <label for="password">Password</label>
+  <input type="password" name="password" id="password">
+  <br>
+  <button>Login</button>
+
+</form>
