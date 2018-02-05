@@ -1,11 +1,17 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-  </head>
-  <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
-  </body>
-</html>
+
+    <h1>Passport Auth Master</h1>
+    <% if(!user) { %>
+      <ul>
+        <li><a href="login">Login</a></li>
+        <li><a href="signup">Signup</a></li>
+
+      </ul>
+    <% } else { %>
+      <h2>Hola <%= user.username %></h2>
+
+    </br>
+      <a href="private-page">Ir a privado</a>
+
+      <a href="logout">Logout</a>
+    <% } %>
+
