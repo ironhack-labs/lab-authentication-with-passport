@@ -1,0 +1,20 @@
+<%if(typeof (errors) != "undefined"){%>
+<p>
+<%= errors %>
+</p>
+<%}%>
+
+
+<form id ="form" action="/login" method="POST">
+<label for="username">Username</label><br>
+<input type="text" name="username" placeholder="Henri">
+<br><br>
+
+<label for="password">Password</label><br>
+<input type="password" name="password" placeholder="Josh">
+
+<br><br>
+
+<button>Login</button>
+</form>
+
