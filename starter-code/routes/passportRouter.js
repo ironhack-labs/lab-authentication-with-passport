@@ -7,12 +7,12 @@ const bcrypt         = require("bcrypt");
 const bcryptSalt     = 10;
 const ensureLogin = require("connect-ensure-login");
 const passport      = require("passport");
-
-
+const loggedIn = require('../middlewares/loggedIn')
 
 // router.get("/private-page", ensureLogin.ensureLoggedIn(), (req, res) => {
 //   res.render("passport/private", { user: req.user });
 // });
+
 router.get("/signup", (req, res, next) => {
   res.render("passport/signup");
 });
@@ -63,11 +63,8 @@ router.get("/logout", (req, res) => {
   res.redirect("/");
 });
 
-
-// router.get("/facebook", passport.authenticate("facebook"));
-// router.get("/facebook/callback", passport.authenticate("facebook", {
-//   successRedirect: "/",
-//   failureRedirect: "/"
-// }));
+router.get("/private", loggedIn, (req, res) => {
+  res.render("passport/private", { user: req.user });
+});
 
 module.exports = router;
