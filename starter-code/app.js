@@ -10,6 +10,7 @@ const expressLayouts = require('express-ejs-layouts');
 var index = require('./routes/index');
 var users = require('./routes/users');
 const passportRouter = require("./routes/passportRouter");
+const passportConfig = require('./passport');
 
 //mongoose configuration
 const mongoose = require("mongoose");
@@ -23,6 +24,7 @@ const bcrypt        = require("bcrypt");
 const passport      = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const flash = require("connect-flash");
+
  
 
 
@@ -31,20 +33,6 @@ const flash = require("connect-flash");
 
 
 //initialize passport and session here
-
-
-
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'ejs');
-app.set('layout' , 'layout/main');
-
-
-app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({
   secret: "exercise-by-jorge-and-beltran",
   resave: true,
@@ -54,6 +42,27 @@ app.use(session({
     ttl: 24 * 60 * 60 // 1 day
   })
 }));
+passportConfig(app);
+
+app.use((req,res,next) => {
+  res.locals.user = req.user;
+  res.locals.title = 'PP Madrid Jorge/Beltran';
+  next();
+}) 
+
+
+// view engine setup
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
+app.set('layout' , 'layout/main');
+app.use(expressLayouts);
+
+app.use(logger('dev'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cookieParser());
+app.use(express.static(path.join(__dirname, 'public')));
+
 // require in the routers
 app.use('/', index);
 app.use('/', users);

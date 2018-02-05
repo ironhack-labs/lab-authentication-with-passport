@@ -50,4 +50,24 @@ router.post("/signup", (req, res, next) => {
   });
 });
 
+router.get("/login", (req, res, next) => {
+  res.render("passport/login");
+});
+router.post("/login", passport.authenticate("local", {
+  successRedirect: "/",
+  failureRedirect: "/login"
+}));
+
+router.get("/logout", (req, res) => {
+  req.logout();
+  res.redirect("/");
+});
+
+
+// router.get("/facebook", passport.authenticate("facebook"));
+// router.get("/facebook/callback", passport.authenticate("facebook", {
+//   successRedirect: "/",
+//   failureRedirect: "/"
+// }));
+
 module.exports = router;
