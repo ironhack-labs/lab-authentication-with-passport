@@ -48,19 +48,24 @@ router.post('/signup', (req, res, next) => {
     newUser.save((err) => {
       if (err) {
         res.render('auth/signup', { message: 'Something went wrong' });
+      } else {
+        //        res.redirect('/login');
       }
     });
-    res.redirect('/private-page'); // it seems that the user is logged in directly after signup without adding it to a session?
-
-    // if (passport.authenticate('local') === newUser) { // By default, LocalStrategy expects to find credentials in parameters named username and password
-    //   res.redirect('/private-page');
-    // };
   });
+  //  By default, LocalStrategy expects to find credentials in parameters named username and password
+  // user is created in db after the completion of the post the the direct authentication below seems not to work
+  // passport.authenticate('local', {
+  //   successRedirect: '/private-page',
+  //   failureRedirect: '/login',
+  //   failureFlash: true,
+  //   passReqToCallback: true
+  // });
 });
 
 // login ------------------- with passport
 router.get('/login', (req, res, next) => {
-  res.render('passport/login');
+  res.render('passport/login', { 'message': req.flash('error') });
 });
 
 router.post('/login', passport.authenticate('local', {

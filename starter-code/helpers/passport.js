@@ -3,6 +3,7 @@
 const bcrypt = require('bcrypt');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
+const flash = require('connect-flash');
 
 // require the user model
 const User = require('../models/user');
@@ -19,7 +20,9 @@ function config () {
     });
   });
 
-  passport.use(new LocalStrategy((username, password, next) => {
+  passport.use(new LocalStrategy({
+    passReqToCallback: true // flash
+  }, (req, username, password, next) => {
     User.findOne({ username }, (err, user) => {
       if (err) {
         return next(err);
