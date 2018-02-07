@@ -14,9 +14,26 @@ router.get("/private-page", ensureLogin.ensureLoggedIn(), (req, res) => {
   res.render("passport/private", { user: req.user });
 });
 
+router.get('/signup',(req,res,next)=>{
+res.render('passport/signup'); 
+});
 
-
-
+router.post('/sign-up', (req, res, next) => {
+  const user = new User({
+    username: req.body.username,
+    password: req.body.password
+  });
+  
+  user.save (err => {
+    if (err){
+      return next(err);
+    }
+  
+    res.redirect('/index')
+  
+  })
+  
+})
 
 
 module.exports = router;
