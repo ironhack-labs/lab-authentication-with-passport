@@ -1,5 +1,5 @@
 <div>Private page</div>
-<% if (user) { %>
+<% if (typeof user !== "undefined") { %>
   <div>
     <h1>Who's the best developer?</h1>
     <h1>You are, <span style="color: red;"><%= user.username%></span>. You are. </h1>

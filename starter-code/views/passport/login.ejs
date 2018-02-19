@@ -1,0 +1,18 @@
+<!-- views/auth/signup.ejs -->
+<h2>LogIn</h2>
+
+<form action="/login" method="POST" id="form-container">
+    <label for="username">Username</label>
+    <input id="username" type="text" name="username" placeholder="JonSnow">
+    <br><br>
+    <label for="password">Password</label>
+    <input id="password" type="password" name="password" placeholder="Your password">
+    <br><br>
+
+    <button>Inicia sesión</button>
+
+    <p class="account-message">
+        If you don't have an account sign up here
+        <a href="/sigup">Sign up</a>
+    </p>
+</form>

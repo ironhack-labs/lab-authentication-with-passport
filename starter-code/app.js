@@ -17,22 +17,46 @@ const User = require("./models/user");
 const session       = require("express-session");
 const bcrypt        = require("bcrypt");
 const passport      = require("passport");
-const LocalStrategy = require("passport-local").Strategy;
+const LocalStrategy = require("passport-local");
 const flash = require("connect-flash");
 
 
+//********************************** passport ****************
 
+//session middleware
+app.use(session({
+  secret: "AliciaAndBet",
+  resave: true,
+  saveUninitializer: true
+}));
+//passport session
+//before
+passport.serializeUser((user,cb)=>{
+cb(null, user._id);
+});
 
+passport.deserializeUser((id, cb)=>{
+User.findOne({"_id":id}, (err,user)=>{
+  if(err) return cb(err);
+  cb(null, user);
+})
+});
 
-//enable sessions here
+//flash
+app.use(flash());
 
+passport.use(new LocalStrategy({passReqToCallback:true},(req, username, password, next)=>{
+User.findOne({username}, (err, user)=>{
+  if(err) return next(err);
+  if(!user) return next(null, false, {message: "incorrect username"});
+  if(!bcrypt.compareSync(password, user.password)) return next(null, false, {message: "Incorrecto password"});
+  return next(null, user);
+});
+}));
 
-
-
-//initialize passport and session here
-
-
-
+//after
+app.use(passport.initialize());
+app.use(passport.session());
 
 
 // view engine setup
@@ -49,16 +73,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', index);
 app.use('/', users);
 app.use('/', passportRouter);
-
-
-
-
-
-//passport code here
-
-
-
-
 
 
 
