@@ -20,10 +20,6 @@ const passport      = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const flash = require("connect-flash");
 
-
-
-
-
 //enable sessions here
 
 app.use(session({
@@ -31,11 +27,6 @@ app.use(session({
  resave: true,
  saveUninitialized: true
 }));
-
-
-
-
-
 
 passport.serializeUser((user, cb) => {
  cb(null, user._id);
@@ -69,20 +60,14 @@ passport.use(new LocalStrategy({
  });
 }));
 
-
-
-
 //initialize passport and session here
 
 app.use(passport.initialize());
 app.use(passport.session());
 
-
-
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
-
 
 app.use(logger('dev'));
 app.use(bodyParser.json());
@@ -94,20 +79,7 @@ app.use('/', index);
 app.use('/', users);
 app.use('/', passportRouter);
 
-
-
-
-
 //passport code here
-
-
-
-
-
-
-
-
-
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
