@@ -26,12 +26,48 @@ const flash = require("connect-flash");
 
 //enable sessions here
 
+app.use(session({
+  secret:"terremoto",
+  resave: true,
+  saveUninitialized: true
+}));
+
+
+passport.serializeUser((user, cb) => {
+  cb(null, user._id);
+});
+
+passport.deserializeUser((id, cb) => {
+  User.findOne({ "_id": id }, (err, user) => {
+    if (err) { return cb(err); }
+    cb(null, user);
+  });
+});
+
+app.use(flash());
+
+passport.use(new LocalStrategy((username, password, next) => {
+  User.findOne({ username }, (err, user) => {
+    if (err) {
+      return next(err);
+    }
+    if (!user) {
+      return next(null, false, { message: "Incorrect username" });
+    }
+    if (!bcrypt.compareSync(password, user.password)) {
+      return next(null, false, { message: "Incorrect password" });
+    }
+
+    return next(null, user);
+  });
+}));
 
 
 
 //initialize passport and session here
 
-
+app.use(passport.initialize());
+app.use(passport.session());
 
 
 
@@ -82,5 +118,5 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
-
+  
 module.exports = app;
