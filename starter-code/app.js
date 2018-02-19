@@ -26,14 +26,38 @@ const flash = require("connect-flash");
 
 //enable sessions here
 
-
-
+app.use(session({
+  secret: "bliss",
+  resave: true,
+  saveUninitializer: true
+}));
 
 //initialize passport and session here
 
+passport.serializeUser((user,cb)=>{
+  cb(null, user._id);
+});
 
+passport.deserializeUser((id, cb)=>{
+  User.findOne({"_id":id}, (err,user)=>{
+    if(err) return cb(err);
+    cb(null, user);
+  })
+});
 
+app.use(flash());
 
+passport.use(new LocalStrategy({passReqToCallback:true},(req, username, password, next)=>{
+  User.findOne({username}, (err, user)=>{
+    if(err) return next(err);
+    if(!user) return next(null, false, {message: "Incorrect username"});
+    if(!bcrypt.compareSync(password, user.password)) return next(null, false, {message: "Incorrect password"});
+    return next(null, user);
+  });
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -51,17 +75,7 @@ app.use('/', users);
 app.use('/', passportRouter);
 
 
-
-
-
 //passport code here
-
-
-
-
-
-
-
 
 
 
