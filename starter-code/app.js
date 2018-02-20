@@ -6,32 +6,25 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var app = express();
 
+//Passport Configuration
+const session       = require("express-session");
+const bcrypt        = require("bcrypt");
+const passport      = require("passport");
+const LocalStrategy = require("passport-local").Strategy;
+const flash         = require("connect-flash");
+
+
 var index = require('./routes/index');
 var users = require('./routes/users');
 const passportRouter = require("./routes/passportRouter");
 //mongoose configuration
 const mongoose = require("mongoose");
 mongoose.connect("mongodb://localhost/passport-local");
+
 //require the user model
 const User = require("./models/user");
-const session       = require("express-session");
-const bcrypt        = require("bcrypt");
-const passport      = require("passport");
-const LocalStrategy = require("passport-local").Strategy;
-const flash = require("connect-flash");
-
-
-
-
 
 //enable sessions here
-
-
-
-
-//initialize passport and session here
-
-
 
 
 
@@ -45,25 +38,52 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-// require in the routers
+
+//initialize passport and session here
+app.use(session({
+  secret: "our-passport-local-strategy-app",
+  resave: true,
+  saveUninitialized: true
+}));
+
+passport.serializeUser((user, cb) => {
+  cb(null, user._id);
+});
+
+passport.deserializeUser((id, cb) => {
+  User.findOne({ "_id": id }, (err, user) => {
+    if (err) { return cb(err); }
+    cb(null, user);
+  });
+});
+
+app.use(flash());
+passport.use(new LocalStrategy({
+  passReqToCallback: true
+}, (req, username, password, next) => {
+  User.findOne({ username }, (err, user) => {
+    if (err) {
+      return next(err);
+    }
+    if (!user) {
+      return next(null, false, { message: "Incorrect username" });
+    }
+    if (!bcrypt.compareSync(password, user.password)) {
+      return next(null, false, { message: "Incorrect password" });
+    }
+
+    return next(null, user);
+  });
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+
+//Default routes
 app.use('/', index);
-app.use('/', users);
+app.use('/users', users);
 app.use('/', passportRouter);
-
-
-
-
-
-//passport code here
-
-
-
-
-
-
-
-
-
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
