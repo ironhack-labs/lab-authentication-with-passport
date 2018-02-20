@@ -25,34 +25,15 @@ const flash = require("connect-flash");
 
 
 //enable sessions here
-
+app.use(session({
+  secret: "our-passport-local-strategy-app",
+  resave: true,
+  saveUninitialized: true
+}));
 
 
 
 //initialize passport and session here
-
-
-
-
-
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'ejs');
-
-
-app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
-// require in the routers
-app.use('/', index);
-app.use('/', users);
-app.use('/', passportRouter);
-
-
-
-
 
 //passport code here
 //define which data is kept in the session
@@ -89,6 +70,26 @@ passport.use(new LocalStrategy({
 
 app.use(passport.initialize());
 app.use(passport.session());
+
+
+
+// view engine setup
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
+
+
+app.use(logger('dev'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cookieParser());
+app.use(express.static(path.join(__dirname, 'public')));
+// require in the routers
+app.use('/', index);
+app.use('/', users);
+app.use('/', passportRouter);
+
+
+
 
 // Routes
 app.use('/', passportRouter);

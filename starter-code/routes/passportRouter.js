@@ -72,9 +72,6 @@ router.get("/private-page", ensureLogin.ensureLoggedIn(), (req, res) => {
   res.render("private", { user: req.user });
 });
 
-router.get("/logout", (req, res) => {
-  req.logout();
-  res.redirect("/login");
-});
+
 
 module.exports = router;
