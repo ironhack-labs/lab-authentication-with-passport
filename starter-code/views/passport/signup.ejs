@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html class="no-js"> 
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Sign Up</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+  </head>
+  <body>
+    <h2>Signup</h2>
+
+      <form action="/signup" method="POST" id="form-container">
+        <label for="username">Username</label>
+        <input id="username" type="text" name="username" placeholder="JonSnow">
+        <br><br>
+        <label for="password">Password</label>
+        <input id="password" type="password" name="password" placeholder="Your password">
+
+        <% if (typeof message !== "undefined") { %>
+          <div class="error-message"><%= message %></div>
+        <% } %>
+        <br><br>
+
+        <button>Create account</button>
+
+        <p class="account-message">
+          Do you already have an account?
+          <a href="/login">Login</a>
+        </p>
+
+        <p class="account-message">
+          <a href="/logout">Logout</a>
+        </p>
+      </form>
+    
+  </body>
+</html>
