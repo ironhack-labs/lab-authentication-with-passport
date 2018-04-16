@@ -47,6 +47,19 @@ router.post("/signup", (req, res, next) => {
   })
 });
 
+// GET login
+router.get("/login", (req, res, next) => {
+  res.render("passport/login");
+});
+
+// POST login
+router.post("/login", passport.authenticate("local", {
+  successRedirect: "/",
+  failureRedirect: "/login",
+  failureFlash: true,
+  passReqToCallback: true
+}));
+
 router.get("/private-page", ensureLogin.ensureLoggedIn(), (req, res) => {
   res.render("passport/private", { user: req.user });
 });
