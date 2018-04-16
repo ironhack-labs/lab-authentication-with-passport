@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 // User model
-const User = require("../models/user");
+const User = require("../models/User");
 // Bcrypt to encrypt passwords
 const bcrypt = require("bcrypt");
 const bcryptSalt = 10;
@@ -56,5 +56,23 @@ router.post("/signup", (req, res, next) => {
     });
 });
 
+router.get("/login", (req, res, next) => {
+  res.render("passport/login");
+});
+
+router.post("/login",
+  passport.authenticate("local", {
+    successRedirect: "/",
+    failureRedirect: "/passport/login",
+    failureFlash: false,
+    failureMessage: "Invalid Username or Password",
+    passReqToCallback: false
+  })
+);
+
+router.get("/logout", (req, res) => {
+  req.logout();
+  res.redirect("/");
+});
 
 module.exports = router;

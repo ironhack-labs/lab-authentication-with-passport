@@ -1,2 +1,12 @@
-<h1>{{title}}</h1>
-<p>Welcome to {{title}}</p>
+
+<h1>Lab-passport</h1>
+{{#if user}}
+    <p>Welcome, {{user.username}}</p>
+    <a href="/passport/logout" class="btn btn-default">Logout</a>
+    <a href="/passport/private-page" class="btn btn-info">Protected</a>
+{{else}}
+    <h2>You are not logged in!</h2>
+    <a href="/passport/signup" class="btn btn-info">Signup</a>
+    <a href="/passport/login" class="btn btn-default">Login</a>
+{{/if}}
+
