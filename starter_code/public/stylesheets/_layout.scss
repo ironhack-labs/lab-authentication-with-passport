@@ -1,0 +1,48 @@
+.container-fluid {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  box-sizing: border-box;
+  flex: 1 0 auto;
+}
+
+.nav {
+  flex-grow: 0;
+  height: 60px;
+  box-sizing: border-box;
+  background-color: #f5f1f1;
+  .container {
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    ul {
+      height: 100%;
+      display: flex;
+      align-items: center;
+    }
+    li {
+      padding: 1rem;
+      font-size: 1rem;
+      &:hover {
+        background-color: #f3e9e9;
+      }
+      h5 {
+        font-family: $main-font;
+        color: #ffffff;
+      }
+    }
+  }
+}
+
+.footer {
+  height: 150px;
+  margin-top: 50px;
+  background-color: rgb(10, 4, 4);
+  flex-shrink: 0;
+  flex-grow: 0;
+  .dev-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+}

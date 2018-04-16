@@ -1,9 +1,22 @@
-<div>Private page</div>
-{{#if user}}
-  <div>
-    <h1>Who's the best developer?</h1>
-    <h1>You are, <span style="color: red;">{{ user.username}}</span>. You are. </h1>
-    <img src="http://media.giphy.com/media/UsK5GqD3e0huU/giphy.gif" alt="You rock.">
-    <a href="/">Index</a>
+<div class="container-fluid">
+  <div class="container">
+    <div class="main-content">
+      {{#if user}}
+
+      <h1>Private page</h1>
+      <h2>Who's the best developer?</h2>
+      <h3>You are,
+        <span style="color: red;">{{ user.username}}</span>. You are. </h3>
+
+
+      <ul>
+        <img src="http://media.giphy.com/media/UsK5GqD3e0huU/giphy.gif" alt="You rock.">
+        <a href="/">
+          <li> Index</li>
+        </a>
+      </ul>
+
+      {{/if}}
+    </div>
   </div>
-{{/if}}
+</div>

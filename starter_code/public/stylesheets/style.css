@@ -1,0 +1,175 @@
+@import url("https://fonts.googleapis.com/css?family=Comfortaa:300,400");
+* {
+  margin: 0;
+  padding: 0;
+  border: 0; }
+
+html,
+body {
+  height: 100%; }
+
+body {
+  font: 62.5%/1.5 "Comfortaa", "Lucida Sans", "Lucida Sans Regular", "Lucida Grande", "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+  color: #000000;
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column; }
+
+h1 {
+  font-size: 4rem; }
+
+h2 {
+  font-size: 2rem; }
+
+h3 {
+  font-size: 1.8rem; }
+
+h4 {
+  font-size: 1.4rem; }
+
+h5 {
+  font-size: 1.2rem; }
+
+p {
+  font-size: 1rem; }
+
+li {
+  list-style-type: none; }
+
+a {
+  color: #000000;
+  text-decoration: none; }
+  a:hover {
+    text-decoration: none; }
+
+button {
+  cursor: pointer; }
+
+.btest {
+  border: 1px solid red; }
+
+.container-fluid {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  box-sizing: border-box;
+  flex: 1 0 auto; }
+
+.nav {
+  flex-grow: 0;
+  height: 60px;
+  box-sizing: border-box;
+  background-color: #f5f1f1; }
+  .nav .container {
+    height: 100%;
+    display: flex;
+    flex-direction: row; }
+    .nav .container ul {
+      height: 100%;
+      display: flex;
+      align-items: center; }
+    .nav .container li {
+      padding: 1rem;
+      font-size: 1rem; }
+      .nav .container li:hover {
+        background-color: #f3e9e9; }
+      .nav .container li h5 {
+        font-family: "Comfortaa";
+        color: #ffffff; }
+
+.footer {
+  height: 150px;
+  margin-top: 50px;
+  background-color: #0a0404;
+  flex-shrink: 0;
+  flex-grow: 0; }
+  .footer .dev-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center; }
+
+.main-content {
+  height: 100%;
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between; }
+  .main-content li {
+    background-color: #00bb1f;
+    padding: 10px 20px;
+    border-radius: 5px;
+    margin: 15px;
+    font-size: 1.3rem;
+    text-align: center;
+    box-sizing: border-box;
+    box-shadow: 1px 2px 6px #5a5a5a; }
+    .main-content li:active {
+      box-shadow: inset 1px 2px 10px #7c7c7c; }
+    .main-content li:hover {
+      background-color: #0ecf2e;
+      color: #9cfcac; }
+
+.login {
+  width: 60%;
+  display: flex;
+  justify-content: center;
+  align-items: center; }
+  .login .login-form {
+    width: 40%;
+    height: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    padding: 20px 30px 20px 30px;
+    background-color: #eeeeee; }
+    .login .login-form label {
+      font-size: 1.2rem; }
+    .login .login-form input {
+      padding: 0 3px 0 3px;
+      height: 35px;
+      font-size: 1rem;
+      border: 1px solid #ccc; }
+    .login .login-form button {
+      color: #ffffff;
+      font-size: 1rem;
+      font-weight: bold;
+      margin-top: 15px;
+      padding: 10px 15px;
+      background-color: #0033a1; }
+      .login .login-form button:active {
+        box-shadow: inset 1px 1px 5px black;
+        outline: none; }
+
+.signup {
+  width: 60%;
+  display: flex;
+  justify-content: center;
+  align-items: center; }
+  .signup .signup-form {
+    width: 40%;
+    height: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    padding: 20px 30px 20px 30px;
+    background-color: #eeeeee; }
+    .signup .signup-form label {
+      font-size: 1.2rem; }
+    .signup .signup-form input {
+      padding: 0 3px 0 3px;
+      height: 35px;
+      font-size: 1rem;
+      border: 1px solid #ccc; }
+    .signup .signup-form button {
+      color: #ffffff;
+      font-size: 1rem;
+      font-weight: bold;
+      margin-top: 15px;
+      padding: 10px 15px;
+      background-color: #0033a1; }
+      .signup .signup-form button:active {
+        box-shadow: inset 1px 1px 5px black;
+        outline: none; }
+
+/*# sourceMappingURL=style.css.map */
