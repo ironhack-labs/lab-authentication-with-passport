@@ -1,2 +1,20 @@
 <h1>{{title}}</h1>
-<p>Welcome to {{title}}</p>
+
+{{#if user}}
+    <p>Welcome to {{user.username}}</p>
+    <ul>
+        <li><a href="/passport/private-page">Entra en tu página privada</a></li>
+        <li><a href="/passport/logout">Salir</a></li>
+    </ul>
+    
+    
+{{else}}
+    <p>Logeate o Registrate</p>
+    <ul>
+        <li> <a href="/passport/signup">Registrate</a></li>
+        <li><a href="/passport/login">Logueate</a></li>
+    </ul>
+   
+    
+   
+{{/if}}
