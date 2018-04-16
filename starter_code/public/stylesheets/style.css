@@ -2,7 +2,28 @@ body {
   padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif; }
 
+.container {
+  padding: 2rem 3rem;
+  background-color: lightslategrey; }
+
 a {
-  color: #00B7FF; }
+  color: lightyellow;
+  text-decoration: none; }
+
+/* #00B7FF; */
+a:hover {
+  color: #fff;
+  text-decoration: underline; }
+
+form {
+  margin: 2rem 0; }
+
+label {
+  display: block;
+  margin-bottom: 0.5rem; }
+
+input {
+  display: block;
+  margin-bottom: 2rem; }
 
 /*# sourceMappingURL=style.css.map */
