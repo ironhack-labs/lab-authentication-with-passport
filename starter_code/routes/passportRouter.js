@@ -80,4 +80,11 @@ authRouter.post("/login", passport.authenticate("local", {
 }));
 
 
+
+// Private routes should be below the rest:
+
+authRouter.get("/private-page", ensureLogin.ensureLoggedIn(), (req, res) => {
+  res.render("passport/private", { user: req.user });
+});
+
 module.exports = authRouter;

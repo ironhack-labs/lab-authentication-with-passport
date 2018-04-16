@@ -14,7 +14,7 @@ const ensureLogin = require("connect-ensure-login");
 const passport      = require("passport");
 const session       = require("express-session");
 const LocalStrategy = require("passport-local").Strategy;
-
+const User = require("./models/user")
 
 
 
