@@ -15,6 +15,7 @@ const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const MongoStore = require("connect-mongo")(session);
 const User = require ("./models/user");
+const flash = require("connect-flash");
 
 
 mongoose.Promise = Promise;
