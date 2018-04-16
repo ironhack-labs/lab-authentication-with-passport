@@ -1,0 +1,18 @@
+<form action="/passport/login" method="POST">
+
+<h2>LOGIN</h2>
+
+
+<label for="username" >Username</label>
+<input type="text" id="username" name="username" placeholder="Username">
+<br>
+
+<label for="password" >Password</label>
+<input type="text" id="password" name="password" placeholder="Password">
+<br>
+
+{{#if errorMessage}}
+<div class="error-message">{{errorMessage}}</div>
+{{/if}}
+
+<button>Login</button>
