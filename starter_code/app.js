@@ -8,7 +8,8 @@ const hbs          = require('hbs');
 const mongoose     = require('mongoose');
 const logger       = require('morgan');
 const path         = require('path');
-
+const session = require("express-session");
+const MongoStore = require("connect-mongo")(session);
 
 mongoose.Promise = Promise;
 mongoose
@@ -29,6 +30,17 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(session({
+    secret: "our-passport-local-strategy-app",
+    resave: true,
+    saveUninitialized: true,
+    store: new MongoStore({
+      mongooseConnection: mongoose.connection,
+      ttl: 24 * 60 * 60
+    })
+  })
+);
+require("./passport")(app);
 
 // Express View engine setup
 
@@ -52,9 +64,9 @@ app.locals.title = 'Express - Generated with IronGenerator';
 
 
 const index = require('./routes/index');
-const passportRouter = require("./routes/passportRouter");
 app.use('/', index);
-app.use('/', passportRouter);
+const passportRouter = require("./routes/passportRouter");
+app.use('/passport', passportRouter);
 
 
 module.exports = app;
