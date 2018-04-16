@@ -1,0 +1,21 @@
+<h2>Signup</h2>
+
+<form action="/passport/signup" method="POST" id="form-container">
+  <label for="username">Username</label>
+  <input id="username" type="text" name="username" placeholder="Usuario">
+  <br><br>
+  <label for="password">Password</label>
+  <input id="password" type="password" name="password" placeholder="Contraseña">
+
+  {{#if message}}
+    <div class="error-message">{{ message }}</div>
+  {{/if}}
+  <br><br>
+
+  <button>Crear cuenta</button>
+
+  <p class="account-message">
+    Si ya tienes cuenta logueate?
+    <a href="/passport/login">Logeate</a>
+  </p>
+</form>
