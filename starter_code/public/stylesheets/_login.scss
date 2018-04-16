@@ -1,0 +1,37 @@
+.login {
+  width: 60%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .login-form {
+    width: 40%;
+    height: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    padding: 20px 30px 20px 30px;
+    background-color: rgb(238, 238, 238);
+    label {
+      font-size: 1.2rem;
+    }
+    input {
+      padding: 0 3px 0 3px;
+      height: 35px;
+      font-size: 1rem;
+      border: 1px solid #ccc;
+    }
+    button {
+      color: #ffffff;
+      font-size: 1rem;
+      font-weight: bold;
+      margin-top: 15px;
+      padding: 10px 15px;
+      background-color: rgb(0, 51, 161);
+      &:active {
+        box-shadow: inset 1px 1px 5px rgb(0, 0, 0);
+        outline: none;
+      }
+    }
+  }
+}

@@ -1,11 +1,18 @@
-<form action="/signup" method="POST">
+<div class="container-fluid">
+    <div class="signup container">
 
-    <label for="username">Username</label>
-    <input type="text" name="username">
+        <form action="/signup" method="POST" class="signup-form">
 
-    <label for="password">Password</label>
-    <input type="password" name="password">
+            <label for="username">Username</label>
+            <input type="text" name="username" placeholder="StarLord">
 
-    <button type="submit">Signup</button>
+            <label for="password">Password</label>
+            <input type="password" name="password" placeholder="Something you will remember">
+  {{#if message}}
+    <div>{{ message }}</div>
+  {{/if}}
+            <button type="submit">Sign Up</button>
 
-</form>
+        </form>
+    </div>
+</div>

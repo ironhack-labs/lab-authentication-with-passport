@@ -1,13 +1,46 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>{{title}}</title>
-    <link rel='stylesheet' href='/stylesheets/style.css'>
-  </head>
-  <body>
-    
-    {{{body}}}
 
-    <script src="/javascripts/script.js"></script>
-  </body>
+<head>
+  <title>{{title}}</title>
+  <link rel='stylesheet' href='/stylesheets/style.css'>
+</head>
+
+<body>
+
+  <div class="nav container-fluid">
+    <div class="container">
+      <ul>
+        <a href="/">
+          <li>Home</li>
+        </a>
+        <a href="/login">
+          <li>Login</li>
+        </a>
+        <a href="/signup">
+          <li>Sign-up</li>
+        </a>
+        {{#if user}}
+        <a href="/private">
+          <li>Private Page</li>
+        </a>
+        <a href="/logout">
+          <li>Logout</li>
+        </a>
+        {{/if}}
+      </ul>
+    </div>
+  </div>
+
+  {{{body}}}
+
+  <div class="footer container-fluid">
+    <div class="dev-container">
+      <h3>Developed by Mateus Felix</h3>
+    </div>
+  </div>
+
+  <script src="/javascripts/script.js"></script>
+</body>
+
 </html>
