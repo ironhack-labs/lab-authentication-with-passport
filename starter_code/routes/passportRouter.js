@@ -12,7 +12,7 @@ router.get("/private-page", ensureLogin.ensureLoggedIn(), (req, res) => {
 });
 
 router.get("/main", (req, res) => {
-  res.render("main");
+    res.render("main");
 });
 
 router.get("/signup", (req, res) => {
