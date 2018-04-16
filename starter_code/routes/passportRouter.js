@@ -13,3 +13,8 @@ const passport      = require("passport");
 router.get("/private-page", ensureLogin.ensureLoggedIn(), (req, res) => {
   res.render("passport/private", { user: req.user });
 });
+
+router.get("/signup", ensureLogin.ensureLoggedIn(), (req, res) => {
+  res.render("passport/signup", { user: req.user });
+});
+
