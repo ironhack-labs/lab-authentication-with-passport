@@ -1,2 +1,12 @@
-<h1>{{title}}</h1>
-<p>Welcome to {{title}}</p>
+<h1>
+ Example passport Authentication</h1>
+{{#if user}}
+<p>Welcome to {{user.username}}</p>
+<a href="/passport/logout">LOGOUT</a>
+<a href="/private">PRIVATE AREA</a>
+{{else}}
+<p>LOGIN FIRST!!!</p>
+<a href="/passport/signup">SIGNUP</a>
+<a href="/passport/login">LOGIN</a>
+
+{{/if}}
