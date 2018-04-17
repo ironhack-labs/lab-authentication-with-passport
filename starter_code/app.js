@@ -8,11 +8,15 @@ const hbs          = require('hbs');
 const mongoose     = require('mongoose');
 const logger       = require('morgan');
 const path         = require('path');
+const dbURL        = process.env.DBURL;
+const session      = require('express-session');
+const MongoStore   = require('connect-mongo')(session);
+
 
 
 mongoose.Promise = Promise;
 mongoose
-  .connect('mongodb://localhost/starter-code', {useMongoClient: true})
+  .connect(dbURL, {useMongoClient: true})
   .then(() => {
     console.log('Connected to Mongo!')
   }).catch(err => {
@@ -29,6 +33,14 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(session({
+  secret:"passport-secret",
+  cookie: {maxAge: 60*60*24*2},
+  store: new MongoStore({
+    mongooseConnection: mongoose.connection,
+    ttl: 60*60*24*2
+  })
+}));
 
 // Express View engine setup
 

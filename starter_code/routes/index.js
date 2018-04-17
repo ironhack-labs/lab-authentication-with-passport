@@ -6,16 +6,16 @@ router.get('/', (req, res, next) => {
   res.render('index');
 });
 
-router.get('/login', (req, res, next) => {
-  res.render('../passport/login');
+router.get('/passport/login', (req, res, next) => {
+  res.render('passport/login');
 });
 
-router.get('/signup', (req, res, next) => {
-  res.render('../passport/signup');
+router.get('/passport/signup', (req, res, next) => {
+  res.render('passport/signup');
 });
 
-router.get('/private', (req, res, next) => {
-  res.render('../passport/private');
+router.get('/passport/private', (req, res, next) => {
+  res.render('passport/private');
 });
 
 

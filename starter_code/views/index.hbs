@@ -3,8 +3,18 @@
 
 <h2>TESTING</h2>
 
-<a href ="passport/ogin">Login</a>
+
+
+{{#if user}}
+<p> Welcome, {{user.username}}</p>
+<a href ="passport/login">Login</a>
 <br>
 <a href ="passport/private">Private</a>
 <br>
 <a href ="passport/signup">Signup</a>
+{{else}}
+<p>You're not logged in</p>
+<a href="/passport/signup">Sign up</a>
+<br>
+<a href="/passport/login">Log in</a>
+{{/if}}

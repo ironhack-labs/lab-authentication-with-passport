@@ -47,6 +47,12 @@ router.post("../passport/signup", ensureLogin.ensureLoggedIn(), (req, res) => {
   });
 });
 
+router.get('/logout', (req, res) => {
+  req.session.destroy( err => {
+    res.redirect('/');
+  });
+});
+
 module.exports = router;
 
 
