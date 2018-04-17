@@ -1,60 +1,80 @@
-require('dotenv').config();
+'use strict';
 
-const bodyParser   = require('body-parser');
+const createError = require('http-errors');
+const express = require('express');
+const path = require('path');
 const cookieParser = require('cookie-parser');
-const express      = require('express');
-const favicon      = require('serve-favicon');
-const hbs          = require('hbs');
-const mongoose     = require('mongoose');
-const logger       = require('morgan');
-const path         = require('path');
+const logger = require('morgan');
+// Route requirements
+const indexRouter = require('./routes/index');
+const passportRouter = require('./routes/passportRouter');
+// Mongoose requirements
+// const mongoose = require('mongoose');
+// const session = require('express-session');
+// const MongoStore = require('connect-mongo')(session);
+const flash = require('connect-flash');
 
-
-mongoose.Promise = Promise;
-mongoose
-  .connect('mongodb://localhost/passport-local', {useMongoClient: true})
-  .then(() => {
-    console.log('Connected to Mongo!')
-  }).catch(err => {
-    console.error('Error connecting to mongo', err)
-  });
-
-const app_name = require('./package.json').name;
-const debug = require('debug')(`${app_name}:${path.basename(__filename).split('.')[0]}`);
-
+// Create the app
 const app = express();
 
-// Middleware Setup
-app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
+// sessions and cookies
+// app.use(session({
+//   store: new MongoStore({
+//     mongooseConnection: mongoose.connection,
+//     ttl: 24 * 60 * 60 // 1 day
+//   }),
+//   secret: 'some-string',
+//   resave: true,
+//   saveUninitialized: true,
+//   cookie: {
+//     maxAge: 24 * 60 * 60 * 1000
+//   }
+// }));
 
-// Express View engine setup
+// app.use((req, res, next) => {
+//   app.locals.user = req.session.user;
+//   next();
+// });
 
-app.use(require('node-sass-middleware')({
-  src:  path.join(__dirname, 'public'),
-  dest: path.join(__dirname, 'public'),
-  sourceMap: true
-}));
-      
-
+// view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
+
+// middlewares
+app.use(logger('dev'));
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));
+app.use(flash());
 
+// Routes
+app.use('/', indexRouter);
+app.use('/passport', passportRouter);
 
+// catch 404 and forward to error handler
+app.use(function (req, res, next) {
+  next(createError(404));
+});
 
-// default value for title local
-app.locals.title = 'Express - Generated with IronGenerator';
+// -- 404 and error handler
 
+// NOTE: requires a views/not-found.hbs template
+app.use((req, res, next) => {
+  res.status(404);
+  res.render('not-found');
+});
 
+// NOTE: requires a views/error.hbs template -- express knows this is error middleware because it has 4 parameters
+app.use((err, req, res, next) => {
+  // always log the error
+  console.error('ERROR', req.method, req.path, err);
 
-const index = require('./routes/index');
-const passportRouter = require("./routes/passportRouter");
-app.use('/', index);
-app.use('/', passportRouter);
-
+  // only render if the error ocurred before sending the response
+  if (!res.headersSent) {
+    res.status(500);
+    res.render('error');
+  }
+});
 
 module.exports = app;
