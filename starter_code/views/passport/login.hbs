@@ -1,0 +1,16 @@
+<p>You are in Login</p>
+<form action="/login" method="POST" id="form">
+  <label for="username">Username</label>
+  <input type="text" name="username" placeholder="Chewbacca">
+  <label for="password">Password</label>
+  <input type="password" name="password" placeholder="Whrrrooooo!">
+  {{!-- {{#if errorMessage}}
+    <div class="error-message">{{ errorMessage }}</div>
+  {{/if}} --}}
+
+  <button>Sign in</button>
+
+  <p class="account-message">Don't have an account?
+    <a href="/signup">Sign up</a></p>
+
+</form>
