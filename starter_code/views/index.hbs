@@ -1,2 +1,7 @@
-<h1>{{title}}</h1>
-<p>Welcome to {{title}}</p>
+
+<h1>Welcome to HOME</h1>
+{{#if user}}
+{{user.username}}, do you want visit your private home?:
+<br/>
+<a href = "/private-page">Private</a>
+{{/if}}
