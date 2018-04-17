@@ -1,6 +1,6 @@
 <h2>Signup</h2>
 
-<form action="/signup" method="POST" id="form-container">
+<form action="/passport/signup" method="POST" id="form-container">
   <label for="username">Username</label>
   <input id="username" type="text" name="username">
     <br>
@@ -11,7 +11,7 @@
   {{#if message}}
     <div class="error-message">{{ message }}</div>
   {{/if}}
-    
+
     <br>
     <br>
 
@@ -19,6 +19,6 @@
 
   <p class="account-message">
     Do you already have an account?
-    <a href="/login">Login</a>
+    <a href="/passport/login">Login</a>
   </p>
 </form>
