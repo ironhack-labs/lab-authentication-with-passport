@@ -1,10 +1,23 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>{{title}}</title>
+    <title>passport</title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
   </head>
   <body>
+    <header>
+      <h1>Lab-Authentication w/ Passport JB and Maggie WOOOOOOOOOO!!!!!</h1>
+      <nav>
+        <a href = "/">Home</a>
+        {{#if user}}
+          <strong>{{user.email}}</strong>
+          <a href = "/logout">Log Out</a>
+        {{else}}
+          <a href = "/signup" >Sign Up</a>
+          <a href = "/login" >Log In</a>
+        {{/if}}
+      </nav>
+    </header>
 
     {{{body}}}
 
