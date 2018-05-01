@@ -2,4 +2,3 @@ node_modules    # Dependency directory
 npm-debug.log   # Debug log from npm
 .env            # Environment Variables should NEVER be published
 node_modules/
-/node_modules
