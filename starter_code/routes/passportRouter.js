@@ -5,7 +5,7 @@ const User           = require("../models/user");
 // Bcrypt to encrypt passwords
 const bcrypt         = require("bcrypt");
 const bcryptSalt     = 10;
-const ensureLogin = require("connect-ensure-login");
+const ensureLogin   = require("connect-ensure-login");
 const passport      = require("passport");
 
 
@@ -13,3 +13,65 @@ const passport      = require("passport");
 router.get("/private-page", ensureLogin.ensureLoggedIn(), (req, res) => {
   res.render("passport/private", { user: req.user });
 });
+
+router.get("/signup", (req, res) => {
+  res.render("passport/signup.hbs", { user: req.user });
+});
+
+router.post("/signup", (req, res, next) => {
+  const username = req.body.username; 
+  const password = req.body.password;
+//                      ^ Relate to the names on signup.hbs 
+
+  if (username === "" || password === "") {
+    res.render("passport/signup", { message: "Please indicate username and password." });
+    return;
+  }
+
+  User.findOne({ username: username }, "username", (err, user) => {
+    if (user !== null) {
+      res.render("passport/signup", { message: "Sorry, that username already exists!" });
+      return;
+    }
+
+//  If a user doesn't already exist. Hash the new user's password.
+    const salt = bcrypt.genSaltSync(bcryptSalt);
+    const hashPass = bcrypt.hashSync(password, salt);
+
+    const newUser = new User({
+      username,
+      password: hashPass
+    });
+
+    newUser.save((err) => {
+      if (err) {
+        res.render("passport/signup", { message: "Oops! Something went wrong." });
+      } else {
+        res.redirect("/"); // After signup takes place. Redirect.
+      }
+    });
+  });
+});
+
+router.get("/login", (req, res, next) => {
+  res.render("passport/login", {message: req.flash('error')});
+});
+
+router.post("/login", passport. authenticate("local", {
+  successRedirect: "/private",
+  failureRedirect: "/login",
+  failureFlash: true,
+  passReqToCallback: true
+}));
+
+router.get("/logout", (req, res) => {
+  req.logout();
+  res.redirect("/login");
+});
+
+router.get("/private", ensureLogin.ensureLoggedIn(), (req, res) => {
+  res.render("passport/private", { user: req.user });
+});
+
+
+module.exports = router;
