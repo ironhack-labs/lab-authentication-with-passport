@@ -42,7 +42,7 @@ router.get('/signup', (req, res, next) => {
 
 router.post('/signup', (req, res, next) => {
   if (req.body.password1 !== req.body.password2) 
-    return res.render('signup',  {error: 'la cagaste'});
+    return res.render('../views/passport/signup',  {error: 'la cagaste'});
   bcrypt.genSalt(bcryptSalt, (err, salt) => {
     req.body.password = bcrypt.hashSync(req.body.password1, salt);
     User.create(req.body)
