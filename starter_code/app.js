@@ -9,6 +9,11 @@ const mongoose     = require('mongoose');
 const logger       = require('morgan');
 const path         = require('path');
 
+//Passport config
+const session = require('express-session');
+const passport = require ('passport');
+const LocalStrategy = require("passport-local");
+const ensureLogin = require("connect-ensure-login");
 
 mongoose.Promise = Promise;
 mongoose
@@ -24,6 +29,32 @@ const debug = require('debug')(`${app_name}:${path.basename(__filename).split('.
 
 const app = express();
 
+passport.serializeUser((user, cb) => {
+  cb(null, user._id);
+});
+
+passport.deserializeUser((id, cb) => {
+  User.findById(id, (err, user) => {
+    if (err) { return cb(err); }
+    cb(null, user);
+  });
+});
+
+passport.use(new LocalStrategy((username, password, next) => {
+  User.findOne({username }, (err, user) => {
+    if (err) {
+      return next(err);
+    }
+    if (!user) {
+      return next(null, false, { message: "Incorrect username" });
+    }
+    if (!bcrypt.compareSync(password, user.password)) {
+      return next(null, false, { message: "Incorrect password" });
+    }
+
+    return next(null, user);
+  });
+}));
 // Middleware Setup
 app.use(logger('dev'));
 app.use(bodyParser.json());
