@@ -10,6 +10,8 @@ const logger       = require('morgan');
 const path         = require('path');
 
 
+const session = require("express-session");
+const passport = require("passport")
 mongoose.Promise = Promise;
 mongoose
   .connect('mongodb://localhost/passport-local', {useMongoClient: true})
@@ -23,6 +25,17 @@ const app_name = require('./package.json').name;
 const debug = require('debug')(`${app_name}:${path.basename(__filename).split('.')[0]}`);
 
 const app = express();
+
+//session config
+app.use(session({
+  secret: "bliss",
+  resave: true,
+  saveUninitialized: true
+}));
+
+//PASSPORT INITIALIZATION
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Middleware Setup
 app.use(logger('dev'));
@@ -47,7 +60,7 @@ app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));
 
 
 // default value for title local
-app.locals.title = 'Express - Generated with IronGenerator';
+app.locals.title = 'My APP YOUR app';
 
 
 

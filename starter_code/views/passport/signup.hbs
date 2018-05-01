@@ -1,0 +1,14 @@
+<div class='wrap'>
+  Sign Up
+  {{#if error}}
+    <h6 class="error" > {{error}}</h6>
+  {{/if}}
+    <form method="POST" action="/signup">
+        <input type='text' placeholder='Username' name="username">
+        <input type='password' placeholder='Password' name="password1">
+        <br>
+        <input type='password' placeholder='Repite tu Password' name="password2">
+           <input class="login" type="submit">
+    </form>
+
+</div>
