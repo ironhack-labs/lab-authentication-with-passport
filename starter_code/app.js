@@ -8,12 +8,15 @@ const hbs          = require('hbs');
 const mongoose     = require('mongoose');
 const logger       = require('morgan');
 const path         = require('path');
-const passport = require("passport");
+
+const User         = require("./models/user");
 const session = require("express-session");
-const LocalStrategy = require("passport-local").Strategy;
 const bcrypt = require("bcrypt");
-const User         = require('./models/user');
+const passport = require("passport");
+const LocalStrategy = require("passport-local").Strategy;
 const flash = require("connect-flash");
+
+
 
 mongoose.Promise = Promise;
 mongoose
@@ -42,23 +45,20 @@ app.use(require('node-sass-middleware')({
   dest: path.join(__dirname, 'public'),
   sourceMap: true
 }));
- 
+
+
+// add
 app.use(session({
   secret: "our-passport-local-strategy-app",
   resave: true,
   saveUninitialized: true
 }));
 
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'hbs');
-app.use(express.static(path.join(__dirname, 'public')));
-app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));
-
-// passport
+// add
 passport.serializeUser((user, cb) => {
   cb(null, user._id);
 });
-
+// add
 passport.deserializeUser((id, cb) => {
   User.findById(id, (err, user) => {
     if (err) { return cb(err); }
@@ -66,6 +66,8 @@ passport.deserializeUser((id, cb) => {
   });
 });
 
+// add
+app.use(flash());
 passport.use(new LocalStrategy({
   passReqToCallback: true
 }, (req, username, password, next) => {
@@ -84,10 +86,12 @@ passport.use(new LocalStrategy({
   });
 }));
 
-app.use(flash());
-
+// add
 app.use(passport.initialize());
 app.use(passport.session());
+
+
+
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
@@ -97,14 +101,13 @@ app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));
 
 
 // default value for title local
-app.locals.title = 'Express - Generated with IronGenerator';
+app.locals.title = 'Passport lab yay!!!';
 
 
 
 const index = require('./routes/index');
-app.use('/', index);
-
 const passportRouter = require("./routes/passportRouter");
+app.use('/', index);
 app.use('/', passportRouter);
 
 
