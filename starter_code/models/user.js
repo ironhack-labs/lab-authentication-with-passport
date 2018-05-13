@@ -9,4 +9,7 @@ const userSchema = new Schema({
 });
 
 const User = mongoose.model("User", userSchema);
+
+// synchs this file with other files, creates a line of communication
+// using const user, model, userSchema
 module.exports = User;
