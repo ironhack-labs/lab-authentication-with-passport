@@ -12,7 +12,7 @@ const path         = require('path');
 
 mongoose.Promise = Promise;
 mongoose
-  .connect('mongodb://localhost/passport-local', {useMongoClient: true})
+  .connect('mongodb://localhost/starter-code', {useMongoClient: true})
   .then(() => {
     console.log('Connected to Mongo!')
   }).catch(err => {
@@ -52,9 +52,7 @@ app.locals.title = 'Express - Generated with IronGenerator';
 
 
 const index = require('./routes/index');
-const passportRouter = require("./routes/passportRouter");
 app.use('/', index);
-app.use('/', passportRouter);
 
 
 module.exports = app;
