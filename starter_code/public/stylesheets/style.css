@@ -1,0 +1,25 @@
+body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif; }
+
+input[type=submit],
+a {
+  color: #00B7FF;
+  display: block;
+  text-align: center;
+  width: 10rem;
+  border: 1px solid #00B7FF;
+  border-radius: 5px;
+  padding: .5rem;
+  margin-bottom: 1rem;
+  text-decoration: none; }
+
+input[type=submit]:hover,
+a:hover {
+  background: #00B7FF;
+  color: #fff; }
+
+form > div {
+  margin-bottom: 1rem; }
+
+/*# sourceMappingURL=style.css.map */
