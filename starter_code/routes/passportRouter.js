@@ -67,8 +67,25 @@ authRoutes.post("/login", passport.authenticate("local", {
   passReqToCallback: true
 }));
 
-authRoutes.get("/private", ensureLogin.ensureLoggedIn(), (req, res) => {
+authRoutes.get("/logout", ensureLogin.ensureLoggedIn(), (req, res) => {
+  req.logout();
+  res.redirect("/")
+});
+
+function ironhackEnsureLoggedIn(redirectUrl = "/login") {
+  return (req,res,next) => {
+    if (req.user)
+      next()
+    else 
+      res.redirect(redirectUrl)
+  }
+}
+
+authRoutes.get("/private", ironhackEnsureLoggedIn("/chartreuse"), (req, res) => {
   res.render("passport/private", { user: req.user });
 });
+// authRoutes.get("/private", ensureLogin.ensureLoggedIn(), (req, res) => {
+//   res.render("passport/private", { user: req.user });
+// });
 
 module.exports = authRoutes;

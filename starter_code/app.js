@@ -64,7 +64,7 @@ passport.use(new LocalStrategy((username, password, next) => {
     if (!bcrypt.compareSync(password, user.password)) {
       return next(null, false, { message: "Incorrect password" });
     }
-
+    
     return next(null, user);
   });
 }));
@@ -79,7 +79,7 @@ app.use(require('node-sass-middleware')({
   dest: path.join(__dirname, 'public'),
   sourceMap: true
 }));
-      
+
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
@@ -90,6 +90,12 @@ app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));
 
 // default value for title local
 app.locals.title = 'Express - Generated with IronGenerator';
+
+app.use((req,res,next) => {
+  if (req.user) 
+    res.locals.username = req.user.username
+  next()
+})
 
 
 const index = require('./routes/index');
