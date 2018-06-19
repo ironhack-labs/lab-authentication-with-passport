@@ -88,7 +88,11 @@ passport.use(new LocalStrategy((username, password, next) => {
 // default value for title local
 app.locals.title = 'Express - Generated with IronGenerator';
 
-
+app.use((req, res, next) => {
+  if (req.user)
+    app.locals.username = req.user.username
+  next()
+})
 
 const index = require('./routes/index');
 const passportRouter = require("./routes/passportRouter");

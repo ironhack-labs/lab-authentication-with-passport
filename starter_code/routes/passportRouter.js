@@ -66,7 +66,7 @@ router.get("/private-page", ensureLogin.ensureLoggedIn(), (req, res) => {
   res.render("passport/private", { user: req.user });
 });
 
-router.get("/logout", (req, res) => {
+router.get("/logout", ensureLogin.ensureLoggedIn(), (req, res) => {
   req.logout();
   res.redirect("/login");
 });

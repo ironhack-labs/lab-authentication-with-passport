@@ -1,7 +1,10 @@
 <h1>{{title}}</h1>
 <p>Welcome to {{title}}</p>
 
-<a href="/signup">Signup</a>
-<a href="/login">Login</a>
-<a href="/private-page">Private page</a>
-<a href="/logout">Logout</a>
+{{#if username}}
+  <a href="/private-page">Private page</a>
+  <a href="/logout">Logout</a>
+{{else}}
+  <a href="/signup">Signup</a>
+  <a href="/login">Login</a>
+{{/if}}
