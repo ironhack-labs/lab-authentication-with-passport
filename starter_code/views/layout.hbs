@@ -6,10 +6,15 @@
   </head>
   <body>
 <a href="/">Home</a> |
-<a href="/signup">Sign Up</a> |
-<a href="/login">Login</a> |
+
+{{#if username }}
 <a href="/logout">Logout</a> |
 <a href="/private-page">Private</a>
+{{ else }}
+<a href="/signup">Sign Up</a> |
+<a href="/login">Login</a>
+{{/if}}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ username  }}
 
 
     {{{body}}}
