@@ -101,7 +101,7 @@ passport.use(new LocalStrategy((username, password, next) => {
 // custom middleware to pass username to local
 app.use((req,res,next) => {
   if (req.user)
-    app.locals.username = req.user.username
+    res.locals.username = req.user.username
   next()
 })
 
