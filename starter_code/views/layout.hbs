@@ -5,9 +5,20 @@
     <link rel='stylesheet' href='/stylesheets/style.css' />
   </head>
   <body>
+<a href="/">Home</a> |
+
+{{#if username }}
+<a href="/logout">Logout</a> |
+<a href="/private-page">Private</a>
+{{ else }}
+<a href="/signup">Sign Up</a> |
+<a href="/login">Login</a>
+{{/if}}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ username  }}
+
 
     {{{body}}}
 
-    <script src='/javascripts/script.js' />
+    <script src='/javascripts/script.js'></script>
   </body>
 </html>
