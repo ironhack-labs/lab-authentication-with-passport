@@ -1,7 +1,6 @@
 body {
   padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-}
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif; }
 
 input[type=submit],
 a {
@@ -13,14 +12,14 @@ a {
   border-radius: 5px;
   padding: .5rem;
   margin-bottom: 1rem;
-  text-decoration: none;
-}
+  text-decoration: none; }
+
 input[type=submit]:hover,
 a:hover {
   background: #00B7FF;
-  color: #fff;
-}
+  color: #fff; }
 
 form > div {
-  margin-bottom: 1rem;
-}
+  margin-bottom: 1rem; }
+
+/*# sourceMappingURL=style.css.map */
