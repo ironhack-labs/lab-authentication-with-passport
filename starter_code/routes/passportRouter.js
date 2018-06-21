@@ -1,68 +1,86 @@
-const express = require("express");
-const authRoutes = express.Router();
+const express = require('express');
+const passport = require("passport");
+const ensureLogin = require("connect-ensure-login");
+const passportRouter = express.Router();
 // User model
-const User = require("../models/user");
-// Bcrypt to encrypt passwords
+const User = require("../models/User");
+
+// BCrypt to encrypt passwords
 const bcrypt = require("bcrypt");
 const bcryptSalt = 10;
-const ensureLogin = require("connect-ensure-login");
-const passport = require("passport");
 
-authRoutes.get("/signup", (req, res, next) => {
-  res.render("passport/signup");
+// // Home
+passportRouter.get("/", (req, res, next) => {
+  res.render("home");
 });
 
-authRoutes.post("/signup", (req, res, next) => {
+//* GET method to show the signup form
+passportRouter.get("/signup", (req, res, next) => {
+  res.render("auth/signup");
+});
+
+
+//* POST method to retrieve the information from the form 
+passportRouter.post("/signup", (req, res, next) => {
   const username = req.body.username;
   const password = req.body.password;
-
   if (username === "" || password === "") {
-    res.render("passport/signup", { message: "Indicate username and password" });
+    res.render("auth/signup", {
+      errorMessage: "Indicate a username and a password to sign up"
+    });
     return;
   }
-
-  User.findOne({ username })
-    .then(user => {
+  User.findOne({ "username": username },
+    "username",
+    (err, user) => {
       if (user !== null) {
-        res.render("passport/signup", { message: "The username already exists" });
+        res.render("auth/signup", {
+          errorMessage: "The username already exists"
+        });
         return;
       }
-
       const salt = bcrypt.genSaltSync(bcryptSalt);
       const hashPass = bcrypt.hashSync(password, salt);
 
-      const newUser = new User({
+      const newUser = User({
         username,
         password: hashPass
       });
-
-      newUser.save((err) => {
-        if (err) {
-          res.render("passport/signup", { message: "Something went wrong" });
-        } else {
+      newUser.save()
+        .then(user => {
           res.redirect("/");
-        }
-      });
-    })
-    .catch(error => {
-      next(error)
-    })
-  })
+        })
+        .catch(err => {
+          res.render("auth/signup", {
+            errorMessage: "Something went wrong"
+          });
+        });
+    });
+});
 
-  authRoutes.get("/login", (req, res, next) => {
-    res.render("passport/login", { "message": req.flash("error") });
+
+
+// LOGIN
+passportRouter.get("/login", (req, res, next) => {
+  res.render("auth/login", { "message": req.flash("error") });
+});
+
+passportRouter.post("/login", passport.authenticate("local", {
+  successRedirect: "/private-page",
+  failureRedirect: "/login",
+  failureFlash: true,
+  passReqToCallback: true
+}));
+
+passportRouter.get("/private-page", ensureLogin.ensureLoggedIn(), (req, res) => {
+  res.render("private", { username: req.user });
+});
+
+  // LOGOUT
+  passportRouter.get("/logout", (req, res) => {
+    req.logout();
+    res.redirect("/logout");
   });
 
-  authRoutes.post("/login", passport.authenticate("local", {
-    successRedirect: "/private",
-    failureRedirect: "/login",
-    failureFlash: true,
-    passReqToCallback: true
-  }));
 
-
-  authRoutes.get("/private", ensureLogin.ensureLoggedIn(), (req, res) => {
-    res.render("passport/private", { user: req.user });
-  });
-
-  module.exports = authRoutes;
+module.exports = passportRouter;
