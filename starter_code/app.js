@@ -14,9 +14,9 @@ mongoose.Promise = Promise;
 mongoose
   .connect('mongodb://localhost/passport-local', {useMongoClient: true})
   .then(() => {
-    console.log('Connected to Mongo!')
+    console.log('Connected to Mongo!');
   }).catch(err => {
-    console.error('Error connecting to mongo', err)
+    console.error('Error connecting to mongo', err);
   });
 
 const app_name = require('./package.json').name;
