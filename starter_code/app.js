@@ -8,11 +8,16 @@ const hbs          = require('hbs');
 const mongoose     = require('mongoose');
 const logger       = require('morgan');
 const path         = require('path');
+const session      = require("express-session");
+const MongoStore   = require("connect-mongo")(session);
 
+
+
+const passportSetup =require("./routes/set.js");
 
 mongoose.Promise = Promise;
 mongoose
-  .connect('mongodb://localhost/passport-local', {useMongoClient: true})
+  .connect('mongodb://localhost/lab-authentication-with-passport', {useMongoClient: true})
   .then(() => {
     console.log('Connected to Mongo!')
   }).catch(err => {
@@ -44,6 +49,15 @@ app.set('view engine', 'hbs');
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));
 
+app.use(session({
+  secret: "secret should be different fot every app",
+  saveUninitialized: true,
+  resave: true,
+  store: new MongoStore({mongooseConnection: mongoose.connection})
+}));
+
+//this must come after session setup
+passportSetup(app);
 
 
 // default value for title local
@@ -52,9 +66,9 @@ app.locals.title = 'Express - Generated with IronGenerator';
 
 
 const index = require('./routes/index');
-const passportRouter = require("./routes/passportRouter");
 app.use('/', index);
-app.use('/', passportRouter);
 
+const passportRouter = require('./routes/passportRouter');
+app.use('/', passportRouter);
 
 module.exports = app;
