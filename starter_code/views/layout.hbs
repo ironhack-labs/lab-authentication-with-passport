@@ -5,8 +5,28 @@
     <link rel='stylesheet' href='/stylesheets/style.css' />
   </head>
   <body>
+<header>
+  <h1>Passport Lab</h1>
+  <nav>
+  
+
+  
+    {{#if blahUser}}
+    <a href="/private-page">See private page</a>
+    <a href="/logout">Log out</a>
+    {{else}}
+  <a href="/">Home</a>
+    <a href="/signup">Sign up</a>
+    <a href="/login">Log in</a>
+    {{/if}}
+  </nav>
+</header>
 
     {{{body}}}
+
+<footer>
+  <p>Made with hapiness at Ironhack by Manelle and Marie</p>
+</footer>
 
     <script src='/javascripts/script.js' />
   </body>
