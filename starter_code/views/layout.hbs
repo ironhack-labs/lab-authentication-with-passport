@@ -4,6 +4,16 @@
     <title>{{title}}</title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
   </head>
+  <header>
+    <nav>
+      <a href="/">Home</a>
+      {{# if blahUser}}
+      <a href="/private-page">Private</a>
+      {{/if}}
+      <a href="/signup">Sign Up</a>
+      <a href="/login">Log In</a>
+    </nav>
+  </header>
   <body>
 
     {{{body}}}

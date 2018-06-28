@@ -1,0 +1,29 @@
+<h2>
+    Log In
+</h2>
+{{!--
+{{> flashMessages}} --}}
+
+<form method="POST" action="process-login">
+
+    <label>
+        User Name :
+        <input type="text" name="userName" placeholder="sevenEleven"/>
+    </label>
+    <br/>
+
+    <label>
+        Password :
+        <input type="password" name="loginPassword" placeholder="We don't tell"/>
+    </label>
+    <br/>
+
+    <button>
+        Log In
+    </button>
+
+    <p>
+        Don't have an account? <a href="/signup">Sing Up</a>
+    </p>
+
+</form>

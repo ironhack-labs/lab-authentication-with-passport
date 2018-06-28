@@ -2,8 +2,8 @@ const mongoose = require("mongoose");
 const Schema   = mongoose.Schema;
 
 const userSchema = new Schema({
-  username: String,
-  password: String
+  userName: String,
+  encryptedPassword : {type : String, requiered : true}
 }, {
   timestamps: { createdAt: "created_at", updatedAt: "updated_at" }
 });
