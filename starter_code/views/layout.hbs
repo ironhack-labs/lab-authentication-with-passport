@@ -5,9 +5,44 @@
     <link rel='stylesheet' href='/stylesheets/style.css' />
   </head>
   <body>
+    <header>
+      <nav>
+        <h1 class="title"> Lab: Authentification with Passport </h1>
+          {{#if blahUser}}
+
+          <p class="welcome"> Welcome {{blahUser.username}}, it's nice to see you again!</p>  
+              
+          <button class="homepage-button home"> <a href="/">Home page</a></button>
+          <button class="homepage-button private"> <a class="private" href="/private-page"> ???? </a></button>
+          <button class="homepage-button logout"> <a href="/logout">Log Out</a></button>
+           
+            {{else}}
+          <button class="homepage-button signup"> <a href="/signup">Sign Up</a> </button>
+          <button class="homepage-button login"> <a href="/login">Log In</a></button>
+       
+
+            {{/if}}
+       
+            
+      </nav>
+
+    </header>
 
     {{{body}}}
 
     <script src='/javascripts/script.js' />
   </body>
 </html>
+
+<!--  
+            {{#if blahUser}}
+               <strong> Welcome {{blahUser.email}} </strong>
+               <a href="/room/add">Add a room</a>
+               <a href="/settings">Settings</a>
+               <a href="/logout">Log Out</a>
+            
+            {{else}}
+               <a href="/signup">Sign Up</a>
+               <a href="/login">Log In</a>
+
+            {{/if}} -->

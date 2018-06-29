@@ -1,58 +1,47 @@
 body {
   padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-}
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif; }
 
 a {
   color: black;
   font-size: 1.5em;
-  text-decoration: none;
-}
+  text-decoration: none; }
 
 .homepage-button {
   border-radius: 10px;
   height: 50px;
   width: 150px;
-  margin-right: 20px;
-}
+  margin-right: 20px; }
 
 .login {
-  background-color: lawngreen;
-}
+  background-color: lawngreen; }
 
 .signup {
-  background-color: yellow;
-}
+  background-color: yellow; }
 
 .logout {
-  background-color: red;
-}
+  background-color: red; }
 
 .home {
-  background-color:#00B7FF;
-}
+  background-color: #00B7FF; }
 
 .private {
   background-color: black;
-  color: antiquewhite;
-}
+  color: antiquewhite; }
 
 .welcome {
   font-size: 2em;
   font-weight: bold;
-  color: goldenrod;
-}
+  color: goldenrod; }
 
 .title {
   color: red;
   font-size: 2.4em;
-  font-weight: bold;
- }
+  font-weight: bold; }
 
 label {
   display: inline-block;
-  height: 35px;
-}
+  height: 35px; }
 
 .push {
   margin: 40px;
@@ -60,5 +49,6 @@ label {
   height: 35px;
   border-radius: 5px;
   font-size: 1.2em;
-  width: 150px;
-}
+  width: 150px; }
+
+/*# sourceMappingURL=style.css.map */
