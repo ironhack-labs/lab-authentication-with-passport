@@ -1,4 +1,4 @@
 node_modules    
-npm-debug.log   
-.env
-.vscode   
+npm-debug.log
+.vscode
+
