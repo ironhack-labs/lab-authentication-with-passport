@@ -22,7 +22,8 @@ router.post("/signup", (req, res, next) =>{
       const salt = bcrypt.genSaltSync(bcryptSalt);
       const hashPass = bcrypt.hashSync(password, salt);
       const newUser = new User({username, password: hashPass});
-      req.session.user = newUser;
+      res.locals.user = newUser;
+      console.log("router", res.locals.user)
       return newUser.save();
     }).then(user => {
       res.redirect("/");})
