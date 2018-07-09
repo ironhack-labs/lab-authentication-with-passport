@@ -10,6 +10,7 @@ const logger = require('morgan');
 const path = require('path');
 const session = require("express-session");
 const MongoStore = require("connect-mongo")(session);
+const flash = require("connect-flash");
 
 const dbName = process.env.DBURL;
 mongoose.Promise = Promise;
@@ -54,12 +55,16 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));
-
+app.use(flash());
 require('./passport')(app);
 
-// default value for title local
-app.locals.title = 'Express - Generated with IronGenerator';
 
+app.use((req,res,next) => {
+  res.locals.title = 'Express - Generated with IronGenerator';
+  res.locals.user = req.user;
+  res.locals.errorMessage = req.flash("error");
+  next();
+}) 
 
 
 const index = require('./routes/index');
