@@ -1,19 +1,15 @@
-<form action="/signup" method="POST" id="form">
-  <h2>Signup</h2>
+<form id="form" action="/signup" method="POST">
 
-  <label for="username">Username</label>
-  <input type="text" name="username" placeholder="Ironhacker">
+  
+    <label for="username">Username</label>
+    
+    <input type="text" name="username" placeholder="Username">
 
-  <label for="password">Password</label>
-  <input type="password" name="password" placeholder="Password">
-
-  {{#if errorMessage }}
+    <label for="password">Password</label>
+    
+    <input type="password" name="password" placeholder="Password">
+    {{#if errorMessage }}
     <div class="error-message">{{ errorMessage }}</div>
-  {{/if}}
-
-  <button>Signup</button>
-
-  <p class="account-message">
-    Do you have an account? <a href="/login">Login</a>
-  </p>
+    {{/if}}
+    <button>Create account</button>
 </form>
