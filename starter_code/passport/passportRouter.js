@@ -9,7 +9,6 @@ const ensureLogin = require("connect-ensure-login");
 const passport = require("passport");
 
 
-
 router.get("/private-page", ensureLogin.ensureLoggedIn(), (req, res) => {
   res.render("passport/private", {
     user: req.user
@@ -51,7 +50,7 @@ router.post('/signup', (req, res, next) => {
     })
     .catch(err => {
       console.log(err);
-      res.render("auth/signup", {
+      res.render("passport/signup", {
         errorMessage: err.message
       });
     })
