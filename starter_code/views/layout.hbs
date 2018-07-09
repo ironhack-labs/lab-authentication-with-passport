@@ -5,8 +5,16 @@
     <link rel='stylesheet' href='/stylesheets/style.css' />
   </head>
   <body>
-
+    {{#if user}}
+    <a href="/private-page">Private page</a>
+    <a href="/logout">Log out</a>
+    {{/if}}
+    {{#unless user}}
+    <a href="/login">Login</a>
+    <a href="/signup">Signup</a>
+    {{/unless}}
     {{{body}}}
+     
 
     <script src='/javascripts/script.js' />
   </body>
