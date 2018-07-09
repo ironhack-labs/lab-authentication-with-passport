@@ -9,6 +9,13 @@ const mongoose     = require('mongoose');
 const logger       = require('morgan');
 const path         = require('path');
 
+const session = require("express-session");
+const bcrypt = require("bcrypt");
+const passport = require("passport");
+const LocalStrategy = require("passport-local").Strategy;
+
+const flash = require("connect-flash");
+
 
 mongoose.Promise = Promise;
 mongoose
@@ -30,6 +37,16 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
+app.use(session({
+  secret: "our-passport-local-strategy-app",
+  resave: true,
+  saveUninitialized: true
+}));
+
+app.use(flash());
+
+require('./passport')(app);
+
 // Express View engine setup
 
 app.use(require('node-sass-middleware')({
@@ -44,6 +61,13 @@ app.set('view engine', 'hbs');
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));
 
+app.use((req,res,next) => {
+  // default value for title local
+  res.locals.title = 'Express - Generated with IronGenerator';
+  res.locals.user = req.user;
+  res.locals.errorMessage = req.flash("error");
+  next();
+}) 
 
 
 // default value for title local
