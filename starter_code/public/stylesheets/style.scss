@@ -1,8 +1,16 @@
 body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+    padding: 50px;
+    font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+    background-color: rgb(204, 129, 79)
 }
 
-a {
-  color: #00B7FF;
+nav {
+    ul {
+        list-style-type: none;
+        a {
+            font-weight: 700;
+            color: rgb(16, 72, 94);
+            text-decoration: none;
+        }
+    }
 }

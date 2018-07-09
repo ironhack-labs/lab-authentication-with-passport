@@ -1,0 +1,13 @@
+body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  background-color: #cc814f; }
+
+nav ul {
+  list-style-type: none; }
+  nav ul a {
+    font-weight: 700;
+    color: #10485e;
+    text-decoration: none; }
+
+/*# sourceMappingURL=style.css.map */
