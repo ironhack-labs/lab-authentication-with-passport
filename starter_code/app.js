@@ -48,8 +48,7 @@ app.use(session({
   })
 }));
 
-
-// require('./passport')(app);
+require('./passport')(app);
 // Express View engine setup
 
 app.use(require('node-sass-middleware')({
@@ -72,8 +71,8 @@ app.use((req,res,next) => {
   next();
 }) 
 
-const index = require('./passport/index');
-const passportRouter = require("./passport/passportRouter");
+const index = require('./routes/index');
+const passportRouter = require("./routes/passportRouter");
 app.use('/', index);
 app.use('/', passportRouter);
 
