@@ -5,7 +5,15 @@
     <link rel='stylesheet' href='/stylesheets/style.css' />
   </head>
   <body>
-
+    <ul>
+      {{#if user}}
+        <li> <a href="/logout">Logout</a> </li>
+      {{/if}}
+      {{#unless user}}
+        <li><a href="/login">Login</a></li>
+        <li><a href="/signup">Sign up!</a></li>
+      {{/unless}}
+    </ul>
     {{{body}}}
 
     <script src='/javascripts/script.js' />

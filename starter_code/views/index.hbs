@@ -1,2 +1,7 @@
 <h1>{{title}}</h1>
 <p>Welcome to {{title}}</p>
+
+{{#if user}}
+<h2>Welcome again, {{user.username}}</h2>
+<h3>Do you wanna go to our <a href="/private-page">ultra private page?</a> </h3>
+{{/if}}
