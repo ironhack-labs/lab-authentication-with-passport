@@ -2,8 +2,11 @@
 <p>Welcome to {{title}}</p>
 {{#if user}}
 <a href="/private">Private area</a>
+-
+<a href="/logout">Logout</a>
 {{/if}}
 {{#unless user}}
 <a href="/login">Login</a>
+-
 <a href="/singup">Signup</a>
 {{/unless}}
