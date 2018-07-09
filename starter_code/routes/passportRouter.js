@@ -8,30 +8,18 @@ const bcryptSalt = 10;
 const ensureLogin = require("connect-ensure-login");
 const passport = require("passport");
 
-router.get("/", ensureLogin.ensureLoggedIn(), (req, res) => {
-  res.render("passport/signup", { user: req.user });
+
+router.get("/signup", (req, res, next) => {
+  res.render("passport/signup");
 });
 
-router.get("/private-page", ensureLogin.ensureLoggedIn(), (req, res) => {
-  res.render("passport/private", { user: req.user });
-});
-
-router.get('/signup', (req, res, next) => {  
-  res.render('passport/signup');
-});
-
-router.post('/signup', (req, res, next) => {
-
-  const {
-    username,
-    password
-  } = req.body;
+router.post("/signup", (req, res, next) => {
+  const { username, password } = req.body;
 
   User.findOne({
-      username
-    })
+    username
+  })
     .then(user => {
-      console.log(user);
       if (user !== null) {
         throw new Error("Username Already exists");
       }
@@ -44,33 +32,39 @@ router.post('/signup', (req, res, next) => {
         password: hashPass
       });
 
-      return newUser.save()
+      return newUser.save();
     })
     .then(user => {
       res.redirect("/");
     })
     .catch(err => {
-      console.log(err);
       res.render("passport/signup", {
         errorMessage: err.message
       });
-    })
-})
-
-router.get('/login', (req, res, next) => {  
-  res.render('passport/login');
+    });
 });
 
-router.post("/login", passport.authenticate("local", {
+router.get("/login", (req, res, next) => {
+  res.render("passport/login");
+});
+
+router.post(
+  "/login",
+  passport.authenticate("local", {
     successRedirect: "/",
-    failureRedirect: "/passport/login",
-    failureFlash: false,
+    failureRedirect: "/login",
+    failureFlash: true,
     passReqToCallback: true
   })
-)
+);
 
 router.get("/private", ensureLogin.ensureLoggedIn(), (req, res) => {
   res.render("passport/private", { user: req.user });
 });
+
+router.get('/logout' , (req,res) => {
+  req.logout();
+  res.redirect('/');
+})
 
 module.exports = router;

@@ -1,19 +1,17 @@
-<form id="form" action="/signup" method="POST">
-
-    {{#if errorMessage }}
-    <div class="error-message">{{ errorMessage }}</div>
-    {{/if}}
-    <label for="username">Username</label>
-    <br>
-    <input type="text" name="username" placeholder="">
-
-    <br>
-    <br>
-    <label for="password">Password</label>
-    <br>
-    <input type="password" name="password" placeholder="">
-    <br>
-    <br>
-
-    <button>Create account</button>
-</form>
+<div class="wrapper">
+    <div class="container whiteBack">
+        <h2>Sign up</h2>
+        <form id="form" action="/signup" method="POST">
+            <div class="row form">
+                {{#if errorMessage }}
+                <div class="error-message">{{ errorMessage }}</div>
+                {{/if}}
+                <label for="username">Username</label>
+                <input type="text" name="username" placeholder="">
+                <label for="password">Password</label>
+                <input type="password" name="password" placeholder="">
+                <button type="submit" class="waves-effect waves-light btn links">Sign Up</button>
+            </div>
+        </form>
+    </div>
+</div>

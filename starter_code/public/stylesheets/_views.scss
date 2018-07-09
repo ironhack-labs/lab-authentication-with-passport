@@ -1,0 +1,25 @@
+form {
+    input {
+      color: black;
+      border: 1px solid black !important;
+      width: 400px !important;
+      text-align: center;
+      height: 35px !important;
+    }
+  
+    label {
+      color: black;
+      font-size: 18px;
+      margin-top: 10px;
+    }
+  }
+  
+  .form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+  }
+  
+  .whiteBack {
+      background-color: #4888b9d2 !important;
+  }

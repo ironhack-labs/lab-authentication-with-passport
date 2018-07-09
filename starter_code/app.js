@@ -10,10 +10,10 @@ const logger = require("morgan");
 const path = require("path");
 const session = require("express-session");
 const MongoStore = require("connect-mongo")(session);
-const bcrypt = require("bcrypt");
-const passport = require("passport");
-const ensureLogin = require("connect-ensure-login");
-
+// const bcrypt = require("bcrypt");
+// const passport = require("passport");
+// const ensureLogin = require("connect-ensure-login");
+const flash = require("connect-flash");
 
 mongoose.Promise = Promise;
 mongoose
@@ -40,21 +40,25 @@ app.use(logger("dev"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(session({
-  secret: "basic-auth-secret",
-  cookie: { maxAge: 60000 },
-  store: new MongoStore({
-    mongooseConnection: mongoose.connection,
-    ttl: 24 * 60 * 60 // 1 day
+app.use(
+  session({
+    secret: "basic-auth-secret",
+    cookie: { maxAge: 60000 },
+    store: new MongoStore({
+      mongooseConnection: mongoose.connection,
+      ttl: 24 * 60 * 60 // 1 day
+    })
   })
-}));
-app.use(session({
-  secret: "local",
-  resave: true,
-  saveUninitialized: true
-}));
-require('./passport')(app);
-
+);
+app.use(
+  session({
+    secret: "local",
+    resave: true,
+    saveUninitialized: true
+  })
+);
+app.use(flash());
+require("./passport")(app);
 
 // Express View engine setup
 
@@ -72,8 +76,12 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(favicon(path.join(__dirname, "public", "images", "favicon.ico")));
 
 // default value for title local
-app.locals.title = "Express - Generated with IronGenerator";
-
+app.use((req, res, next) => {
+  app.locals.title = "Authentication with Passport";
+  res.locals.user = req.user;
+  res.locals.message = req.flash("error");
+  next();
+});
 const index = require("./routes/index");
 const passportRouter = require("./routes/passportRouter");
 app.use("/", index);
