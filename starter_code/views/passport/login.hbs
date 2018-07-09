@@ -1,8 +1,20 @@
-<h2>Log in, my friend</h2>
-<form action="/login" method="post">
-  <label> Login: </label>
-  <input type="text" name="username" placeholder="Enter your login">
-  <label> Password: </label>
-  <input type="password" name="password" placeholder="Enter your password"></input>
-  <button type="submit">OK</button>
-</form>
+<div class="container">
+  <h2>Log in, my friend</h2>
+  <form action="/login" method="post">
+    <div class="row">
+      <div class="col-md-4">
+        <div class="login">
+          <label> Login: </label>
+          <input type="text" name="username" placeholder="Enter your login">
+        </div>
+        <div class="password">
+          <label> Password: </label>
+          <input type="password" name="password" placeholder="Enter your password"></input>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <button class="btn btn-primary col-md-1" type="submit">OK</button>
+    </div>
+  </form>
+</div>

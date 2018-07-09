@@ -16,20 +16,19 @@ router.get("/signup", (req, res, next) =>{
 
 router.post("/signup", (req, res, next) =>{
   const {username, password} = req.body;
-  console.log(username, password);
   User.findOne({username})
     .then( user => {
       if(user!==null) {throw new Error("Username already exists!!!");}
       const salt = bcrypt.genSaltSync(bcryptSalt);
       const hashPass = bcrypt.hashSync(password, salt);
       const newUser = new User({username, password: hashPass});
-      console.log(newUser);
+      req.session.user = newUser;
       return newUser.save();
     }).then(user => {
       res.redirect("/");})
     .catch( err => {
       console.log(err);
-      res.render("/");
+      res.render("/signup");
     })
 });
 

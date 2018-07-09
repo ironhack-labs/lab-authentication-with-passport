@@ -15,7 +15,7 @@ const flash = require('connect-flash');
 
 mongoose.Promise = Promise;
 mongoose
-  .connect('mongodb://localhost/passport-local', {useMongoClient: true})
+  .connect(process.env.DBURL, {useMongoClient: true})
   .then(() => {
     console.log('Connected to Mongo!')
   }).catch(err => {
@@ -63,10 +63,10 @@ app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));
 app.use((req,res,next) => {
   // default value for title local
   res.locals.title = 'Express - Generated with IronGenerator';
-  res.locals.user = req.user;
+  res.locals.user = req.session.user;
   res.locals.message = req.flash("error");
   next();
-}) 
+});
 
 
 const index = require('./routes/index');
