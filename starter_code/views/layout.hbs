@@ -6,6 +6,18 @@
   </head>
   <body>
 
+        <ul>
+      {{#if user}}
+        <li><a href="/">Home</a></li>
+        <li><a href="/passport/private">PRIVATE PAGE</a></li>
+        <li><a href="/passport/logout">Logut</a></li>
+      {{/if}}
+      {{#unless user}}
+        <li><a href="/passport/signup">Registrate (signup)</a></li>
+        <li><a href="/passport/login">Login</a></li>
+      {{/unless}}
+    </ul>
+
     {{{body}}}
 
     <script src='/javascripts/script.js' />
