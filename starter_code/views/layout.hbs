@@ -1,23 +1,36 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>{{title}}</title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-  </head>
-  <body>
+<head>
+  <title>{{title}}</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/foundation-sites@6.5.0-rc.1/dist/css/foundation.min.css" integrity="sha256-5B4hbMU9OJUxbUEvafv7D53WeubxzKZBqPfQNMh6Iw8= sha384-n7bC26QCtUZ5T9AHXtZrl7FcPQL5BkGi/JXbs6FVnUexlfniI0xH42VZxa4OxPD1 sha512-AnfTqiknRiK8BIwGSIegiguDX0838ShwXn8bEmTGPb31OPyYMzBbtnuekO6qSFzP/J8a0bMe4V6FcfM7n/YONQ==" crossorigin="anonymous">
+  <link rel='stylesheet' href='/stylesheets/style.css' />
+</head>
+<body>
 
-    <ul>
-      <li><a href="/">Home</a></li>
-      {{#if user}}
-      <li><a href="/logout">Log out</a></li>
-      {{else}}
-      <li><a href="/signup">Sign up</a></li>
-      <li><a href="/login">Log in</a></li>
-      {{/if}}
-    </ul>
+  <div class="top-bar">
+    <div class="top-bar-left">
+      <ul class="dropdown menu" data-dropdown-menu>
+        <li class="menu-text">Auth with Passport</li>
+        <li><a href="/">Home</a></li>
+        {{#if user}}
+        <li><a href="/private-page">Private page</a></li>
+        <li><a href="/logout">Log out</a></li>
+        {{else}}
+        <li><a href="/signup">Sign up</a></li>
+        <li><a href="/login">Log in</a></li>
+        {{/if}}
+      </ul>
+    </div>
+  </div>
 
-    {{{body}}}
+  <div class="grid-container">
+    <div class="grid-x grid-margin-x grid-centered">
+      <div class="cell medium-6 align-center">
+        {{{body}}}
+      </div>
+    </div>
+  </div>
 
-    <script src='/javascripts/script.js' />
-  </body>
+  <script src='/javascripts/script.js' />
+</body>
 </html>

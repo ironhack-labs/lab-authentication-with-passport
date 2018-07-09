@@ -71,7 +71,7 @@ app.use((req,res,next) => {
   res.locals.message = req.flash("error");
   
   next();
-}) 
+});
 
 const index = require("./routes/index");
 const passportRouter = require("./routes/passportRouter");
