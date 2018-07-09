@@ -5,6 +5,21 @@
     <link rel='stylesheet' href='/stylesheets/style.css' />
   </head>
   <body>
+    {{#if user}}
+    <ul>
+      <li><a href="/passport/logout">Log out</a></li>
+      <li><a href="/passport/private">Private page</a></li>
+      <li><a href="/">Home</a></li>
+    </ul>
+    {{/if}}
+
+    {{#unless user}}
+    <ul>
+      <li><a href="/passport/login">Log in</a></li>
+      <li><a href="/passport/signup">Sign up</a></li>
+      <li><a href="/">Home</a></li>
+    </ul>
+    {{/unless}}
 
     {{{body}}}
 
