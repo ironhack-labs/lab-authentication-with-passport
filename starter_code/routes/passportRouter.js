@@ -53,10 +53,27 @@ router.post("/passport/signup", (req, res, next) => {
       res.redirect("/");
     })
     .catch(err => {
-      res.render("auth/signup", {
+      res.render("passport/signup", {
         errorMessage: err.message
       });
     });
 });
+
+router.get("/login", (req, res) => {
+  res.render("passport/login", { user: req.user });
+});
+
+router.post("/passport/login", passport.authenticate("local", {
+  successRedirect: "/",
+  failureRedirect: "/login",
+  failureFlash: false,
+  passReqToCallback: true
+})
+);
+
+router.get('/logout' , (req,res) => {
+  req.logout();
+  res.redirect('/');
+})
 
 module.exports = router;
