@@ -1,0 +1,22 @@
+.wrapper {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    background: url(https://s19126.pcdn.co/wordpress-contract-plugin/wp-content/uploads/sites/9/2016/05/two-factor-layer-authentication.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+    color: black;
+    
+    .container {
+      text-align: center;
+    }
+  
+    .links {
+        margin: 5px;
+        width: 200px;
+    }
+  
+    .btn {
+      background-color: #6885e4e3;
+    }
+  }

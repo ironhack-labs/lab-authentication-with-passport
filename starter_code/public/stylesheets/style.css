@@ -1,0 +1,37 @@
+.wrapper {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  background: url(https://s19126.pcdn.co/wordpress-contract-plugin/wp-content/uploads/sites/9/2016/05/two-factor-layer-authentication.png);
+  background-size: cover;
+  background-repeat: no-repeat;
+  color: black; }
+  .wrapper .container {
+    text-align: center; }
+  .wrapper .links {
+    margin: 5px;
+    width: 200px; }
+  .wrapper .btn {
+    background-color: #6885e4e3; }
+
+form input {
+  color: black;
+  border: 1px solid black !important;
+  width: 400px !important;
+  text-align: center;
+  height: 35px !important; }
+
+form label {
+  color: black;
+  font-size: 18px;
+  margin-top: 10px; }
+
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center; }
+
+.whiteBack {
+  background-color: #4888b9d2 !important; }
+
+/*# sourceMappingURL=style.css.map */
