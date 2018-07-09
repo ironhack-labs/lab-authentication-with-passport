@@ -1,2 +1,12 @@
 <h1>{{title}}</h1>
-<p>Welcome to {{title}}</p>
+<p>Welcome {{user.username}}</p>
+
+{{#unless user}}
+<a href="/signup">Sign Up</a> <br> <br>
+<a href="/login">Log In</a> <br><br>
+{{/unless}}
+
+{{#if user}}
+<a href="/auth/private-page">Private Page (only register users)</a> <br><br>
+<a href="/auth/logout">Log out</a> 
+{{/if}}
