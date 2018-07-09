@@ -1,0 +1,19 @@
+{{#if errorMessage}}
+  <div class="callout alert">{{errorMessage}}</div>
+{{/if}}
+
+<form action="/signup" method="POST">
+<fieldset>
+  <div>
+    <label for="username">Username</label>
+    <input type="text" name="username" id="username" placeholder="Username" required>
+  </div>
+  <div>
+    <label for="password">Password</label>
+    <input type="password" name="password" id="password" placeholder="Password" required>
+  </div>
+</fieldset>
+<fieldset>
+  <button class="button hollow" type="submit">Sign up</button>
+</fieldset>
+</form>
