@@ -6,8 +6,20 @@
   </head>
   <body>
 
+    <ul>
+      {{#if user}}
+        <li><a href="/">Home</a></li>
+        <li><a href="/private-page">Private Page</a></li>
+        <li><a href="/logout">Log Out</a></li>
+      {{/if}}
+      {{#unless user}}
+        <li><a href="/signup">Registrate (Sign Up)</a></li>
+        <li><a href="/login">Login</a></li>
+      {{/unless}}
+    </ul>
+
     {{{body}}}
 
-    <script src='/javascripts/script.js' />
+    <script src='/javascripts/script.js'></script>
   </body>
 </html>
