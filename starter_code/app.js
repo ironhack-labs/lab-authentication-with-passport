@@ -8,6 +8,11 @@ const hbs          = require('hbs');
 const mongoose     = require('mongoose');
 const logger       = require('morgan');
 const path         = require('path');
+const passport = require('passport');
+const bcrypt = require('bcrypt')
+const session = require('express-session')
+const flash = require('connect-flash')
+
 
 
 mongoose.Promise = Promise;
@@ -29,6 +34,14 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(session({
+  secret: "our-passport-local-strategy-app",
+  resave: true,
+  saveUninitialized: true
+}))
+app.use(flash())
+
+require('./passport')(app);
 
 // Express View engine setup
 
