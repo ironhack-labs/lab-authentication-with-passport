@@ -1,2 +1,12 @@
 <h1>{{title}}</h1>
 <p>Welcome to {{title}}</p>
+
+{{#if user}}
+<a href="/private">Private area</a>
+<a href="/logout">Logout</a>
+{{/if}}
+
+{{#unless user}}
+<a href="/login">Login</a>
+<a href="/signup">Signup</a>
+{{/unless}}
