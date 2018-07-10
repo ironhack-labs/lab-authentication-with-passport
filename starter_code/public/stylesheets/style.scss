@@ -6,3 +6,20 @@ body {
 a {
   color: #00B7FF;
 }
+
+.autentication{
+  display: flex;
+  justify-content: flex-end;
+  li {
+    display: inline-block;
+    margin-left: 20px;
+    a{
+    text-decoration: none;
+    }
+  }
+}
+
+form{
+  display: flex;
+  flex-direction: column;
+}
