@@ -1,9 +1,10 @@
 const express = require('express');
 const router  = express.Router();
+const passport = require("passport");
+require('./serializers');
+require('./localStrategy');
 
-/* GET home page */
-router.get('/', (req, res, next) => {
-  res.render('index');
-});
-
-module.exports = router;
+module.exports = app => {
+    app.use(passport.initialize());
+    app.use(passport.session());
+}
