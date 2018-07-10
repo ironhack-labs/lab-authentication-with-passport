@@ -1,0 +1,29 @@
+body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+   background-image: url(http://www.lowcostravels.com/Miami-Downtown.jpg219);
+  background-size: cover;
+}
+a {
+  color: white;
+  font-size: 30px;
+  font-weight: bold;
+}
+
+/*# sourceMappingURL=style.css.map */
+
+html {
+
+}
+
+h1 {
+color: blue;
+font-size: 55px;
+}
+
+p {
+  color: white;
+  font-size: 60px;
+  font-weight: bold;
+}
+
