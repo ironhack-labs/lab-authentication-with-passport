@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "nodemon ./bin/www",
-    "dev": "DEBUG=starter-code:* nodemon ./bin/www"
+    "watch": "DEBUG=starter-code:* nodemon ./bin/www"
   },
   "dependencies": {
     "body-parser": "~1.18.2",

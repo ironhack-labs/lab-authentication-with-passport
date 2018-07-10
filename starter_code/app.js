@@ -9,6 +9,9 @@ const mongoose     = require('mongoose');
 const logger       = require('morgan');
 const path         = require('path');
 
+//passport
+const passport = require('./helpers/passport')
+
 
 mongoose.Promise = Promise;
 mongoose
