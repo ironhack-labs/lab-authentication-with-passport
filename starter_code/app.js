@@ -9,6 +9,12 @@ const mongoose     = require('mongoose');
 const logger       = require('morgan');
 const path         = require('path');
 
+//Passport
+const passport = require('./helpers/passport');
+
+//sesiones
+const session    = require("express-session");  
+const MongoStore = require("connect-mongo")(session);
 
 mongoose.Promise = Promise;
 mongoose
@@ -23,6 +29,15 @@ const app_name = require('./package.json').name;
 const debug = require('debug')(`${app_name}:${path.basename(__filename).split('.')[0]}`);
 
 const app = express();
+
+app.use(session({
+  secret: "bliss",
+  resave: true,
+  saveUninitialized: true
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Middleware Setup
 app.use(logger('dev'));
