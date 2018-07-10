@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<h2>Login</h2>
+<body>
+    {{#if error}} 
+<h1>{{error}}</h1> 
+{{/if}}
+<form action="/login" method="post">
+    <p> Email
+        <input name="email" type="email">
+    </p>
+    <p> Password
+        <input name="password" type="password">
+    </p>
+    <input type="submit">
+</form>
+</body>
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    {{#if error}}
+<h1>{{error}}</h1>
+{{else}}
+<h1 style="color:navy">Create account</h1>
+{{/if}}
+<div>
+<form class="container" style="text-align:center" validated action="/signup" method="POST">
+		
+	<input value="{{username}}" name="username" type="text" placeholder="Username" required>
+    <input value="{{email}}" name="email" type="email" placeholder="E-mail" required>
+	<input name="password" type="password" placeholder="Password" required>
+    <input name="password2" type="password" placeholder="Repeat password" required>
+    <input type="submit">
+  
+</form>
+</div>
+</body>
+</html>
