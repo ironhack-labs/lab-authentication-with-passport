@@ -8,11 +8,13 @@ const hbs          = require('hbs');
 const mongoose     = require('mongoose');
 const logger       = require('morgan');
 const path         = require('path');
+const session = require("express-session")
+const MongoStore = require("connect-mongo")(session)
 
 
 mongoose.Promise = Promise;
 mongoose
-  .connect('mongodb://localhost/passport-local', {useMongoClient: true})
+  .connect(process.env.DBURL, {useMongoClient: true})
   .then(() => {
     console.log('Connected to Mongo!')
   }).catch(err => {
@@ -47,8 +49,22 @@ app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));
 
 
 // default value for title local
-app.locals.title = 'Express - Generated with IronGenerator';
+app.use(session({
+  secret: "basic-auth-secret",
+  cookie: { maxAge: 60000 },
+  store: new MongoStore({
+    mongooseConnection: mongoose.connection,
+    ttl: 24 * 60 * 60 // 1 day
+  })
+}));
 
+require('./passport')(app);
+app.use((req,res,next) => {
+  // default value for title local
+  res.locals.title = 'Express - Generated with IronGenerator';
+  res.locals.user = req.user;
+  next();
+}) 
 
 
 const index = require('./routes/index');
