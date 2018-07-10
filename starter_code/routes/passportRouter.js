@@ -69,6 +69,11 @@ router.get('/private', ensureLogin.ensureLoggedIn(), (req, res) => {
       res.render('passport/private', {user: req.user});
 })
 
+router.get('/logout' , (req,res) => {
+  req.logout();
+  res.redirect('/');
+})
+
 module.exports = router;
 
 
