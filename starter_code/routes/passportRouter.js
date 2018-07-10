@@ -8,8 +8,30 @@ const bcryptSalt     = 10;
 const ensureLogin = require("connect-ensure-login");
 const passport      = require("passport");
 
-
+router.post('/login', passport.authenticate('local'), (req,res,next)=>{
+  res.redirect('/private-page');
+})
 
 router.get("/private-page", ensureLogin.ensureLoggedIn(), (req, res) => {
   res.render("passport/private", { user: req.user });
 });
+
+router.get('/signup', (req,res,next)=>{
+  res.render('passport/signup');
+})
+
+router.post('/signup', (req,res,next)=>{
+  console.log(req.body)
+  User.register(req.body, req.body.password)
+  .then(user=>res.redirect('/login'))
+  .catch(e=>next(e))
+})
+
+
+router.get('/login', (req,res,next)=>{
+  res.render('passport/login');
+})
+
+
+
+module.exports = router;
