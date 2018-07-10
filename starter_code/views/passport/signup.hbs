@@ -1,0 +1,22 @@
+{{#if error}}<h1 style="color:red">{{error}}</h1>
+{{else}}
+<h1>Crea tu cuenta:</h1>
+{{/if}}
+<form validated action="/signup" method="post">
+    <p>
+        Tu nombre de usuario:
+        <input value="{{username}}" name="username" type="text" required>
+    </p>
+    <p>
+        contraseña:
+        <input value="{{password}}" name="password" type="password" required>
+    </p>
+     <p>
+  repite tu password:
+  <input name="password2" type="password" name="" id="" required>
+   </p>
+    <p>
+         <input type="submit">
+    </p>
+
+</form>
