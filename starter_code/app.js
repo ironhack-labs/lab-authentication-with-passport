@@ -8,7 +8,12 @@ const hbs          = require('hbs');
 const mongoose     = require('mongoose');
 const logger       = require('morgan');
 const path         = require('path');
+const session = require('express-session');
+const LocalStrategy = require('passport-local-mongoose').Strategy;
+const User = require('./models/user')
+const passport = require('./helpers/passport');
 
+const MongoStore = require("connect-mongo")(session);
 
 mongoose.Promise = Promise;
 mongoose
@@ -23,6 +28,17 @@ const app_name = require('./package.json').name;
 const debug = require('debug')(`${app_name}:${path.basename(__filename).split('.')[0]}`);
 
 const app = express();
+
+//config del express-session
+app.use(session({
+  secret:'notbliss',
+  resave: true,
+  saveUninitialized:true,
+}))
+
+app.use(passport.initialize());
+app.use(passport.session());
+
 
 // Middleware Setup
 app.use(logger('dev'));
