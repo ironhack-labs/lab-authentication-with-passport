@@ -1,0 +1,32 @@
+{{#if error}}
+    <h1>{{error}}</h1>
+{{else}}
+    <h1>crea tu cuenta</h1>
+{{/if}}
+
+
+<form validated action="/signup" method="POST">
+    <p>
+        Tu nombre de usuario:
+        <input value="{{username}}" name = "username" type="text" required> {{!-- name se transforma en la llave del objeto (body) --}}
+    </p>
+    
+    <p>
+        correo: 
+        <input value= "{{email}}" name = "email" type="email" required>
+    </p>
+
+    <p>
+        Password:
+        <input name = "password" type="password" required>
+    </p>
+
+    <p>
+        Repite tu password:
+        <input name = "password2" type="password" required>
+    </p>
+
+    <p>
+        <input type="submit">
+    </p>
+</form>
