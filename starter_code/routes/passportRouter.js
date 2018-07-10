@@ -9,6 +9,10 @@ const ensureLogin = require("connect-ensure-login");
 const passport      = require("passport");
 
 
+router.post('/login',passport.authenticate('local'), (req, res, next)=>{
+  res.redirect('/private-page')
+  })
+  
 
 router.get("/private-page", ensureLogin.ensureLoggedIn(), (req, res) => {
   res.render("passport/private", { user: req.user });
@@ -28,6 +32,8 @@ router.post('/signup',(req,res,next)=>{
 router.get('/login', (req, res, next)=>{
   res.render('passport/login');
 })
+
+
 
 
 module.exports = router
