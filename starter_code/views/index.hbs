@@ -1,2 +1,9 @@
-<h1>{{title}}</h1>
-<p>Welcome to {{title}}</p>
+<div class="container col col-sm-8">
+  <h1>{{title}}</h1>
+  {{#if user}}
+  <h3>Welcome to this awesome simulator {{user.username}}</h3>
+  <a href="/private-page" class="btn-danger btn">Private page</a>
+ {{/if}} 
+ <a href="/login" class="btn btn-primary">Login</a>
+ <a href="/signup" class="btn btn-primary">Sign Up</a>
+</div>
