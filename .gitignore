@@ -1,0 +1,4 @@
+node_modules
+starter_code/node_modules    # Dependency directory
+starter_code/npm-debug.log   # Debug log from npm
+starter_code/.env            # Environment Variables should NEVER be published
