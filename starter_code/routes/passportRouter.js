@@ -10,7 +10,7 @@ const passport = require("passport");
 
 
 
-router.get("/private-page", ensureLogin.ensureLoggedIn(), (req, res) => {
+router.get("/passport/private", ensureLogin.ensureLoggedIn(), (req, res) => {
   res.render("passport/private", { user: req.user });
 });
 
