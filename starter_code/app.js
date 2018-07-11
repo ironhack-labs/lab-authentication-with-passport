@@ -9,6 +9,17 @@ const mongoose     = require('mongoose');
 const logger       = require('morgan');
 const path         = require('path');
 
+//for signup and login basic
+const bcrypt      = require('bcrypt');
+const saltRounds  = 10;
+const session     = require("express-session");
+const MongoStore  = require("connect-mongo")(session);
+
+//to work with passport, advanced
+const passport      = require("passport");
+const LocalStrategy = require("passport-local").Strategy;
+const User          = require("./models/user");
+const flash         = require("connect-flash");
 
 mongoose.Promise = Promise;
 mongoose
@@ -29,6 +40,57 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+
+//to work with basic auth
+// app.use(session({
+//   secret: "basic-auth-secret",
+//   cookie: { maxAge: 60000 },
+//   store: new MongoStore({
+//     mongooseConnection: mongoose.connection,
+//     ttl: 24 * 60 * 60 // 1 day
+//   })
+// }));
+
+//to work with passport, advanced auth
+app.use(session({
+  secret: "our-passport-local-strategy-app",
+  resave: true,
+  saveUninitialized: true
+}));
+
+passport.serializeUser((user, cb) => {
+  cb(null, user._id);
+});
+
+passport.deserializeUser((id, cb) => {
+  User.findById(id, (err, user) => {
+    if (err) { return cb(err); }
+    cb(null, user);
+  });
+});
+
+app.use(flash());
+passport.use(new LocalStrategy({
+  passReqToCallback: true
+  },(req, username, password, next) => {
+  User.findOne({ username }, (err, user) => {
+    if (err) {
+      return next(err);
+    }
+    if (!user) {
+      return next(null, false, { message: "Incorrect username" });
+    }
+    if (!bcrypt.compareSync(password, user.password)) {
+      return next(null, false, { message: "Incorrect password" });
+    }
+
+    return next(null, user);
+  });
+}));
+
+//for advanced auth, passport
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Express View engine setup
 
