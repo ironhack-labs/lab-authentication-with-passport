@@ -17,7 +17,10 @@ ensureLogin.ensureLoggedIn(),
   res.render("passport/private", { user: req.user });
 });
 
-router.get("/signup", passportController.create);
-router.post("/signup", passportController.doCreate);
+router.get("/signup", passportController.signupCreate);
+router.post("/signup", passportController.signupDoCreate);
+
+router.get("/login", passportController.loginCreate);
+router.post("/login", passportController.loginDoCreate);
 
 module.exports = router;

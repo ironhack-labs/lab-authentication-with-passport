@@ -1,12 +1,12 @@
 const mongoose = require('mongoose');
-const passport = require("passport");
+const passport= require('passport');
 const User = require("../models/user");
 
 
-module.exports.create = (req, res, next) => {
+module.exports.signupCreate = (req, res, next) => {
     res.render('passport/signup');
 }
-module.exports.doCreate = (req, res, next) => {
+module.exports.signupDoCreate = (req, res, next) => {
     const email = req.body.email;
 
     User.findOne({ email: email })
@@ -16,27 +16,40 @@ module.exports.doCreate = (req, res, next) => {
                     user: req.body,
                     errors: { email: 'the email already exists' }
                 })
-                console.info('1')
             } else {
                 console.info('2')
                 user = new User(req.body)
                 return user.save()
                     .then(user => {
-                        res.redirect('/private-page');
-                        console.info('3')
+                        res.redirect('/login');
                     })
             }
         })
         .catch(error => {
             if(error instanceof mongoose.Error.ValidationError) {
-                console.info('4')
                 res.render('passport/signup', {
                     user: req.body,
                     errors: error.errors
                 })
             } else {
                 next(error);
-                console.info('5')
             }
         });
+}
+
+module.exports.loginCreate = (req, res, next) => {
+    res.render('passport/login');
+}
+module.exports.loginDoCreate = (req, res, next) => {
+    // const email = req.body.email;
+    // const password = requ.body.password;
+    // User.findOne({ email: email })
+    //     .then(user=> {
+    //         if(user) {
+    //             pass
+    //             res.redirect('private-page');
+    //         } else{
+
+    //         }
+    //     })
 }
