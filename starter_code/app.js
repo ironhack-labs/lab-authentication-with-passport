@@ -10,14 +10,8 @@ const logger       = require('morgan');
 const path         = require('path');
 
 
-mongoose.Promise = Promise;
-mongoose
-  .connect('mongodb://localhost/passport-local', {useMongoClient: true})
-  .then(() => {
-    console.log('Connected to Mongo!')
-  }).catch(err => {
-    console.error('Error connecting to mongo', err)
-  });
+require('./configs/db.config');
+require('./configs/hbs.config');
 
 const app_name = require('./package.json').name;
 const debug = require('debug')(`${app_name}:${path.basename(__filename).split('.')[0]}`);
@@ -51,8 +45,8 @@ app.locals.title = 'Express - Generated with IronGenerator';
 
 
 
-const index = require('./routes/index');
-const passportRouter = require("./routes/passportRouter");
+const index = require('./routes/index.routes');
+const passportRouter = require("./routes/passport.routes");
 app.use('/', index);
 app.use('/', passportRouter);
 
