@@ -1,0 +1,16 @@
+<h1>Signup to our Plataform</h1>
+<form validate action="/signup" method="POST">
+  <p>
+    <input type="email" name="email" placeholder="Email" value="{{email}}" required>
+  </p>
+  <p>
+    <input type="password" name="password" placeholder="password" required>
+  </p>
+  <p>
+    <input type="password" name="checkPass" placeholder="Re-type password" required>
+  </p>
+  {{#if message}}
+    <p style="color:red">{{message}}</p>
+  {{/if}}
+  <input type="submit">
+</form>

@@ -9,6 +9,13 @@ const mongoose     = require('mongoose');
 const logger       = require('morgan');
 const path         = require('path');
 
+//sessions
+const session    = require("express-session");
+const MongoStore = require("connect-mongo")(session);
+
+//passport
+const passport = require('./helpers/passport');
+
 
 mongoose.Promise = Promise;
 mongoose
@@ -23,6 +30,21 @@ const app_name = require('./package.json').name;
 const debug = require('debug')(`${app_name}:${path.basename(__filename).split('.')[0]}`);
 
 const app = express();
+
+// app.js
+
+app.use(session({
+  secret: "rafa",
+  resave: true,
+  saveUninitialized: true,
+  store: new MongoStore( {
+    mongooseConnection: mongoose.connection,
+    ttl: 10 * 24 * 60 * 60 //10 Days
+  })
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Middleware Setup
 app.use(logger('dev'));
@@ -52,9 +74,9 @@ app.locals.title = 'Express - Generated with IronGenerator';
 
 
 const index = require('./routes/index');
-const passportRouter = require("./routes/passportRouter");
+const authRoutes = require('./routes/passportRouter');
 app.use('/', index);
-app.use('/', passportRouter);
+app.use('/', authRoutes);
 
 
 module.exports = app;
