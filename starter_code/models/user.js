@@ -4,7 +4,7 @@ const bcrypt = require('bcrypt');
 const saltRounds = 10;
 
 const userSchema = new Schema({
-  username: String,
+  email: String,
   password: String
 }, {
   timestamps: { createdAt: "created_at", updatedAt: "updated_at" }
@@ -25,6 +25,10 @@ userSchema.pre('save', function(next) {
     next();
   }
 })
+
+userSchema.methods.checkPassword = function (password) {
+  return bcrypt.compare(password, this.password);
+}
 
 const User = mongoose.model("User", userSchema);
 module.exports = User;

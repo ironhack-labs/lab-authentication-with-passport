@@ -17,7 +17,6 @@ module.exports.signupDoCreate = (req, res, next) => {
                     errors: { email: 'the email already exists' }
                 })
             } else {
-                console.info('2')
                 user = new User(req.body)
                 return user.save()
                     .then(user => {
@@ -40,16 +39,38 @@ module.exports.signupDoCreate = (req, res, next) => {
 module.exports.loginCreate = (req, res, next) => {
     res.render('passport/login');
 }
-module.exports.loginDoCreate = (req, res, next) => {
-    // const email = req.body.email;
-    // const password = requ.body.password;
-    // User.findOne({ email: email })
-    //     .then(user=> {
-    //         if(user) {
-    //             pass
-    //             res.redirect('private-page');
-    //         } else{
 
-    //         }
-    //     })
+
+module.exports.loginDoCreate = (req, res, next) => {
+console.log('aquí parece que entra?')
+    function renderWithErrors (errors) {
+        res.status(404).render('passport/login', {
+            user: req.body,
+            errors: errors
+        })
+    }
+    const email = req.body.email;
+    const password = req.body.password;
+    if(!email || !password) {
+       renderWithErrors({
+           email: email ? undefined : 'Email is required',
+           password: password ? undefined : 'Password is required'
+       })
+    } else {
+        passport.authenticate('local-auth', (error, user, validation) => {
+            if(error) {
+                next(error);
+            } else if(!user) {
+                renderWithErrors(validation);
+            } else {
+                req.login(user, (error) => {
+                    if(error) {
+                        next(error);
+                    } else {
+                        res.redirect('/');
+                    }
+                })
+            }
+        })(req, res, next);
+    }
 }
