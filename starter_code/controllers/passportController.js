@@ -67,10 +67,14 @@ console.log('aquí parece que entra?')
                     if(error) {
                         next(error);
                     } else {
-                        res.redirect('/');
+                        res.redirect('/private-page');
                     }
                 })
             }
         })(req, res, next);
     }
+}
+
+module.exports.privateCreate = (req, es, next) => {
+    res.render('passport/private');
 }

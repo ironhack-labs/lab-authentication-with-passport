@@ -9,6 +9,7 @@ const ensureLogin    = require("connect-ensure-login");
 const passport       = require("passport");
 
 const passportController = require("../controllers/passportController");
+const authMiddleware = require("../middlewares/auth.middlewares");
 
 
 router.get("/private-page", 
@@ -22,5 +23,7 @@ router.post("/signup", passportController.signupDoCreate);
 
 router.get("/login", passportController.loginCreate);
 router.post("/login", passportController.loginDoCreate);
+
+router.get("/private-page", authMiddleware.isAuthenticated, passportController.privateCreate);
 
 module.exports = router;
