@@ -1,5 +1,6 @@
 require('dotenv').config();
 
+const User = require('./models/User')
 const bodyParser   = require('body-parser');
 const cookieParser = require('cookie-parser');
 const express      = require('express');
@@ -8,6 +9,12 @@ const hbs          = require('hbs');
 const mongoose     = require('mongoose');
 const logger       = require('morgan');
 const path         = require('path');
+const session = require('express-session')
+const MongoStore = require('connect-mongo')(session)
+const passport = require('passport')
+const bcrypt = require("bcrypt");
+const LocalStrategy = require("passport-local").Strategy;
+const flash = require('connect-flash')
 
 
 mongoose.Promise = Promise;
@@ -29,6 +36,46 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(session({
+  secret: "our-passport-local-strategy-app",
+  resave: true,
+  saveUninitialized: true
+}));
+
+
+//passport serial/deserial/strategy //
+passport.serializeUser((user, cb) => {
+  cb(null, user._id);
+});
+
+passport.deserializeUser((id, cb) => {
+  User.findById(id, (err, user) => {
+    if (err) { return cb(err); }
+    cb(null, user);
+  });
+});
+
+app.use(flash());
+
+passport.use(new LocalStrategy((username, password, next) => {
+  User.findOne({ username }, (err, user) => {
+    if (err) {
+      return next(err);
+    }
+    if (!user) {
+      return next(null, false, { message: "Incorrect username" });
+    }
+    if (!bcrypt.compareSync(password, user.password)) {
+      return next(null, false, { message: "Incorrect password" });
+    }
+
+    return next(null, user);
+  });
+}));
+//consider putting this in its own utils file to be called here. refer to w5d1
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Express View engine setup
 
