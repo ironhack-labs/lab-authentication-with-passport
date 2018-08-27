@@ -1,0 +1,20 @@
+<div class="container">
+
+    <div class="card">
+        <h1>Log in</h1>
+
+        <form action="/login" method='POST'>
+            <input type="text" name='username' required='true' placeholder="User Name">
+            <br>
+            <input type="password" name='password' required='true' placeholder="Password">
+            <br>
+            <br>
+            <button type='submit'>Log in</button>
+            <br>
+            <br> {{#if error}}
+            <p>ERROR: {{error}}</p>
+            {{/if}}
+        </form>
+    </div>
+<p><a href="/">Back home</a></p>
+</div>
