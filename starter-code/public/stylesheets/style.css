@@ -1,8 +1,44 @@
 body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif; }
+  font: 14px Arial, Helvetica, sans-serif;
+  margin: 0px;
+  padding: 0px;
+  height: 100vh;
+  background: url("/images/masaaki-komori-715365-unsplash.jpg") no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover; }
 
 a {
-  color: #00B7FF; }
+  color: #00B7FF;
+  text-decoration: none;
+  font-weight: bold; }
+
+a:hover {
+  color: #8bdeff; }
+
+.container {
+  padding: 50px;
+  margin: 55px auto;
+  width: 40%;
+  border-radius: 5px;
+  background-color: rgba(0, 0, 255, 0.631);
+  color: white; }
+
+button {
+  padding: 10px;
+  border: none;
+  background-color: purple;
+  color: white;
+  font-weight: bold; }
+
+button:hover {
+  cursor: pointer;
+  background-color: #b142b1; }
+
+input {
+  padding: 10px;
+  color: blue;
+  margin-bottom: 5px; }
 
 /*# sourceMappingURL=style.css.map */
