@@ -1,0 +1,19 @@
+<div class="container">
+
+  <div class="card">
+    <h1>Sign Up</h1>
+
+    <form action="/passport/signup" method='POST'>
+      <input type="email" name='email' required='true'>
+      <br>
+      <input type="password" name='password' required='true'>
+      <br>
+      <br>
+      <button type='submit'>Create my User Account</button>
+      <br>
+      <br> {{#if error}}
+      <p>ERROR: {{error}}</p>
+      {{/if}}
+    </form>
+  </div>
+</div>
