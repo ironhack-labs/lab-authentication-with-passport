@@ -1,0 +1,20 @@
+<div class="container">
+    <div class="card">
+        <h1>Sign Up</h1>
+
+        <form action="/signup" method='POST'>
+            <input type="text" name='username' required='true' placeholder="username">
+            <br>
+            <input type="password" name='password' required='true' placeholder="password">
+            <br>
+            <br>
+            <button type='submit' class="btn-home yellow">Create my User Account</button>
+            <br>
+            <br> {{#if error}}
+            <p>ERROR: {{error}}</p>
+            {{/if}}
+        </form>
+        <a href="/google"><button class="btn-home">Sign up with Google</button></a>
+        <a href="/login"><button class="btn-home">Log In</button></a>
+    </div>
+</div>

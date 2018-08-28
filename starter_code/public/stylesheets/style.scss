@@ -1,8 +1,95 @@
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+@import url('https://fonts.googleapis.com/css?family=Lato');
+
+* {
+    box-sizing: border-box;
+    margin: 0;
 }
 
-a {
-  color: #00B7FF;
+.clearfix {
+    clear: both;
+}
+
+body {
+    padding: 50px;
+    font: 14px;
+    font-family: 'Lato', sans-serif;
+    background-image: url('/images/img.jpg');
+    background-size: cover;
+}
+
+.main h1 {
+    color: #fff;
+    font-size: 70px;
+}
+
+.btn-home {
+    outline: none;
+    background-color: rgb(35, 37, 39);
+    color: #fff;
+    border-radius: 25px;
+    padding: 12px 25px;
+    border: none;
+    cursor: pointer;
+    min-width: 100px;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.15);
+    transition: 200ms all ease-in-out;
+    transform-origin: 50% 50%;
+    font-size: 13px;
+    text-align: center;
+    margin: 10px 10px 10px 0;
+    text-decoration: none;
+    text-transform: uppercase;
+}
+
+.btn-home:hover {
+    transform: scale(1.1);
+    box-shadow: 0px 3px 7px rgba(0, 0, 0, 0.15);
+    color: #fff;
+}
+
+input {
+    height: 40px;
+    width: 250px;
+    margin: 10px 0;
+    border-radius: 7px;
+    border: 1px solid rgb(180, 180, 180);
+    padding-left: 8px;
+}
+
+h1 {
+    color: #fff;
+}
+
+.yellow {
+    background-color: rgb(216, 196, 12);
+}
+
+.private-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.private-container h1,
+h2,
+img,
+div {
+    align-self: center;
+}
+
+.private-container img {
+    width: 50%;
+    margin: 20px 0;
+}
+
+.buttons {
+    display: flex;
+}
+
+.private-text {
+    color: #fff;
+    display: flex;
+}
+
+.private-text p {
+    align-self: center;
 }
