@@ -9,7 +9,9 @@ const ensureLogin = require("connect-ensure-login");
 const passport = require("passport");
 
 router.get("/private-page", ensureLogin.ensureLoggedIn(), (req, res) => {
-  res.render("passport/private", { user: req.user });
+  res.render("passport/private", {
+    user: req.user
+  });
 });
 
 router.get("/signup", (req, res, next) => {
@@ -17,25 +19,39 @@ router.get("/signup", (req, res, next) => {
 });
 
 router.post("/signup", (req, res, next) => {
-  const { email, password } = req.body;
+  const {
+    email,
+    password
+  } = req.body;
   if (email === "" || password === "") {
-    res.render("auth/signup", { message: "Indicate username and password" });
+    res.render("auth/signup", {
+      message: "Indicate username and password"
+    });
     return;
   }
 
-  User.findOne({ username: email }).then(data => {
+  User.findOne({
+    username: email
+  }).then(data => {
     if (!data) {
       const encrypted = bcrypt.hashSync(password, 10);
-      const newUser = new User({ username: email, password: encrypted });
+      const newUser = new User({
+        username: email,
+        password: encrypted
+      });
       newUser.save(err => {
         if (err) {
-          res.render("passport/signup", { message: "Something went wrong" });
+          res.render("passport/signup", {
+            message: "Something went wrong"
+          });
         } else {
           res.redirect("/");
         }
       });
     } else {
-      res.render("passport/signup", { message: "The username already exists" });
+      res.render("passport/signup", {
+        message: "The username already exists"
+      });
     }
   });
 });
@@ -47,15 +63,19 @@ router.get("/login", (req, res, next) => {
 router.post(
   "/login",
   passport.authenticate("local", {
-    successRedirect: "/",
+    successRedirect: "/private",
     failureRedirect: "/login",
     failureFlash: true,
     passReqToCallback: true
   })
 );
 
-router.get("/private-page", ensureLogin.ensureLoggedIn(), (req, res) => {
-  res.render("private", { user: req.user });
+router.get("/private", (req, res, next) => {
+  console.log(req.user)
+  res.render("passport/private", {
+    user: req.user
+  });
 });
+
 
 module.exports = router;

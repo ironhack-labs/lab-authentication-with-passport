@@ -13,12 +13,14 @@ const bcrypt = require("bcrypt");
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const flash = require("connect-flash");
+const User = require('./models/user')
 
 mongoose.Promise = Promise;
 mongoose
   .connect(
-    "mongodb://localhost/passport-local",
-    { useMongoClient: true }
+    "mongodb://localhost/passport-local", {
+      useMongoClient: true
+    }
   )
   .then(() => {
     console.log("Connected to Mongo!");
@@ -37,7 +39,9 @@ const app = express();
 // Middleware Setup
 app.use(logger("dev"));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({
+  extended: false
+}));
 app.use(cookieParser());
 
 // Express View engine setup
@@ -74,21 +78,31 @@ passport.deserializeUser((id, cb) => {
 });
 
 passport.use(
-  new LocalStrategy((username, password, next) => {
-    User.findOne({ username }, (err, user) => {
-      if (err) {
-        return next(err);
-      }
-      if (!user) {
-        return next(null, false, { message: "Incorrect username" });
-      }
-      if (!bcrypt.compareSync(password, user.password)) {
-        return next(null, false, { message: "Incorrect password" });
-      }
+  new LocalStrategy({
+      usernameField: "email",
+      passwordField: "password"
+    },
+    (email, password, next) => {
+      User.findOne({
+        username: email
+      }, (err, user) => {
+        if (err) {
+          return next(err);
+        }
+        if (!user) {
+          return next(null, false, {
+            message: "Incorrect username"
+          });
+        }
+        if (!bcrypt.compareSync(password, user.password)) {
+          return next(null, false, {
+            message: "Incorrect password"
+          });
+        }
 
-      return next(null, user);
-    });
-  })
+        return next(null, user);
+      });
+    })
 );
 
 app.set("views", path.join(__dirname, "views"));
