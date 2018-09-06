@@ -9,6 +9,17 @@ const mongoose     = require('mongoose');
 const logger       = require('morgan');
 const path         = require('path');
 
+const passportSetup = require("./config/passport/passport-setup.js");
+
+//////////////////////////////
+// MY STUFF
+//////////////////////////////
+const session = require("express-session");
+const MongoStore = require("connect-mongo")(session);
+//////////////////////////////
+// MY STUFF /
+//////////////////////////////
+
 
 mongoose.Promise = Promise;
 mongoose
@@ -44,7 +55,23 @@ app.set('view engine', 'hbs');
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));
 
+//////////////////////////////
+// MY STUFF
+//////////////////////////////
+app.use(session({
+  secret: "should be diff in each app",
+  saveUninitialized: true,
+  resave: true,
+  store: new MongoStore({ mongooseConnection: mongoose.connection })
+}))
 
+// MUST come after "app.use(session())"
+passportSetup(app);
+
+
+//////////////////////////////
+// MY STUFF /
+//////////////////////////////
 
 // default value for title local
 app.locals.title = 'Express - Generated with IronGenerator';
