@@ -1,0 +1,11 @@
+<h1> Login</h1>
+<form action="/login" method="POST">
+	<label>Username</label>
+	<input type="text" name="username"/>
+	<label>Password</label>
+	<input type="password" name="password"/>
+	{{#if message}}
+    <div class="error-message">{{ message }}</div>
+  {{/if}}
+	<input type="submit" name="Connect" value="Se connecter"/>
+</form>
