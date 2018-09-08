@@ -1,0 +1,26 @@
+{{!-- Iteration #2: add a form to our views/passport/login.hbs file. The form should make a POST request to /login. --}}
+
+<h2>Login</h2>
+
+<form action="/login" method="POST" id="form-container">
+  <label for="username">Username</label>
+  <input id="username" type="text" name="username" placeholder="JonSnow">
+  <br><br>
+  <label for="password">Password</label>
+  <input id="password" type="password" name="password" placeholder="Your password">
+
+  <br><br>
+
+  <button>Login</button>
+
+<br><br>
+  {{#if message}}
+    <div class="error-message">{{ message }}</div>
+  {{/if}}
+  <br><br>
+
+  <p class="account-message">
+    Don't have an account yet?
+  </p>
+    <a href="/signup">Signup</a>
+</form>
