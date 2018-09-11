@@ -6,6 +6,7 @@ const { User, validateUser } = require('../models/user');
 const bcrypt         = require("bcrypt");
 const ensureLogin = require("connect-ensure-login");
 const passport      = require("passport");
+var flash = require('connect-flash');
 
 
 
@@ -80,71 +81,23 @@ router.post('/signup', async function(req, res, next)  {
 /* Return login user page */
 router.get('/login', (req, res, next) => {
     res.status(200)
-        .render('passport/login');
+        .render('passport/login', { message: req.flash('error') });
 });
 
-router.post('/login', async function(req, res, next)  {
+router.post('/login', passport.authenticate("local", {
+    successRedirect: "/",
+    failureRedirect: "/login",
+    failureFlash: true,
+    passReqToCallback: true
 
-    let { username, password } = req.body;
+}));
 
-    let validateRes = validateUser({
-        username,
-        password
-    });
+/* Return logout user page */
+router.get('/logout', (req, res, next) => {
+    req.logout();
 
-    let errorMessage = null;
-
-    if(validateRes) {
-        errorMessage = validateRes.details[0].message;
-        return res.status(400)
-            .render('auth/login', {
-                errorMessage,
-                username,
-                password
-            });
-    }
-
-    let user = await User.findOne({ username });
-
-    if(!user) {
-
-        errorMessage = "There isn't user with such username!";
-
-        return res.status(400)
-            .render('auth/login', {
-                username,
-                password,
-                errorMessage
-            });
-
-    } else {
-
-        try {
-            const resultCompare = await bcrypt.compare(password, user.password);
-
-            if(resultCompare) {
-
-                // Save the login in the session!
-                req.session.currentUser = user;
-                res.status(200)
-                    .redirect("/");
-
-            } else {
-                errorMessage = "Incorrect password!";
-
-                res.status(400)
-                    .render("auth/login", {
-                        errorMessage,
-                        username
-                    });
-            }
-
-        } catch(ex) {
-            next(ex);
-        }
-
-    }
-
+    res.status(200)
+        .redirect('/');
 });
 
 module.exports = router;
