@@ -1,4 +1,4 @@
-<form id="form" action="/auth/signup" method="POST">
+<form id="form" action="/signup" method="POST">
     <h2>Sign up</h2>
     <label for="username">Username</label><br>
     <input
@@ -16,6 +16,7 @@
             placeholder="Enter your password"
             value="{{ password }}"
             required
+            minlength="8"
     >
     <br><br>
 
@@ -25,7 +26,7 @@
 
     <button class="cr-account">Create account</button>
     <p class="account-message">
-        Do you already have an account? <a href="/auth/login">Login</a>
+        Do you already have an account? <a href="/login">Login</a>
     </p>
     <p class="account-message">
         Return to home page: <a href="/">Click here</a>

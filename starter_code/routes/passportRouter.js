@@ -4,7 +4,6 @@ const router         = express.Router();
 const { User, validateUser } = require('../models/user');
 // Bcrypt to encrypt passwords
 const bcrypt         = require("bcrypt");
-const bcryptSalt     = 10;
 const ensureLogin = require("connect-ensure-login");
 const passport      = require("passport");
 
@@ -31,13 +30,13 @@ router.post('/signup', async function(req, res, next)  {
         password
     });
 
-    let errorMessage = null;
+    let message = null;
 
     if(validateRes) {
-        errorMessage = validateRes.details[0].message;
+        message = validateRes.details[0].message;
         return res.status(400)
-            .render('auth/signup', {
-                errorMessage,
+            .render('passport/signup', {
+                message,
                 username,
                 password
             });
@@ -47,11 +46,11 @@ router.post('/signup', async function(req, res, next)  {
 
     if(user) {
 
-        errorMessage = "User with this name already exists!"
+       message = "User with this name already exists!";
 
         return res.status(400)
-            .render('auth/signup', {
-                errorMessage,
+            .render('passport/signup', {
+                message,
                 username,
                 password
             });
@@ -65,8 +64,81 @@ router.post('/signup', async function(req, res, next)  {
             user = new User({ username, password });
             const result = await user.save();
 
-            res.status(201)
-                .redirect('/');
+            if(result) {
+                res.status(201)
+                    .redirect('/');
+            }
+
+        } catch(ex) {
+            next(ex);
+        }
+
+    }
+
+});
+
+/* Return login user page */
+router.get('/login', (req, res, next) => {
+    res.status(200)
+        .render('passport/login');
+});
+
+router.post('/login', async function(req, res, next)  {
+
+    let { username, password } = req.body;
+
+    let validateRes = validateUser({
+        username,
+        password
+    });
+
+    let errorMessage = null;
+
+    if(validateRes) {
+        errorMessage = validateRes.details[0].message;
+        return res.status(400)
+            .render('auth/login', {
+                errorMessage,
+                username,
+                password
+            });
+    }
+
+    let user = await User.findOne({ username });
+
+    if(!user) {
+
+        errorMessage = "There isn't user with such username!";
+
+        return res.status(400)
+            .render('auth/login', {
+                username,
+                password,
+                errorMessage
+            });
+
+    } else {
+
+        try {
+            const resultCompare = await bcrypt.compare(password, user.password);
+
+            if(resultCompare) {
+
+                // Save the login in the session!
+                req.session.currentUser = user;
+                res.status(200)
+                    .redirect("/");
+
+            } else {
+                errorMessage = "Incorrect password!";
+
+                res.status(400)
+                    .render("auth/login", {
+                        errorMessage,
+                        username
+                    });
+            }
+
         } catch(ex) {
             next(ex);
         }
