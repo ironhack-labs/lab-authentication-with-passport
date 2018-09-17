@@ -17,38 +17,57 @@ router.post('/signup', (req, res, next) => {
   const username = req.body.username;
   const password = req.body.password;
   if (username === "" || password === "") {
-    res.render("auth/signup", { message: "Indicate username and password" });
+    res.render("passport/signup", { message: "Indicate username and password" });
     return;
   }
 
-  User.findOne({username})
-  .then(user => {
-    if (user !== null) {
-      res.render("auth/signup", { message: "The username already exists" });
-      return;
-    }
-
-    const salt = bcrypt.genSaltSync(bcryptSalt);
-    const hashPass = bcrypt.hashSync(password, salt);
-
-    const newUser = new User({
-      username,
-      password: hashPass
-    });
-
-    newUser.save((err) => {
-      if (err) {
-        res.render("auth/signup", { message: "Something went wrong" });
-      } else {
-        res.redirect("/");
+  User.findOne({ username })
+    .then(user => {
+      if (user !== null) {
+        res.render("passport/signup", { message: "The username already exists" });
+        return;
       }
-    });
-  })
-  .catch(error => next(error));
+
+      const salt = bcrypt.genSaltSync(bcryptSalt);
+      const hashPass = bcrypt.hashSync(password, salt);
+
+      const newUser = new User({
+        username,
+        password: hashPass
+      });
+
+      newUser.save((err) => {
+        if (err) {
+          res.render("passport/signup", { message: "Something went wrong" });
+        } else {
+          res.redirect("/");
+        }
+      });
+    })
+    .catch(error => next(error));
 });
 
-router.get("/private-page", ensureLogin.ensureLoggedIn(), (req, res) => {
-  res.render("passport/private", { user: req.user });
+router.get('/login', (req, res) => {
+  res.render('passport/login');
 });
+
+
+router.post("/login", passport.authenticate("local", {
+  successRedirect: "/private",
+  failureRedirect: "/login",
+  failureFlash: true,
+  passReqToCallback: true
+}));
+
+ router.get("/logout", (req, res) => {
+  req.logout();
+  res.redirect("/login");
+});
+
+router.get('/private',  ensureLogin.ensureLoggedIn(), (req, res) => {
+  res.render('passport/private', { user: req.user });
+});
+
+
 
 module.exports = router;
