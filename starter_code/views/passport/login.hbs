@@ -1,0 +1,19 @@
+<h2>Log In</h2>
+<form action="/login" method="POST">
+  <div>
+    <label for="username">Username:</label>
+    <input type="text" name="username">
+  </div>
+  <div>
+    <label for="password">Password:</label>
+    <input type="password" name="password">
+  </div>
+    {{#if message}}
+    <div class="error-message">{{ message }}</div>
+  {{/if}}
+  <div>
+    <input type="submit" value="Log In">
+  </div>
+</form>
+<p>Login and become a good programer</p>
+<iframe src="https://giphy.com/embed/zpGfVDnrD4wdG" width="480" height="288" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="https://giphy.com/gifs/ralph-wiggum-zpGfVDnrD4wdG">via GIPHY</a></p>
