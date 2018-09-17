@@ -18,7 +18,10 @@ router.get("/signup", (req, res, next) => {
   res.render("views/passport/signup");
 });
 
+router.post("/signup", (req, res, next) => {
+  const username = req.body.username;
+  const password = req.body.password;
 
-
+});
 
 module.exports = router;
