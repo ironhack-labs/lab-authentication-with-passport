@@ -9,6 +9,7 @@ const mongoose     = require('mongoose');
 const logger       = require('morgan');
 const path         = require('path');
 const User = require("./models/user");
+const flash = require("connect-flash");
 
 const session    = require("express-session");
 const MongoStore = require("connect-mongo")(session);
@@ -56,6 +57,8 @@ passport.deserializeUser((id, cb) => {
     cb(null, user);
   });
 });
+
+app.use(flash());
 
 passport.use(new LocalStrategy((username, password, next) => {
   User.findOne({ username }, (err, user) => {
