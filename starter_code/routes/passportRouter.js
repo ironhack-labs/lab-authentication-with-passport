@@ -1,55 +1,73 @@
-const express        = require("express");
+const express        = require('express');
 const router         = express.Router();
 // User model
-const User           = require("../models/user");
+const User           = require('../models/user');
 // Bcrypt to encrypt passwords
-const bcrypt         = require("bcrypt");
+const bcrypt         = require('bcrypt');
 const bcryptSalt     = 10;
-const ensureLogin = require("connect-ensure-login");
-const passport      = require("passport");
+const ensureLogin    = require('connect-ensure-login');
+const passport       = require('passport');
 
-router.get("/private-page", ensureLogin.ensureLoggedIn(), (req, res) => {
-  res.render("passport/private", { user: req.user });
+router.get('/private-page', ensureLogin.ensureLoggedIn(), (req, res) => {
+  res.render('passport/private', { user: req.user });
 });
 
-router.get("/signup", (req, res, next) => {
-	res.render('passport/signup.hbs');
+router.get('/signup', (req, res, next) => {
+	res.render('passport/signup');
 });
 
-router.post("/signup", (req, res, next) => {
+router.post('/signup', (req, res, next) => {
 	const { username, password } = req.body;
+	const salt = bcrypt.genSaltSync(bcryptSalt);
+	const hashPass = bcrypt.hashSync(password, salt);
 
-	if (username === "" || password === "") {
-		res.render("passport/signup", { message: "Indicate username and password" });
+	const newUser = User({
+		username,
+		password: hashPass
+	});
+
+	if (username === ' || password === ') {
+		res.render('passport/signup', {
+			errorMessage: 'Indicate a username and a password to sign up'
+		});
 		return;
 	}
-	// const newUser = new User({ username, password });
 
-	User.findOne({ username })
+	User.findOne({
+			'username': username
+		})
 		.then(user => {
-	  		if (user !== null) {
-				res.render("passport/signup", { message: "The username already exists" });
+			if (user !== null) {
+				res.render('passport/signup', {
+					errorMessage: 'The username already exists'
+				});
 				return;
 			}
-			const salt = bcrypt.genSaltSync(bcryptSalt);
-			const hashPass = bcrypt.hashSync(password, salt);
-			
-			const newUser = new User({
-				username,
-				password: hashPass
-			});
 
-			newUser.save((err) => {
-				if (err) {
-				  res.render("passport/signup", { message: "Something went wrong" });
-				} else {
-				  res.redirect("/");
-				}
-			});
+			newUser.save()
+				.then(user => {
+					res.redirect('/');
+				})
+				.catch(err => {
+					next(err)
+				})
 		})
-		.catch(error => {
-			next(error)
-	  	})
+		.catch(err => {
+			next(err)
+		})
 });
+
+router.get('/login', (req, res, next) => {
+	res.render('passport/login');
+});
+
+authRoutes.post('/login', passport.authenticate('local', {
+	successRedirect: '/',
+	failureRedirect: 'passport/login',
+	failureFlash: true,
+	passReqToCallback: true
+}));
+
+//Voy por "protected route" de la Learning "http://learn.ironhack.com/#/learning_unit/4017"
 
 module.exports = router;
