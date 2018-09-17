@@ -18,31 +18,26 @@ router.get('/signup', (req, res, next) => {
 
 router.post('/signup', (req, res, next) => {
 	const { username, password } = req.body;
-	const salt = bcrypt.genSaltSync(bcryptSalt);
-	const hashPass = bcrypt.hashSync(password, salt);
-
-	const newUser = User({
-		username,
-		password: hashPass
-	});
-
-	if (username === ' || password === ') {
-		res.render('passport/signup', {
-			errorMessage: 'Indicate a username and a password to sign up'
-		});
+	
+	if (username === '' || password === '') {
+		res.render('passport/signup', { message: 'Indicate a username and a password to sign up' });
 		return;
 	}
 
-	User.findOne({
-			'username': username
-		})
+	User.findOne({ username })
 		.then(user => {
 			if (user !== null) {
-				res.render('passport/signup', {
-					errorMessage: 'The username already exists'
-				});
+				res.render('passport/signup', {	message: 'The username already exists'	});
 				return;
 			}
+
+			const salt = bcrypt.genSaltSync(bcryptSalt);
+			const hashPass = bcrypt.hashSync(password, salt);
+		
+			const newUser = User({
+				username,
+				password: hashPass
+			});
 
 			newUser.save()
 				.then(user => {
@@ -58,16 +53,19 @@ router.post('/signup', (req, res, next) => {
 });
 
 router.get('/login', (req, res, next) => {
-	res.render('passport/login');
+	res.render('passport/login', { 'message': req.flash('error') });
 });
 
-authRoutes.post('/login', passport.authenticate('local', {
+router.post('/login', passport.authenticate('local', {
 	successRedirect: '/private-page',
-	failureRedirect: 'passport/login',
+	failureRedirect: '/login',
 	failureFlash: true,
 	passReqToCallback: true
 }));
 
-//Voy por "protected route" de la Learning "http://learn.ironhack.com/#/learning_unit/4017"
+router.get('/logout', (req, res) => {
+	req.logout();
+	res.redirect('/login');
+});
 
 module.exports = router;
