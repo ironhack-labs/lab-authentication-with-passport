@@ -63,14 +63,14 @@ passport.use(new LocalStrategy((username, password, next) => {
   });
 }));
 
-app.use(passport.initialize());
-app.use(passport.session());
-
 app.use(session({
   secret: "Pepe",
   resave: true,
   saveUninitialized: true
 }));
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Express View engine setup
 
