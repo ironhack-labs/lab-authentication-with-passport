@@ -1,0 +1,18 @@
+<h3>Sign Up</h3>
+
+<form action="/signup" method="POST">
+  <label for="username">User Name:</label>
+  <input type="text" id="username" name="username">
+
+  <label for="password">Password:</label>
+  <input type="text" id="password" name="password">
+
+  {{#if message}}
+    {{message}}
+  {{/if}}
+
+  <button type="submit">SIGN UP</button>
+
+  <p>Do you already have an account?<a href="/login">Log In</a></p>
+
+</form>
