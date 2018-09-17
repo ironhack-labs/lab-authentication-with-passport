@@ -1,0 +1,100 @@
+.header {
+	background-color: $dark-blue;
+    width: 100%;
+	overflow: hidden;
+	padding-left: 3rem;
+	padding-right: 3rem;
+}
+
+.subheader {
+	padding-left: 3rem;
+	padding-right: 3rem;
+	border-bottom: 3px solid $dark-blue;
+}
+
+.container {
+	padding: 2rem 3rem;
+}
+
+.main-links {
+	font-size: 1.125rem;
+	a {
+		display: inline-block;
+
+		&:not(:last-child) {
+			&:after {
+				content: "|";
+				color: $dark-black;
+				font-weight: bold;
+				padding-left: 5px;
+				padding-right: 5px;
+			}
+		}
+	}
+}
+
+.form {
+	.form-group {
+		margin-top: 1rem;
+		margin-bottom: 1rem;
+
+		label, .form-control {
+			font-size: 1rem;
+			padding-top: 10px;
+			padding-bottom: 10px;
+			display: block;
+			width: 100%
+		}
+		label {
+			font-weight: bold;
+		}
+		.form-control {
+			padding-left: 10px;
+			padding-right: 10px;
+			border: 2px solid $light-blue;
+			border-radius: 5px;
+			box-sizing: border-box;
+
+		}
+		.primary-btn {
+			background-color: $light-blue;
+			border: 1px solid $medium-blue;
+			border-radius: 5px;
+			padding: 10px 15px;
+			cursor: pointer;
+			margin-top: 10px;
+			margin-bottom: 10px;
+			color: $medium-white;
+			font-size: 1rem;
+		}
+	}
+}
+
+.error-message {
+	color: $error-color;
+}
+
+.private-page{
+	text-align: center;
+	h1 {
+		color: $dark-blue;
+	}
+	h2 {
+		font-weight: normal;
+	}
+}
+
+
+/* ================================ */
+// MEDIA QUERIES
+/* ================================ */
+@media screen and (min-width: 768px) {
+	.form {
+		.form-group {
+			.form-control {
+				width: 50%;
+				max-width: 500px;
+			}
+		}
+	}
+}

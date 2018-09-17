@@ -1,0 +1,33 @@
+html {
+	font-size: $base-font;
+}
+
+body {
+	font-size: 1rem;
+	 font: 0.875rem "Lucida Grande", Helvetica, Arial, sans-serif;
+	 color: $dark-black;
+}
+
+h1 {
+	font-size: 3rem;
+	font-weight: normal;
+	color: $medium-white;
+}
+
+h2 {
+	font-size: 2rem;
+	color: $dark-blue;
+}
+
+h3{
+	font-size: 1.75rem;
+}
+
+p {
+	font-size: 1rem;
+}
+
+a {
+  color: $light-blue;
+  text-decoration: none;
+}
