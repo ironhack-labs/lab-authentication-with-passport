@@ -1,0 +1,17 @@
+<h2>Sign up to join us</h2>
+
+<form action="/newUser" method="post">
+  <label for="">Username:</label>
+  <input type="text" name="username" placeholder="Write a valid user name">
+
+  <label for="">Password:</label>
+  <input type="text" name="password" placeholder="Write a valid & strong password">
+
+  <button type="submit">Sing Up</button>
+
+  {{#if error}}
+  <div>{{ error }}</div>
+{{/if}}
+</form>
+
+<a href="/">Go back</a>
