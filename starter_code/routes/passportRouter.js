@@ -1,17 +1,46 @@
-const express        = require("express");
-const router         = express.Router();
-// User model
-const User           = require("../models/user");
-// Bcrypt to encrypt passwords
-const bcrypt         = require("bcrypt");
-const bcryptSalt     = 10;
-const ensureLogin = require("connect-ensure-login");
-const passport      = require("passport");
+const router   = require('express').Router()
+const User     = require('../models/User')
+const passport = require('passport')
+
+const estaLoggeadoPerro = (req,res,next)=>{
+  if (req.isAuthenticated()){
+    return next()
+  }else{
+    res.redirect('/login')
+  }
+}
+
+router.get('/signup',(req,res,next)=>{
+  res.render('./signup')
+})
+
+router.post('/signup',(req,res,next)=>{
+  User.register(req.body, req.body.password)
+  .then(user=>{
+    res.redirect('/login')
+  })
+  .catch(error => next(error))
+})
+
+router.get('/login',(req,res,next)=>{
+  res.render('./login')
+})
+///forma de autenticarse con passport para ahoraarte todo el pedo de antes
+router.post('/login',passport.authenticate('local'),(req,res,next)=>{
+  console.log('req.user')
+  res.redirect('/profile')
+})
+router.get('/logout',(req,res)=>{
+  req.logout()
+  res.redirect('/')
+})
+
+router.get('/profile', estaLoggeadoPerro, (req,res)=>{
+  res.send('Awebo')
+})
+
+})
 
 
 
-router.get("/private-page", ensureLogin.ensureLoggedIn(), (req, res) => {
-  res.render("passport/private", { user: req.user });
-});
-
-module.exports = router;
+module.exports = router
