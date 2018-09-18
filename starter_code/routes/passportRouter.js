@@ -9,13 +9,13 @@ const ensureLogin = require("connect-ensure-login");
 const passport      = require("passport");
 
 
-// const isLogged = (req,res,next) => {
-//   if (req.isAuthenticated()){
-//     return next()
-//   } else {
-//     res.redirect('/passport/login')
-//   }
-// }
+const isLogged = (req,res,next) => {
+  if (req.isAuthenticated()){
+    return next()
+  } else {
+    res.redirect('/passport/login')
+  }
+}
 
 router.get ('/signup',(req,res,next)=>{
   res.render ('passport/signup')
