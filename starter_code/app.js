@@ -9,6 +9,11 @@ const mongoose     = require('mongoose');
 const logger       = require('morgan');
 const path         = require('path');
 
+const session      = require('express-session');
+const MongoStore   = require('connect-mongo')(session)
+
+const passport     = require("./helpers/passport");
+
 
 mongoose.Promise = Promise;
 mongoose
@@ -24,11 +29,27 @@ const debug = require('debug')(`${app_name}:${path.basename(__filename).split('.
 
 const app = express();
 
+//sesion
+
+app.use(session({
+  secret: "s3cr3t",
+  resave: true,
+  saveUninitialized: true
+}));
+
+
+//passport
+app.use(passport.initialize());
+app.use(passport.session());
+
 // Middleware Setup
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+
+
+
 
 // Express View engine setup
 
