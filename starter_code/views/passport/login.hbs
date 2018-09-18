@@ -1,0 +1,13 @@
+{{!-- Once we have that, let's add a form to our `views/passport/login.hbs` file. --}}
+<h2>Iniciar sesión mi hijo</h2>
+<form action="/login" method="POST">
+  <p>
+    <label for="username">Escribe tu nombre de usuario</label>
+    <input type="username" name="username" id="username">
+  </p>
+  <p>
+    <label for="password">Escribe una contrseña super</label>
+    <input type="password" name="password" id="password">
+  </p>
+  <input type="submit" value="login">
+</form>
