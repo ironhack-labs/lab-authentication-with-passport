@@ -19,7 +19,7 @@ router.get("/login", (req, res, next) => {
 });
 
 router.post("/login", passport.authenticate("local", {
-  successRedirect: "/private-page",
+  successRedirect: "/private",
   failureRedirect: "/login",
   failureFlash: true,
   passReqToCallback: true
@@ -87,6 +87,9 @@ router.get("/login", (req, res, next) => {
 //   req.logout();
 //   res.redirect("/login");
 // });
-
+// authRoutes.get("/logout", (req, res) => {
+//   req.logout();
+//   res.redirect("/login");
+// });
 
 module.exports = router;
