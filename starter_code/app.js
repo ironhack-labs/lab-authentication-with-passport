@@ -54,7 +54,7 @@ app.locals.title = 'Express - Generated with IronGenerator';
 const index = require('./routes/index');
 const passportRouter = require("./routes/passportRouter");
 app.use('/', index);
-app.use('/', passportRouter);
+app.use('/passport', passportRouter);
 
 
 module.exports = app;
