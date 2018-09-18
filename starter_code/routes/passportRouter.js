@@ -17,7 +17,7 @@ router.get("/signup",  (req, res) => {
   res.render("passport/signup");
 });
 
-outer.post("/signup", (req, res, next) => {
+router.post("/signup", (req, res, next) => {
   const username = req.body.username;
   const password = req.body.password;
 
