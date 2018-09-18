@@ -51,7 +51,9 @@ Finally, add a post route to your `passportRoute` to receive the data from the s
 
 ## Iteration #2: The Login Feature
 
-In order to add the login feature, let's add 1 get route to our router to display the login page. Once we have that, let's add a form to our `views/passport/login.hbs` file. The form should make a POST request to `/login`. Once we have the form, let's add another route to the router to receive that data and log the user in.
+In order to add the login feature, let's add 1 get route to our router to display the login page. 
+Once we have that, let's add a form to our `views/passport/login.hbs` file. 
+The form should make a POST request to `/login`. Once we have the form, let's add another route to the router to receive that data and log the user in.
 
 **But Wait**
 
