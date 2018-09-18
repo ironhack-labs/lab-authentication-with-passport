@@ -8,14 +8,17 @@ const hbs          = require('hbs');
 const mongoose     = require('mongoose');
 const logger       = require('morgan');
 const path         = require('path');
+const session = require('express-session')
+const MongoStore = require('connect-mongo')(session)
+const passport = require('./helpers/passport')
 
 
-mongoose.Promise = Promise;
 mongoose
-  .connect('mongodb://localhost/passport-local', {useMongoClient: true})
-  .then(() => {
-    console.log('Connected to Mongo!')
-  }).catch(err => {
+  .connect('mongodb://localhost/passauth', {useNewUrlParser: true})
+  .then(x => {
+    console.log(`Connected to Mongo! Database name: "${x.connections[0].name}"`)
+  })
+  .catch(err => {
     console.error('Error connecting to mongo', err)
   });
 
@@ -29,6 +32,24 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+
+
+//Session
+
+app.use(session({
+  secret: "s3cr3t",
+  resave: true,
+  saveUninitialized: true
+}));
+
+
+//Passport
+
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+
 
 // Express View engine setup
 
@@ -50,11 +71,14 @@ app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));
 app.locals.title = 'Express - Generated with IronGenerator';
 
 
+const auth = require('./routes/auth')
+app.use('/auth', auth)
 
 const index = require('./routes/index');
-const passportRouter = require("./routes/passportRouter");
 app.use('/', index);
-app.use('/', passportRouter);
+
+
+
 
 
 module.exports = app;
