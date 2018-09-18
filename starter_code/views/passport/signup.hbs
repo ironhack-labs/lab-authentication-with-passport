@@ -1,0 +1,32 @@
+    <h1>Crea tu cuenta</h1>
+
+<form validated action="/signup" method="POST">
+<p>
+    Usuario:
+    <input value="{{username}}" name = "username" type="text" required> 
+</p>
+    
+<p>
+    Email: 
+    <input value= "{{email}}" name = "email" type="email" required>
+</p>
+
+<p>
+    Password:
+    <input name = "password" type="password" required>
+</p>
+
+<p>
+    Repite tu password:
+    <input name = "password2" type="password" required>
+</p>
+
+<p>
+<input type="submit">
+</p>
+</form>
+
+{{#if error}}
+    <h1>{{error}}</h1>
+{{else}}
+{{/if}}
