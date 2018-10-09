@@ -8,7 +8,18 @@ const hbs          = require('hbs');
 const mongoose     = require('mongoose');
 const logger       = require('morgan');
 const path         = require('path');
+const passportRouter = require("./routes/passportRouter");
+const index = require('./routes/index');
+const User = require('./models/User');
+const flash = require("connect-flash");
+const FbStrategy = require('passport-facebook').Strategy;
 
+//esto es necesario para para passport
+
+const session = require("express-session");
+const bcrypt = require("bcrypt");
+const passport = require("passport");
+const LocalStrategy = require("passport-local").Strategy;
 
 mongoose.Promise = Promise;
 mongoose
@@ -19,7 +30,7 @@ mongoose
     console.error('Error connecting to mongo', err)
   });
 
-const app_name = require('./package.json').name;
+  const app_name = require('./package.json').name;
 const debug = require('debug')(`${app_name}:${path.basename(__filename).split('.')[0]}`);
 
 const app = express();
@@ -49,10 +60,73 @@ app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));
 // default value for title local
 app.locals.title = 'Express - Generated with IronGenerator';
 
+app.use(session({
+  secret: "our-passport-local-strategy-app",
+  resave: true,
+  saveUninitialized: true
+}));
+
+passport.serializeUser((user, cb) => {
+  cb(null, user._id);
+});
+
+passport.deserializeUser((id, cb) => {
+  User.findById(id, (err, user) => {
+    if (err) { return cb(err); }
+    cb(null, user);
+  });
+});
 
 
-const index = require('./routes/index');
-const passportRouter = require("./routes/passportRouter");
+app.use(flash())
+passport.use(new LocalStrategy({passReqToCallback:true},
+  (req,username, password, next) => {
+  User.findOne({ username }, (err, user) => {
+    if (err) {
+      return next(err);
+    }
+    if (!user) {
+      return next(null, false, { message: "Incorrect username" });
+    }
+    if (!bcrypt.compareSync(password, user.password)) {
+      return next(null, false, { message: "Incorrect password" });
+    }
+
+    return next(null, user);
+  });
+}));
+
+passport.use(new FbStrategy({
+  clientID: "561238677665320",
+  clientSecret: "a35645a7d153f58376a75f044aa8e04e",
+  callbackURL: "/auth/facebook/callback"
+}, (accessToken, refreshToken, profile, done) => {
+  User.findOne({ facebookID: profile.id }, (err, user) => {
+    if (err) {
+      return done(err);
+    }
+    if (user) {
+      return done(null, user);
+    }
+
+    const newUser = new User({
+      facebookID: profile.id
+    });
+
+    newUser.save((err) => {
+      if (err) {
+        return done(err);
+      }
+      done(null, newUser);
+    });
+  });
+
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+
 app.use('/', index);
 app.use('/', passportRouter);
 
