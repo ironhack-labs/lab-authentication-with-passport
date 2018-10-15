@@ -1,5 +1,6 @@
 require('dotenv').config();
 
+const GoogleStrategy = require("passport-google-oauth").OAuth2Strategy;
 const bodyParser   = require('body-parser');
 const cookieParser = require('cookie-parser');
 const express      = require('express');
@@ -64,6 +65,33 @@ passport.use(new LocalStrategy({passReqToCallback: true},(req, username, passwor
 
         return next(null, user);
     });
+}));
+
+passport.use(new GoogleStrategy({
+    clientID: "921083831887-0dc60co80172k3csngfre511bn1egd9c.apps.googleusercontent.com",
+    clientSecret: "YmE83b33Ns40EAaI5F49AJAe",
+    callbackURL: "/auth/google/callback"
+}, (accessToken, refreshToken, profile, done) => {
+    User.findOne({ googleID: profile.id }, (err, user) => {
+        if (err) {
+            return done(err);
+        }
+        if (user) {
+            return done(null, user);
+        }
+
+        const newUser = new User({
+            googleID: profile.id
+        });
+
+        newUser.save((err) => {
+            if (err) {
+                return done(err);
+            }
+            done(null, newUser);
+        });
+    });
+
 }));
 
 // Middleware Setup

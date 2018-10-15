@@ -63,6 +63,16 @@ router.post("/login", passport.authenticate("local", {
     passReqToCallback: true
 }));
 
+router.get("/auth/google", passport.authenticate("google", {
+    scope: ["https://www.googleapis.com/auth/plus.login",
+        "https://www.googleapis.com/auth/plus.profile.emails.read"]
+}));
+
+router.get("/auth/google/callback", passport.authenticate("google", {
+    failureRedirect: "/",
+    successRedirect: "/private-page"
+}));
+
 router.get("/private-page", ensureLogin.ensureLoggedIn(), (req, res) => {
     res.render("private", { user: req.user });
 });
