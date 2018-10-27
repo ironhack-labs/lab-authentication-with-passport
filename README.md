@@ -1,43 +1,36 @@
-![Ironhack Logo](https://i.imgur.com/1QgrNNw.png)
+![logo_ironhack_blue 7](https://user-images.githubusercontent.com/23629340/40541063-a07a0a8a-601a-11e8-91b5-2f13e4e6b441.png)
 
-# PP | Authentication With PassportJs
-
-## Learning Goals
-
-After this lesson, you will:
-
-- Develop an understanding of how authentication and authorization work in a web application.
-- Understand why these features are useful.
-- Be able to use Passport in an Express application.
-- Be able to implement sign-up and login features with Passport.
-
-## Requirements
-
-- Fork this repo.
-- Clone this repo into your ~/code/labs.
-
-## Submission
-
-Upon completion, run the following commands:
-
-```
-$ git add .
-$ git commit -m "done"
-$ git push origin master
-Navigate to your repo and create a Pull Request -from your master branch to the original repository master branch.
-```
-
-In the Pull request name, add your campus, first name and last name separated by a dash "-".
-
-## Deliverables
-
-The starter-code provides the basic layout and organization for this assignment. Please push everything you need to make it work properly to GitHub before creating the pull request.
+# Authentication With PassportJs
 
 ## Introduction
 
 ![](https://s3-eu-west-1.amazonaws.com/ih-materials/uploads/upload_676b436fcf47e71b1f85cbd8d318a080.png)
 
 You may already know how Passport works and how to integrate it in your projects. Now it's time to practice by creating an Express application with Passport.
+
+
+## Requirements
+
+- Fork this repo
+- Then clone this repo.
+
+
+## Submission
+
+- Upon completion, run the following commands
+```
+$ git add .
+$ git commit -m "done"
+$ git push origin master
+```
+- Create Pull Request so your TAs can check up your work.
+
+## Deliverables
+
+The starter-code provides the basic layout and organization for this assignment. Please push everything you need to make it work properly to GitHub before creating the pull request.
+
+
+## Instructions
 
 ## Iteration #1: The Sign-up Feature
 
@@ -63,4 +56,4 @@ In the repo you forked, there is a file called `private.hbs`. This page is refer
 
 If everything worked correctly, the user should be able to sign up, log in, and then visit the page, where they will receive a personalized greeting.
 
-/Happy coding!
+Happy coding! :heart:
