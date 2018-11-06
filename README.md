@@ -1,57 +1,50 @@
-![Ironhack Logo](https://i.imgur.com/1QgrNNw.png)
+![logo_ironhack_blue 7](https://user-images.githubusercontent.com/23629340/40541063-a07a0a8a-601a-11e8-91b5-2f13e4e6b441.png)
 
-# PP | Authentication With PassportJs
-
-## Learning Goals
-
-After this lesson, you will:
-
-- Develop an understanding of how authentication and authorization work in a web application.
-- Understand why these features are useful.
-- Be able to use Passport in an Express application.
-- Be able to implement sign-up and login features with Passport.
-
-## Requirements
-
-- Fork this repo.
-- Clone this repo into your ~/code/labs.
-
-## Submission
-
-Upon completion, run the following commands:
-
-```
-$ git add .
-$ git commit -m "done"
-$ git push origin master
-Navigate to your repo and create a Pull Request -from your master branch to the original repository master branch.
-```
-
-In the Pull request name, add your campus, first name and last name separated by a dash "-".
-
-## Deliverables
-
-The starter-code provides the basic layout and organization for this assignment. Please push everything you need to make it work properly to GitHub before creating the pull request.
+# Authentication With PassportJs
 
 ## Introduction
 
-![](https://s3-eu-west-1.amazonaws.com/ih-materials/uploads/upload_676b436fcf47e71b1f85cbd8d318a080.png)
+In previous lessons, we learned how important it is to have your user managed (saved and retrieved) successfully. In this lab, you will do it one more time, just to make sure we are ready to move forward into new knowledge conquers :wink:
+Overall, the goal is to understand how authentication and authorization work in a web applications, why these features are useful and to be able to implement signup and login features using Passport.
 
-You may already know how Passport works and how to integrate it in your projects. Now it's time to practice by creating an Express application with Passport.
 
-## Iteration #1: The Sign-up Feature
 
-The repo you cloned comes with a User model and a router file already made for you. It also has all the views you need there, although some are empty.
+## Requirements
+
+- Fork this repo
+- Clone this repo
+
+## Submission
+- Upon completion, run the following commands:
+
+```bash
+git add .
+git commit -m "done"
+git push origin master
+```
+- Create Pull Request so your TAs can check up your work.
+
+## Introductions
+
+The starter-code provides the basic layout and organization for this assignment.
+
+## Iteration #1: The Signup Feature
+
+The repo you cloned comes with a `User` model and a `router` file already made for you. It also has all the views you need, although some are empty :smile:
 
 Add a new route to your `passportRouter.js` file with the path `/signup` and point it to your `views/passport/signup.hbs` file.
 
-Now, in that file, add a form that makes a POST request to `/signup`, with a field for `username` and `password`.
+Now, in that .hbs file, add a form that makes a POST request to `/signup`, with a field for `username` and `password`.
 
-Finally, add a post route to your `passportRoute` to receive the data from the signup form and create a new user with the data.
+Finally, add a POST route to your `passportRouter.js` to receive the data from the signup form and create a new user with the data.
+
+:::info
+Make sure you install **bcrypt** (or **bcryptjs**) and **passport** npm packages and require it in `passportRouter.js`.
+:::
 
 ## Iteration #2: The Login Feature
 
-In order to add the login feature, let's add 1 get route to our router to display the login page. Once we have that, let's add a form to our `views/passport/login.hbs` file. The form should make a POST request to `/login`. Once we have the form, let's add another route to the router to receive that data and log the user in.
+In order to add the login feature, let's add one GET route to our router to display the login page. `views/passport/login.hbs` is empty so let's fill it with some login form. Once we have the form, let's add another route to the router to receive that data and log the user in. The form should make a POST request to `/login`. 
 
 **But Wait**
 
@@ -59,8 +52,8 @@ In order to do that, we need to configure Sessions and initialize a session with
 
 ## Private Page
 
-In the repo you forked, there is a file called `private.hbs`. This page is referenced in the Passport Router with the path `/private-page`. We use the `ensureLogin.ensureLoggedIn()` function to make sure that the user is logged in before viewing this page.
+In the repo you forked, there is a file called `private.hbs`. This page is referenced in the `passportRouter.js` with the path `/private-page`. We use the `ensureLogin.ensureLoggedIn()` function to make sure that the user is logged in before viewing this page.
 
-If everything worked correctly, the user should be able to sign up, log in, and then visit the page, where they will receive a personalized greeting.
+If everything worked correctly, the user should be able to sign up, login, and then visit the page, where they will receive a personalized greeting.
 
-/Happy coding!
+Happy coding! :heart:
