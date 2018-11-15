@@ -8,10 +8,16 @@ const hbs          = require('hbs');
 const mongoose     = require('mongoose');
 const logger       = require('morgan');
 const path         = require('path');
+const session      = require("express-session");
+const MongoStore   = require("connect-mongo")(session);
+const passport     = require("passport");
+
+// run the code inside "passport-setup.js"
+require("./config/passport-setup.js");
 
 
 mongoose
-  .connect('mongodb://localhost/starter-code', {useNewUrlParser: true})
+  .connect('mongodb://localhost/Passport-Authentication', {useNewUrlParser: true})
   .then(x => {
     console.log(`Connected to Mongo! Database name: "${x.connections[0].name}"`)
   })
@@ -37,6 +43,20 @@ app.use(require('node-sass-middleware')({
   dest: path.join(__dirname, 'public'),
   sourceMap: true
 }));
+
+
+app.use(session({
+  // "resave" & "saveUninitialized" are just here to avoid warning messages 
+  resave: true,
+  saveUninitialized: true,
+  //"secret" should be a string that's different for every app
+  secret: "eXUW9iJ6=2h}yBC36P^;LmJ+fpYiU8A[Mg2KNRAj?1",
+  // use the "connect-mongo" npm package to store session info to MongoDB
+  store: new MongoStore({ mongooseConnection: mongoose.connection }),
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
       
 
 app.set('views', path.join(__dirname, 'views'));
@@ -47,7 +67,7 @@ app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));
 
 
 // default value for title local
-app.locals.title = 'Express - Generated with IronGenerator';
+app.locals.title = 'Express - Passport Authentication';
 
 
 // Routes middleware goes here
