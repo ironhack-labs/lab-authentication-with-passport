@@ -1,0 +1,20 @@
+<h1>Login</h1>
+
+
+<form action="/login" method="POST">
+
+<label>Username</label>
+<input type="text" name="username">
+{{!-- when using passport, name must equal username --}}
+
+<label>Password</label>
+<input type="text" name="password">
+{{!-- when using passport name must equal password --}}
+
+<button>Login</button>
+</form>
+
+
+{{#if message}}
+<h4>{{message}}</h4>
+{{/if}}

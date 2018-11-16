@@ -1,0 +1,40 @@
+<h1>Add a New Book To Our Collection</h1>
+
+
+<form action="/Movie/create" method="POST">
+
+
+  <label for="">Title:</label>
+  <input type="text" name="title">
+
+
+
+
+
+  <label for="">Celebrity:</label>
+  
+  <select name="Celebrity">
+
+   {{#each allTheCelebritys}}
+    <option value="{{this._id}}">{{this.firstName}} {{this.lastName}}</option>
+   {{/each}}
+  </select>
+
+
+
+
+
+
+  <label for="">Description:</label>
+  <input type="text" name="description">
+
+  <label for="">Rate:</label>
+  <input type="number" name="rating">
+
+    <label for="">Image Link:</label>
+  <input type="text" name="image">
+
+  <button type="submit">ADD</button>
+
+
+</form>

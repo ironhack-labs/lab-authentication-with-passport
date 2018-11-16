@@ -1,0 +1,31 @@
+<h1>Register A new Account</h1>
+
+
+
+<form action="/register" method="POST">
+<label>Username</label>
+<input type="text" name="theUsername" required>
+{{!-- since we dont use passport for the signup route, name does not have to equal username --}}
+
+<label>Password</label>
+<input type="text" name="thePassword" required>
+
+<label>Profile Pic</label>
+<input type="text" name="image" required>
+
+<label>First Name</label>
+<input type="text" name="first" required>
+
+<label>Last Name</label>
+<input type="text" name="last" required>
+
+<label>Bio</label>
+<textarea name="bio" required cols="30" rows="10"></textarea>
+
+
+ <button>Create Account</button>
+</form>
+
+{{#if message}}
+<h4>{{message}}</h4>
+{{/if}}

@@ -1,0 +1,30 @@
+
+<h1>
+{{title}}
+
+</h1>
+
+<h2>
+{{Celebrity.firstName}}  {{Celebrity.lastName}}
+</h2>
+
+
+<h3>
+{{description}}
+</h3>
+
+
+<p>
+rating: {{rating}}
+</p>
+
+<img src="{{image}}" alt="" style="width: 300px">
+
+<p>Donated By {{donor.firstName}}  {{donor.lastName}}</p>
+
+
+<a href="/books/{{_id}}/edit">Edit This Book</a>
+
+<form action="/books/{{_id}}/delete" method="POST">
+    <button>Delete This Book</button>
+</form>
