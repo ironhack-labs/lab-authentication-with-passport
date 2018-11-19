@@ -78,5 +78,9 @@ passportRouter.post('/login', passport.authenticate('local', {
 
 }));
 
+passportRouter.get('/logout', (req, res) => {
+  req.logout();
+  res.redirect('/login');
+});
 
 module.exports = passportRouter;
