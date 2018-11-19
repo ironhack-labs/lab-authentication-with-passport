@@ -1,7 +1,4 @@
 const express        = require("express");
-const router         = express.Router();
-const passportRouter = express.Router();
-
 
 
 // Require user model
@@ -12,19 +9,17 @@ const bcryptSalt  = 10;
 // Add passport 
 const passportRouter = express.Router();
 
+const passport = require("passport");
 const ensureLogin = require("connect-ensure-login");
 
 
-passportRouter.get("/private-page", ensureLogin.ensureLoggedIn(), (req, res) => {
-  res.render("passport/private", { user: req.user });
-});
 
 
 
-
-router.get('/signup', (req, res, next) => {
+passportRouter.get('/signup', (req, res, next) => {
   res.render('passport/signup');
 });
+
 
 
 
@@ -35,14 +30,14 @@ passportRouter.post("/signup", (req, res, next) => {
   const password = req.body.password;
 
   if (username === "" || password === "") {
-    res.render("passport/signup", { message: "Indicate username and password" });
+    res.render("passport/signup", { errorMessage: "Indicate username and password" });
     return;
   }
 
   User.findOne({ username })
   .then(user => {
     if (user !== null) {
-      res.render("passport/signup", { message: "The username already exists" });
+      res.render("passport/signup", { errorMessage: "The username already exists" });
       return;
     }
 
@@ -58,7 +53,7 @@ passportRouter.post("/signup", (req, res, next) => {
       if (err) {
         res.render("passport/signup", { message: "Something went wrong" });
       } else {
-        res.redirect("/");
+        res.redirect("/login");
       }
     });
   })
@@ -68,5 +63,20 @@ passportRouter.post("/signup", (req, res, next) => {
 });
 
 
+passportRouter.get('/login', (req, res, next) => {
+  res.render('passport/login');
+});
+
+passportRouter.post("/login", passport.authenticate("local", {
+  successRedirect: "/private",
+  failureRedirect: "/login",
+  failureFlash: true,
+  passReqToCallback: true
+}));
+
+
+passportRouter.get("/private", ensureLogin.ensureLoggedIn(), (req, res) => {
+  res.render("passport/private", { user: req.user });
+});
 
 module.exports = passportRouter;
