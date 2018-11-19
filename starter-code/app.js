@@ -13,6 +13,7 @@ const LocalStrategy = require('passport-local').Strategy;
 const session = require('express-session');
 const User = require('./models/user.js');
 const bcrypt = require('bcrypt');
+const flash = require('connect-flash');
 
 mongoose
   .connect(`mongodb://localhost/${process.env.DB}`, {useNewUrlParser: true})
@@ -33,6 +34,7 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(flash());
 app.use(session({
   secret: "our-passport-local-strategy-app",
   resave: true,
