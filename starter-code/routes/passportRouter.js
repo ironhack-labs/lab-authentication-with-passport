@@ -8,7 +8,7 @@ const bcryptSalt = 10;
 // Add passport 
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
-
+const randomUser = new User;
 
 
 
@@ -21,7 +21,7 @@ passportRouter.get("/private-page", ensureLogin.ensureLoggedIn(), (req, res) => 
 });
 
 passportRouter.get("/signup", (req, res, next) => {
-  res.render("views/passport/signup");
+  res.render("passport/signup");
  });
  
  passportRouter.post("/signup", (req, res, next) => {
@@ -29,14 +29,14 @@ passportRouter.get("/signup", (req, res, next) => {
   const password = req.body.password;
  
   if (username === "" || password === "") {
-    res.render("views/passport/signup", { message: "Indicate username and password" });
+    res.render("passport/signup", { message: "Indicate username and password" });
     return;
   }
  
   User.findOne({ username })
   .then(user => {
     if (user !== null) {
-      res.render("views/passport/signup", { message: "The username already exists" });
+      res.render("passport/signup", { message: "The username already exists" });
       return;
     }
  
@@ -50,7 +50,7 @@ passportRouter.get("/signup", (req, res, next) => {
  
     newUser.save((err) => {
       if (err) {
-        res.render("views/passport/signup", { message: "Something went wrong" });
+        res.render("passport/signup", { message: "Something went wrong" });
       } else {
         res.redirect("/");
       }
@@ -60,6 +60,17 @@ passportRouter.get("/signup", (req, res, next) => {
     next(error)
   })
  });
+
+ passportRouter.get("/login", (req, res, next) => {
+  res.render("passport/login");
+});
+
+passportRouter.post("/login", passport.authenticate("local", {
+  successRedirect: "/",
+  failureRedirect: "/login",
+  failureFlash: true,
+  passReqToCallback: true
+}));
  
 
 module.exports = passportRouter;
