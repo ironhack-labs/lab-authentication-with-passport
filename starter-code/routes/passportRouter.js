@@ -1,15 +1,18 @@
 const express        = require("express");
 const passportRouter = express.Router();
+const passport = require("passport");
+const User = require("../models/user")
+  const bcrypt = require("bcrypt");
+  const bcryptSalt = 10;
+
 // Require user model
-router.get('/singup', (req, res, next) => {
-  res.render('views/passport/singup.hbs');
-});
-router.post('/singup', (req, res, next) => {
-  res.render('views/passport/singup.hbs');
+passportRouter.get('/signup', (req, res, next) => {
+  res.render('passport/signup.hbs');
 });
 
+
 // Add bcrypt to encrypt passwords
-authRoutes.post("/signup", (req, res, next) => {
+passportRouter.post("/signup", (req, res, next) => {
   const username = req.body.username;
   const password = req.body.password;
 
@@ -46,11 +49,19 @@ authRoutes.post("/signup", (req, res, next) => {
   })
 });
 
-module.exports = authRoutes;
+module.exports = passportRouter;
 
 
 // Add passport 
-
+passportRouter.get('/login', (req, res, next) => {
+  res.render('passport/login.hbs');
+});
+passportRouter.post('/login', passport.authenticate("local", {
+  successRedirect: "/",
+  failureRedirect: "/login",
+  failureFlash: true,
+  passReqToCallback: true
+}));
 
 const ensureLogin = require("connect-ensure-login");
 
