@@ -9,9 +9,14 @@ const mongoose     = require('mongoose');
 const logger       = require('morgan');
 const path         = require('path');
 
+const session = require('express-session');
+const bcrypt = require('bcrypt');
+const passport = require("passport");
+const LocalStrategy = require('passport-local').Strategy;
+
 
 mongoose
-  .connect('mongodb://localhost/starter-code', {useNewUrlParser: true})
+  .connect('mongodb://localhost/authLab', {useNewUrlParser: true})
   .then(x => {
     console.log(`Connected to Mongo! Database name: "${x.connections[0].name}"`)
   })
@@ -44,7 +49,11 @@ app.set('view engine', 'hbs');
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));
 
-
+app.use(session({
+  secret: "our-passport-local-strategy-app",
+  resave: true,
+  saveUninitialized: true
+}));
 
 // default value for title local
 app.locals.title = 'Express - Generated with IronGenerator';
@@ -55,6 +64,9 @@ const index = require('./routes/index');
 app.use('/', index);
 const passportRouter = require("./routes/passportRouter");
 app.use('/', passportRouter);
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 
 module.exports = app;
