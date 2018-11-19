@@ -10,9 +10,6 @@ const LocalStrategy = require('passport-local').Strategy;
 
 const ensureLogin = require("connect-ensure-login");
 
-passportRouter.get("/private-page", ensureLogin.ensureLoggedIn(), (req, res) => {
-  res.render("passport/private", { user: req.user });
-});
 
 passportRouter.get('/signup', (req, res, next) => {
   res.render('passport/signup');
@@ -80,6 +77,7 @@ passportRouter.get('/private-page', ensureLogin.ensureLoggedIn(), (req, res) => 
 passportRouter.get('/error', (req, res, next) => {
   res.render('error',{ message: 'There is already a user with this name in the database.' });
 })
+
 
 
 
