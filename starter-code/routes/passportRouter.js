@@ -50,9 +50,13 @@ passportRouter.get("/login", (req, res) => {
   res.render("passport/login")
 })
 passportRouter.post("/login", passport.authenticate("local", {
-  successRedirect: "/",
+  successRedirect: "/private-page",
   failureRedirect: "/login",
   failureFlash: true,
   passReqToCallback: true
 }));
+
+passportRouter.get("/private-page", ensureLogin.ensureLoggedIn(), (req, res) => {
+  res.render("passport/private")
+})
 module.exports = passportRouter;
