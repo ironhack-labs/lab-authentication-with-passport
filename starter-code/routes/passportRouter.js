@@ -6,8 +6,9 @@ const User = require("../models/user");
 const bcrypt = require("bcrypt");
 // Add passport 
 const passport = require("passport");
-const LocalStrategy = require("passport-local");
+const LocalStrategy = require("passport-local").Strategy;
 const ensureLogin = require("connect-ensure-login");
+const flash = require("connect-flash");
 const bcryptSalt = 10;
 
 passportRouter.get("/private-page", ensureLogin.ensureLoggedIn(), (req, res) => {
@@ -45,7 +46,7 @@ passportRouter.post("/signup", (req, res, next) => {
 
     newUser.save((err) => {
       if (err) {
-        res.render("auth/signup", { message: "Something went wrong" });
+        res.render("passport/signup", { message: "Something went wrong" });
       } else {
         res.redirect("/");
       }
@@ -59,6 +60,15 @@ passportRouter.post("/signup", (req, res, next) => {
 passportRouter.get("/login", (req, res, next) => {
   res.render('passport/login');
 })
+
+passportRouter.post("/login", passport.authenticate("local", {
+  successRedirect: "/private-page",
+  failureRedirect: "/login",
+  failureFlash: true,
+  passReqToCallback: true
+}));
+
+
 
 
 
