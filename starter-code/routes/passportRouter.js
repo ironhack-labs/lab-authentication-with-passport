@@ -18,8 +18,8 @@ passportRouter.get('/private-page', ensureLogin.ensureLoggedIn(), (req, res) => 
 passportRouter.get('/signup', (req, res, next) => res.render('passport/signup'));
 
 passportRouter.post('/signup', (req, res, next) => {
-  const username = req.body.username;
-  const password = req.body.password;
+  const { username } = req.body;
+  const { password } = req.body;
 
   const salt = bcrypt.genSaltSync(bcryptSalt);
   const hashPass = bcrypt.hashSync(req.body.password, salt);
