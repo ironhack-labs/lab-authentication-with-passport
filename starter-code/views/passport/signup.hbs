@@ -4,4 +4,8 @@
   <label for="password">Password:</label>
   <input type="password" name="password">
   <input type="submit" value="Sign Up">
+  {{#if error}}
+  <div class="error-message">{{ error }}</div>
+  {{/if}}
 </form>
+<p><a href="/login">If u have account Log in</a></p>
