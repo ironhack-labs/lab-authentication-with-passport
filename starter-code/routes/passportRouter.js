@@ -9,6 +9,7 @@ const saltRound = 10;
 
 // Add passport 
 const passport = require("passport");
+const localStrategy = require('passport-local').Strategy;
 
 
 const ensureLogin = require("connect-ensure-login");
@@ -27,7 +28,7 @@ passportRouter.post("/signup",(req, res, next) => {
   const password = req.body.password;
 
   if (username === "" || password === "") {
-    res.render("/signup", { message: "Indicate username and password" });
+    res.render("passport/signup", { message: "Indicate username and password" });
     return;
   }
 
@@ -35,7 +36,7 @@ passportRouter.post("/signup",(req, res, next) => {
   User.findOne({ username })
   .then(user => {
     if (user !== null) {
-      res.render("/signup", { message: "The username already exists" });
+      res.render("passport/signup", { message: "The username already exists" });
       return;
     }
 
@@ -60,4 +61,17 @@ passportRouter.post("/signup",(req, res, next) => {
   })
   
 });
+
+passportRouter.get("/login", (req, res)=> {
+  res.render("passport/login");
+});
+
+passportRouter.post("/login", passport.authenticate("local", {
+  successRedirect: "/private-page",
+  failureRedirect: "/login",
+  failureFlash: true,
+  passReqToCallback: true
+}) );
+
+
 module.exports = passportRouter;
