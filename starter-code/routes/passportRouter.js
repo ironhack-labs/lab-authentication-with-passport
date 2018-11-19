@@ -25,7 +25,6 @@ passportRouter.post("/signup", (req, res) => {
   const { username, password } = req.body;
   if (username === "" || password === "") {
     res.redirect("signup")
-    // errorMessage:"FIll both fields"
   }
   const saltRounds = 5;
   const salt = bcrypt.genSaltSync(saltRounds);
@@ -47,7 +46,7 @@ passportRouter.post("/signup", (req, res) => {
 
 
 passportRouter.get("/login", (req, res) => {
-  res.render("passport/login")
+  res.render("passport/login", {message:req.flash("error")})
 })
 passportRouter.post("/login", passport.authenticate("local", {
   successRedirect: "/private-page",
