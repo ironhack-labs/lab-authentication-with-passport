@@ -55,4 +55,20 @@ passportRouter.post('/signup', (req, res) => {
   })
 });
 
+passportRouter.get('/login', (req, res) => {
+  res.render('passport/login', {message: req.flash('error')})
+});
+
+passportRouter.post('/login', passport.authenticate('local', {
+  successRedirect: '/', 
+  failureRedirect: '/login', 
+  failureFlash: true, 
+  passReqToCallback: true
+}));
+
+passportRouter.get('/logout', ensureLogin.ensureLoggedIn(), (req, res) => {
+  req.logout();
+  res.redirect('/login');
+})
+
 module.exports = passportRouter;
