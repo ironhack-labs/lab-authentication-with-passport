@@ -52,15 +52,16 @@ passportRouter.post("/signup", (req, res, next) => {
   const username = req.body.username;
   const password = req.body.password;
 
+
   if (username === "" || password === "") {
-    res.render("signup", { message: "Indicate username and password" });
+    console.log("ENTRO")
+    res.render("passport/signup", { message: "Indicate username and password" });
     return;
   }
-
   User.findOne({ username })
   .then(user => {
     if (user !== null) {
-      res.render("signup", { message: "The username already exists" });
+      res.render("passport/signup", { message: "The username already exists" });
       return;
     }
 
