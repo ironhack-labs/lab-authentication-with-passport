@@ -8,7 +8,8 @@ const bcryptSalt = 10;
 // Add passport 
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
-const randomUser = new User;
+// const ensureLogin = require("connect-ensure-login");
+
 
 
 
@@ -66,7 +67,7 @@ passportRouter.get("/signup", (req, res, next) => {
 });
 
 passportRouter.post("/login", passport.authenticate("local", {
-  successRedirect: "/",
+  successRedirect: "/private-page",
   failureRedirect: "/login",
   failureFlash: true,
   passReqToCallback: true

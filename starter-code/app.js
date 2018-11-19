@@ -12,6 +12,7 @@ const bcrypt = require("bcrypt");
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const User = require("./models/user");
+const flash = require("connect-flash");
   //  const newUser = new User({
   //     username,
   //     password: hashPass
@@ -46,6 +47,7 @@ passport.serializeUser((user, cb) => {
   cb(null, user._id);
 });
 
+app.use(flash());
 passport.deserializeUser((id, cb) => {
   User.findById(id, (err, user) => {
     if (err) { return cb(err); }
