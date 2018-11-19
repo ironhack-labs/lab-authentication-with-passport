@@ -1,8 +1,83 @@
 body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  padding: 0px;
+  margin: 0px;
+  font-family: Arial, Helvetica, sans-serif;
+  background-image: linear-gradient(to top, #a8edea 0%, #fed6e3 100%);
 }
 
 a {
   color: #00B7FF;
+}
+
+
+.signup {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.form {
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+  width: 15vw;
+  height: 35vh;
+  padding: 20px;
+  border-radius: 20px;
+  background: rgba(224, 224, 224, 0.4);
+  box-shadow: 0px 0px 10px grey;
+}
+
+.form h1 {
+  font-size: 40px;
+  margin-top: 0px;
+  margin-bottom: 20px;
+  text-shadow: 0px 0px 2px grey;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.form input {
+  width: 200px;
+  height: 30px;
+  border: 0;
+  border-radius: 15px;
+  box-shadow: 0px 0px 3px rgb(109, 109, 109);
+  margin-bottom: 20px;
+  padding: 8px;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 15px;
+}
+
+.inputs {
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  text-align: center;
+}
+
+.inputs a {
+  margin-top: 10px;
+}
+
+.form button {
+  height: 30px;
+  border: 0;
+  border-radius: 10px;
+  color: white;
+  background: rgb(70, 119, 197);
+  font-weight: bold;
+  font-size: 15px;
+}
+
+.form button:hover {
+  background: white;
+  color: rgb(70, 119, 197);
+  border: 1px solid rgb(70, 119, 197);
+}
+
+.error-message {
+  margin-top: 20px;
+  color: rgb(110, 0, 0);
 }
