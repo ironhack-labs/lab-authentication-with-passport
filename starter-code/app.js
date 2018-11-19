@@ -44,7 +44,7 @@ app.set('view engine', 'hbs');
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));
 
-
+require("./passport")(app);
 
 // default value for title local
 app.locals.title = 'Express - Generated with IronGenerator';
