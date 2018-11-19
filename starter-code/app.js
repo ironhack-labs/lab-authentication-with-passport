@@ -13,9 +13,9 @@ const session = require('express-session');
 const bcrypt = require('bcrypt');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
-
+const User = require("./models/user");
 mongoose
-  .connect('mongodb://localhost/starter-code', {useNewUrlParser: true})
+  .connect('mongodb://localhost/passport', {useNewUrlParser: true})
   .then(x => {
     console.log(`Connected to Mongo! Database name: "${x.connections[0].name}"`)
   })
@@ -97,4 +97,3 @@ app.use('/', passportRouter);
 
 
 module.exports = app;
-app.listen(3000);
