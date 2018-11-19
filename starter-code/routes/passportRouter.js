@@ -7,6 +7,7 @@ const passportRouter = express.Router();
 const bodyParser     = require('body-parser');
 const mongoose       = require('mongoose');
 const passport       = require('passport');
+const LocalStrategy  = require('passport-local').Strategy;
 
 // Require user model
 
@@ -52,7 +53,6 @@ passportRouter.post('/signup', (req, res, next) => {
       if (err) {
         res.render('passport/signup', { message : 'Something went wrong' });
       } else {
-        console.log(user);
         res.redirect('/');
       }
     });
@@ -61,4 +61,21 @@ passportRouter.post('/signup', (req, res, next) => {
       next(error);
     });
 });
+
+
+passportRouter.get('/login', (req, res, next) => {
+  res.render('passport/login');
+});
+
+
+passportRouter.post('/login', passport.authenticate('local', {
+  successRedirect: '/',
+  failureRedirect: '/login',
+  failureFlash: true,
+  passReqToCallback: true,
+
+
+}));
+
+
 module.exports = passportRouter;
