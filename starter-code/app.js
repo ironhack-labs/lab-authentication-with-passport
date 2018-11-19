@@ -56,7 +56,7 @@ require("./passport")(app);
 app.use(flash());
 
 // default value for title local
-app.locals.title = 'Express - Generated with IronGenerator';
+app.locals.title = 'Authentication with passport';
 
 
 // Routes middleware goes here

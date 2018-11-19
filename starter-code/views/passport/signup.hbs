@@ -1,15 +1,17 @@
-<h1>Sign Up</h1>
+<section class="main">
+  <h1>Sign Up</h1>
 
-{{#if message}}
-  <div class="message">{{message}}</div>
-{{/if}}
+  {{#if message}}
+    <div class="message">{{message}}</div>
+  {{/if}}
 
-<form action="/signup" method="post">
-  <label for="username">Username:</label>
-  <input type="text" name="username">
+  <form action="/signup" method="post">
+    <label for="username">Username:</label>
+    <input type="text" name="username">
 
-  <label for="pass">Password:</label>
-  <input type="password" name="password">
+    <label for="pass">Password:</label>
+    <input type="password" name="password">
 
-  <button type="submit">Sign up</button>
-</form>
+    <button type="submit">Sign up</button>
+  </form>
+</section>
