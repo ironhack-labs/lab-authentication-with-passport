@@ -8,38 +8,7 @@ const bcryptSalt = 10;
 const passport = require("passport");
 const LocalStrategy = require('passport-local').Strategy;
 
-
 const ensureLogin = require("connect-ensure-login");
-
-
-passport.serializeUser((user, cb) => {
-  cb(null, user._id);
-});
-
-passport.deserializeUser((id, cb) => {
-  User.findById(id, (err, user) => {
-    if (err) { return cb(err); }
-    cb(null, user);
-  });
-});
-
-passport.use(new LocalStrategy((username, password, next) => {
-  User.findOne({ username }, (err, user) => {
-    if (err) {
-      return next(err);
-    }
-    if (!user) {
-      return next(null, false, { message: "Incorrect username" });
-    }
-    if (!bcrypt.compareSync(password, user.password)) {
-      return next(null, false, { message: "Incorrect password" });
-    }
-
-    return next(null, user);
-  });
-}));
-
-
 
 passportRouter.get("/private-page", ensureLogin.ensureLoggedIn(), (req, res) => {
   res.render("passport/private", { user: req.user });
@@ -49,44 +18,62 @@ passportRouter.get('/signup', (req, res, next) => {
   res.render('passport/signup');
 });
 
+
+passportRouter.get('/login', (req, res, next) => {
+  res.render('passport/login');
+});
+
 passportRouter.post('/signup', (req, res, next) => {
 
   if (req.body.username === '' || req.body.password === '') {
-    res.redirect('/signup');
+    res.redirect('/');
   }
+
 
   let newUser = new User();
 
   console.log(newUser);
 
-  User.findOne({username: req.body.username})
-  .then((found) => {
-    if (found) {
-      console.log('There is already a user with this name in the database.');
-      res.redirect('error', { message: 'There is already a user with this name in the database.' });
-      return
-    } else {
-      newUser.username = req.body.username;
-      newUser.pasword = req.body.password;
-      const salt = bcrypt.genSaltSync(bcryptSalt);
-      const hashedPassword = bcrypt.hashSync(req.body.password, salt);
+  User.findOne({ username: req.body.username })
+    .then((found) => {
+      if (found) {
+        console.log('There is already a user with this name in the database.');
+        res.redirect('error', { message: 'There is already a user with this name in the database.' });
+        return
+      } else {
+        newUser.username = req.body.username;
+        newUser.pasword = req.body.password;
+        const salt = bcrypt.genSaltSync(bcryptSalt);
+        const hashedPassword = bcrypt.hashSync(req.body.password, salt);
 
-      newUser.password = hashedPassword;
-      newUser.save()
-        .then(() => {
-          res.render('passport/login');
-        })
-        .catch((err) => {
-          next();
-          return err
-        });
-    }
+        newUser.password = hashedPassword;
+        newUser.save()
+          .then(() => {
+            res.redirect('/login');
+          })
+          .catch((err) => {
+            next();
+            return err
+          });
+      }
+    })
+    .catch((err) => {
+      next();
+      return err
+    })
 
+})
 
+passportRouter.post('/login', passport.authenticate("local", {
+  successRedirect: "/private-page",
+  failureRedirect: "/login",
+  failureFlash: true,
+  passReqToCallback: true
+}));
 
-  })
-  .catch()
-
+passportRouter.get('/private-page', ensureLogin.ensureLoggedIn(), (req, res) => {
+  console.log(req.user);
+  res.render('passport/private', { user: req.user });
 });
 
 module.exports = passportRouter;
