@@ -38,7 +38,8 @@ passportRouter.post('/signup', (req, res, next) => {
     .then((found) => {
       if (found) {
         console.log('There is already a user with this name in the database.');
-        res.redirect('error', { message: 'There is already a user with this name in the database.' });
+        res.redirect('/error');
+        
         return
       } else {
         newUser.username = req.body.username;
@@ -75,5 +76,11 @@ passportRouter.get('/private-page', ensureLogin.ensureLoggedIn(), (req, res) => 
   console.log(req.user);
   res.render('passport/private', { user: req.user });
 });
+
+passportRouter.get('/error', (req, res, next) => {
+  res.render('error',{ message: 'There is already a user with this name in the database.' });
+})
+
+
 
 module.exports = passportRouter;
