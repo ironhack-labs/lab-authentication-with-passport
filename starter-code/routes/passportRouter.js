@@ -9,13 +9,20 @@ const bcryptSalt = 5;
 
 const User = require('../models/user');
 
-passportRouter.get('/private-page', ensureLogin.ensureLoggedIn(), (req, res) => {
+passportRouter.get('/signup', (req, res, next) => res.render('passport/signup'));
+
+passportRouter.get('/login', (req, res, next) => res.render('passport/login'));
+
+passportRouter.get('/private', ensureLogin.ensureLoggedIn(), (req, res) => {
   res.render('passport/private', {
     user: req.user,
   });
 });
 
-passportRouter.get('/signup', (req, res, next) => res.render('passport/signup'));
+passportRouter.get('/logout', (req, res) => {
+  req.logout();
+  res.redirect('/');
+});
 
 passportRouter.post('/signup', (req, res, next) => {
   const { username } = req.body;
@@ -25,7 +32,7 @@ passportRouter.post('/signup', (req, res, next) => {
   const hashPass = bcrypt.hashSync(req.body.password, salt);
 
   if (username === '' || password === '') {
-    res.render('auth/signup', {
+    res.render('signup', {
       message: 'Indicate username and password',
     });
     reject();
@@ -46,5 +53,12 @@ passportRouter.post('/signup', (req, res, next) => {
     .then(() => res.redirect('/'))
     .catch(err => next(err));
 });
+
+passportRouter.post('/login', passport.authenticate('local', {
+  successReturnToOrRedirect: '/',
+  failureRedirect: '/login',
+  failureFlash: false,
+  passReqToCallback: false,
+}));
 
 module.exports = passportRouter;

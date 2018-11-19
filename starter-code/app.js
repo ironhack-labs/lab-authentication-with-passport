@@ -7,6 +7,7 @@ const favicon      = require('serve-favicon');
 const hbs          = require('hbs');
 const mongoose     = require('mongoose');
 const logger       = require('morgan');
+const session      = require('express-session');
 const path         = require('path');
 
 
@@ -25,6 +26,11 @@ const debug = require('debug')(`${app_name}:${path.basename(__filename).split('.
 const app = express();
 
 // Middleware Setup
+app.use(session({
+  secret: 'our-passport-local-strategy-app',
+  resave: true,
+  saveUninitialized: true,
+}));
 
 app.use(logger('dev'));
 app.use(bodyParser.json());
@@ -55,6 +61,8 @@ const index = require('./routes/index');
 
 app.use('/', index);
 const passportRouter = require('./routes/passportRouter');
+
+require('./passport')(app);
 
 app.use('/', passportRouter);
 
