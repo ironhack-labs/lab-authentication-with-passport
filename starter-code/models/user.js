@@ -4,8 +4,8 @@ const passportLocalMongoose = require("passport-local-mongoose");
 
 const userSchema = new Schema(
   {
-    username: String,
-    password: String
+    username: String
+    // password: String
   },
   {
     timestamps: true
