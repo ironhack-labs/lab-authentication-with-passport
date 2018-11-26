@@ -6,11 +6,31 @@ const User = require('../models/user')
 const bcrypt = require('bcrypt')
 // Add passport 
 const passport = require('passport')
-
 const saltedRounds = 10
-
-
 const ensureLogin = require("connect-ensure-login");
+
+function isLogged(req, res, next) {
+  if (req.isAuthenticated()) {
+    return next()
+  }
+  return res.redirect('/login')
+}
+
+passportRouter.get('/private', isLogged, (req, res, next) => {
+  const user = req.user
+  res.render('passport/private', user)
+})
+passportRouter.get('/profile', (req, res, next) => {
+  const user = req.user
+  res.render('passport/profile', user)
+})
+passportRouter.get('/login', (req, res, next) => {
+  res.render('passport/login')
+})
+
+passportRouter.post('/login', passport.authenticate('local'), (req, res, next) => {
+  res.redirect('/profile')
+})
 
 passportRouter.get('/signup', (req, res, next) => {
   res.render('passport/signup')
