@@ -8,6 +8,9 @@ const hbs          = require('hbs');
 const mongoose     = require('mongoose');
 const logger       = require('morgan');
 const path         = require('path');
+const passport     = require('../starter-code/helpers/passport')
+const session = require ('express-sessions')
+// const mongoStore = require ("connect-mongo")(session)
 
 
 mongoose
@@ -37,6 +40,9 @@ app.use(require('node-sass-middleware')({
   dest: path.join(__dirname, 'public'),
   sourceMap: true
 }));
+
+
+
       
 
 app.set('views', path.join(__dirname, 'views'));
@@ -51,10 +57,12 @@ app.locals.title = 'Express - Generated with IronGenerator';
 
 
 // Routes middleware goes here
+
+const passportRouter = require("./routes/passportRouter");
 const index = require('./routes/index');
 app.use('/', index);
-const passportRouter = require("./routes/passportRouter");
-app.use('/', passportRouter);
+app.use('/passport',passportRouter)
+// app.use(passportRouter.initialize())
 
 
 module.exports = app;
