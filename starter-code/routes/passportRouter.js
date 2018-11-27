@@ -13,8 +13,7 @@ const ensureLogin = require("connect-ensure-login");
 
 
 
-passportRouter.get("/private-page",  passport.authenticate('local'), (req, res) => {
-  const username = req.User.username
+passportRouter.get("/private-page", (req, res) => {
   res.render("passport/private");
 });
 
