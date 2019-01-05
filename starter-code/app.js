@@ -11,6 +11,8 @@ const path = require("path");
 
 const User = require("./models/user");
 
+const flash = require("connect-flash");
+
 const session = require("express-session");
 const bcrypt = require("bcrypt");
 const passport = require("passport");
@@ -66,22 +68,28 @@ passport.deserializeUser((id, cb) => {
   });
 });
 
+app.use(flash());
 passport.use(
-  new LocalStrategy((username, password, next) => {
-    User.findOne({ username }, (err, user) => {
-      if (err) {
-        return next(err);
-      }
-      if (!user) {
-        return next(null, false, { message: "Incorrect username" });
-      }
-      if (!bcrypt.compareSync(password, user.password)) {
-        return next(null, false, { message: "Incorrect password" });
-      }
+  new LocalStrategy(
+    {
+      passReqToCallback: true
+    },
+    (req, username, password, next) => {
+      User.findOne({ username }, (err, user) => {
+        if (err) {
+          return next(err);
+        }
+        if (!user) {
+          return next(null, false, { message: "Incorrect username" });
+        }
+        if (!bcrypt.compareSync(password, user.password)) {
+          return next(null, false, { message: "Incorrect password" });
+        }
 
-      return next(null, user);
-    });
-  })
+        return next(null, user);
+      });
+    }
+  )
 );
 //initialize passport and passport session
 app.use(passport.initialize());

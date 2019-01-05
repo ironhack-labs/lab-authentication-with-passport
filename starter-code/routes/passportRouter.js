@@ -53,7 +53,7 @@ passportRouter.post("/signup", (req, res, next) => {
 
 //login
 passportRouter.get("/login", (req, res) => {
-  res.render("passport/login");
+  res.render("passport/login", { message: req.flash("error") });
 });
 
 passportRouter.post(
@@ -65,6 +65,12 @@ passportRouter.post(
     passReqToCallback: true
   })
 );
+
+//logout
+passportRouter.get("/logout", (req, res) => {
+  req.logout();
+  res.redirect("/login");
+});
 
 //private page
 passportRouter.get(

@@ -1,9 +1,10 @@
 <div>Private page</div>
 {{#if user}}
-  <div>
-    <h1>Who's the best developer?</h1>
-    <h1>You are, <span style="color: red;">{{ user.username}}</span>. You are! </h1>
-    <img src="http://media.giphy.com/media/UsK5GqD3e0huU/giphy.gif" alt="You rock.">
-    <a href="/">Index</a>
-  </div>
+<div class="start-box">
+  <h1>Who's the best developer?</h1>
+  <h1>You are, <span style="color: red;">{{ user.username}}</span>. You are! </h1>
+  <img src="http://media.giphy.com/media/UsK5GqD3e0huU/giphy.gif" alt="You rock.">
+  <button><a href="/" class="button-link">Back to homepage</a></button>
+  <button><a href="/logout" class="button-link">Log out</a></button>
+</div>
 {{/if}}
