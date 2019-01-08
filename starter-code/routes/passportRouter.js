@@ -1,7 +1,7 @@
 const express        = require("express");
 const passportRouter = express.Router();
 // Require user model
-const User = require("../models/user");
+const User = require("../models/user");//TODO: var User var newUser newUser.save 
 // Add bcrypt to encrypt passwords
 const bcrypt = require("bcrypt");
 const bcryptSalt = 10;
@@ -43,6 +43,10 @@ passportRouter.post("passport/signup", (req, res, next) => {
     return;
   }
 })
+
+passportRouter.get("/login", (req, res, next) => {
+  res.render("passport/login");
+});
 
 
 module.exports = passportRouter;
