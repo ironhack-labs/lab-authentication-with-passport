@@ -68,15 +68,6 @@ app.use(
   })
 );
 
-// Routes middleware goes here
-app.use(passport.initialize());
-app.use(passport.session());
-
-const index = require("./routes/index");
-app.use("/", index);
-const passportRouter = require("./routes/passportRouter");
-app.use("/", passportRouter);
-
 passport.serializeUser((user, cb) => {
   cb(null, user._id);
 });
@@ -107,5 +98,13 @@ passport.use(
     });
   })
 );
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+const index = require("./routes/index");
+app.use("/", index);
+const passportRouter = require("./routes/passportRouter");
+app.use("/", passportRouter);
 
 module.exports = app;
