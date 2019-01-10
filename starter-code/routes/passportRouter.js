@@ -24,17 +24,17 @@ passport.use(new LocalStrategy(
   }
 ));
 
+// Login to access private page 
 const ensureLogin = require("connect-ensure-login");
-
-
 passportRouter.get("/private-page", ensureLogin.ensureLoggedIn(), (req, res) => {
   res.render("passport/private", { user: req.user });
 });
 
+// Signup route 
 passportRouter.get("/signup", (req, res, next) => {
   res.render("passport/signup");
 });
-passportRouter.post("passport/signup", (req, res, next) => {
+passportRouter.post("/signup", (req, res, next) => {
   const username = req.body.username;
   const password = req.body.password;
 
@@ -42,8 +42,25 @@ passportRouter.post("passport/signup", (req, res, next) => {
     res.render("passport/signup.hbs", { message: "Indicate username and password" });
     return;
   }
+
+  const salt     = bcrypt.genSaltSync(bcryptSalt);
+  const hashPass = bcrypt.hashSync(password, salt);
+
+  const newUser  = User({
+    username,
+    password: hashPass
+  });
+
+  newUser.save()
+  .then(user => {
+    res.redirect("/login");
+  })
+  .catch(error => {
+    console.log(error);
+  })
 })
 
+//TODO: post login 
 passportRouter.get("/login", (req, res, next) => {
   res.render("passport/login");
 });
