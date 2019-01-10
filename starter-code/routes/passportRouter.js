@@ -1,13 +1,13 @@
 const express        = require("express");
 const passportRouter = express.Router();
 // Require user model
-const User = require("../models/user");//TODO: var User var newUser newUser.save 
+const User = require("../models/user");
 // Add bcrypt to encrypt passwords
 const bcrypt = require("bcrypt");
 const bcryptSalt = 10;
 // Add passport 
 const passport = require('passport')
-  , LocalStrategy = require('passport-local').Strategy;
+   LocalStrategy = require('passport-local').Strategy;
 
 passport.use(new LocalStrategy(
   function(username, password, done) {
@@ -26,7 +26,7 @@ passport.use(new LocalStrategy(
 
 // Login to access private page 
 const ensureLogin = require("connect-ensure-login");
-passportRouter.get("/private-page", ensureLogin.ensureLoggedIn(), (req, res) => {
+passportRouter.get("/private", ensureLogin.ensureLoggedIn(), (req, res) => {
   res.render("passport/private", { user: req.user });
 });
 
@@ -60,12 +60,12 @@ passportRouter.post("/signup", (req, res, next) => {
   })
 })
 
-//TODO: post login 
+// Login route
 passportRouter.get("/login", (req, res, next) => {
   res.render("passport/login");
 });
 passportRouter.post("/login", passport.authenticate("local", {
-  successRedirect: "/",
+  successRedirect: "/private",
   failureRedirect: "/login",
   failureFlash: true,
   passReqToCallback: true
