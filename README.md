@@ -36,9 +36,7 @@ Now, in that .hbs file, add a form that makes a POST request to `/signup`, with 
 
 Finally, add a POST route to your `passportRouter.js` to receive the data from the signup form and create a new user with the data.
 
-:::info
 Make sure you install **bcrypt** (or **bcryptjs**) and **passport** npm packages and require it in `passportRouter.js`.
-:::
 
 ## Iteration #2: The Login Feature
 
