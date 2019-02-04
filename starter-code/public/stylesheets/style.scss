@@ -1,8 +1,6 @@
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-}
+// Change the default primary color to a light blue
+$primary: #2eb4ee;
 
-a {
-  color: #00B7FF;
-}
+@import '../../node_modules/bootstrap/scss/bootstrap.scss';
+
+// Write your own SCSS here:
