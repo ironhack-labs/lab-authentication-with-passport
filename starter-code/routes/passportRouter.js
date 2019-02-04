@@ -15,6 +15,10 @@ authRoutes.get("/signup", (req, res, next) => {
   res.render("passport/signup");
 });
 
+authRoutes.get("/login", (req, res, next) => {
+  res.render("passport/login");
+});
+
 authRoutes.post("/signup", (req, res, next) => {
   const username = req.body.username;
   const password = req.body.password;
