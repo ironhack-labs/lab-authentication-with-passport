@@ -6,4 +6,14 @@ router.get('/', (req, res, next) => {
   res.render('index');
 });
 
+/*Get login*/
+router.get('/pass')
+
+
+
+
+
+
+
+
 module.exports = router;
