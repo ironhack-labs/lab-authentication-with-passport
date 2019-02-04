@@ -56,6 +56,22 @@ authRoutes.post("/signup", (req, res, next) => {
   });
 });
 
+authRoutes.post("/login", passport.authenticate("local", {
+  successRedirect: "/",
+  failureRedirect: "/login",
+  failureFlash: true,
+  passReqToCallback: true
+}));
+
+authRoutes.get("/private-page", ensureLogin.ensureLoggedIn(), (req, res) => {
+  res.render("private", { user: req.user });
+});
+
+authRoutes.get("/logout", (req, res) => {
+  req.logout();
+  res.redirect("/login");
+});
+
 
 authRoutes.get("/private-page", ensureLogin.ensureLoggedIn(), (req, res) => {
   res.render("passport/private", { user: req.user });
