@@ -26,6 +26,24 @@ git push origin master
 
 The starter-code provides the basic layout and organization for this assignment.
 
+### Iteration 0 | Initialize the project
+
+After forking and cloning the project, you will have to add a `starter_code/.env` file:
+
+```
+PORT=3000
+```
+
+And you have to install all the dependencies:
+
+
+```sh
+$ cd starter_code
+$ npm install
+```
+
+Now you are ready to start 🚀
+
 ## Iteration #1: The Signup Feature
 
 The repo you cloned comes with a `User` model and a `router` file already made for you. It also has all the views you need, although some are empty :smile:
