@@ -12,7 +12,7 @@ const bcryptRounds = 10;
 const ensureLogin = require("connect-ensure-login");
 
 authRoutes.get("/signup", (req, res, next) => {
-  res.render("auth/signup");
+  res.render("passport/signup");
 });
 
 authRoutes.post("/signup", (req, res, next) => {
@@ -20,14 +20,14 @@ authRoutes.post("/signup", (req, res, next) => {
   const password = req.body.password;
 
   if (username === "" || password === "") {
-    res.render("auth/signup", { message: "Indicate username and password" });
+    res.render("passport/signup", { message: "Indicate username and password" });
     return;
   }
 
   User.findOne({ username })
   .then(user => {
     if (user !== null) {
-      res.render("auth/signup", { message: "The username already exists" });
+      res.render("passport/signup", { message: "The username already exists" });
       return;
     }
 
@@ -41,7 +41,7 @@ authRoutes.post("/signup", (req, res, next) => {
 
     newUser.save((err) => {
       if (err) {
-        res.render("auth/signup", { message: "Something went wrong" });
+        res.render("passport/signup", { message: "Something went wrong" });
       } else {
         res.redirect("/");
       }
@@ -53,8 +53,8 @@ authRoutes.post("/signup", (req, res, next) => {
 });
 
 
-passportRouter.get("/private-page", ensureLogin.ensureLoggedIn(), (req, res) => {
+authRoutes.get("/private-page", ensureLogin.ensureLoggedIn(), (req, res) => {
   res.render("passport/private", { user: req.user });
 });
 
-module.exports = passportRouter;
+module.exports = authRoutes;
