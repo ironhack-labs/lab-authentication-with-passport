@@ -16,7 +16,9 @@ passportRouter.get("/signup", (req, res, next) => {
 });
 
 passportRouter.get("/login", (req, res, next) => {
-  res.render("passport/login");
+  res.render("passport/login", {
+    message: req.flash("error")
+  });
 });
 
 passportRouter.get(

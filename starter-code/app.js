@@ -10,6 +10,7 @@ const logger = require("morgan");
 const path = require("path");
 const passport = require("passport");
 const session = require("express-session");
+const flash = require("connect-flash");
 
 mongoose
   .connect("mongodb://localhost/passport", { useNewUrlParser: true })
@@ -43,6 +44,7 @@ app.use(
 );
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(flash());
 
 // Express View engine setup
 

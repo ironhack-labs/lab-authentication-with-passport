@@ -1,8 +1,8 @@
 <form method="POST" action="/login" id="form">
   <input type="text" placeholder="Username" name="username">
   <input type="password" placeholder="Password" name="password">
-  {{#if errorMessage}}
-  <div class="error-message">{{ errorMessage }}</div>
+  {{#if message}}
+  <div class="error-message">{{ message }}</div>
   {{/if}}
   <button>Log in</button>
 </form>
