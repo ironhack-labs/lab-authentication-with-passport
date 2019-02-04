@@ -8,8 +8,7 @@ const encriptPassword = bcrypt.encriptPassword;
 const checkPassword = bcrypt.checkPassword;
 // Add passport
 const passport = require("passport");
-const localStrategy = require("passport-local").Strategy;
-
+const LocalStrategy = require("passport-local").Strategy;
 const ensureLogin = require("connect-ensure-login");
 
 passportRouter.get("/signup", (req, res, next) => {
@@ -58,6 +57,45 @@ passportRouter.post("/signup", (req, res, next) => {
     .catch(err => `An error occured trying to find the user ${err}`);
 });
 
-passportRouter.post("/login", (req, res, next) => {});
+passport.serializeUser((user, cb) => {
+  cb(null, user._id);
+});
+
+passport.deserializeUser((id, cb) => {
+  userModel.findById(id, (err, user) => {
+    if (err) {
+      return cb(err);
+    }
+    cb(null, user);
+  });
+});
+
+passport.use(
+  new LocalStrategy((username, password, next) => {
+    userModel.findOne({ username }, (err, user) => {
+      if (err) {
+        return next(err);
+      }
+      if (!user) {
+        return next(null, false, { message: "Incorrect username" });
+      }
+      if (!checkPassword(password, user.password)) {
+        return next(null, false, { message: "Incorrect password" });
+      }
+
+      return next(null, user);
+    });
+  })
+);
+
+passportRouter.post(
+  "/login",
+  passport.authenticate("local", {
+    successRedirect: "/",
+    failureRedirect: "/login",
+    failureFlash: true,
+    passReqToCallback: true
+  })
+);
 
 module.exports = passportRouter;
