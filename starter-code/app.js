@@ -1,17 +1,23 @@
 require('dotenv').config();
 
-const bodyParser   = require('body-parser');
+const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
-const express      = require('express');
-const favicon      = require('serve-favicon');
-const hbs          = require('hbs');
-const mongoose     = require('mongoose');
-const logger       = require('morgan');
-const path         = require('path');
+const express = require('express');
+const session = require("express-session");
+const favicon = require('serve-favicon');
+const hbs = require('hbs');
+const mongoose = require('mongoose');
+const logger = require('morgan');
+const path = require('path');
+const passport = require('passport');
+const User = require('./models/User');
+const flash = require('flash');
+const LocalStrategy = require("passport-local").Strategy;
+const bcrypt = require('bcrypt')
 
 
 mongoose
-  .connect('mongodb://localhost/starter-code', {useNewUrlParser: true})
+  .connect('mongodb://localhost/auth-passport', { useNewUrlParser: true })
   .then(x => {
     console.log(`Connected to Mongo! Database name: "${x.connections[0].name}"`)
   })
@@ -33,11 +39,11 @@ app.use(cookieParser());
 // Express View engine setup
 
 app.use(require('node-sass-middleware')({
-  src:  path.join(__dirname, 'public'),
+  src: path.join(__dirname, 'public'),
   dest: path.join(__dirname, 'public'),
   sourceMap: true
 }));
-      
+
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
@@ -56,5 +62,49 @@ app.use('/', index);
 const passportRouter = require("./routes/passportRouter");
 app.use('/', passportRouter);
 
+// Passport configuration
+passport.serializeUser((user, cb) => {
+  console.log('serializeUser', user);
+  cb(null, user._id);
+});
+passport.deserializeUser((id, cb) => {
+  console.log('deserializeUser', id);
+  User.findById(id, (err, user) => {
+    if (err) { return cb(err); }
+    cb(null, user);
+  });
+});
+// This is used for the login
+app.use(flash());
+passport.use(new LocalStrategy(
+  {
+    passReqToCallback: true,
+    usernameField: 'email', // default: 'username', 
+    // passwordField: 'password', // default: 'password'
+  },
+  (req, email, password, done) => { // username->email
+    console.log('LocalStrategy', email, password);
+    User.findOne({ email: email }, (err, user) => {
+      if (err) {
+        return done(err);
+      }
+      if (!user) {
+        return done(null, false, { message: "Incorrect email" });
+      }
+      if (!bcrypt.compareSync(password, user.password)) {
+        return done(null, false, { message: "Incorrect password" });
+      }
+      return done(null, user);
+    });
+  }));
+
+app.use(session({
+  secret: "our-passport-local-strategy-app",
+  resave: true,
+  saveUninitialized: true,
+  // store: new MongoStore({ mongooseConnection: db })
+}));
+app.use(passport.initialize());
+app.use(passport.session());
 
 module.exports = app;
