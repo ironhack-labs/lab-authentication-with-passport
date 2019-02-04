@@ -6,3 +6,18 @@ body {
 a {
   color: #00B7FF;
 }
+
+nav {
+  padding: 0 0 40px 0;
+}
+
+nav a {
+  list-style: none;
+  background-color: darkslateblue;
+  text-align: center;
+  padding: 10px;
+  margin: 10px;
+  font-family: 'Oswald', sans-serif;
+  text-decoration: none;
+  color: #fff;
+}
