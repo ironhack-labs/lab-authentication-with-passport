@@ -8,7 +8,7 @@ const bcrypt = require("bcrypt");
 const bcryptRounds = 10;
 
 // Add passport 
-
+const passport = require("passport");
 const ensureLogin = require("connect-ensure-login");
 
 authRoutes.get("/signup", (req, res, next) => {
@@ -64,7 +64,7 @@ authRoutes.post("/login", passport.authenticate("local", {
 }));
 
 authRoutes.get("/private-page", ensureLogin.ensureLoggedIn(), (req, res) => {
-  res.render("private", { user: req.user });
+  res.render("passport/private", { user: req.user });
 });
 
 authRoutes.get("/logout", (req, res) => {
