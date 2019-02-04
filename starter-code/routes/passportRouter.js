@@ -1,5 +1,6 @@
 const express = require("express");
 const passportRouter = express.Router();
+const passport = require("passport");
 
 // Require user model
 const User = require("../models/user");
@@ -52,6 +53,20 @@ passportRouter.post("/signup", (req, res, next) => {
       });
   });
 });
+
+passportRouter.get("/login", (req, res, next) => {
+  res.render("passport/login");
+});
+
+passportRouter.post(
+  "/login",
+  passport.authenticate("local", {
+    successRedirect: "/",
+    failureRedirect: "/login",
+    failureFlash: true,
+    passReqToCallback: true
+  })
+);
 
 module.exports = passportRouter;
 
