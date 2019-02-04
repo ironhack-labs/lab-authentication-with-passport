@@ -1,0 +1,22 @@
+<div class="text-center login" cz-shortcut-listen="true">
+  <form action="/login" method="POST" class="form-signin">
+    <img class="mb-12 logo" src="/images/logo-ironhack-1.png" alt="" width="72" height="72">
+    <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+    <label for="string" class="sr-only">Email address</label>
+    <input type="string" id="inputEmail" name="username" class="form-control" placeholder="Email address" required=""
+      autofocus="">
+    <label for="inputPassword" class="sr-only">Password</label>
+    <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password" required="">
+    <div class="checkbox mb-3">
+      <div class="divslack">
+      <img class="slack" src="/images/slack.png" alt="">
+      <a class="badge" href="/auth/slack">Login With Slack</a>
+      </div>
+      {{#if message}}
+      <div class="error-message alert alert-warning">{{ message }}</div>
+      {{/if}}
+    </div>
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+    <p class="mt-5 mb-3 text-muted">© M.A.R 2019</p>
+  </form>
+</div>
