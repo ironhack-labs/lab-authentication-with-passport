@@ -1,4 +1,7 @@
-#!/usr/bin/env node
+require('dotenv').config();
+
+// dotenv.config();
+// dotenv.config({path: __dirname + '/.env.private'});
 
 const http = require('http');
 
