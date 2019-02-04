@@ -4,5 +4,12 @@ body {
 }
 
 a {
-  color: #00B7FF;
+  color: #00b7ff;
+  font-size: 3em;
+  padding: 30px;
+  text-decoration: none;
+}
+
+a:hover {
+  color: red;
 }

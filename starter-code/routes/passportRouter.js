@@ -1,7 +1,7 @@
 const express = require("express");
 const passportRouter = express.Router();
 const passport = require("passport");
-
+const ensureLogin = require("connect-ensure-login");
 // Require user model
 const User = require("../models/user");
 
@@ -67,10 +67,6 @@ passportRouter.post(
     passReqToCallback: true
   })
 );
-
-module.exports = passportRouter;
-
-const ensureLogin = require("connect-ensure-login");
 
 passportRouter.get(
   "/private-page",

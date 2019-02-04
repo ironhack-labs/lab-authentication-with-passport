@@ -1,5 +1,6 @@
 require("dotenv").config();
 
+const flash = require("connect-flash");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const express = require("express");
@@ -97,6 +98,7 @@ passport.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
+app.use(flash());
 // default value for title local
 app.locals.title = "Express - Generated with IronGenerator";
 
