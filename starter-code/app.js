@@ -90,7 +90,13 @@ app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));
 
 
 // default value for title local
-app.locals.title = 'Express - Generated with IronGenerator';
+app.locals.title = 'Express - Generated with IronGenerator';4
+
+
+// const ensureLogin = require("connect-ensure-login");
+// authRoutes.get("/private-page", ensureLogin.ensureLoggedIn(), (req, res) => {
+//   res.render("private", { user: req.user });
+// });
 
 
 // Routes middleware goes here
@@ -98,6 +104,8 @@ const index = require('./routes/index');
 app.use('/', index);
 const passportRouter = require("./routes/passportRouter");
 app.use('/', passportRouter);
+
+
 
 
 module.exports = app;

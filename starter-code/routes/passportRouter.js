@@ -1,5 +1,11 @@
 const express        = require("express");
 const passportRouter = express.Router();
+const ensureLogin = require("connect-ensure-login");
+
+
+passportRouter.get("/private-page", ensureLogin.ensureLoggedIn(), (req, res) => {
+  res.render("passport/private", { user: req.user });
+});
 
 
 // lo añadimos para poder usarlo en el login con el metodo passport.authenticate
@@ -60,7 +66,7 @@ passportRouter.get("/login", (req, res, next) => {
 });
 
 passportRouter.post("/login", passport.authenticate("local", {
-  successRedirect: "/",
+  successRedirect: "/private-page",
   failureRedirect: "/login",
   failureFlash: true,
   passReqToCallback: true
@@ -70,11 +76,9 @@ passportRouter.post("/login", passport.authenticate("local", {
 
 
 
-const ensureLogin = require("connect-ensure-login");
 
 
-passportRouter.get("/private-page", ensureLogin.ensureLoggedIn(), (req, res) => {
-  res.render("passport/private", { user: req.user });
-});
+
+
 
 module.exports = passportRouter;
