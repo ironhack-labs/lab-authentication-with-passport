@@ -8,10 +8,12 @@ const hbs          = require('hbs');
 const mongoose     = require('mongoose');
 const logger       = require('morgan');
 const path         = require('path');
-
+const session      = require("express-session");
+//Import passport setup from config folder
+const passportSetup = require('./config/passport/passport-setup')
 
 mongoose
-  .connect('mongodb://localhost/starter-code', {useNewUrlParser: true})
+  .connect('mongodb://localhost/auth-with-passport', {useNewUrlParser: true})
   .then(x => {
     console.log(`Connected to Mongo! Database name: "${x.connections[0].name}"`)
   })
@@ -44,17 +46,24 @@ app.set('view engine', 'hbs');
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));
 
-
+//handle sessions here:
+app.use(session({//<=== Error: req.flash() requires sessions
+  secret: "our-passport-local-strategy-app",
+  resave: true,
+  saveUninitialized: true
+}));
 
 // default value for title local
 app.locals.title = 'Express - Generated with IronGenerator';
 
+//Must come after the session
+passportSetup(app); //<===Pass app to have it available in passportSetup function
 
 // Routes middleware goes here
 const index = require('./routes/index');
 app.use('/', index);
-const passportRouter = require("./routes/passportRouter");
-app.use('/', passportRouter);
+app.use('/', require('./routes/auth-routes'));
+app.use('/', require('./routes/user-routes'));
 
 
 module.exports = app;

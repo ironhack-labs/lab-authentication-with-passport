@@ -1,0 +1,14 @@
+<form action="/login" method="POST" id="form">
+  <label for="username">Email:</label><br>
+  <input type="text" name="email">
+  <label for="password">Password</label><br>
+  <input type="password" name="password">
+    {{#if messages}}
+      {{#each messages}}
+        {{!-- <div class="error-message">{{ this }}</div> --}}
+        {{this}}
+      {{/each}}
+    {{/if}}
+  <button>Sign in</button>
+  <p class="account-message">Don't have an account? <a href="/signup">Sign up</a></p>
+</form>

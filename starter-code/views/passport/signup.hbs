@@ -1,0 +1,16 @@
+<form id="form" action="/signup" method="POST">
+  <label for="fullName">Full Name:</label><br>
+  <input type="text" name="fullName">
+  <label for="email">E-mail:</label><br>
+  <input type="text" name="email" >
+  <label for="password">Password</label><br>
+  <input type="password" name="password">
+    {{#if messages}}
+      {{#each messages}}
+      {{!-- <div class="error-message">{{ this }}</div> --}}
+        {{this}}
+      {{/each}}
+    {{/if}}
+  <button>Create Acount</button>  
+  <p class="account-message">Already have an account? <a href="/login">Log in</a></p>
+</form>

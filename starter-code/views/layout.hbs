@@ -8,7 +8,22 @@
   <link rel="stylesheet" href="/stylesheets/style.css" />
 </head>
 <body>
-
+  <nav> 
+  {{#if currentUser}}
+    <form action='/logout' method="post">
+      <button type='submit'>Logout </button>
+    </form>
+    <a href="/rooms/add">Create a room</a>
+  {{else}}
+    <a href="/signup">Signup</a>
+    <a href="/login">Login</a>
+    <a href="/slack-login">Login with Slack</a>
+    <a href="/google-login">Login with Google</a>
+    <a href="/rooms">List of Rooms</a>
+  {{/if}}
+    <a href="/private">Private page</a>
+    <a href="/rooms">List of Rooms</a>
+  </nav>
   {{{body}}}
 
   <script src="/javascripts/script.js"></script>
