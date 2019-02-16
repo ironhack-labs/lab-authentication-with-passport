@@ -2,8 +2,6 @@ const express        = require('express');
 const router         = express.Router();
 // Require user model
 const User           = require('../models/user');
-const session      = require("express-session");
-
 
 
 router.get("/private", isLoggedIn, (req, res) => {

@@ -59,4 +59,10 @@ router.post("/login", passport.authenticate("local", {
   passReqToCallback: true
 }));
 
+//========================LOGOUT=======
+router.post("/logout", (req, res, next) => {
+  req.logout();
+  res.redirect("/login");
+})
+
 module.exports = router;
