@@ -1,8 +1,9 @@
-const bcrypt = require("bcryptjs");
-const passport = require("passport");
-const LocalStrategy = require("passport-local").Strategy;
-const User = require('../../models/user');
-const flash        = require('connect-flash')
+const passport      = require('passport');
+const flash         = require("connect-flash");
+const User          = require('../../models/user')
+
+//require the local-strategy 
+require('./local-strategy')
 
 passport.serializeUser((user, cb) => {
   // null === no errors, all good
@@ -19,26 +20,6 @@ passport.deserializeUser((userId, cb) => {
   .catch( err => cb(err));
 })
 
-passport.use(new LocalStrategy({
-  usernameField: 'email' // <== this step we take because we don't use username but email to register and login users
-  // if we use username we don't have to put this object:{ usernameField: 'email }
-  },(email, password, next) => {
-    User.findOne({ email })
-    .then(userFromDb => {
-      if(!userFromDb){
-        return next(null, false, { message: 'Incorrect email!' })
-      }
-      if(userFromDb.password){
-        if(!bcrypt.compareSync(password, userFromDb.password)){
-          return next(null, false, { message: 'Incorrect password!' })
-        }
-      } else {
-        return next(null, false, { message: 'This email is used for your social login.' })
-      }
-      return next(null, userFromDb)
-    })
-    .catch( err => next(err))
-}))
 
 function passportBasicSetup(app){//<=== This app comes from app.js
   //passport super power is here:
