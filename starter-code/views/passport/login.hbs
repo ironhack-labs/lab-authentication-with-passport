@@ -1,0 +1,20 @@
+<label for="login">Login:</label>
+<form action="/login" method="POST" id="login">
+  <br>
+  <label for="username">Username:</label>
+  <input type="text" id="username" name="username">
+  <br>
+  <br>
+  <label for="password">Password:</label>
+  <input type="password" id="password" name="password">
+  <br>
+  <br>
+  <input type="submit" value="Login!">
+  <br>
+  <br>
+</form>
+{{#if failure}}
+  <p style="color: red">INCORRECT USERNAME OR PASSWORD. TRY AGAIN.</p>
+  <br>
+{{/if}}
+<a href="/signup">Go to sign up page!</a>

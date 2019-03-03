@@ -1,0 +1,24 @@
+<label for="signup">Signup:</label>
+<form action="/signup" method="POST" id="signup">
+  <br>
+  <label for="username">Username:</label>
+  <input type="text" id="username" name="username">
+  <br>
+  <br>
+  <label for="password">Password:</label>
+  <input type="password" id="password" name="password">
+  <br>
+  <br>
+  <input type="submit" value="Sign Up!">
+  <br>
+  <br>
+</form>
+{{#if success}}
+  <p style="color: green">USER CREATED SUCCESSFULLY!</p>
+  <br>
+{{/if}}
+{{#if failure}}
+  <p style="color: red">AN ERROR OCCURRED WHILE CREATING THE USER!</p>
+  <br>
+{{/if}}
+<a href="/login">Return to login page!</a>
