@@ -47,7 +47,7 @@ passportRouter.post("/signup", (req, res, next) => {
 })
 
 passportRouter.get("/login", (req, res, next) => {
-  res.render("passport/login", { "message": req.flash("error") })
+  res.render("passport/login", { "errorMessage": req.flash("error") })
 })
 
 passportRouter.post("/login", passport.authenticate("local", {
