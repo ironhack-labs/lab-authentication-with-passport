@@ -8,10 +8,17 @@ const hbs          = require('hbs');
 const mongoose     = require('mongoose');
 const logger       = require('morgan');
 const path         = require('path');
+const passport     = require("passport");
+const LocalStrategy = require("passport-local").Strategy;
+const session      = require("express-session");
+const MongoStore   = require("connect-mongo")(session);
+const User           = require("./models/user");
+const flash = require("connect-flash");
+const bcrypt         = require("bcrypt");
 
 
 mongoose
-  .connect('mongodb://localhost/starter-code', {useNewUrlParser: true})
+  .connect(process.env.DB, {useNewUrlParser: true})
   .then(x => {
     console.log(`Connected to Mongo! Database name: "${x.connections[0].name}"`)
   })
@@ -37,6 +44,57 @@ app.use(require('node-sass-middleware')({
   dest: path.join(__dirname, 'public'),
   sourceMap: true
 }));
+
+// Middleware gestión de sesión
+app.use(session({
+  secret: "basic-auth-secret",
+  cookie: { maxAge: 60000 },
+  store: new MongoStore({
+    mongooseConnection: mongoose.connection,
+    ttl: 24 * 60 * 60 // 1 day
+  })
+}));
+
+// Middleware gestión de passport
+
+app.use(session({
+  secret: "our-passport-local-strategy-app",
+  resave: true,
+  saveUninitialized: true
+}));
+
+// Strategy, serializeUser and DeserializeUser definition
+
+passport.serializeUser((user, cb) => cb(null, user._id));
+passport.deserializeUser((id, cb) => {
+  User.findById(id, (err, user) => {
+    if (err) { return cb(err); }
+    cb(null, user);
+  })
+})
+
+// Middleare flash para gestión de errores
+app.use(flash());
+
+
+// Definición de estrategia (usuario y contraseña)
+passport.use(new LocalStrategy({ passReqToCallback: true}, (req, username, password, next) => {
+  User.findOne({ username }, (err, user) => {
+    if (err) { return next(err) }
+    if (!user) {
+      return next(null, false, { message: "Incorrect username" })
+    }
+    if (!bcrypt.compareSync(password, user.password)) {
+      return next(null, false, { message: "Incorrect password" })
+    }
+    return next(null, user);
+  })
+}))
+
+
+
+app.use(passport.initialize());
+app.use(passport.session());
       
 
 app.set('views', path.join(__dirname, 'views'));
