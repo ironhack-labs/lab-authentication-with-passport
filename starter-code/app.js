@@ -9,6 +9,10 @@ const mongoose     = require('mongoose');
 const logger       = require('morgan');
 const path         = require('path');
 
+// In order to do that, we need to configure Sessions and initialize a session with passport in our app.js file. We also need to add the passport.serializeUser functions as well as defining the Passport Local Strategy.
+const session      = require("express-session")
+const passport     = require("./helpers/passport")
+
 
 mongoose
   .connect('mongodb://localhost/starter-code', {useNewUrlParser: true})
@@ -30,8 +34,24 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-// Express View engine setup
+// ------------------------------
+// Passport and session setup
+// ------------------------------
+app.use(
+  session({
+    secret:process.env.SECRET,
+    saveUninitialized:true,
+    resave:true
+  })
+);
 
+app.use(passport.initialize());
+app.use(passport.session());
+// ------------------------------
+
+// --------------------------
+// Express View engine setup
+// --------------------------
 app.use(require('node-sass-middleware')({
   src:  path.join(__dirname, 'public'),
   dest: path.join(__dirname, 'public'),
