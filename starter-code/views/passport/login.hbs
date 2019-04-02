@@ -1,0 +1,31 @@
+<form method="POST">
+    <div>
+        <label for="">
+            Username:
+        <input type="username" name="username">
+        </label>
+    </div>
+    <div>
+        <label for="">
+            Password:
+        <input type="password" name="password">
+        </label>
+    </div>
+  
+    <!--{{#unless login}}
+    <div>
+        <label for="">
+            Confirm password:
+        <input type="password" name="passwordConfirm">
+        </label>
+    </div>
+    {{/unless}}-->
+    <button type="submit">
+        {{#if login}}
+        Iniciar sesion
+        {{else}}
+        Crear cuenta
+        {{/if}}
+    </button>
+
+</form>

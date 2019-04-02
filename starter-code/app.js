@@ -8,6 +8,10 @@ const hbs          = require('hbs');
 const mongoose     = require('mongoose');
 const logger       = require('morgan');
 const path         = require('path');
+const session      = require('express-session');
+const passport     = require('./helpers/passport');
+
+
 
 
 mongoose
@@ -31,6 +35,16 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 // Express View engine setup
+
+app.use(session({
+  secret: process.env.SECRET,
+  saveUninitialized: true,
+  resave: true,
+  })
+);
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use(require('node-sass-middleware')({
   src:  path.join(__dirname, 'public'),
