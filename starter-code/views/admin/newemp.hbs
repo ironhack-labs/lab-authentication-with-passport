@@ -1,0 +1,32 @@
+{{#if title}}
+<h2>{{title}}</h2>
+{{else}}
+<h2>Creando empleado</h2>
+{{/if}}
+
+<form action="/admin/newemp" method="post">
+  <label for="email">TA email:
+    <input type="email" name="email" id="email" value="{{email}}">
+  </label>
+  <label for="role">Rol:
+    <select name="role" id="role">
+      <option value="TA">TA</option>
+      <option value="DEV">DEV</option>
+    </select>
+  </label>
+  <label for="name">Nombre:
+    <input type="text" name="name" id="name" value="{{name}}">
+  </label>
+  <label for="password">Primer contraseña:
+    <input type="password" name="password" placeholder="Password" id="password">
+  </label>
+  <label for="passwordConfirm">Confirmar password:
+    <input type="password" name="passwordConfirm" placeholder="Confirm password" id="passwordConfirm">
+  </label>
+  {{#if err}}
+  <div class="error-message">{{ err }}</div>
+  {{/if}}
+  <button type="submit">
+    Dar de alta empleado
+  </button>
+</form>

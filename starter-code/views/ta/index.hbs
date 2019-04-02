@@ -1,0 +1,19 @@
+<h1>Bienvenido TA</h1>
+<div>
+  <a href="/auth/logout">Logout</a>
+</div>
+<div>
+  <a href="/course">Ir a cursos</a>
+</div>
+<div>
+  <a href="/ta/profile">Mi perfil</a>
+</div>
+
+<ul>
+  {{#each users as |user|}}
+  <li>
+    {{user.name}} as {{user.role}}
+    <a href="/ta/{{user._id}}/profile">Ir a perfil</a>
+  </li>
+  {{/each}}
+</ul>

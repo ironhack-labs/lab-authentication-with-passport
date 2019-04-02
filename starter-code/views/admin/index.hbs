@@ -1,0 +1,18 @@
+<h1>Bienvenido Administrador</h1>
+<div>
+  <a href="/admin/logout">Logout</a>
+</div>
+<div>
+  <a href="/admin/newemp">Crear empleado</a>
+</div>
+
+<ul>
+  {{#each users as |employee|}}
+  <li>
+    {{employee.role}} - {{employee.email}}
+    <form action="/admin/{{employee._id}}/delete" method="POST">
+      <button type="submit">Eliminar</button>
+    </form>
+  </li>
+  {{/each}}
+</ul>

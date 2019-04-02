@@ -1,0 +1,25 @@
+<h1>Cursos</h1>
+<div>
+  <a href="/auth/logout">Logout</a>
+</div>
+<div>
+  <a href="/course/newcourse">Crear curso</a>
+</div>
+<div>
+  <a href="/ta/private">Volver</a>
+</div>
+
+<ul>
+  {{#each courses as |course|}}
+  <li>
+    {{course.name}}
+    <a href="/course/{{course._id}}/detail">Ir a detalle</a>
+    <div>
+      <a href="/course/{{course._id}}/edit">Editar</a>
+    </div>
+    <form action="/course/{{course._id}}/delete" method="POST">
+      <button type="submit">Eliminar curso</button>
+    </form>
+  </li>
+  {{/each}}
+</ul>

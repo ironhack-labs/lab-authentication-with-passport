@@ -1,0 +1,38 @@
+<form 
+{{#if course._id}}
+action="/course/{{course._id}}/update"
+{{else}}
+action="/course/newcourse"
+{{/if}}
+ method="post">
+  <label for="name">Nombre
+    <input type="text" name="name" id="name" value="{{course.name}}">
+  </label>
+  <label for="category">Categoria:
+    <select name="category" id="category">
+      <option value="Web Development" {{#if optCat1}} selected="selected" {{/if}}>Web Development</option>
+      <option value="UX/UI" {{#if optCat2}} selected="selected" {{/if}}>UX/UI</option>
+    </select>
+  </label>
+  <label for="model">Modelo:
+    <select name="model" id="model">
+      <option value="Full Time" {{#if optMod1}} selected="selected" {{/if}}>Full Time</option>
+      <option value="Part Time" {{#if optMod2}} selected="selected" {{/if}}>Part Time</option>
+    </select>
+  </label>
+  <label for="version">Version:
+    <input type="text" name="version" id="version" value="{{course.version}}">
+  </label>
+  {{#if err}}
+  <div class="error-message">{{ err }}</div>
+  {{/if}}
+  <button type="submit">
+    {{#if course._id}}
+    Modificar curso
+    {{else}}
+    Dar de alta curso
+    {{/if}}
+  </button>
+</form>
+
+<a href="/course">Volver</a>

@@ -1,0 +1,20 @@
+<h1>Perfil de {{user.name}}</h1>
+<p>Correo: {{user.email}}</p>
+<p>Rol: {{user.role}}</p>
+{{#if edit}}
+<form action="/ta/{{user._id}}/update" method="post">
+  <label for="name">Nombre:
+    <input type="text" name="name" id="name" value="{{user.name}}">
+  </label>
+  <label for="nickname">Nickname:
+    <input type="text" name="nickname" value="{{user.nickname}}" id="nickname">
+  </label>
+  <button type="submit">
+    Modificar perfil
+  </button>
+</form>
+{{else}}
+<p>Nombre: {{user.name}}</p>
+<p>Nickname: {{user.nickname}}</p>
+{{/if}}
+<a href="/ta/private">Regresar</a>

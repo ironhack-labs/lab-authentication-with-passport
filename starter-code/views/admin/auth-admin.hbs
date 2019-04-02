@@ -1,0 +1,55 @@
+{{#if login}}
+<h2>Inicio de sesion de administrador</h2>
+{{else}}
+<h2>Creacion de cuenta de administrador</h2>
+{{/if}}
+
+<form id="form" 
+{{#if login}} 
+  action="/admin/login" 
+{{else}} 
+  action="/admin/register" 
+{{/if}} 
+method="POST">
+  {{#unless login}}
+  <label for="name">Name
+    <input type="text" name="name" placeholder="Your name" value="{{name}}">
+  </label>
+  <label for="nickname">Nickname
+    <input type="text" name="nickname" placeholder="Your nickname" value="{{nickname}}">
+  </label>
+  {{/unless}}
+
+  <label for="email">Email
+    <input type="email" name="email" placeholder="Your email" value="{{email}}">
+  </label>
+
+  <label for="password">Password
+    <input type="password" name="password" placeholder="Your password">
+  </label>
+
+{{!-- que se muestre cuando no sea login, es decir en el sign up --}}
+  {{#unless login}}
+    <label for="password">Confirm password:
+      <input type="password" name="passwordConfirm" placeholder="Confirm password">
+    </label>
+  {{/unless}}
+
+  {{#if err}}
+    <div class="error-message">{{ err }}</div>
+  {{/if}}
+  <button type="submit">
+    {{#if login}}
+      Iniciar Sesión
+    {{else}}
+      Crear cuenta
+    {{/if}}
+  </button>
+
+  {{#if login}}
+  <a href="/admin/register">Aun no tienes cuenta?</a>
+  {{else}}
+  <a href="/admin/login">Ya tienes cuenta?</a>
+  {{/if}}
+
+</form>
