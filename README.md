@@ -2,6 +2,17 @@
 
 # Authentication With PassportJS
 
+## SETUP!!!!
+No se me ocurrio mejor manera que poner en el README.md los comentarios de como estan armados los labs para que sean más faciles de revisar:
+El index principal te lleva a una pagina sencilla donde tienes dos links a seleccionar, cada uno te lleva al lab correspondiente:
+
+- Welcome to Lab Authentication with Passport
+- Welcome to Lab Passport Roles
+
+Sobre el segundo... lo mejor es eliminar la coleccion de users antes de revisarlo. La pagina principal te manda a dos logins, el del administrador (a.k.a el BOSS) y el empleado comun y corriente. 
+
+En el login/signup del administrador, se crea la cuenta con privilegios de BOSS y puede crear otros usuarios dandoles la contraseña y el rol de una vez. Ya en el login del usuario normal, dependiendo de tu rol te manda a lo que debes ver nada mas. Aunque falta la ultima iteracion con la parte de alumnos... 
+
 ## Introduction
 
 In previous lessons, we learned how important it is to have your user managed (saved and retrieved) successfully. In this lab, you will do it one more time, just to make sure we are ready to move forward into new knowledge conquers :wink:
