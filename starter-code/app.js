@@ -55,17 +55,18 @@ app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));
 // default value for title local
 app.locals.title = 'Express - Generated with IronGenerator';
 
+// !! this one has to be before passport initialization
+app.use(session({
+  secret: process.env.SECRETSESSION,
+  resave: true,
+  saveUninitialized: true
+}));
 
 // Routes middleware goes here
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
 
-app.use(session({
-  secret: process.env.SECRETSESSION,
-  resave: true,
-  saveUninitialized: true
-}));
 
 passport.serializeUser((user, cb) => {
   cb(null, user._id);

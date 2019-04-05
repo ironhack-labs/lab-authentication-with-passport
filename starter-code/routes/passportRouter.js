@@ -65,8 +65,7 @@ passportRouter.post('/login', passport.authenticate('local', {
   passReqToCallback: true
 }));
 
-passportRouter.get("/private-page", ensureLogin.ensureLoggedIn(), (req, res) => {
-  console.log('trying to login', req.user);
+passportRouter.get("/private-page", ensureLogin.ensureLoggedIn(), (req, res) => { 
   res.render("passport/private", { user: req.user });
 });
  
