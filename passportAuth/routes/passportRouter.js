@@ -17,5 +17,11 @@ passportRouter.get("/private-page", ensureLogin.ensureLoggedIn(), (req, res) => 
 passportRouter.get('/signup', authController.signup)
 passportRouter.post('/signup', authController.doSignup)
 
+passportRouter.get('/login', authController.login)
+passportRouter.post('/login', authController.doLogin)
+
+passportRouter.get("/logout", authController.logout)
+
+
 
 module.exports = passportRouter;

@@ -34,3 +34,23 @@ module.exports.doSignup = ((req, res, next) => {
       }
     });
 })
+
+module.exports.login = ((req, res, next) => {
+  res.render('passport/login.hbs')
+})
+
+module.exports.doLogin = ((req, res, next) => {
+  res.render('passport/signup.hbs')
+})
+
+
+
+
+
+
+module.exports.logout = ((req, res, next) => {
+  req.session.destroy((err) => {
+    // cannot access session here
+    res.redirect("/login");
+  });
+});
