@@ -1,0 +1,33 @@
+<div class="container mt-5">
+  <div class="row justify-content-md-center">
+    <div class="col-xs-12 col-sm-12 col-md-4">
+      <form action="/login" method="POST">
+        <div class="form-group">
+          <div class="input-group mb-2">
+            <div class="input-group-prepend">
+              <div class="input-group-text"><i class="fas fa-envelope"></i></div>
+            </div>
+            <input type="text" name="username" class="form-control {{#if errors.username}} is-invalid {{/if}}" placeholder="username" value="{{ user.username }}"/>
+            <div class="invalid-feedback">
+              {{ errors.username }}
+            </div>
+          </div>
+          <div class="input-group mb-2">
+            <div class="input-group-prepend">
+              <div class="input-group-text"><i class="fas fa-lock"></i></div>
+            </div>
+            <input type="password" name="password" class="form-control {{#if errors.password}} is-invalid {{/if}}" placeholder="Password" />
+            <div class="invalid-feedback">
+              {{ errors.password }}
+            </div>
+          </div>
+        </div>
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary btn-block">Login</button>
+        </div>
+      </form>
+      <hr>
+      <p class="text-center">Not Signed Up Yet? <a href="/signup">Sign Up Here</a></p>
+    </div>
+  </div>
+</div>
