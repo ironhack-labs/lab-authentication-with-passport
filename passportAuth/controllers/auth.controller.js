@@ -7,5 +7,30 @@ module.exports.signup = ((req, res, next) => {
 })
 
 module.exports.doSignup = ((req, res, next) => {
-  const username = req.params.username
+
+  function renderWithErrors(errors) {
+    res.render('passport/signup', {
+      user: req.body,
+      errors: errors
+    })
+  }
+
+  
+  User.findOne({username: req.body.username})
+    .then(user => {
+      if (user){
+        renderWithErrors({ username: 'Username is already registered' })
+      } else {
+        user = new User(req.body);
+        return user.save()
+          .then(user => res.redirect('/login'))
+      }
+    })
+    .catch(error => {
+      if (error instanceof mongoose.Error.ValidationError) {
+        renderWithErrors(error.errors)
+      } else {
+        next(error);
+      }
+    });
 })
