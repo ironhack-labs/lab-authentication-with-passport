@@ -3,7 +3,6 @@ const Schema   = mongoose.Schema;
 const bcrypt = require('bcrypt');
 const EMAIL_PATTERN = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
 const SALT_WORK_FACTOR = 10;
-const FIRST_ADMIN_EMAIL = process.env.FIRST_ADMIN_EMAIL || 'admin@example.org';
 
 
 const userSchema = new Schema({
@@ -26,10 +25,6 @@ const userSchema = new Schema({
 
 userSchema.pre('save', function(next) {
   const user = this;
-
-  if (user.email === FIRST_ADMIN_EMAIL) {
-    user.role = 'admin';
-  }
 
   if (user.isModified('password')) {
     bcrypt.genSalt(SALT_WORK_FACTOR)

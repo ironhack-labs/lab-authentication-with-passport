@@ -56,7 +56,7 @@ passportRouter.post('/login', (req, res, next) => {
     if (error) {
       next(error);
     } else if (!user) {
-      res.render('passport/signup', {
+      res.render('passport/login', {
         user: req.body,
         errors: validation
       })
