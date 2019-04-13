@@ -37,7 +37,7 @@ module.exports.doSignup = ((req, res, next) => {
 })
 
 module.exports.login = ((req, res, next) => {
-  res.render('passport/login.hbs')
+  res.render('passport/login')
 })
 
 module.exports.doLogin = ((req, res, next) => {
@@ -45,7 +45,7 @@ module.exports.doLogin = ((req, res, next) => {
     if (error) {
       next(error);
     } else if (!user) {
-      res.render('passport/signup', {
+      res.render('passport/login', {
         user: req.body,
         errors: validation
       })
