@@ -1,1 +1,15 @@
-HOLA
+<form action="/login" method="POST">
+  <div class="form-group">
+    <label for="inputEmail">UserName</label>
+    <input type="text" name="username" value="{{ user.username }}" class="form-control"
+      {{#if errors.username}} is-invalid {{/if}} placeholder="Enter username" />
+  </div>
+  <div class="form-group">
+    <label for="inputPassword">Password</label>
+    <input type="password" name="password" value="{{ user.password }}" class="form-control"
+      {{#if errors.password}} is-invalid {{/if}} placeholder="Password" />
+  </div>
+  <div class="form-actions">
+    <button type="submit" class="btn btn-primary">Login</button>
+  </div>
+</form>

@@ -1,11 +1,15 @@
 <form action="/signup" method="POST">
   <div class="form-group">
-    <label for="exampleInputEmail1">UserName</label>
-    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter username">
+    <label for="inputEmail">UserName</label>
+    <input type="text" name="username" value="{{ user.username }}" class="form-control"
+      {{#if errors.username}} is-invalid {{/if}} placeholder="Enter username" />
   </div>
   <div class="form-group">
-    <label for="exampleInputPassword1">Password</label>
-    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+    <label for="inputPassword">Password</label>
+    <input type="password" name="password" value="{{ user.password }}" class="form-control"
+      {{#if errors.password}} is-invalid {{/if}} placeholder="Password">
   </div>
-  <button type="submit" class="btn btn-primary">Submit</button>
+  <div class="form-actions">
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </div>
 </form>
