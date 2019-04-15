@@ -38,11 +38,9 @@ passport.use(new passportLocal((username, password, next) => {
       return next(err);
     }
     if (!user) {
-      console.log('No user');
       return next(null, false, { message: "Incorrect username" });
     }
     if (!bcrypt.compareSync(password, user.password)) {
-      console.log('Bad password');
       return next(null, false, { message: "Incorrect password" });
     }
 
@@ -103,19 +101,22 @@ passportRouter.post("/signup", (req, res, next) => {
 
 
 passportRouter.post("/login", passport.authenticate("local", {
-  successRedirect: "/",
+  successRedirect: "/private-page",
   failureRedirect: "/login",
   failureFlash: true,
   passReqToCallback: true
 }));
 
 passportRouter.get("/login", (req, res) => {
-  //res.render("passport/login", { user: req.user });
   res.render("passport/login", { "message": req.flash("error") });
 });
 
 passportRouter.get("/private-page", ensureLogin.ensureLoggedIn(), (req, res) => {
   res.render("passport/private", { user: req.user });
+});
+passportRouter.get("/logout", (req, res) => {
+  req.logOut();
+  res.redirect("/");
 });
 
 module.exports = passportRouter;
