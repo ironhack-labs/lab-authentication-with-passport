@@ -1,5 +1,8 @@
 const express        = require("express");
 const passportRouter = express.Router();
+const flash = require("connect-flash");
+
+passportRouter.use(flash());
 // Require user model
 const User = require("../models/user");
 
@@ -9,15 +12,14 @@ const bcryptSalt = 10;
 
 // Add passport 
 const passport = require("passport");
-
-
-
 const ensureLogin = require("connect-ensure-login");
-
-
 
 passportRouter.get("/signup", (req, res, next) => {
   res.render('./passport/signup');
+});
+
+passportRouter.get("/aledia", (req, res, next) => {
+  res.render('./passport/aledia');
 });
 
 passportRouter.post("/signup", (req, res, next) => {
@@ -64,21 +66,15 @@ passportRouter.get("/private", ensureLogin.ensureLoggedIn(), (req, res) => {
 });
 
 passportRouter.get("/login", (req, res, next) => {
-  res.render("./passport/login", { user: req.user });
+  res.render("passport/login", { "message": req.flash("error") });
 });
 
 passportRouter.post("/login", passport.authenticate("local", {
-  successRedirect: "/",
+  successRedirect: "/private",
   failureRedirect: "/login",
   failureFlash: true,
   passReqToCallback: true
 }));
-
-
-// passportRouter.get("/private-page", ensureLogin.ensureLoggedIn(), (req, res) => {
-//   res.render("passport/private", { user: req.user });
-// });
-
 
 passportRouter.get("/logout", (req, res) => {
   req.logout();
