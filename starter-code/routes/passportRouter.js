@@ -3,9 +3,7 @@ const passportRouter = express.Router();
 // Require user model
 const User = require('../models/user');
 
-// Add bcrypt to encrypt passwords
-
-// Add passport 
+const flash = require("connect-flash"); 
 const bcrypt= require('bcrypt'); 
 const passport = require('passport'); 
 const passportLocal = require('passport-local').Strategy; 
@@ -32,15 +30,19 @@ passport.deserializeUser((id, cb) => {
   });
 });
 
+passportRouter.use(flash());
+
 passport.use(new passportLocal((username, password, next) => {
   User.findOne({ username }, (err, user) => {
     if (err) {
       return next(err);
     }
     if (!user) {
+      console.log('No user');
       return next(null, false, { message: "Incorrect username" });
     }
     if (!bcrypt.compareSync(password, user.password)) {
+      console.log('Bad password');
       return next(null, false, { message: "Incorrect password" });
     }
 
@@ -96,6 +98,19 @@ passportRouter.post("/signup", (req, res, next) => {
   
 
 
+});
+
+
+
+passportRouter.post("/login", passport.authenticate("local", {
+  successRedirect: "/",
+  failureRedirect: "/login",
+  failureFlash: true,
+  passReqToCallback: true
+}));
+
+passportRouter.get("/login", (req, res) => {
+  res.render("passport/login", { user: req.user });
 });
 
 passportRouter.get("/private-page", ensureLogin.ensureLoggedIn(), (req, res) => {
