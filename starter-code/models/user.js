@@ -3,7 +3,12 @@ const Schema   = mongoose.Schema;
 
 const userSchema = new Schema({
   username: String,
-  password: String
+  password: String,
+  role: {
+    type: String,
+    enum : ['GUEST', 'EDITOR', 'ADMIN'],
+    default : 'GUEST'
+  },
 }, {
   timestamps: true
 });
