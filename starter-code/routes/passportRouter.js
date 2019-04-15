@@ -33,7 +33,7 @@ passport.deserializeUser((id, cb) => {
 passportRouter.use(flash());
 
 passport.use(new passportLocal((username, password, next) => {
-  User.findOne({ username }, (err, user) => {
+   User.findOne({ username }, (err, user) => {
     if (err) {
       return next(err);
     }
@@ -110,7 +110,8 @@ passportRouter.post("/login", passport.authenticate("local", {
 }));
 
 passportRouter.get("/login", (req, res) => {
-  res.render("passport/login", { user: req.user });
+  //res.render("passport/login", { user: req.user });
+  res.render("passport/login", { "message": req.flash("error") });
 });
 
 passportRouter.get("/private-page", ensureLogin.ensureLoggedIn(), (req, res) => {
@@ -118,3 +119,4 @@ passportRouter.get("/private-page", ensureLogin.ensureLoggedIn(), (req, res) => 
 });
 
 module.exports = passportRouter;
+
