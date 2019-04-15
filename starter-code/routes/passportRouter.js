@@ -13,6 +13,10 @@ passportRouter.get("/signup", (req, res, next) => {
   res.render("passport/signup");
 });
 
+passportRouter.get("/login", (req, res, next) => {
+  res.render("passport/login", { "message": req.flash("error") });
+});
+
 passportRouter.post("/signup", (req, res, next) => {
   const username = req.body.username;
   const password = req.body.password;
@@ -61,6 +65,7 @@ passportRouter.post("/login", passport.authenticate("local", {
   failureFlash: true,
   passReqToCallback: true
 }));
+
 
 const ensureLogin = require("connect-ensure-login");
 
