@@ -8,7 +8,15 @@
   <link rel="stylesheet" href="/stylesheets/style.css" />
 </head>
 <body>
-
+  <nav>
+  <a href="/">Home</a>
+  <a href="/signup">Sign Up</a>
+  <a href="/login">Log In</a>
+  {{#if connectedUser}}
+  <a href="/private-page">Private page</a>
+  {{/if}}
+  </nav>
+  
   {{{body}}}
 
   <script src="/javascripts/script.js"></script>
