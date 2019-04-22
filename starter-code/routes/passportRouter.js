@@ -45,14 +45,14 @@ passportRouter.post('/signup', async (req, res) => {
 });
 
 passportRouter.get('/login', (req, res) => {
-  res.render('passport/login');
+  res.render('passport/login', { message: req.flash('error') });
 });
 passportRouter.post(
   '/login',
   passport.authenticate('local', {
     successRedirect: '/',
     failureRedirect: '/login',
-    //failureFlash: true,
+    failureFlash: true,
     passReqToCallback: true
   })
 );

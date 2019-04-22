@@ -17,24 +17,29 @@ passport.deserializeUser(async (id, cb) => {
 });
 
 passport.use(
-  new LocalStrategy(async (username, password, next) => {
-    try {
-      const user = await User.findOne({ username });
+  new LocalStrategy(
+    {
+      passReqToCallback: true
+    },
+    async (req, username, password, next) => {
+      try {
+        const user = await User.findOne({ username });
 
-      if (!user) {
-        //verificación
-        return next(null, false, { message: 'Incorrect username' });
-      }
-      if (!bcrypt.compareSync(password, user.password)) {
-        //verificación
-        return next(null, false, { message: 'Incorrect password' });
-      }
+        if (!user) {
+          //verificación
+          return next(null, false, { message: 'Incorrect username' });
+        }
+        if (!bcrypt.compareSync(password, user.password)) {
+          //verificación
+          return next(null, false, { message: 'Incorrect password' });
+        }
 
-      return next(null, user);
-    } catch (err) {
-      return next(err);
+        return next(null, user);
+      } catch (err) {
+        return next(err);
+      }
     }
-  })
+  )
 );
 
 module.exports = passport;

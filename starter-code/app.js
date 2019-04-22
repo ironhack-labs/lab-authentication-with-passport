@@ -10,6 +10,7 @@ const logger = require('morgan');
 const path = require('path');
 const passport = require('./passport');
 const session = require('express-session');
+const flash = require('connect-flash');
 
 mongoose
   .connect('mongodb://localhost/starter-code', { useNewUrlParser: true })
@@ -36,6 +37,8 @@ app.use(
     saveUninitialized: true
   })
 );
+
+app.use(flash());
 
 app.use(passport.initialize());
 app.use(passport.session());
