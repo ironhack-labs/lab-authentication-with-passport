@@ -4,19 +4,36 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+     rel="stylesheet">
   <title>{{title}}</title>
   <link rel="stylesheet" href="/stylesheets/style.css" />
 </head>
 <body>
 <nav>
-   <li><a href="/login">login</a></li>
+    <div class="nav-wrapper black">
+      <a href="/" class="brand-logo"><i class="material-icons">home</i></a>
+      <ul id="nav-mobile" class="right hide-on-med-and-down">
+        <li><a href="/login">login</a></li>
    <li><a href="/signup">signup</a></li>
    <li><a href="/private-page">private</a></li>
    <li><a href="/logout">logout</a></li>
- </nav>
- 
-  {{{body}}}
+      </ul>
+    </div>
+  </nav>
 
+<div class="row">
+{{{body}}}
+</div>
+  
+  
+          
+            
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
   <script src="/javascripts/script.js"></script>
 </body>
 </html>
+
+
+ 
