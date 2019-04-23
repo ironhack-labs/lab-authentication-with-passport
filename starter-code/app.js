@@ -1,5 +1,5 @@
 require('dotenv').config();
-
+//conexiones 
 const bodyParser   = require('body-parser');
 const cookieParser = require('cookie-parser');
 const express      = require('express');
@@ -40,6 +40,7 @@ app.use(session({
 }));
 
 app.use(flash())
+
 //inicializamos passport y la sesion
 app.use(passport.initialize());
 app.use(passport.session());

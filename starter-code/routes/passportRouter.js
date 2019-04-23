@@ -4,6 +4,7 @@ const User           = require('../models/user')
 const bcrypt = require('bcrypt')
 const passport = require('passport')
 
+// get y post para para traer el signup
 passportRouter.get('/signup', (req,res) =>{
   res.render ('passport/signup')
 })
@@ -42,7 +43,7 @@ passportRouter.post('/signup', async (req,res) =>{
     })
   }
 })
-
+// get y post de login
 passportRouter.get("/login", (req, res, next) => {
   res.render("passport/login",{ "message": req.flash("error") });
 });
