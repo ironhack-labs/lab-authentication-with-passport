@@ -1,5 +1,10 @@
 <h1>Registro</h1>
 
+{{#if message}}
+<div>{{message}}</div>
+{{/if}}
+<br><br>
+
 <form action="/signup" method="post">
   <label for="username">Usuario:</label>
   <input type="text" name="username"><br>
@@ -11,3 +16,4 @@
 
 
 </form>
+<a href="/">Inicio</a>
