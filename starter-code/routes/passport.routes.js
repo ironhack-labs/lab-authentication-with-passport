@@ -11,6 +11,7 @@ const bcryptSalt = 10
 // Add bcrypt to encrypt passwords
 
 // Add passport 
+const passport = require('passport')
 
 
 const ensureLogin = require("connect-ensure-login");
@@ -37,9 +38,9 @@ passportRouter.post('/signup', (req, res) => {
       }
 
       const salt = bcrypt.genSaltSync(bcryptSalt)
-      const hassPass = bcrypt.hashSync(password, salt)
+      const hashPass = bcrypt.hashSync(password, salt)
 
-      const newUser = new User({ username, password: hassPass })
+      const newUser = new User({ username, password: hashPass })
 
       newUser.save()
 
@@ -55,6 +56,17 @@ passportRouter.post('/signup', (req, res) => {
     }
     )
 })
+
+passportRouter.get("/login", (req, res, next) => {
+  res.render("passport/login", { "message": req.flash("error") })
+})
+
+passportRouter.post('/login', passport.authenticate("local", {
+  successRedirect: "/",
+  failureRedirect: "/auth/login",
+  failureFlash: true,
+  passReqToCallback: true
+}))
 
 passportRouter.get("/private-page", ensureLogin.ensureLoggedIn(), (req, res) => {
   res.render("passport/private", { user: req.user });
