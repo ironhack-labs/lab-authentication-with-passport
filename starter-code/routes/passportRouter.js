@@ -11,6 +11,7 @@ const passport = require("passport")
 const ensureLogin = require("connect-ensure-login");
 
 
+
 //sign up
 passportRouter.get("/signup", (req, res, next) => res.render("../views/passport/signup"))
 
@@ -61,6 +62,11 @@ passportRouter.get("/private-page", ensureLogin.ensureLoggedIn(), (req, res) => 
   res.render("passport/private", { user: req.user });
 });
 
+
+passportRouter.get("/logout", (req, res, next) => {
+  req.logout()
+  res.redirect("/")
+})
 
 
 module.exports = passportRouter;
