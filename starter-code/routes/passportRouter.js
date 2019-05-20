@@ -6,7 +6,7 @@ const User = require("../models/user");
 const bcrypt = require("bcrypt");
 const bcryptSalt = 10
 // Add passport 
-// const passport = require("passport");
+const passport = require("passport");
 
 const ensureLogin = require("connect-ensure-login");
 
@@ -31,7 +31,7 @@ passportRouter.post('/signup', (req, res, next) => {
     })
     .then(user => {
       if (user) {
-        res.render('signup', {
+        res.render('passport/signup', {
           message: 'El usuario ya existe'
         })
         return
@@ -53,6 +53,39 @@ passportRouter.post('/signup', (req, res, next) => {
         }))
     })
 })
+
+// Login
+passportRouter.get("/login", (req, res, next) => {
+  res.render("passport/login", {
+    "message": req.flash("error")
+  })
+})
+
+passportRouter.post('/login', passport.authenticate("local", {
+  successRedirect: "/",
+  failureRedirect: "/login",
+  failureFlash: true,
+  passReqToCallback: true
+}))
+
+passportRouter.get("/logout", (req, res) => {
+  req.logout();
+  res.redirect("/");
+})
+
+passportRouter.get('/private', ensureAuthenticated, (req, res) => {
+  res.render('passport/private', {
+    user: req.user
+  })
+})
+
+function ensureAuthenticated(req, res, next) {
+  if (req.isAuthenticated()) {
+    return next();
+  } else {
+    res.redirect('/passport/login')
+  }
+}
 
 
 
