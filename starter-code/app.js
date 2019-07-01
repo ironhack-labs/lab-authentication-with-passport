@@ -11,8 +11,8 @@ const path = require('path');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const bcrypt = require('bcrypt');
-
-
+const User = require('./models/user')
+const session = require('express-session');
 
 mongoose
     .connect('mongodb://localhost/AuthWithPassport', { useNewUrlParser: true })
@@ -33,6 +33,13 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+
+//setup to do sessions
+app.use(session({
+    secret: "our-passport-local-strategy-app",
+    resave: true,
+    saveUninitialized: true
+}));
 
 //Passport Setup
 passport.use(new LocalStrategy({
