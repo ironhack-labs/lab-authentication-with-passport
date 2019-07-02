@@ -8,6 +8,10 @@ const hbs          = require('hbs');
 const mongoose     = require('mongoose');
 const logger       = require('morgan');
 const path         = require('path');
+const session = require('express-session')
+const connectMongo = require('connect-mongo')(session)
+const passport = require('./middleware/passport')
+const flash = require('connect-flash')
 
 
 mongoose
@@ -30,6 +34,11 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
+//falta el app.use session
+app.use(passport.initialize())
+app.use(passport.session())
+app.use(flash())
+
 // Express View engine setup
 
 app.use(require('node-sass-middleware')({
@@ -47,7 +56,7 @@ app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));
 
 
 // default value for title local
-app.locals.title = 'Express - Generated with IronGenerator';
+app.locals.title = 'Authentication with passport';
 
 
 // Routes middleware goes here
@@ -55,6 +64,5 @@ const index = require('./routes/index');
 app.use('/', index);
 const passportRouter = require("./routes/passportRouter");
 app.use('/', passportRouter);
-
 
 module.exports = app;
