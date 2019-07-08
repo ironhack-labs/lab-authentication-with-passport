@@ -1,0 +1,21 @@
+<form action="/login" method="POST">
+  <div>
+    <label for="username">Username:</label>
+    <input type="text" name="username">
+  </div>
+  <br>
+  <div>
+    <label for="password">Password:</label>
+    <input type="password" name="password">
+  </div>
+    {{#if message}}
+        <div class="error-message">{{ message }}</div>
+    {{/if}}
+  <div>
+    <input type="submit" value="Log In">
+  </div>
+    <p class="account-message">
+    If you don't have an account, click above.
+    <a href="/signup">SignUp</a>
+  </p>
+</form>
