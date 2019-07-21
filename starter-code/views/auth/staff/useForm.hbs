@@ -1,0 +1,29 @@
+<h1 class="title">{{formTitle}}</h1>
+
+{{#if message}}
+<article class="message is-danger">
+  <div class="message-body">
+    {{message}}
+  </div>
+</article>
+{{/if}}
+
+<form action="{{action}}" method="post">
+  <div class="field">
+    <label class="label" for="name">Name:</label>
+    <div class="control">
+      <input class="input" type="text" name="name" id="name" value="{{user.name}}">
+    </div>
+  </div>
+  <div class="field">
+    <label class="label" for="bio">Bio:</label>
+    <div class="control">
+      <textarea class="textarea" name="bio" id="bio">{{user.bio}}</textarea>
+    </div>
+  </div>
+  <div class="field">
+    <div class="control">
+      <button class="button is-primary" type="submit">{{buttonTitle}}</button>
+    </div>
+  </div>
+</form>

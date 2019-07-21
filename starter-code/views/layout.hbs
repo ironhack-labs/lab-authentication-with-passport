@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,10 +8,39 @@
   <title>{{title}}</title>
   <link rel="stylesheet" href="/stylesheets/style.css" />
 </head>
+{{{body}}}
+
 <body>
-
-  {{{body}}}
-
+  <nav class="navbar is-link">
+    <div class="container">
+      <div class="navbar-brand">
+        <a class="navbar-item title" href="/">
+          {{title}}
+        </a>
+      </div>
+      <div class="navbar-end">
+        <div class="navbar-item">
+          <div class="buttons">
+            {{#if currentUser}}
+            <a class="button is-light" href="/profile">
+              My Profile
+            </a>
+            {{else}}
+            <a class="button is-primary" href="/login">
+              Log in
+            </a>
+            {{/if}}
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+  <main>
+    <div class="container">
+      {{{body}}}
+    </div>
+  </main>
   <script src="/javascripts/script.js"></script>
 </body>
+
 </html>

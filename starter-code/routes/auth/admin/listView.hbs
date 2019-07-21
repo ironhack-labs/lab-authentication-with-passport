@@ -1,0 +1,47 @@
+<h1 class="title">Platform users</h1>
+{{#if message}}
+<article class="message is-danger">
+  <div class="message-body">
+    {{message}}
+  </div>
+</article>
+{{/if}}
+
+<table class="table is-bordered is-striped is-hoverable is-fullwidth">
+  <thead>
+    <tr>
+      <th>Username</th>
+      <th>Role</th>
+      <th>Name</th>
+      <th>Bio</th>
+      <th>Options</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#unless users}}
+    <tr>
+      <td colspan="5">
+        Hi boss, please add some users.
+      </td>
+    </tr>
+    {{/unless}}
+    {{#each users as | user |}}
+    <tr>
+      <td>
+        <a href="/users/{{user._id}}/edit">{{user.username}}</a>
+      </td>
+      <td>{{user.role}}</td>
+      <td>{{user.name}}</td>
+      <td>{{user.bio}}</td>
+      <td>
+        <a class="button is-success is-small" href="/users/{{user._id}}/edit">Edit</a>
+        <a class="button is-danger is-small" href="/users/{{user._id}}/delete">Delete</a>
+      </td>
+    </tr>
+    {{/each}}
+  </tbody>
+</table>
+
+<p>
+  <a class="button is-primary" href="/users/add">Add a user</a>
+</p>

@@ -1,6 +1,10 @@
 const express        = require("express");
 const passportRouter = express.Router();
+const passport      = require ('../middlewars/passport')
+const {getSignup, postSignup} = require('../controllers/passportControllers')
 // Require user model
+router.get('/signup', getSignup)
+router.post('/signup', postSignup)
 
 // Add bcrypt to encrypt passwords
 

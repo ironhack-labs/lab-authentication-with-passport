@@ -1,0 +1,55 @@
+<h1 class="title">{{formTitle}}</h1>
+
+{{#if message}}
+<article class="message is-danger">
+  <div class="message-body">
+    {{message}}
+  </div>
+</article>
+{{/if}}
+
+<form action="{{action}}" method="post">
+  <div class="field">
+    <label class="label" for="username">Username:</label>
+    <div class="control">
+      <input class="input" type="text" name="username" id="username" value="{{user.username}}" required>
+    </div>
+  </div>
+  <div class="field">
+    <label class="label" for="role">Role:</label>
+    <div class="control">
+      <div class="select">
+        <select name="role" id="role">
+          <option value="TA" {{#if selected.TA}} selected="selected" {{/if}}>Trainer Assistant</option>
+          <option value="Developer" {{#if selected.Developer}}selected="selected" {{/if}}>Developer</option>
+        </select>
+      </div>
+    </div>
+  </div>
+  <div class="field">
+    <label class="label" for="name">Name:</label>
+    <div class="control">
+      <input class="input" type="text" name="name" id="name" value="{{user.name}}">
+    </div>
+  </div>
+  <div class="field">
+    <label class="label" for="bio">Bio:</label>
+    <div class="control">
+      <textarea class="textarea" name="bio" id="bio">{{user.bio}}</textarea>
+    </div>
+  </div>
+  {{#if password}}
+  <div class="field">
+    <label class="label" for="password">Password:</label>
+    <div class="control">
+      <input class="input" type="password" name="password" id="password" required>
+    </div>
+  </div>
+  {{/if}}
+  <div class="field">
+    <div class="control">
+      <button class="button is-primary" type="submit">{{buttonTitle}}</button>
+      <a class="button is-text" href="/users/">View all users</a>
+    </div>
+  </div>
+</form>

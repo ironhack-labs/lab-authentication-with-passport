@@ -8,6 +8,10 @@ const hbs          = require('hbs');
 const mongoose     = require('mongoose');
 const logger       = require('morgan');
 const path         = require('path');
+const session      = require ('express-session')
+const connectMongo = require ('connect-mongo') (session)
+const passport     = require ('./middlewares/passport')
+const flash        = require('connect-flash')
 
 
 mongoose
