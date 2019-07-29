@@ -10,6 +10,14 @@ const logger       = require('morgan');
 const path         = require('path');
 
 
+const session = require('express-session');
+const passport = require('passport');
+const flash = require("connect-flash");
+
+
+require('./configs/passport.config.js')
+
+
 mongoose
   .connect('mongodb://localhost/starter-code', {useNewUrlParser: true})
   .then(x => {
@@ -45,6 +53,26 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));
 
 
+// Configuración sesión
+app.use(session({
+  secret: "OurSecret",
+  resave: true,
+  saveUninitialized: true
+}))
+
+// Flash error handling middleware
+app.use(flash())
+
+
+
+
+
+
+
+
+// Iniciacilización de passport y de sesión
+app.use(passport.initialize())
+app.use(passport.session())
 
 // default value for title local
 app.locals.title = 'Express - Generated with IronGenerator';
@@ -55,6 +83,10 @@ const index = require('./routes/index');
 app.use('/', index);
 const passportRouter = require("./routes/passportRouter");
 app.use('/', passportRouter);
+
+
+
+
 
 
 module.exports = app;
