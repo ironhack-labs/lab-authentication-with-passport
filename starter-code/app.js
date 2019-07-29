@@ -9,9 +9,16 @@ const mongoose     = require('mongoose');
 const logger       = require('morgan');
 const path         = require('path');
 
+const session = require('express-session');
+const passport = require('passport');
+const flash = require("connect-flash");
+
+
+require('./configs/passport.config')
+require('./configs/mongoose.config')
 
 mongoose
-  .connect('mongodb://localhost/starter-code', {useNewUrlParser: true})
+  .connect('mongodb://localhost/users-passwords', {useNewUrlParser: true})
   .then(x => {
     console.log(`Connected to Mongo! Database name: "${x.connections[0].name}"`)
   })
@@ -44,6 +51,19 @@ app.set('view engine', 'hbs');
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));
 
+// Configuración sesión
+app.use(session({
+  secret: "secretoPssprt",
+  resave: true,
+  saveUninitialized: true
+}))
+
+// Flash error handling middleware
+app.use(flash())
+
+// Iniciacilización de passport y de sesión
+app.use(passport.initialize())
+app.use(passport.session())
 
 
 // default value for title local
