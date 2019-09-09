@@ -1,0 +1,36 @@
+{{!-- Fondo gris --}}
+<div class="bg-dark">
+  {{!-- Restringe el tamaño de mi contenido --}}
+  <div class="container">
+    {{!-- Tamaño completo --}}
+    <div class="row fullheight">
+      {{!-- Ocupa el 100% del vw en teléfonos y poco menos de la mitad del container en desktop --}}
+      <div class="col-12 col-md-5 m-auto">
+        {{!-- Card: border y fondo blanco --}}
+        <div class="card p-5">
+          {{!-- Formulario --}}
+          <form action="/signup" method="POST">
+            {{!-- Título --}}
+            <h1 class="mb-0 h3">Regístrate</h1>
+            {{!-- Línea --}}
+            <hr class="my-4">
+            {{!-- Username --}}
+            <div class="form-group">
+              <label for="username">Username</label>
+              <input type="text" name="username" id="username" placeholder="superman321" class="form-control">
+            </div>
+            {{!-- Password --}}
+            <div class="form-group">
+              <label for="password">Password</label>
+              <input type="password" name="password" id="password" placeholder="*****" class="form-control">
+            </div>
+            {{!-- Button alineado a la derecha --}}
+            <div class="text-right mt-5">
+              <button type="submit" class="btn btn-primary">Sign Up</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
