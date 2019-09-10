@@ -7,9 +7,10 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const sassMiddleware = require('node-sass-middleware');
 const serveFavicon = require('serve-favicon');
-
 const indexRouter = require('./routes/index');
 const passportRouter = require("./routes/passport");
+const passport = require('passport');
+const PassportLocalStrategy = require('passport-local').Strategy;
 
 const app = express();
 
@@ -30,8 +31,43 @@ app.use(sassMiddleware({
   sourceMap: true
 }));
 
+const User = require('./models/user');
+
+passport.serializeUser((user, callback) => {
+  callback(null, user._id);
+});
+
+passport.deserializeUser((id, callback) => {
+  User.findById(id)
+    .then(user => {
+      if (!user) {
+        callback(new Error('MISSING_USER'));
+      } else {
+        callback(null, user);
+      }
+    })
+    .catch(error => {
+      callback(error);
+    });
+});
+
+passport.use('signup', new PassportLocalStrategy({ usernameField: 'username'}, (username, password, callback)=> {
+  User.signUp(username, password)
+  .then(user => {
+    callback(null, user);
+  })
+  .catch(error => {
+    callback(error);
+  });
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+
 app.use('/', indexRouter);
 app.use('/', passportRouter);
+
 
 // Catch missing routes and forward to error handler
 app.use((req, res, next) => {
