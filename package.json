@@ -9,16 +9,22 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "connect-ensure-login": "^0.1.1",
+    "connect-flash": "^0.1.1",
+    "connect-mongo": "^3.0.0",
     "cookie-parser": "^1.4.4",
     "debug": "^2.6.9",
     "dotenv": "^8.1.0",
     "express": "^4.17.1",
+    "express-session": "^1.16.2",
     "hbs": "^4.0.4",
     "http-errors": "^1.7.3",
     "mongoose": "^=5.6.13",
     "morgan": "^1.9.1",
     "node-sass-middleware": "0.11.0",
+    "passport": "^0.4.0",
+    "passport-local": "^1.0.0",
     "serve-favicon": "^2.5.0"
   },
   "devDependencies": {

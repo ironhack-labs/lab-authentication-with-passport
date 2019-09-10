@@ -8,6 +8,14 @@ const logger = require('morgan');
 const sassMiddleware = require('node-sass-middleware');
 const serveFavicon = require('serve-favicon');
 
+const expressSession = require('express-session');
+const MongoStore = require('connect-mongo')(expressSession);
+const mongoose = require('mongoose');
+
+
+const passport = require('passport');
+const PassportLocalStrategy = require('passport-local').Strategy;
+
 const indexRouter = require('./routes/index');
 const passportRouter = require("./routes/passport");
 
@@ -33,9 +41,69 @@ app.use(sassMiddleware({
 app.use('/', indexRouter);
 app.use('/', passportRouter);
 
-// Catch missing routes and forward to error handler
+
+
+
+
+app.use(expressSession({
+  secret: process.env.SESSION_SECRET,
+  cookie: { maxAge: 60 * 60 * 24 * 1000 },
+  resave: true,
+  saveUninitialized: false,
+  store: new MongoStore({
+    mongooseConnection: mongoose.connection,
+    ttl: 24 * 60 * 60
+  })
+}));
+
+//Passport Configuration
+
+const User = require('./models/user');
+
+passport.serializeUser((user, callback) => {
+  callback(null, user._id);
+});
+
+passport.deserializeUser((id, callback) => {
+  User.findById(id)
+    .then(user => {
+      if (!user) {
+        callback(new Error('MISSING_USER'));
+      } else {
+        callback(null, user);
+      }
+    })
+    .catch(error => {
+      callback(error);
+    });
+});
+
+passport.use('login', new PassportLocalStrategy((username, password, callback) => {
+  User.signIn(username, password)
+    .then(user => {
+      callback(null, user);
+    })
+    .catch(error => {
+      callback(error);
+    });
+}));
+
+passport.use('signup', new PassportLocalStrategy((username, password, callback) => {
+  User.signUp(username, password)
+    .then(user => {
+      callback(null, user);
+    })
+    .catch(error => {
+      callback(error);
+    });
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
+
 app.use((req, res, next) => {
-  next(createError(404));
+  res.locals.user = req.user;
+  next();
 });
 
 // Catch all error handler
@@ -46,6 +114,11 @@ app.use((error, req, res, next) => {
 
   res.status(error.status || 500);
   res.render('error');
+});
+
+// Catch missing routes and forward to error handler
+app.use((req, res, next) => {
+  next(createError(404));
 });
 
 module.exports = app;
