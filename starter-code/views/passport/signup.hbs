@@ -1,0 +1,12 @@
+{{!-- form:post>label+input:text+label+input:password--}}
+{{!-- el method post significa que la informacion se va a enviar de manera oculta al usuario--}}
+{{!-- le estamos diciendo que de forma oculta se deposite la informacion del formulario --}}
+<form action="/signup" method="POST">
+  <label for="username">User Name</label>
+  {{!-- name tiene que ser igual a lo que nosotros definimos en el modelo --}}
+  <input type="text" name="username" id="name" placeholder="Name">
+  <label for="password">Password</label>
+  <input type="password" name="password" id="password" placeholder="Password">
+  {{!-- con input submit cuando le das enter o click en el boton cumple su funcion, envia y procesa los datos del formulario --}}
+  <input type="submit" value="Sign up">
+</form>
