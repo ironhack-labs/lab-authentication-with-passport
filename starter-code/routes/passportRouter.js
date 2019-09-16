@@ -17,6 +17,7 @@ passportRouter.post("/signup", (req, res, next) => {
 
   if (username === "" || password === "") {
     res.render("passport/signup", { message: "You must fill both fields." });
+    return;
   }
 
   User.findOne({ username }).then(userFound => {
