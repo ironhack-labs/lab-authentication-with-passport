@@ -1,19 +1,21 @@
-<form action="/signup" method="POST">
-  <label for="username">Username</label>
-  <input id="username" type="text" name="username" placeholder="JonSnow">
+<div class="flex-column">
+  <form action="/signup" method="POST" class="flex-column">
+    <label for="username">Username</label>
+    <input id="username" type="text" name="username" placeholder="Random name">
 
-  <label for="password">Password</label>
-  <input id="password" type="password" name="password" placeholder="Your password">
+    <label for="password">Password</label>
+    <input id="password" type="password" name="password" placeholder="Your password">
 
-  {{#if message}}
-    <div class="error-message">{{ message }}</div>
-  {{/if}}
- 
+    {{#if message}}
+      <div class="error-message">{{ message }}</div>
+    {{/if}}
+  
 
-  <button type="submit">Create account</button>
+    <button type="submit">Create account</button>
 
-  <p class="account-message">
-    Do you already have an account?
-    <a href="/login">Login</a>
-  </p>
-</form>
+    <p class="account-message">
+      Do you already have an account?
+      <a href="/login">Log in</a>
+    </p>
+  </form>
+</div>
