@@ -1,0 +1,23 @@
+<h2>Sign up</h2>
+<form action="/signup" method="POST">
+  <label for="username">User Name</label>
+    <input id="username" type="text" name="username" placeholder="Unai">
+   <label for="password">Password</label>
+    <input id="password" type="password" name="password" placeholder="Your password">
+   <button type="submit" value="Sign up">Submit</button>
+   
+</form>
+
+  {{#if message}}
+  <div>{{ message }}</div>
+  {{/if}}
+  <p class="account-message">
+    Do you already have an account?
+    <a href="/login">Login</a>
+  </p>
+
+  <div>
+    <a href="/auth/google">Login With Google</a>
+  </div>
+
+
