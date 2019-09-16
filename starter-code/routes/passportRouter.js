@@ -58,6 +58,22 @@ passportRouter.post(
     failureFlash: true
   })
 );
+passportRouter.get(
+  "/auth/google",
+  passport.authenticate("google", {
+    scope: [
+      "https://www.googleapis.com/auth/userinfo.profile",
+      "https://www.googleapis.com/auth/userinfo.email"
+    ]
+  })
+);
+passportRouter.get(
+  "/auth/google/callback",
+  passport.authenticate("google", {
+    successRedirect: "/private-page",
+    failureRedirect: "/login" 
+  })
+);
 
 passportRouter.get(
   "/private-page",

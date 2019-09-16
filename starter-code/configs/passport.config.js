@@ -1,7 +1,7 @@
 require('dotenv').config();
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
-// const GoogleStrategy = require("passport-google-oauth20").Strategy;
+const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const bcrypt = require("bcrypt");
 const Users = require("../models/Users");
 
@@ -32,3 +32,28 @@ passport.use('local-auth', new LocalStrategy((username, password, next) => {
     return next(null, user);
   });
 }));
+
+passport.use(
+  new GoogleStrategy({
+    clientID: `${process.env.GOOGLE_ID}`,
+    clientSecret: `${process.env.GOOGLE_SECRET}`,
+    callbackURL: "/auth/google/callback"
+  },
+  (accessToken, refreshToken, profile, done) => {
+    Users.findOne({googleID: profile.id})
+    .then(user => {
+      if(user) {
+        done(nulle, user);
+        return
+      }
+      Users.create({googleID: profile.id, username: profile.email})
+      .then(newUser => {
+        done(null, newUser)
+      })
+      .catch(err => done(err))
+    })
+    .catch(err => done(err))
+  }
+  )
+  
+)

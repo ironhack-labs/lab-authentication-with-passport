@@ -7,3 +7,7 @@
 {{#if message}}
 <div class="error-message">{{message}}</div>
 {{/if}}
+
+{{#unless user}}
+<a href="/auth/google/">Sign up with Google</a>
+{{/unless}}
