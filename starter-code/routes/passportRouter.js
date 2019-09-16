@@ -1,8 +1,11 @@
 const express = require("express");
 const passportRouter = express.Router();
+const passport = require('passport');
 const User = require("../models/user");
 const bcrypt = require("bcrypt");
 const bcryptSalt = 10;
+const secure = require("../middlewares/secure.mid")
+
 
 // Require user model
 passportRouter.get("/signup", (req, res, next) => {
@@ -27,14 +30,21 @@ passportRouter.post("/signup", (req, res, next) => {
     User.create({ username, password: hashPass })
       .then(userCreated => {
         res.redirect("/login")
-      });
-    
-   
+      })
+      .catch(error => next(error))
   });
 });
-// Add bcrypt to encrypt passwords
 
-// Add passport
+passportRouter.get("/login", (req, res, next) => {
+  res.render("passport/login");
+});
+
+passportRouter.post("/login", passport.authenticate("local-auth", {
+  successRedirect: "/",
+  failureRedirect: "/login",
+  passReqToCallback: true,
+  failureFlash: true
+}));
 
 const ensureLogin = require("connect-ensure-login");
 
@@ -45,5 +55,10 @@ passportRouter.get(
     res.render("passport/private", { user: req.user });
   }
 );
+
+passportRouter.get("/logout", (req, res, next) => {
+  req.logout();
+  res.redirect("/");
+})
 
 module.exports = passportRouter;

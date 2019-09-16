@@ -1,2 +1,6 @@
 <h1>{{title}}</h1>
 <p>Welcome to {{title}}</p>
+<a href="/private-page">Private page</a>
+{{#if userLogged}}
+  <a href="/logout">Logout</a>
+{{/if}}
