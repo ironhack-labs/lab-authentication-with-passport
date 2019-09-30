@@ -1,0 +1,14 @@
+mixin formLogin(error)
+
+  form(action="/login" method="POST")
+    div
+      label(for="username") Username:
+      input(id="username" type="text" name="username")
+    div
+      label(for="password") Password:
+      input(id="password" type="password" name="password")
+    if error
+      div
+        p #{error}
+    div
+      button(type="submit") Login
