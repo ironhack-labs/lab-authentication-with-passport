@@ -1,8 +1,144 @@
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-a {
-  color: #00B7FF;
+html {
+  font-size: 62.5%;
+  font-family: 'Nunito', sans-serif;
+}
+
+body {
+  background-color: #f0f0f0;
+}
+
+form {
+  width: 100%;
+  height: 60%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.homepage {
+  width: 100%;
+  height: 100vh;
+  background-image: url('../images/homepageBg.jpeg');
+  background-position: center;
+
+  &-filter {
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0, .5);
+  }
+
+  &-header {
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    text-align: center;
+    color: #fff;
+    font-size: 6rem;
+    text-shadow: 3px 3px 5px rgba(255, 255, 255, .2);
+  }
+
+  &__link-container {
+    display: flex;
+    width: 55rem;
+    position: absolute;
+    top: 60%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    justify-content: space-between;
+
+    &--link {
+      text-align: center;
+      text-decoration: none;
+      color: #222;
+      padding: 1.3rem 2rem;
+      font-weight: 600;
+      width: 22rem;
+      border-radius: 1rem;
+      background-color: #fff;
+      border: 1px solid rgba(80, 80, 80, .6);
+      font-size: 2rem;
+      cursor: pointer;
+      outline: none;
+      
+      &:hover {
+        transition: all .5s;
+        transform: translateY(-.5rem);
+        box-shadow: 3px 3px 5px rgba(0,0,0, .2);
+      }
+    }
+  }
+}
+
+.form-container {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+
+  width: 50rem;
+  height: 55rem;
+  background-color: #fff;
+  border-radius: 2rem;
+  border: 1px solid rgba(80, 80, 80, .4);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 4rem 2rem;
+
+  &__header {
+    font-size: 3.5rem;
+    margin-bottom: 2rem;
+  }
+
+  &__labels {
+    font-size: 1.8rem;
+    font-weight: 600;
+  }
+
+  &__inputs {
+    width: 90%;
+    padding: 1rem 3rem;
+    margin-bottom: 2rem;
+    outline-color: aqua;
+    font-size: 1.6rem;
+  }
+
+  &__btn {
+    text-align: center;
+    margin-top: 3rem;
+    padding: 1rem 2rem;
+    width: 18rem;
+    border-radius: 1rem;
+    background-color: #fff;
+    border: 1px solid rgba(80, 80, 80, .6);
+    font-size: 2rem;
+    cursor: pointer;
+    outline: none;
+    
+    &:hover {
+      transition: all .5s;
+      transform: translateY(-.5rem);
+      box-shadow: 3px 3px 5px rgba(0,0,0, .2);
+    }
+  }
+
+  &__paragraph {
+    margin-top: 3rem;
+    font-size: 1.6rem;
+    font-weight: 600;
+
+    & > a {
+      font-weight: 700;
+      color: rgb(70, 230, 230);
+    }
+  }
 }
