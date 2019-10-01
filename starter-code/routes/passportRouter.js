@@ -5,8 +5,6 @@ const passport = require('passport');
 const bcrypt = require('bcrypt');
 const bcryptSalt = 10;
 
-// Add passport
-
 passportRouter.get('/signup', (req, res, next) => {
   res.render('passport/signup');
 });
@@ -70,6 +68,15 @@ passportRouter.get(
   (req, res) => {
     res.render('passport/private', {user: req.user});
   }
+);
+
+passportRouter.get('/passport/slack', passport.authenticate('slack'));
+passportRouter.get(
+  '/passport/slack/callback',
+  passport.authenticate('slack', {
+    successRedirect: '/private-page',
+    failureRedirect: '/' // here you would navigate to the classic login page
+  })
 );
 
 module.exports = passportRouter;

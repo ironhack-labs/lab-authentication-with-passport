@@ -13,6 +13,7 @@ const User = require('./models/user');
 const bcrypt = require('bcrypt');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
+const SlackStrategy = require('passport-slack').Strategy;
 
 mongoose
   .connect('mongodb://localhost/starter-code', {useNewUrlParser: true})
@@ -79,6 +80,35 @@ passport.deserializeUser((id, cb) => {
     cb(null, user);
   });
 });
+
+passport.use(
+  new SlackStrategy(
+    {
+      clientID: process.env.CLIENTID,
+      clientSecret: process.env.CLIENTSECRET,
+      callbackURL: '/passport/slack/callback'
+    },
+    (accessToken, refreshToken, profile, done) => {
+      // to see the structure of the data in received response:
+      console.log('Slack account details:', profile);
+
+      User.findOne({slackID: profile.id})
+        .then(user => {
+          if (user) {
+            done(null, user);
+            return;
+          }
+
+          User.create({slackID: profile.id})
+            .then(newUser => {
+              done(null, newUser);
+            })
+            .catch(err => done(err)); // closes User.create()
+        })
+        .catch(err => done(err)); // closes User.findOne()
+    }
+  )
+);
 
 passport.use(
   new LocalStrategy((username, password, next) => {

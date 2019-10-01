@@ -21,6 +21,7 @@
     "node-sass-middleware": "^0.11.0",
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
+    "passport-slack": "0.0.7",
     "serve-favicon": "^2.5.0"
   },
   "devDependencies": {
