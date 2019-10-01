@@ -4,15 +4,14 @@ const bodyParser   = require('body-parser');
 const cookieParser = require('cookie-parser');
 const express      = require('express');
 const favicon      = require('serve-favicon');
+const hbs          = require('hbs');
 const mongoose     = require('mongoose');
 const logger       = require('morgan');
 const path         = require('path');
-const passport = require('./helpers/passport');
-const session = require('express-session');
 
 
 mongoose
-  .connect('mongodb://localhost/lab-passport-auth', {useNewUrlParser: true})
+  .connect('mongodb://localhost/starter-code', {useNewUrlParser: true})
   .then(x => {
     console.log(`Connected to Mongo! Database name: "${x.connections[0].name}"`)
   })
@@ -38,33 +37,23 @@ app.use(require('node-sass-middleware')({
   dest: path.join(__dirname, 'public'),
   sourceMap: true
 }));
-
-app.use(session({
-  secret: 'Justarand0mstr!n9',
-  resave: true,
-  saveUninitialized: true
-}));
-
-app.use(passport.initialize());
-app.use(passport.session());
       
 
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'pug');
+app.set('view engine', 'hbs');
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));
 
 
 
 // default value for title local
-app.locals.title = 'Passport Basic Authentication';
+app.locals.title = 'Express - Generated with IronGenerator';
 
 
-
+// Routes middleware goes here
 const index = require('./routes/index');
-const passportRouter = require('./routes/passportRouter');
-
 app.use('/', index);
+const passportRouter = require("./routes/passportRouter");
 app.use('/', passportRouter);
 
 

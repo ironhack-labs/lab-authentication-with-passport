@@ -1,0 +1,19 @@
+extends ../layout
+
+block content
+
+  .form-container
+    h2 Register
+    form(action="/signup" method="POST")
+      .form-element
+        label(for="username") Username
+        input(type="text" id="username" name="username")
+      .form-element
+        label(for="password") Password
+        input(type="password" id="password" name="password")
+      .form-element
+        label(for="confirm-password") Confirm your password
+        input(type="password" id="confirm-password" name="confirm-password")
+      if error
+        p #{error}
+      button(type="submit") Sign Up!

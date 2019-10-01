@@ -1,0 +1,16 @@
+extends ../layout
+
+block content
+
+  .form-container
+    h2 Log In
+    form(action="/login" method="POST")
+      .form-element
+        label(for="username") Username
+        input(type="text" id="username" name="username")
+      .form-element
+        label(for="password") Password
+        input(type="password" id="password" name="password")
+      if error
+        p #{error}
+      button(type="submit") Login
