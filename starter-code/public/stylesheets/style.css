@@ -1,8 +1,34 @@
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif; }
+* {
+  padding: 0px;
+  margin: 0px; }
 
-a {
-  color: #00B7FF; }
+div > form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  top: 200px; }
+
+button {
+  position: relative;
+  top: 10px; }
+
+span {
+  position: relative;
+  top: 200px;
+  left: 470px;
+  color: white;
+  background-color: blue;
+  border-radius: 50px;
+  padding: 10px; }
+
+div > p {
+  position: relative;
+  top: 230px;
+  left: 528px; }
+
+nav > a {
+  font-weight: bold; }
 
 /*# sourceMappingURL=style.css.map */
