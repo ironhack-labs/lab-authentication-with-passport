@@ -41,11 +41,12 @@ passportRouter.post("/signup",  (req, res, next) => {
       password: hashPass
     });
 
+    //cria um novo usuário
     newUser.save((err) => {
       if (err) {
-        res.render("passport/signup", { message: "Something went wrong" });
+        res.render("passport/signup", { message: "Something went wrong" }); //retorna mensagem em caso de erro
       } else {
-        res.redirect("/");
+        res.redirect("/");//se não encaminha para a página principal
       }
     });
   })
