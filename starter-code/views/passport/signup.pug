@@ -1,0 +1,17 @@
+extends ../layout
+
+block content
+  form(action="/signup", method="post")
+    label(for="username") Username: 
+    input(type="text" id='username' name='username')
+    br
+    label(for="password") Password: 
+    input(type="password" id='password' name='password')
+
+    if (message)
+      .error-message #{message}    
+    br
+    button Create account
+
+    p(class='account-message') Do you already have an account? 
+      a(href="/login") Login
