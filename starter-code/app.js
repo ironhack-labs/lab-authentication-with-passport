@@ -7,6 +7,10 @@ const favicon      = require('serve-favicon');
 const mongoose     = require('mongoose');
 const logger       = require('morgan');
 const path         = require('path');
+const flash        = require("connect-flash");
+
+const session = require("express-session");
+const passport = require("./helpers/passport");
 
 
 mongoose
@@ -28,6 +32,17 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+
+app.use(session({
+  secret: "passport-local",
+  resave: true,
+  saveUninitialized: true
+}));
+
+app.use(flash());
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Express View engine setup
 
