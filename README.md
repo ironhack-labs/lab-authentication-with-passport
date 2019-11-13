@@ -50,11 +50,9 @@ The repo you cloned comes with a `User` model and a `router` file already made f
 
 Add a new route to your `passportRouter.js` file with the path `/signup` and point it to your `views/passport/signup.hbs` file.
 
-Now, in that .hbs file, add a form that makes a POST request to `/signup`, with a field for `username` and `password`.
+Now, in that hbs file, add a form that makes a POST request to `/signup`, with a field for `email` and `password`.
 
 Finally, add a POST route to your `passportRouter.js` to receive the data from the signup form and create a new user with the data.
-
-Make sure you install **bcrypt** (or **bcryptjs**) and **passport** npm packages and require it in `passportRouter.js`.
 
 ## Iteration #2: The Login Feature
 
@@ -66,7 +64,7 @@ In order to do that, we need to configure Sessions and initialize a session with
 
 ## Private Page
 
-In the repo you forked, there is a file called `private.hbs`. This page is referenced in the `passportRouter.js` with the path `/private-page`. We use the `ensureLogin.ensureLoggedIn()` function to make sure that the user is logged in before viewing this page.
+In the repo you forked, there is a file called `private.hbs`. This page is referenced in the `passportRouter.js` with the path `/private-page`. We use the `ensureLogin` middleware to make sure that the user is logged in before viewing this page.
 
 If everything worked correctly, the user should be able to sign up, login, and then visit the page, where they will receive a personalized greeting.
 
