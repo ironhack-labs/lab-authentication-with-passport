@@ -1,0 +1,21 @@
+<h2>Inicia sesiooooooooooooooooon!!!</h2>
+
+<form action="/login" method="POST" id="form-container">
+
+  <label for="username">Usuario</label>
+  <input id="username" type="text" name="username" placeholder="Neo">
+  <br><br>
+  <label for="password">Password</label>
+  <input id="password" type="password" name="password" placeholder="Your password">
+
+  <div class="error-message">{{ message }}</div>
+
+  <br><br>
+
+  <button>Inicia sesión</button>
+
+  <p class="account-message">
+    Si todavía no te has registrado...
+    <a href="/">Regístrate</a>
+  </p>
+</form>

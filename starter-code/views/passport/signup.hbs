@@ -1,0 +1,22 @@
+<h2>Registrateeeeeeeee Porfa plis!!!</h2>
+
+<form action="/signup" method="POST" id="form-container">
+
+  <label for="username">Usuario</label>
+  <input id="username" type="text" name="username" placeholder="Thomas A. Anderson">
+  <br><br>
+  <label for="password">Password</label>
+  <input id="password" type="password" name="password" placeholder="Your password">
+
+  {{#if message}}
+  <div class="error-message">{{ message }}</div>
+  {{/if}}
+  <br><br>
+
+  <button>Crear cuenta</button>
+
+  <p class="account-message">
+    ¿Ya registrad@ chiquitín?
+    <a href="/login">Iniciar sesión</a>
+  </p>
+</form>
