@@ -1,5 +1,9 @@
 <form action="/signup" method="POST">
-  <input type="text" name="username" value="quique" placeholder="Username here">
-  <input type="password" name="password" value="123" placeholder="Password here">
+  <input type="text" name="username" value="" placeholder="Username here">
+  <input type="password" name="password" value="" placeholder="Password here">
   <input type="submit" value="Sign me up">
 </form>
+
+{{#if message}}
+<h2>{{message}}</h2>
+{{/if}}
