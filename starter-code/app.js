@@ -95,7 +95,7 @@ passport.deserializeUser((id, cb) => {
   console.log("deserialize");
   console.log(`Attaching ${id} to req.user`);
   // eslint-disable-next-line consistent-return
-  User.findById(id, (err, user) => {
+  Users.findById(id, (err, user) => {
     if (err) {
       return cb(err);
     }
