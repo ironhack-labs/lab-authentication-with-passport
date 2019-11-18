@@ -8,7 +8,8 @@ const hbs          = require('hbs');
 const mongoose     = require('mongoose');
 const logger       = require('morgan');
 const path         = require('path');
-
+const passport = require("passport")
+const session = require("express-session")
 
 mongoose
   .connect('mongodb://localhost/passportAuth', {useNewUrlParser: true})
@@ -30,6 +31,16 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
+app.use(
+  session({
+    secret: "our-passport-local-strategy-app",
+    resave: true,
+    saveUninitialized: true
+  })
+);
+app.use(passport.initialize());
+app.use(passport.session());
+
 // Express View engine setup
 
 app.use(require('node-sass-middleware')({
@@ -38,12 +49,18 @@ app.use(require('node-sass-middleware')({
   sourceMap: true
 }));
       
+// app.use(
+//   session({
+//     secret: "our-passport-local-strategy-app",
+//     resave: true,
+//     saveUninitialized: true
+//   })
+// );
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));
-
 
 
 // default value for title local
