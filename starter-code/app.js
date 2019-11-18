@@ -7,7 +7,15 @@ const favicon      = require('serve-favicon');
 const hbs          = require('hbs');
 const mongoose     = require('mongoose');
 const logger       = require('morgan');
-const path         = require('path');
+const path = require('path');
+const LocalStrategy = require("passport-local").Strategy;
+const session = require("express-session");
+const passport = require('passport')
+const flash = require('connect-flash')
+const User = require("./models/user");
+const bcrypt = require("bcrypt");
+
+
 
 
 mongoose
@@ -30,6 +38,45 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
+
+
+// PASSPORT: Serializado / des-serializado Usuario
+passport.serializeUser((user, cb) => cb(null, user._id));
+passport.deserializeUser((id, cb) => {
+  User.findById(id, (err, user) => {
+    if (err) { return cb(err); }
+    cb(null, user);
+  });
+});
+
+
+app.use(flash());
+
+
+// PASSPORT: estrategia
+passport.use(new LocalStrategy({ passReqToCallback: true }, (req, username, password, next) => {
+  User.findOne({ username })
+    .then(theUser => {
+      if (!theUser) return next(null, false, { message: "Nombre de usuario incorrecto" })
+      if (!bcrypt.compareSync(password, theUser.password)) return next(null, false, { message: "Contraseña incorrecta" })
+      return next(null, theUser);
+    })
+    .catch(err => next(err))
+}))
+
+
+
+
+  // PASSPORT: configuración sesión
+  app.use(session({ secret: "webmad1019", resave: true, saveUninitialized: true }));
+
+  // PASSPORT: inicialización de sesión
+  app.use(passport.initialize());
+  app.use(passport.session());
+
+
+
+
 // Express View engine setup
 
 app.use(require('node-sass-middleware')({
@@ -51,10 +98,8 @@ app.locals.title = 'Express - Generated with IronGenerator';
 
 
 // Routes middleware goes here
-const index = require('./routes/index');
-app.use('/', index);
-const passportRouter = require("./routes/passportRouter");
-app.use('/', passportRouter);
+app.use("/", require("./routes/index"));
+app.use('/', require("./routes/passportRouter"));
 
 
 module.exports = app;
