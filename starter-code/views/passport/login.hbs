@@ -1,0 +1,19 @@
+<main class="login">
+  <h2>Log In!</h2>
+  {{#if this.error}}
+  <div class="error">
+    {{this.error}}
+  </div>
+  {{/if}}
+  <form method="POST" action="/login">
+    <div>
+      <label for="email">Email</label>
+      <input type="email" name="email" id="email" required>
+    </div>
+    <div>
+      <label for="password">Password</label>
+      <input type="password" name="password" id="password" required>
+    </div>
+    <button type="submit">Log In!</button>
+  </form>
+</main>
