@@ -66,7 +66,7 @@ In order to do that, we need to configure Sessions and initialize a session with
 
 ## Private Page
 
-In the repo you forked, there is a file called `private.hbs`. This page is referenced in the `passportRouter.js` with the path `/private-page`. We use the `ensureLogin.ensureLoggedIn()` function to make sure that the user is logged in before viewing this page.
+In the repo you forked, there is a file called `private.hbs`. This page is referenced in the `passportRouter.js` with the path `/private-page`. We use the `req.user` to make sure that the user is logged in before viewing this page.
 
 If everything worked correctly, the user should be able to sign up, login, and then visit the page, where they will receive a personalized greeting.
 
