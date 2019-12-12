@@ -6,11 +6,9 @@ const passportRouter = express.Router();
 
 // Add passport 
 
-
-const ensureLogin = require("connect-ensure-login");
-
-
-passportRouter.get("/private-page", ensureLogin.ensureLoggedIn(), (req, res) => {
+passportRouter.get("/private-page", (req, res) => {
+  // TODO: only render if authenticated
+  
   res.render("passport/private", { user: req.user });
 });
 
