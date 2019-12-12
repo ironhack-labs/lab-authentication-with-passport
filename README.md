@@ -2,6 +2,8 @@
 
 # Authentication With PassportJS
 
+![](https://images.unsplash.com/photo-1532188142562-df556b861e6a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2250&q=80)
+
 ## Introduction
 
 In previous lessons, we learned how important it is to have your user managed (saved and retrieved) successfully. In this lab, you will do it one more time, just to make sure we are ready to move forward into new knowledge conquers :wink:
