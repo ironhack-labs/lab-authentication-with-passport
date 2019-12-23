@@ -25,10 +25,17 @@ const debug = require('debug')(`${app_name}:${path.basename(__filename).split('.
 const app = express();
 
 // Middleware Setup
+const flash=require('connect-flash'); // for flashing
+app.use(flash());
+
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+
+// register session() BEFORE doing it in passportRouter.js
+const session=require('express-session');
+app.use(session({secret:'keyboard cat',cookie:{}}));
 
 // Express View engine setup
 
@@ -54,7 +61,26 @@ app.locals.title = 'Express - Generated with IronGenerator';
 const index = require('./routes/index');
 app.use('/', index);
 const passportRouter = require("./routes/passportRouter");
-app.use('/', passportRouter);
+app.use('/passport', passportRouter);
 
+// check flash!!
+app.get('/flash',(req, res,next)=>{
+  // Set a flash message by passing the key, followed by the value, to req.flash().
+  req.flash('info', 'Flash is back!')
+  res.redirect('/');
+});
+
+// fall-through routes
+app.use('*',(req,res,next)=>{
+  next(new Error("Invalid route."));
+});
+
+// custom error handler on all routes
+app.use((err,req,res,next)=>{
+  res.render('error',err);
+});
+
+// the game's afoot
+app.listen(process.env.PORT,()=>{console.log("Express server running on port "+process.env.PORT+".")});
 
 module.exports = app;

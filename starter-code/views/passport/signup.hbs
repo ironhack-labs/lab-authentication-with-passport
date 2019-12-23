@@ -1,0 +1,16 @@
+<form action='/passport/signup' method='POST' onsubmit="return checkform()">
+    <input type='text' name='username' placeholder='Your user name'/>
+    <input type='password' id='password1' name='password' minlength='1' placeholder='Your password'/>
+    <input type='password' id='password2' minlength='1' placeholder='Retype your password here'/>
+    <button type='submit'>Sign up</button>
+</form>
+<script>
+    function checkform(){
+        console.log("Checking password equality!");
+        let password1=document.getElementById('password1').value;
+        let password2=document.getElementById('password2').value;
+        let result=(password1===password2);
+        if(!result)alert("Passwords do not match! Please try again!");
+        return result;
+    }
+</script>
