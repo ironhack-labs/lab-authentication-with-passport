@@ -1,6 +1,8 @@
 <h1>{{title}}</h1>
 <p>Welcome to {{title}}</p>
-
+{{#if message}}
+<div>FLASH: {{message}}</div>
+{{/if}}
 <div>
     <ul>
         <li><a href='/passport/signup'>Sign up</a></li>

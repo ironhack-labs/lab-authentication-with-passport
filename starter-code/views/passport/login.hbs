@@ -3,3 +3,6 @@
     <input type='password' name='password' minlength='1' placeholder='Your password'/>
     <button type='submit'>Log in</button>
 </form>
+{{#if error}}
+<div class='error'>{{error}}</div>
+{{/if}}

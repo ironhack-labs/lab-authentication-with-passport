@@ -13,9 +13,19 @@ const LocalStrategy  = require('passport-local').Strategy;
 passport.use(new LocalStrategy(function(username,password,done){
   User.findOne({username:username},function(err,user){
     if(err)return done(err);
-    if(!user)return done(null,false,{message:'Incorrect user name.'});
+    // console.log("No err");
+    if(!user)return done(null,false,{message:'Invalid credentials.'});
+    // console.log("Existing user!");
+    /*
+    if(bcrypt.compareSync(password,user.password))
+      return done(null,user);
+    return done(new Error("Invalid password"));
+    */
     bcrypt.compare(password,user.password,(err,correct)=>{
-      if(err||!correct)return done(new Error("Incorrect password."));
+      // MDH@23DEC2019: apparently this format is required to make flash work
+      //                done(new Error('some message')); didn't flash anything!
+      if(err||!correct)return done(null,false,{message:'Invalid credentials!'});
+      // console.log("Right password!");
       return done(null,user);
     });
     /* replacing the sync version
@@ -52,8 +62,8 @@ passportRouter.get("/signup",(req,res,next)=>{
   res.render('passport/signup');
 });
 passportRouter.get("/login",(req,res,next)=>{
-  console.log("Rendering login!");
-  res.render("passport/login");
+  // DON'T CALL req.flash('error') here as it will consume it!!!! console.log("Rendering login",req.flash('error'));
+  res.render("passport/login",{ error: req.flash('error') });
 });
 
 passportRouter.post("/signup",(req,res,next)=>{

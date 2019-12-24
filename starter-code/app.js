@@ -3,15 +3,16 @@ require('dotenv').config();
 const bodyParser   = require('body-parser');
 const cookieParser = require('cookie-parser');
 const express      = require('express');
+const session      = require('express-session');
+const flash        = require('connect-flash'); // for flashing
 const favicon      = require('serve-favicon');
 const hbs          = require('hbs');
 const mongoose     = require('mongoose');
 const logger       = require('morgan');
 const path         = require('path');
 
-
 mongoose
-  .connect('mongodb://localhost/starter-code', {useNewUrlParser: true})
+  .connect('mongodb://localhost/lab-authentication-with-passport', {useNewUrlParser: true})
   .then(x => {
     console.log(`Connected to Mongo! Database name: "${x.connections[0].name}"`)
   })
@@ -24,18 +25,20 @@ const debug = require('debug')(`${app_name}:${path.basename(__filename).split('.
 
 const app = express();
 
+////////var sessionStore = new session.MemoryStore;
 // Middleware Setup
-const flash=require('connect-flash'); // for flashing
-app.use(flash());
 
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+
 app.use(cookieParser());
 
 // register session() BEFORE doing it in passportRouter.js
-const session=require('express-session');
-app.use(session({secret:'keyboard cat',cookie:{}}));
+
+app.use(session({secret:'keyboard cat',resave:true,saveUninitialized:true}));
+// flash AFTER session!
+app.use(flash());
 
 // Express View engine setup
 
@@ -66,13 +69,14 @@ app.use('/passport', passportRouter);
 // check flash!!
 app.get('/flash',(req, res,next)=>{
   // Set a flash message by passing the key, followed by the value, to req.flash().
-  req.flash('info', 'Flash is back!')
+  req.flash('info', 'Flash is back!');
+  console.log("Flash called: "+req.flash('info'));
   res.redirect('/');
 });
 
 // fall-through routes
 app.use('*',(req,res,next)=>{
-  next(new Error("Invalid route."));
+  res.render('not-found');
 });
 
 // custom error handler on all routes
