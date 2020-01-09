@@ -4,7 +4,7 @@ const passportRouter = express.Router();
 
 // TODO: Add bcrypt to encrypt passwords
 
-// TODO: Add /signup route
+// TODO: Add the /signup routes (GET and POST)
 
 passportRouter.get("/private-page", (req, res) => {
   if (!req.user) {
