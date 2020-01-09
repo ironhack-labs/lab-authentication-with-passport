@@ -1,16 +1,17 @@
 const express        = require("express");
 const passportRouter = express.Router();
-// Require user model
+// TODO: Require user model
 
-// Add bcrypt to encrypt passwords
+// TODO: Add bcrypt to encrypt passwords
 
-// Add passport 
+// TODO: Add /signup route with passport
 
-
-const ensureLogin = require("connect-ensure-login");
-
-
-passportRouter.get("/private-page", ensureLogin.ensureLoggedIn(), (req, res) => {
+passportRouter.get("/private-page", (req, res) => {
+  if (!req.user) {
+    res.redirect('/login');
+    return;
+  }
+  
   res.render("passport/private", { user: req.user });
 });
 
