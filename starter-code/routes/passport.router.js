@@ -9,7 +9,7 @@ const passport = require('passport');
 const ensureLogin = require('connect-ensure-login');
 
 //1. Render signup form
-passportRouter.get('/signup', (req, res) => {
+passportRouter.get('/signup', checkNotAuth, (req, res) => {
   res.render('passport/signup-form');
 });
 //2. add user form to DB
@@ -44,7 +44,8 @@ passportRouter.post('/signup', (req, res) => {
 });
 
 //3. Render login page
-passportRouter.get('/login', (req, res) => {
+passportRouter.get('/login', checkNotAuth, (req, res) => {
+  console.log('Output for: req', req.session);
   res.render('passport/login-form', { message: req.flash('error') });
 });
 
@@ -62,10 +63,11 @@ passportRouter.post(
 //5. User account page
 passportRouter.get(
   '/private-page',
+  checkAuth,
   ensureLogin.ensureLoggedIn(),
   (req, res) => {
     res.render('passport/private', { user: req.user });
-    // console.log('Output for: user', req.user);
+    // console.log('Output for: user', req.sessionID);
   }
 );
 
@@ -76,4 +78,22 @@ passportRouter.get('/logout', (req, res) => {
     message: 'Thank you! You successfully signed out!',
   });
 });
+
+//some cool functions, which checks if signed in will not allow
+//you to go /login or /signup pages or other way,
+// if sign out will not allow you to go /private-page
+function checkAuth(req, res, next) {
+  if (req.isAuthenticated()) {
+    return next();
+  }
+  res.redirect('/login');
+}
+
+function checkNotAuth(req, res, next) {
+  if (req.isAuthenticated()) {
+    return res.redirect('/private-page');
+  }
+  next();
+}
+
 module.exports = passportRouter;
