@@ -97,14 +97,4 @@ form button {
 .success-color {
   font-family: monospace;
   color: green;
-  opacity: 1;
-  animation: success 2s ease-in-out 1s forwards;
-}
-@keyframes success {
-  0% {
-    opacity: 1;
-  }
-  1000% {
-    opacity: 0;
-  }
 }

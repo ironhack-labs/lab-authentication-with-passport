@@ -65,6 +65,7 @@ passportRouter.get(
   ensureLogin.ensureLoggedIn(),
   (req, res) => {
     res.render('passport/private', { user: req.user });
+    // console.log('Output for: user', req.user);
   }
 );
 
