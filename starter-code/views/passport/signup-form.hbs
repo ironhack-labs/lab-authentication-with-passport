@@ -1,0 +1,40 @@
+{{#if err}}
+<div class="err form">
+    <form action="/signup" method="POST">
+        <h1>Sign up</h1>
+        <span class="err-color">{{err}}</span>
+
+        <label for="username-input"></label>
+        <input type="text" id="username-input" name="username" placeholder="password">
+
+        <label for="password-input"></label>
+        <input type="password" id="password-input" name="password" placeholder="**********">
+        <button type="submit">Sign up</button>
+
+        <p>
+            Already have an account?
+            <a href="/login">Login</a>
+        </p>
+    </form>
+</div>
+{{else}}
+<div class="signup form">
+    <form action="/signup" method="POST">
+        <h1>Sign up</h1>
+        {{#if message}}
+        <span class="err-color">{{message}}</span>
+        {{/if}}
+        <label for="username-input"></label>
+        <input type="text" id="username-input" name="username" placeholder="password">
+
+        <label for="password-input"></label>
+        <input type="password" id="password-input" name="password" placeholder="**********">
+        <button type="submit">Sign up</button>
+
+        <p>
+            Already have an account?
+            <a href="/login">Login</a>
+        </p>
+    </form>
+</div>
+{{/if}}
