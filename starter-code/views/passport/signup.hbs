@@ -1,0 +1,17 @@
+{{#if errorMessage}}
+<div class="error-message">{{ errorMessage }}</div>
+{{/if}}
+<div class="container" style="margin-top: 70px;">
+  <form id="form" action="/signup" method="POST">
+    <div>
+      <h2 style="margin-bottom: 50px; margin-left: 130px">Signup</h2>
+    </div>
+    <label for="username">Username</label><br>
+    <input type="text" name="username" placeholder="Your username" required>
+
+    <label for="password">Password</label><br>
+    <input type="password" name="password" placeholder="********" required>
+
+    <button type="submit">Create account</button>
+  </form>
+</div>
