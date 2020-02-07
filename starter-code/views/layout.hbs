@@ -26,13 +26,22 @@
           <a href="/about" title="Sobre Nosotros">Sobre Nosotros</a>
         </li>
         {{#if user}}
+        <li>
+          <a href="/logout" title="logout">Logout</a>
+        </li>
         {{else}}
         <li>
           <a href="/signup" title="Registrarse">Registrarse</a>
         </li>
+        <li>
+          <a href="/login" title="Login">Login</a>
+        </li>
         {{/if}}
       </ul>
     </nav>
+    {{#if user}}
+    <a href="/profile" class="special">{{user.username}}</a>
+    {{/if}}
   </header>
 
   <div class="container">
@@ -45,9 +54,15 @@
   <footer class="card border-danger text-center">
     <ul>
       {{#if user}}
+      <li>
+        <a href="/logout" title="logout">Logout</a>
+      </li>
       {{else}}
       <li>
         <a href="/signup" title="Registrarse">Registrarse</a>
+      </li>
+      <li>
+        <a href="/login" title="Login">Login</a>
       </li>
       {{/if}}
     </ul>

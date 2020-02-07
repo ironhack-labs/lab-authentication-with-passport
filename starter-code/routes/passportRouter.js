@@ -2,6 +2,8 @@ const express = require("express");
 const passportRouter = express.Router();
 const model = require("../models/user");
 const { hashPassword, checkHashed } = require("../lib/hashing");
+const passport = require("passport");
+const { isLoggedIn, isLoggedOut } = require("../lib/isLoggedMiddleware");
 
 // Add bcrypt to encrypt passwords
 
@@ -9,12 +11,12 @@ const { hashPassword, checkHashed } = require("../lib/hashing");
 
 const ensureLogin = require("connect-ensure-login");
 
-// Create: signup
-passportRouter.get("/signup", async (req, res, next) => {
+// Create: signup o register
+passportRouter.get("/signup", isLoggedOut(), (req, res, next) => {
   res.render("passport/signup");
 });
 
-passportRouter.post("/signup", async (req, res, next) => {
+passportRouter.post("/signup", isLoggedOut(), async (req, res, next) => {
   const { username, password } = req.body;
   const existingUser = await model.findOne({ username });
   if (!existingUser) {
@@ -26,6 +28,22 @@ passportRouter.post("/signup", async (req, res, next) => {
   } else {
     res.render("passport/signup");
   }
+});
+
+// Create: login
+passportRouter.get("/login", isLoggedOut(), (req, res, next) => {
+  res.render("passport/login");
+});
+
+passportRouter.post(
+  "/login",
+  isLoggedOut(),
+  passport.authenticate("local", { successRedirect: "/", failureRedirect: "/" })
+);
+
+passportRouter.get("/logout", isLoggedIn(), async (req, res, next) => {
+  req.logout();
+  res.redirect("/");
 });
 
 passportRouter.get(
