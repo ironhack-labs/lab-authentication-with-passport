@@ -17,14 +17,18 @@ passportRouter.get("/signup", isLoggedOut(), (req, res, next) => {
 });
 
 passportRouter.post("/signup", isLoggedOut(), async (req, res, next) => {
-  const { username, password } = req.body;
+  const { username, password, name, lastname, year, country } = req.body;
   const existingUser = await model.findOne({ username });
   if (!existingUser) {
     const newUser = await model.create({
       username,
+      name,
+      lastname,
+      year,
+      country,
       password: hashPassword(password)
     });
-    res.redirect("/");
+    res.redirect("/login");
   } else {
     res.render("passport/signup");
   }

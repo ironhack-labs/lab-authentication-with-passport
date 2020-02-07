@@ -5,7 +5,11 @@
   <img src="../images/class.jpg" alt="bus">
 </div>
 <form method="POST" action="/signup">
-  {{> input type="email" name="username" label="Email address" placeholder="example@example.com"}}
+  {{> input type="text" name="name" label="Tu nombre" placeholder="Tu Nombre"}}
+  {{> input type="text" name="lastname" label="Tus Apellidos" placeholder="Tus Apellidos"}}
+  {{> input type="number" name="year" label="Año de Nacimiento" placeholder="Año de nacimiento"}}
+  {{> input type="text" name="country" label="País de Nacimiento" placeholder="Tu país de nacimiento"}}
+  {{> input type="email" name="username" label="Tu Email" placeholder="example@example.com"}}
   {{> input type="password" name="password" label="Password" placeholder="Your password"}}
   <button type="submit" class="btn btn-primary">Login</button>
 </form>
