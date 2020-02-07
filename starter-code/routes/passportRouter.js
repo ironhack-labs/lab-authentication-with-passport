@@ -9,6 +9,7 @@ const bcrypt = require("bcrypt");
 const bcryptSalt = 10;
 
 // Add passport
+const passport = require("passport");
 
 passportRouter.get("/signup", (req, res, next) => {
   res.render("passport/signup");
@@ -47,6 +48,25 @@ passportRouter.post("/signup", (req, res, next) => {
     .catch(error => {
       res.render("auth/signup", { message: "Something went wrong :-(" });
     });
+});
+
+passportRouter.get("/login", (req, res, next) => {
+  res.render("passport/login");
+});
+
+passportRouter.post(
+  "/login",
+  passport.authenticate("local", {
+    successRedirect: "/",
+    failureRedirect: "/login",
+    failureFlash: true,
+    passReqToCallback: true
+  })
+);
+
+passportRouter.get("/logout", (req, res) => {
+  req.logout();
+  res.redirect("/login");
 });
 
 const ensureLogin = require("connect-ensure-login");
