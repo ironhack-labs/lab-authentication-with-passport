@@ -46,12 +46,20 @@ passportRouter.get("/logout", isLoggedIn(), async (req, res, next) => {
   res.redirect("/");
 });
 
-passportRouter.get(
-  "/private-page",
-  ensureLogin.ensureLoggedIn(),
-  (req, res) => {
-    res.render("passport/private", { user: req.user });
-  }
-);
+passportRouter.get("/profile", isLoggedIn(), (req, res, next) => {
+  res.render("passport/profile");
+});
+
+passportRouter.get("/private", isLoggedIn(), (req, res, next) => {
+  res.render("passport/private");
+});
+
+// passportRouter.get(
+//   "/private-page",
+//   ensureLogin.ensureLoggedIn(),
+//   (req, res) => {
+//     res.render("passport/private", { user: req.user });
+//   }
+// );
 
 module.exports = passportRouter;
