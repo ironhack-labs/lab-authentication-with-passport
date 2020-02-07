@@ -9,6 +9,13 @@ const mongoose = require("mongoose");
 const logger = require("morgan");
 const path = require("path");
 
+const flash = require("connect-flash");
+const session = require("express-session");
+const bcrypt = require("bcrypt");
+const passport = require("passport");
+const LocalStrategy = require("passport-local").Strategy;
+const User = require("./models/user");
+
 mongoose
   .connect("mongodb://localhost/passport-auth", {
     useCreateIndex: true,
@@ -36,6 +43,51 @@ app.use(logger("dev"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+
+app.use(
+  session({
+    secret: "our-passport-local-strategy-app",
+    resave: true,
+    saveUninitialized: true
+  })
+);
+
+passport.serializeUser((user, callback) => {
+  callback(null, user._id);
+});
+
+passport.deserializeUser((id, callback) => {
+  User.findById(id)
+    .then(user => {
+      callback(null, user);
+    })
+    .catch(error => {
+      callback(error);
+    });
+});
+
+app.use(flash());
+
+passport.use(
+  new LocalStrategy(
+    { passReqToCallback: true },
+    (req, username, password, callback) => {
+      User.findOne({ username })
+        .then(user => {
+          if (!user || !bcrypt.compareSync(password, user.password)) {
+            return callback(null, false, { message: "Try again" });
+          }
+          callback(null, user);
+        })
+        .catch(error => {
+          callback(error);
+        });
+    }
+  )
+);
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Express View engine setup
 
