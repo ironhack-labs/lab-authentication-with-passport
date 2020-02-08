@@ -1,17 +1,33 @@
 const express = require("express");
-const passportRouter = express.Router();
-const bcrypt = require("bcrypt");
+const router = express.Router();
 const User = require("../models/user");
-const isLoggedIn = require("../lib/isLoggedIn");
+const { isLoggedOut } = require("../lib/isLoggedIn");
+const { hashPassword } = require("../lib/hashing");
 
 // Add bcrypt to encrypt passwords
 
 // Add passport
 
-passportRouter.get("/private-page", isLoggedIn(), (req, res) => {
-  res.render("passport/private", { user: req.user });
+router.get("/", (req, res) => {
+  res.render("passport/signup");
 });
 
-passportRouter.get("/signup");
+router.post("/", async (req, res) => {
+  const { username, password } = req.body;
+  const existingUser = await User.findOne({ username });
+  console.log("Existing User", existingUser);
+  if (!existingUser) {
+    const newUser = await User.create({
+      username,
+      password: hashPassword(password)
+    });
+    console.log(newUser);
+    // req.flash("info", `Created user ${username}`);
+    return res.redirect("/");
+  } else {
+    // req.flash("error", "User already exists with this username");
+    return res.redirect("/");
+  }
+});
 
-module.exports = passportRouter;
+module.exports = router;
