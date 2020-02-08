@@ -5,4 +5,13 @@ body {
 a {
   color: #00B7FF; }
 
+h1 {
+  margin-bottom: 30px; }
+
+.navbar {
+  margin-bottom: 50px; }
+
+.form-group {
+  max-width: 300px; }
+
 /*# sourceMappingURL=style.css.map */
