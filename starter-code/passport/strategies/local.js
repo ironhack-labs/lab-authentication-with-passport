@@ -1,5 +1,7 @@
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
+
+// Requiero el schema de User Schema
 const model = require("../../models/user");
 const { checkHashed } = require("../../lib/hashing");
 
@@ -19,4 +21,3 @@ passport.use(
     }
   })
 );
-console.log("Installed Passport Local Strategy");
