@@ -8,13 +8,18 @@ const hbs = require("hbs");
 const mongoose = require("mongoose");
 const logger = require("morgan");
 const path = require("path");
+const session = require("express-session");
+const MongoStore = require("connect-mongo")(session);
+const flash = require("flash");
+const { setLog } = require("@faable/flogg");
+setLog("express-passport");
+
+const dbUrl = process.env.DBURL;
 
 mongoose
-  .connect("mongodb://localhost/passport", { useNewUrlParser: true })
+  .connect(dbUrl, { useNewUrlParser: true })
   .then(x => {
-    console.log(
-      `Connected to Mongo! Database name: "${x.connections[0].name}"`
-    );
+    console.log(`Connected to Mongo! Database name: ${dbUrl}`);
   })
   .catch(err => {
     console.error("Error connecting to mongo", err);
@@ -33,6 +38,19 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
+app.use(
+  session({
+    secret: "keyboard cat",
+    resave: true,
+    saveUninitialized: true,
+    store: new MongoStore({ mongooseConnection: mongoose.connection })
+  })
+);
+
+app.use(flash());
+
+require("./passport")(app);
+
 // Express View engine setup
 
 app.use(
@@ -45,15 +63,29 @@ app.use(
 
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "hbs");
+hbs.registerPartials(__dirname + "/views/partials");
 app.use(express.static(path.join(__dirname, "public")));
 app.use(favicon(path.join(__dirname, "public", "images", "favicon.ico")));
 
+app.use((req, res, next) => {
+  console.log(req.session);
+  res.locals.user = req.user;
+  if (req.user) {
+    // User exists
+    req.user.visitas += 1;
+    req.user.save();
+  }
+  res.locals.errors = req.session.flash.map(e => e.message);
+  next();
+});
+
 // default value for title local
-app.locals.title = "Express - Generated with IronGenerator";
+app.locals.title = "BUSES SUR: El sur nunca estuvo lejos";
 
 // Routes middleware goes here
 const index = require("./routes/index");
 app.use("/", index);
+
 const passportRouter = require("./routes/passportRouter");
 app.use("/", passportRouter);
 
