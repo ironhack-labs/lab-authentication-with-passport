@@ -10,18 +10,21 @@ passportRouter.get('/signup', (req, res, next) => {
 });
 
 passportRouter.post('/signup', async (req, res, next) => {
-	const { username, password } = req.body;
-	const registeredUser = await User.findOne({ username });
+	try {
+		const { username, password } = req.body;
+		const registeredUser = await User.findOne({ username });
+		if (registeredUser) {
+			console.log(`User ${registeredUser.username} already exists`);
+			return res.redirect('/signup');
+		}
 
-	if (registeredUser) {
-		console.log(`User ${registeredUser.username} already exists`);
-		return res.redirect('/signup');
+		const newUser = await User.create({ username, password: hashPassword(password) });
+		console.log(`New user created: ${newUser}`);
+		res.redirect('/');
+	} catch (error) {
+		console.log('Credentials are necessary');
+		res.redirect('/signup');
 	}
-
-	const newUser = await User.create({ username, password: hashPassword(password) });
-	console.log(`New user created: ${newUser}`);
-
-	res.redirect('/');
 });
 
 // Add passport
