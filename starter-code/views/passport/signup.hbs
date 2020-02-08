@@ -2,14 +2,14 @@
  that makes a POST request to 
 /signup, with a field for username and password --}}
 
-<h2>Signup</h2>
+<h2>Sign Up</h2>
 
 <form action="/signup" method="POST" id="form-container">
   <label for="username">Username</label>
-  <input id="username" type="text" name="username" placeholder="JonSnow">
+  <input id="username" type="text" name="username" placeholder="Your username plz">
   <br><br>
   <label for="password">Password</label>
-  <input id="password" type="password" name="password" placeholder="Your password">
+  <input id="password" type="password" name="password" placeholder="Your password plz">
 
   {{#if message}}
   <div class="error-message">{{ message }}</div>
