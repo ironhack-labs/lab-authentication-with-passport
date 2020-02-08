@@ -31,6 +31,18 @@ passportRouter.post("/signup", async (req, res, next) => {
   return res.redirect("/");
 });
 
+passportRouter.get("/login", (req, res, next) => {
+  res.render("passport/login");
+});
+
+passportRouter.post(
+  "/login",
+  passport.authenticate("local", {
+    successRedirect: "/",
+    failureRedirect: "/"
+  })
+);
+
 passportRouter.get(
   "/private-page",
   ensureLogin.ensureLoggedIn(),

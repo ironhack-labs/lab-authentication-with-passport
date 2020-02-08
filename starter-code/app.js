@@ -45,7 +45,7 @@ app.use(
 );
 app.use(flash());
 
-// require("./passport")(app); // Ask Giorgio
+require("./passport")(app); // Ask Giorgio
 
 // Express View engine setup
 
