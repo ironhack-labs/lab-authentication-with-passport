@@ -19,7 +19,7 @@ const dbUrl = process.env.DBURL;
 mongoose
   .connect(dbUrl, { useNewUrlParser: true })
   .then(x => {
-    console.log(`Connected to Mongo! Database name: "${dbUrl}"`);
+    console.log(`Connected to Mongo! Database name: ${dbUrl}`);
   })
   .catch(err => {
     console.error("Error connecting to mongo", err);
