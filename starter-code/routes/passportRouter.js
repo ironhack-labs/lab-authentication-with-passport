@@ -26,7 +26,7 @@ router.post("/", async (req, res) => {
     return res.redirect("/");
   } else {
     // req.flash("error", "User already exists with this username");
-    return res.redirect("/");
+    return res.redirect("/signup");
   }
 });
 

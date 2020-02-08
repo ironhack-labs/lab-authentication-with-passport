@@ -62,14 +62,16 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(favicon(path.join(__dirname, "public", "images", "favicon.ico")));
 
 app.use(async (req, res, next) => {
-  res.locals.user = req.user;
-  next();
+  // res.locals.user = req.user;
+  // await req.user.save();
+  // next();
 
   const messageTypes = [
     { flashName: "error", className: "danger" },
     { flashName: "info", className: "info" }
   ];
   res.locals.messages = _.flatten(messageTypes.map(({ flashName, className }) => req.flash(flashName).map(message => ({ type: className, message }))));
+  console.log(res.locals.messages);
   next();
 });
 
