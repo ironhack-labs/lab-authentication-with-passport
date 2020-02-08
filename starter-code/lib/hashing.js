@@ -6,9 +6,9 @@ const hashPassword = text => {
   return hash;
 };
 
-const checkHashed = bcrypt.compareSync;
+const checkedHashed = bcrypt.compareSync;
 
 module.exports = {
   hashPassword,
-  checkHashed
+  checkedHashed
 };

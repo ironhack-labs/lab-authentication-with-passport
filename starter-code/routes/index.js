@@ -1,8 +1,10 @@
 const express = require("express");
 const router = express.Router();
-const passportRouter = require("./passportRouter");
+const signup = require("./signup");
+const login = require("./login");
 
-router.use("/signup", passportRouter);
+router.use("/signup", signup);
+router.use("/login", login);
 
 /* GET home page */
 router.get("/", (req, res, next) => {
