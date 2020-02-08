@@ -39,8 +39,8 @@ app.use(logger("dev"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(passport.initialize());
-app.use(passport.session());
+// app.use(passport.initialize());
+// app.use(passport.session());
 
 // Express View engine setup
 
@@ -60,6 +60,8 @@ app.use(
     store: new MongoStore({ mongooseConnection: mongoose.connection })
   })
 );
+
+require("./passport")(app);
 
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "hbs");
