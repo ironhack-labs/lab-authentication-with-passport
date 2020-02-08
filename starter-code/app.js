@@ -11,7 +11,7 @@ const path = require("path");
 const session = require("express-session");
 const MongoStore = require("connect-mongo")(session);
 const flash = require("flash");
-//const { setLog } = require("@faable/flogg");
+const { setLog } = require("@faable/flogg");
 setLog("express-passport");
 
 const dbUrl = process.env.DBURL;
