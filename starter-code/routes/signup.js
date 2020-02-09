@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const User = require("../models/user");
-const { isLoggedOut } = require("../lib/isLoggedIn");
+const { isLoggedOut } = require("../lib/isLogged");
 const { hashPassword } = require("../lib/hashing");
 
 // Add bcrypt to encrypt passwords
@@ -9,7 +9,7 @@ const { hashPassword } = require("../lib/hashing");
 // Add passport
 
 router.get("/", (req, res) => {
-  res.render("auth/signup");
+  res.render("auth/signup", { signup: true });
 });
 
 router.post("/", async (req, res) => {

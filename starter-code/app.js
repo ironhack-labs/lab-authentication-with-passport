@@ -66,13 +66,21 @@ app.use(async (req, res, next) => {
   // res.locals.user = req.user;
   // await req.user.save();
   // next();
+  res.locals = {
+    home: false,
+    documents: false,
+    login: false,
+    signup: false
+  };
+
+  res.locals.user = req.user;
 
   const messageTypes = [
     { flashName: "error", className: "danger" },
     { flashName: "info", className: "info" }
   ];
   res.locals.messages = _.flatten(messageTypes.map(({ flashName, className }) => req.flash(flashName).map(message => ({ type: className, message }))));
-  console.log(res.locals.messages);
+  console.log("messages", res.locals.messages);
   next();
 });
 
