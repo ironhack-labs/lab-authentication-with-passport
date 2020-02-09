@@ -7,8 +7,8 @@
   <label for="password">Password</label><br>
   <input type="password" name="password" placeholder="password">
 
-  {{#if errorMessage}}
-  <div class="error-message">{{errorMessage}}</div>
+  {{#if errors}}
+  {{> errors}}
   {{/if}}
 
   <button>Login</button>

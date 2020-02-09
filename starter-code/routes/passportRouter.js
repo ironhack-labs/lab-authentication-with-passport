@@ -8,6 +8,7 @@ const { hashPassword, checkHashed } = require("../lib/hashing");
 const passport = require("passport");
 // Add LoggedIn Middleware
 const ensureLogin = require("connect-ensure-login");
+const strength = require("strength");
 
 router.get("/register", ensureLogin.ensureLoggedOut(), (req, res, next) => {
   res.render("passport/register");
@@ -18,17 +19,32 @@ router.post(
   ensureLogin.ensureLoggedOut(),
   async (req, res, next) => {
     const { username, password } = req.body;
-    const existingUser = await User.findOne({ username });
-    if (!existingUser) {
-      const newUser = User.create({
-        username,
-        password: hashPassword(password)
-      });
-      //req.flash(`Created user ${username}`)
-      return res.redirect("/");
-    } else {
-      req.flash("User already exist with this username");
+    if (username === "" || password === "") {
+      req.flash("error", "Indicate an username and password to signup");
       return res.redirect("/auth/register");
+    } else {
+      try {
+        const existingUser = await User.findOne({ username });
+        if (!existingUser && strength(password) >= 3) {
+          const newUser = await User.create({
+            username,
+            password: hashPassword(password)
+          });
+          console.log(strength(password));
+          return res.redirect("/");
+        } else if (strength(password) < 3) {
+          req.flash(
+            "error",
+            "Create a password with mixed case, special character and number (minimun 8 characters and no repeated letters)"
+          );
+          return res.redirect("/auth/register");
+        } else {
+          req.flash("error", "The user already exists");
+          return res.redirect("/auth/register");
+        }
+      } catch (e) {
+        next(e);
+      }
     }
   }
 );
@@ -40,19 +56,14 @@ router.get("/login", ensureLogin.ensureLoggedOut(), (req, res, next) => {
 router.post(
   "/login",
   ensureLogin.ensureLoggedOut(),
-  passport.authenticate("local", { failureRedirect: "/auth/login" }),
+  passport.authenticate("local", {
+    failureRedirect: "/auth/login",
+    failureFlash: "Wrong username and/or password"
+  }),
   function(req, res) {
     res.redirect("/");
   }
 );
-/*
-app.post(
-  "/login",
-  passport.authenticate("local", { failureRedirect: "/login" }),
-  function(req, res) {
-    res.redirect("/");
-  }
-);*/
 
 router.get(
   "/logout",
@@ -63,8 +74,12 @@ router.get(
   }
 );
 
-router.get("/private-page", ensureLogin.ensureLoggedIn(), (req, res) => {
-  res.render("passport/private", { user: req.user });
-});
+router.get(
+  "/private-page",
+  ensureLogin.ensureLoggedIn("/auth/login"),
+  (req, res) => {
+    res.render("passport/private", { user: req.user });
+  }
+);
 
 module.exports = router;

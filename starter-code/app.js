@@ -69,6 +69,7 @@ app.use(favicon(path.join(__dirname, "public", "images", "favicon.ico")));
 app.use((req, res, next) => {
   res.locals.user = req.user;
   res.locals.errors = req.flash("error");
+  console.log(res.locals.errors);
   next();
 });
 

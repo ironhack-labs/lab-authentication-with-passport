@@ -123,4 +123,8 @@ a {
 .bg-light {
   background-color: #b9dddb !important; }
 
+.dropdown-menu {
+  background-color: #e2f8f6;
+  border: 1px solid #b9dddb; }
+
 /*# sourceMappingURL=style.css.map */
