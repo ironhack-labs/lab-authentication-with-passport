@@ -1,5 +1,7 @@
 const express = require("express");
 const passportRouter = express.Router();
+const passport = require("passport");
+
 // Require user model
 const User = require("../models/user");
 
@@ -46,6 +48,22 @@ passportRouter.post("/signup", async (req, res, next) => {
     console.log(`Error creating new user ${error}`);
     return res.render("passport/signup");
   }
+});
+
+passportRouter.get("/login", (req, res, next) => {
+  res.render("passport/login", {message: req.flash("error")});
+});
+
+passportRouter.post("/login", passport.authenticate("local", {
+  successRedirect: "/",
+  failureRedirect: "/login",
+  failureFlash: true,
+  passReqToCallback: true
+}));
+
+passportRouter.get("/logout", (req, res) => {
+  req.logout();
+  res.redirect("/login");
 });
 
 passportRouter.get("/private-page", ensureLogin.ensureLoggedIn(), (req, res) => {

@@ -15,9 +15,13 @@
 
   <nav class="nav nav-pills flex-column flex-sm-row">
     <a class="flex-sm-fill text-sm-center nav-link" href="/">Home</a>
-    <a class="flex-sm-fill text-sm-center nav-link" href="/signup">Sigup</a>
+    {{#unless user}}
+    <a class="flex-sm-fill text-sm-center nav-link" href="/signup">Signup</a>
     <a class="flex-sm-fill text-sm-center nav-link" href="/login">Login</a>
-    <a class="flex-sm-fill text-sm-center nav-link" href="#">Private</a>
+    {{else}}
+    <a class="flex-sm-fill text-sm-center nav-link" href="/private-page">Private</a>
+    <a class="flex-sm-fill text-sm-center nav-link" href="/logout">Logout</a>
+    {{/unless}}
   </nav>
 
   {{{body}}}
