@@ -1,0 +1,51 @@
+{{!-- <h2>Signup</h2>
+
+<form action="/signup" method="POST" id="form-container">
+  <label for="username">Username</label>
+  <input id="username" type="text" name="username" placeholder="JonSnow">
+  <br><br>
+  <label for="password">Password</label>
+  <input id="password" type="password" name="password" placeholder="Your password">
+
+  {{#if message}}
+    <div class="error-message">{{ message }}</div>
+  {{/if}}
+  <br><br>
+
+  <button>Create account</button>
+
+  <p class="account-message">
+    Do you already have an account?
+    <a href="/login">Login</a>
+  </p>
+</form> --}}
+
+
+<div class="form-container mt-5">
+  <form class="form-signin" action="/signup" method="POST">
+    <div class="text-center mb-4">
+      <img class="mb-4" src="/docs/4.4/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
+      <h1 class="h3 mb-3 font-weight-normal">☁ <br><br>Sign Up</h1>
+      {{!-- <p>Edit this celebrity using this beautiful form<br>made with ♥ and Bootstrap.</p> --}}
+    </div>
+
+    <div class="form-label-group">
+      <input type="text" name="username" class="form-control" placeholder="Name" required
+        autofocus>
+      <label for="username">Name</label>
+    </div>
+
+    <div class="form-label-group">
+      <input type="password" name="password" class="form-control" placeholder="Password"
+         required autofocus>
+      <label for="password">Password</label>
+    </div>
+
+    <button class="btn btn-lg btn-primary btn-block" type="submit">SIGN UP</button>
+    <p class="account-message mt-2 text-center">
+    Do you already have an account?
+    <a href="/login">Login</a>
+  </p>
+    <p class="mt-5 mb-3 text-muted text-center">&copy; Iván Herranz</p>
+  </form>
+</div>

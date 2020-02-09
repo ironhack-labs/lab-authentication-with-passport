@@ -1,0 +1,45 @@
+{{!-- <form action="/login" method="POST">
+  <div>
+    <label for="username">Username:</label>
+    <input type="text" name="username">
+  </div>
+  <div>
+    <label for="password">Password:</label>
+    <input type="password" name="password">
+  </div>
+  {{#if message}}
+    <div class="error-message">{{ message }}</div>
+  {{/if}}
+  <div>
+    <input type="submit" value="Log In">
+  </div>
+  <p class="account-message">
+    Don't have an account? <a href="/signup">Sign up</a>
+  </p>
+</form> --}}
+
+
+<div class="form-container mt-5">
+  <form class="form-signin" action="/login" method="POST">
+    <div class="text-center mb-4">
+      <img class="mb-4" src="/docs/4.4/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
+      <h1 class="h3 mb-3 font-weight-normal">☁ <br><br>Log In</h1>
+      {{!-- <p>Edit this celebrity using this beautiful form<br>made with ♥ and Bootstrap.</p> --}}
+    </div>
+
+    <div class="form-label-group">
+      <input type="text" name="username" class="form-control" placeholder="Name" required
+        autofocus>
+      <label for="username">Name</label>
+    </div>
+
+    <div class="form-label-group">
+      <input type="password" name="password" class="form-control" placeholder="Password"
+         required autofocus>
+      <label for="password">Password</label>
+    </div>
+
+    <button class="btn btn-lg btn-primary btn-block" type="submit">LOG IN</button>
+    <p class="mt-5 mb-3 text-muted text-center">&copy; Iván Herranz</p>
+  </form>
+</div>
