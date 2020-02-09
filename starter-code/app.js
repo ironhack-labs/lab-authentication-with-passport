@@ -15,6 +15,7 @@ const bcrypt = require("bcrypt");
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const User = require("./models/user")
+const flash = require("connect-flash");
 
 
 mongoose
@@ -45,7 +46,7 @@ app.use(session({
 }));
 
 
-//Define 3 methdods Passport needs to work. Strategy methods:
+//Define 3 methods Passport needs to work. Strategy methods:
 // - Strategy - Defines strategy we are going to use
 // - Serialize & Deserialize - Helps keep the amount of data
 //   in the session as small as we need. These functions will
@@ -63,7 +64,12 @@ passport.deserializeUser((id, cb) => {
   });
 });
 
-passport.use(new LocalStrategy((username, password, next) => {
+//Added flash to manage flash errors in Passport.
+app.use(flash());
+
+passport.use(new LocalStrategy({
+  passReqToCallback: true
+}, (req, username, password, next) => {
   User.findOne({ username }, (err, user) => {
     if (err) {
       return next(err);
