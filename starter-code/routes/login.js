@@ -3,12 +3,13 @@ const router = express.Router();
 const passport = require("passport");
 const { isLoggedIn, isLoggedOut } = require("../lib/isLogged");
 
-router.get("/", (req, res) => {
+router.get("/", isLoggedOut(), (req, res) => {
   res.render("auth/login", { login: true });
 });
 
 router.post(
   "/",
+  isLoggedOut(),
   passport.authenticate("local", {
     successRedirect: "/",
     failureRedirect: "/login"

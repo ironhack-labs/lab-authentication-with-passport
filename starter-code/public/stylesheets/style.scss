@@ -11,6 +11,12 @@ a {
   width: 100vw;
   background-image: url("../images/passport.jpg");
 }
+.passport-img {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 50px;
+}
 form {
   margin: 50px 300px;
 }

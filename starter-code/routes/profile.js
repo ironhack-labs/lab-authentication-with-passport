@@ -1,21 +1,23 @@
 const express = require("express");
 const router = express.Router();
 const User = require("../models/user");
+const { isLoggedIn, isLoggedOut } = require("../lib/isLogged");
 
-router.get("/", (req, res) => {
+router.get("/", isLoggedIn(), (req, res) => {
   const { id, firstname, lastname, username } = req.body;
   console.log("firstname", firstname, "lastname", lastname, "username", username);
   res.render("auth/profile");
 });
 
-router.post("/", async (req, res) => {
+router.post("/", isLoggedIn(), async (req, res) => {
   const { firstname, lastname, username } = req.body;
   console.log("firstname", firstname, "lastname", lastname, "username", username);
-  await User.findByIdAndUpdate(req.user._id, {
+  await User.findOneAndUpdate(username, {
     firstname,
     lastname,
     username
   });
-  res.redirect("/profile");
+  req.flash("info", "Updated User");
+  return res.redirect("/profile");
 });
 module.exports = router;
