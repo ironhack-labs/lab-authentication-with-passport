@@ -16,6 +16,7 @@ const User = require("./models/user");
 const MongoStore = require("connect-mongo")(session);
 // const flash = require("connect-flash");
 
+//Definicion de la base de datos
 mongoose
   .connect("mongodb://localhost/express-connect", { useNewUrlParser: true })
   .then(x => {
@@ -54,14 +55,12 @@ app.use(
 
 app.use(
   session({
-    secret: "our-passport-local-strategy-app",
+    secret: "keyboard cat",
     resave: true,
     saveUninitialized: true,
     store: new MongoStore({ mongooseConnection: mongoose.connection })
   })
 );
-
-require("./passport")(app);
 
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "hbs");
@@ -70,6 +69,8 @@ app.use(favicon(path.join(__dirname, "public", "images", "favicon.ico")));
 
 // default value for title local
 app.locals.title = "Express - Generated with IronGenerator";
+
+require("./passport")(app);
 
 passport.serializeUser((user, callback) => {
   callback(null, user._id);
@@ -109,3 +110,5 @@ const passportRouter = require("./routes/passportRouter");
 app.use("/", passportRouter);
 
 module.exports = app;
+
+//importante el orden de definicion de las rutas, el require("./passport")(app); siempre tiene que ir debajo de las sesiones
