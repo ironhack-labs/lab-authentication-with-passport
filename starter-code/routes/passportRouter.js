@@ -1,31 +1,49 @@
 const express = require("express");
-const router = express.Router();
+const Router = express.Router();
+const model = require("../models/user");
 const { hashPassword, checkHashed } = require("../lib/hashing");
-// Require user model
-const User = require("../models/user");
-// Add bcrypt to encrypt passwords
-const bcrypt = require("bcryptjs");
-const salt = bcrypt.genSaltSync(10);
-// Add passport
-router.get("/signup", (req, res, next) => {
+const passport = require("passport");
+const { isLoggedIn, isLoggedOut } = require("../lib/isLoggedMiddleware");
+
+Router.get("/signup", (req, res, next) => {
   res.render("passport/signup");
 });
 
-router.post("/signup", async (req, res, next) => {
+Router.post("/signup", async (req, res, next) => {
   const { username, password } = req.body;
-  const existUser = await User.findOne({ username });
-  const newUser = await User.create({
-    username,
-    password: hashPassword(password)
-  });
-  console.log(`User Creater: ${newUser}`);
-  return res.redirect("/");
+  const existingUser = await model.findOne({ username });
+  if (!existingUser) {
+    const newUser = await model.create({
+      username,
+      password: hashPassword(password)
+    });
+    console.log(`Creado el usuario ${username}`);
+    res.redirect("/");
+  } else {
+    res.render("/signup");
+  }
 });
 
-const ensureLogin = require("connect-ensure-login");
+Router.get("/login", isLoggedOut(), (req, res, next) => {
+  res.render("passport/login");
+});
 
-router.get("/private-page", ensureLogin.ensureLoggedIn(), (req, res) => {
+Router.post(
+  "/login",
+  isLoggedOut(),
+  passport.authenticate("local", {
+    successRedirect: "/",
+    failureRedirect: "/signup"
+  })
+);
+
+Router.get("/logout", isLoggedIn(), async (req, res, next) => {
+  req.logout();
+  res.redirect("/");
+});
+
+Router.get("/private-page", isLoggedIn(), (req, res) => {
   res.render("passport/private", { user: req.user });
 });
 
-module.exports = router;
+module.exports = Router;
