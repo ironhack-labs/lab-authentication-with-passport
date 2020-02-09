@@ -20,7 +20,9 @@ passportRouter.post('/signup', async (req, res, next) => {
 		} else {
 			const newUser = await User.create({ username, password: hashPassword(password) });
 			console.log(`New user created: ${newUser}`);
-			res.redirect('/');
+			req.login(newUser, error => {
+				res.redirect('/private-page');
+			});
 		}
 	} catch (error) {
 		console.log('Credentials are necessary');
@@ -30,7 +32,7 @@ passportRouter.post('/signup', async (req, res, next) => {
 
 // Login route
 passportRouter.get('/login', (req, res, next) => {
-	res.render('passport/login');
+	res.render('passport/login', { title: 'Login' });
 });
 
 passportRouter.post('/login', passport.authenticate('local', { successRedirect: '/', failureRedirect: '/login' }));
@@ -46,7 +48,7 @@ passportRouter.get('/logout', (req, res, next) => {
 const ensureLogin = require('connect-ensure-login');
 
 passportRouter.get('/private-page', ensureLogin.ensureLoggedIn(), (req, res) => {
-	res.render('passport/private', { user: req.user });
+	res.render('passport/private', { user: req.user, title: req.user.username });
 });
 
 module.exports = passportRouter;
