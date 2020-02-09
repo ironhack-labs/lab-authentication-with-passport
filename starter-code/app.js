@@ -8,6 +8,12 @@ const hbs = require('hbs');
 const mongoose = require('mongoose');
 const logger = require('morgan');
 const path = require('path');
+const session = require('express-session');
+const MongoStore = require('connect-mongo')(session);
+const passport = require('passport');
+const LocalStrategy = require('passport-local').Strategy;
+const { checkHash } = require('./lib/hashing');
+const User = require('./models/user');
 
 mongoose
 	.connect(process.env.MONGODB_URL, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true })
@@ -28,9 +34,30 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(
+	session({
+		secret: 'passport-auth',
+		resave: true,
+		saveUninitialized: false,
+		store: new MongoStore({
+			mongooseConnection: mongoose.connection
+		})
+	})
+);
+passport.use(
+	new LocalStrategy(async (username, password, done) => {
+		const registeredUser = await User.findOne({ username });
+		if (!registeredUser || !checkHash(password, registeredUser.password)) {
+			console.log('invalid credentials');
+			return done(null, false);
+		} else {
+			console.log(`${registeredUser} just logged in`);
+			return done(null, registeredUser);
+		}
+	})
+);
 
 // Express View engine setup
-
 app.use(
 	require('node-sass-middleware')({
 		src: path.join(__dirname, 'public'),
