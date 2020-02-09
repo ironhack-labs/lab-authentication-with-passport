@@ -18,7 +18,7 @@ passportRouter.post("/signup", (req, res, next) => {
   const username = req.body.username;
   const password = req.body.password;
 
-  const ensureLogin = require("connect-ensure-login");
+
 
   if (username === "" || password === "") {
     res.render("auth/signup", { message: "Indicate username and password" });
@@ -54,10 +54,12 @@ passportRouter.post("/signup", (req, res, next) => {
 });
 
 
+const ensureLogin = require("connect-ensure-login");
 
 passportRouter.get("/private-page", ensureLogin.ensureLoggedIn(), (req, res) => {
   res.render("passport/private", { user: req.user });
 });
+
 
 
 
