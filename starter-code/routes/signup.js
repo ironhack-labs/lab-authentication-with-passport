@@ -9,7 +9,7 @@ const { hashPassword } = require("../lib/hashing");
 // Add passport
 
 router.get("/", (req, res) => {
-  res.render("auth/signup");
+  res.render("auth/signup", { signup: true });
 });
 
 router.post("/", async (req, res) => {

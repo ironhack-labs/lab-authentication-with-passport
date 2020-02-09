@@ -8,7 +8,7 @@ router.use("/login", login);
 
 /* GET home page */
 router.get("/", (req, res, next) => {
-  res.render("index");
+  res.render("index", { home: true });
 });
 
 module.exports = router;
