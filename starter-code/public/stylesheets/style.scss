@@ -8,6 +8,15 @@ form {
 		margin-top: 2em;
 	}
 }
+.home-page {
+	img {
+		max-width: 90%;
+		border-radius: .5em;
+	}
+}
+.title {
+	color: #7c4dff;
+}
 
 .username {
 	color: #ec407a;
@@ -22,6 +31,6 @@ form {
 	}
 	img {
 		margin-top: 1em;
-		max-width: 90%;
+		width: 50%;
 	}
 }
