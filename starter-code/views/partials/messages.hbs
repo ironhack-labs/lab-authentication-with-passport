@@ -1,0 +1,15 @@
+{{#if errors}}
+{{#each errors}}
+<div class="alert alert-danger fixed-bottom text-center" role="alert">
+  {{this}}
+</div>
+{{/each}}
+{{/if}}
+
+{{#if success}}
+{{#each success}}
+<div class="alert alert-primary fixed-bottom text-center" role="alert">
+  {{this}}
+</div>
+{{/each}}
+{{/if}}

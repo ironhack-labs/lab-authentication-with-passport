@@ -7,9 +7,12 @@
     <div class="navbar-nav">
       <a class="nav-item nav-link" href="/">Home</a>
       <a class="nav-item nav-link" href="/private-page">Private page</a>
+      {{#if user}}
+      <a class="nav-item nav-link" href="/logout">Log out</a>
+      {{else}}
       <a class="nav-item nav-link" href="/signup">Sign up</a>
       <a class="nav-item nav-link" href="/login">Log in</a>
-      <a class="nav-item nav-link" href="/logout">Log out</a>
+      {{/if}}
     </div>
   </div>
 </nav>

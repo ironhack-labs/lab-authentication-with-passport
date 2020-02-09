@@ -44,8 +44,6 @@ app.use(
   })
 );
 
-app.use(flash());
-
 // Passport
 passport.serializeUser((user, cb) => {
   cb(null, user._id);
@@ -76,6 +74,11 @@ passport.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
+app.use((req, res, next) => {
+  res.locals.user = req.user;
+  next();
+});
+
 // Middleware Setup
 app.use(logger("dev"));
 app.use(bodyParser.json());
@@ -98,7 +101,15 @@ app.use(favicon(path.join(__dirname, "public", "images", "favicon.ico")));
 hbs.registerPartials(__dirname + "/views/partials");
 
 // default value for title local
-app.locals.title = "Express - Generated with IronGenerator";
+app.locals.title = "Passport";
+
+// Flash
+app.use(flash());
+app.use((req, res, next) => {
+  res.locals.errors = req.flash("error");
+  res.locals.success = req.flash("success");
+  next();
+});
 
 // Routes middleware goes here
 const index = require("./routes/index");

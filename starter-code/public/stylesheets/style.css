@@ -1,8 +1,25 @@
 body {
-  padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif; }
 
 a {
-  color: #00B7FF; }
+  color: #00b7ff; }
+
+.auth-form {
+  width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  position: relative;
+  margin-bottom: 60px;
+  background-color: rgba(200, 200, 200, 0.1);
+  box-shadow: 0 0 5px #ccc; }
+
+.alert {
+  margin: 0;
+  border-radius: 0;
+  transition: all 0.5s ease-in;
+  opacity: 0; }
+
+.showAlert {
+  opacity: 1; }
 
 /*# sourceMappingURL=style.css.map */
