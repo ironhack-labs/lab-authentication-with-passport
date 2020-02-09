@@ -18,15 +18,32 @@
       </a>
       <ul id="nav-mobile" class="left hide-on-med-and-down">
         <li><a href="/">Home</a></li>
-        <li><a href="/signup">Signup</a></li>
-        <li><a href="/login">Login</a></li>
       </ul>
+      {{#if user}}
+        <ul class="right">
+          <li><a href="">Welcome, {{user.username}}</a></li>  
+          <li class="hide-on-med-and-down"><a href="/logout">Logout</a></li>
+        </ul>
+      {{else}}
+        <ul class="left hide-on-med-and-down">
+          <li><a href="/signup">Signup</a></li>
+          <li><a href="/login">Login</a></li>
+        </ul>
+      {{/if}}
     </div>
   </nav>
-  <ul class="sidenav" id="mobile-links">
-    <li><a href="/signup">Signup</a></li>
-    <li><a href="/login">Login</a></li>
-  </ul>
+  {{#if user}}
+    <ul class="sidenav" id="mobile-links">
+      <li><a href="/">Home</a></li>
+      <li><a href="/logout">Logout</a></li>
+    </ul>
+  {{else}}
+    <ul class="sidenav" id="mobile-links">
+      <li><a href="/">Home</a></li>
+      <li><a href="/signup">Signup</a></li>
+      <li><a href="/login">Login</a></li>
+    </ul>
+  {{/if}}
   
   {{{body}}}
 
