@@ -1,17 +1,54 @@
-const express        = require("express");
+const express = require('express');
 const passportRouter = express.Router();
-// Require user model
+const User = require('../models/user');
+const { hashPassword } = require('../lib/hashing');
+const passport = require('passport');
 
-// Add bcrypt to encrypt passwords
+// Signup route
+passportRouter.get('/signup', (req, res, next) => {
+	res.render('passport/signup', { title: 'Register now!' });
+});
 
-// Add passport 
+passportRouter.post('/signup', async (req, res, next) => {
+	try {
+		const { username, password } = req.body;
+		const registeredUser = await User.findOne({ username });
 
+		if (registeredUser) {
+			console.log(`User ${registeredUser.username} already exists`);
+			return res.redirect('/signup');
+		} else {
+			const newUser = await User.create({ username, password: hashPassword(password) });
+			console.log(`New user created: ${newUser}`);
+			req.login(newUser, error => {
+				res.redirect('/private-page');
+			});
+		}
+	} catch (error) {
+		console.log('Credentials are necessary');
+		res.redirect('/signup');
+	}
+});
 
-const ensureLogin = require("connect-ensure-login");
+// Login route
+passportRouter.get('/login', (req, res, next) => {
+	res.render('passport/login', { title: 'Login' });
+});
 
+passportRouter.post('/login', passport.authenticate('local', { successRedirect: '/', failureRedirect: '/login' }));
 
-passportRouter.get("/private-page", ensureLogin.ensureLoggedIn(), (req, res) => {
-  res.render("passport/private", { user: req.user });
+// Logout
+passportRouter.get('/logout', (req, res, next) => {
+	console.log(req.user.username, 'just logged out');
+	req.logout();
+	res.redirect('/');
+});
+
+// Add passport
+const ensureLogin = require('connect-ensure-login');
+
+passportRouter.get('/private-page', ensureLogin.ensureLoggedIn(), (req, res) => {
+	res.render('passport/private', { user: req.user, title: req.user.username });
 });
 
 module.exports = passportRouter;

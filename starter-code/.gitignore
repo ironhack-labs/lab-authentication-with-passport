@@ -1,8 +1,14 @@
-# Dependency directory
+# Dependencies
 node_modules
 
 # Debug log from npm
 npm-debug.log
 
-# Environment Variables should NEVER be published
+# Environment Variables 
 .env
+
+# macOS
+.DS_Store
+
+# Visual Studio Code settings
+.vscode
