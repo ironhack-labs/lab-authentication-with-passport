@@ -1,0 +1,7 @@
+{{#if messages}}
+{{#each messages}}
+<div class="alert alert-{{this.type}}">
+  <span style="margin-right:5px">{{this.message}}</span>
+</div>
+{{/each}}
+{{/if}}
