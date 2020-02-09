@@ -1,3 +1,3 @@
-form .input-field input[type=text]:focus,form .input-field input[type=password]:focus{border-bottom:1px solid #ff4081 !important;box-shadow:0 1px 0 #ff4081 !important}form .btn{margin-top:2em}
+form .input-field input[type=text]:focus,form .input-field input[type=password]:focus{border-bottom:1px solid #ff4081 !important;box-shadow:0 1px 0 #ff4081 !important}form .btn{margin-top:2em}.username{color:#ec407a}.card .card-content{color:#8e24aa}.card .card-reveal{color:#ec407a}.card img{margin-top:1em;max-width:90%}
 
 /*# sourceMappingURL=style.css.map */
