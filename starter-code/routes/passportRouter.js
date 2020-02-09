@@ -59,13 +59,13 @@ passportRouter.post("/signup", (req, res, next) => {
 
 //LOG IN
 passportRouter.get("/login", (req, res, next) => {
-  res.render("passport/login");
+  res.render("passport/login", { "message": req.flash("error") });
 });
 
 passportRouter.post("/login", passport.authenticate("local", {
   successRedirect: "/",
   failureRedirect: "/login",
-  failureFlash: true,
+  failureFlash: true, //will allow us to use flash messages in our application
   passReqToCallback: true
 }));
 
