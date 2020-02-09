@@ -9,7 +9,7 @@ const passport = require("passport");
 // Add LoggedIn Middleware
 const ensureLogin = require("connect-ensure-login");
 
-router.get("/register", (req, res, next) => {
+router.get("/register", ensureLogin.ensureLoggedOut(), (req, res, next) => {
   res.render("passport/register");
 });
 
@@ -28,6 +28,26 @@ router.post("/register", async (req, res, next) => {
     return res.redirect("/auth/register");
   }
 });
+
+router.get("/login", (req, res, next) => {
+  res.render("passport/login");
+});
+
+router.post(
+  "/login",
+  passport.authenticate("local", { failureRedirect: "/auth/login" }),
+  function(req, res) {
+    res.redirect("/");
+  }
+);
+/*
+app.post(
+  "/login",
+  passport.authenticate("local", { failureRedirect: "/login" }),
+  function(req, res) {
+    res.redirect("/");
+  }
+);*/
 
 router.get("/private-page", ensureLogin.ensureLoggedIn(), (req, res) => {
   res.render("passport/private", { user: req.user });

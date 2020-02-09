@@ -45,8 +45,10 @@ app.use(
     store: new MongoStore({ mongooseConnection: mongoose.connection })
   })
 );
-//require("./passport")(app);
+
 app.use(flash());
+
+require("./passport")(app);
 
 // Express View engine setup
 
