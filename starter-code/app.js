@@ -44,6 +44,15 @@ app.use(
 		})
 	})
 );
+passport.serializeUser((user, done) => done(null, user._id));
+passport.deserializeUser((id, done) => {
+	console.log('deserializing user');
+	User.findById(id)
+		.then(user => {
+			done(null, user);
+		})
+		.catch(error => done(error));
+});
 passport.use(
 	new LocalStrategy(async (username, password, done) => {
 		const registeredUser = await User.findOne({ username });
@@ -56,6 +65,15 @@ passport.use(
 		}
 	})
 );
+app.use(passport.initialize());
+app.use(passport.session());
+
+// Setup user for every view
+app.use((req, res, next) => {
+	console.log(req.session);
+	res.locals.user = req.user;
+	next();
+});
 
 // Express View engine setup
 app.use(
