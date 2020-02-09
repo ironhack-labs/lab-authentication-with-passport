@@ -6,7 +6,7 @@ const User = require("../models/user");
 const bcrypt = require("bcrypt");
 const bcryptSalt = 10;
 // Add passport 
-
+const passport = require("passport");
 //Get
 passportRouter.get("/signup", (req, res, next) => {
   res.render("passport/signup");
@@ -54,15 +54,30 @@ passportRouter.post("/signup", (req, res, next) => {
 });
 
 
+//LOG IN
+
+passportRouter.get("/login", (req, res, next) => {
+  res.render("passport/login");
+});
+
+passportRouter.post("/login", passport.authenticate("local", {
+  successRedirect: "/",
+  failureRedirect: "/login",
+  failureFlash: true,
+  passReqToCallback: true
+}));
+
+
+// passportRouter.get("/logout", (req, res) => {
+//   req.logout();
+//   res.redirect("/login");
+// });
+
+
 const ensureLogin = require("connect-ensure-login");
 
 passportRouter.get("/private-page", ensureLogin.ensureLoggedIn(), (req, res) => {
   res.render("passport/private", { user: req.user });
 });
-
-
-
-
-
 
 module.exports = passportRouter;
