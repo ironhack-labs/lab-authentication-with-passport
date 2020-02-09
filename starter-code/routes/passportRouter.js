@@ -1,24 +1,15 @@
 const express = require("express");
-const passportRouter = express.Router();
+const router = express.Router();
 const ensureLogin = require("connect-ensure-login");
 const User = require("../models/user");
 const bcrypt = require("bcrypt");
 const bcryptSalt = 10;
-const router = express.Router();
-
-passportRouter.get(
-  "/private-page",
-  ensureLogin.ensureLoggedIn(),
-  (req, res) => {
-    res.render("passport/private", { user: req.user });
-  }
-);
+const passport = require("passport");
 
 //router sigunp passport GET
 router.get("/signup", (req, res, next) => {
   res.render("passport/signup");
 });
-
 //router signup passport POST
 router.post("/signup", (req, res, next) => {
   const { username, password } = req.body;
@@ -51,6 +42,27 @@ router.post("/signup", (req, res, next) => {
       res.render("passport/signup", { message: "Something went wrong" });
     });
 });
-
+//LOGIN
+router.get("/login", (req, res, next) => {
+  res.render("passport/login", { message: req.flash("error") });
+});
+router.post(
+  "/login",
+  passport.authenticate("local", {
+    successRedirect: "/",
+    failureRedirect: "/login",
+    failureFlash: true,
+    passReqToCallback: true
+  })
+);
+//LOGOUT
+router.get("/logout", (req, res, text) => {
+  req.logOut();
+  return res.redirect("/");
+});
+//PRIVATE-PAGE
+router.get("/private-page", ensureLogin.ensureLoggedIn(), (req, res) => {
+  res.render("passport/private", { user: req.user });
+});
 //always export with router const(line7)
 module.exports = router;
