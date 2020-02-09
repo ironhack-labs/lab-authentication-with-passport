@@ -1,2 +1,3 @@
+form .input-field input[type=text]:focus,form .input-field input[type=password]:focus{border-bottom:1px solid #ff4081 !important;box-shadow:0 1px 0 #ff4081 !important}form .btn{margin-top:2em}
 
 /*# sourceMappingURL=style.css.map */
