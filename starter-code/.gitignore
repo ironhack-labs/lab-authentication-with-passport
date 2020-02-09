@@ -1,5 +1,7 @@
 # Dependency directory
 node_modules
+.DS_Store
+.vscode
 
 # Debug log from npm
 npm-debug.log

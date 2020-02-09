@@ -1,0 +1,21 @@
+<section>
+  <h2>Log In</h2>
+  <form action="/login" method="POST" class="col col-sm-6">
+    <div class="form-group">
+      <label for="username">Email address</label>
+      <input id="username" class="form-control" type="email" name="username" placeholder="sansastark@winterfell.com">
+    </div>
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input id="password" type="password" class="form-control" name="password" placeholder="Your password">
+    </div>
+    {{#if message}}
+    <div class="error-message">{{ message }}</div>
+    {{/if}}
+    <button type="submit" class="btn btn-primary">Log in</button>
+    <p class="account-message">
+      Don't you have an account?
+      <a href="/signin">Sign in</a>
+    </p>
+  </form>
+</section>
