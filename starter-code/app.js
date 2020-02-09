@@ -74,7 +74,7 @@ app.use((req, res, next) => {
 });
 
 // default value for title local
-app.locals.title = "Express - Generated with IronGenerator";
+app.locals.title = "Passport authentication";
 
 // Routes middleware goes here
 const index = require("./routes/index");

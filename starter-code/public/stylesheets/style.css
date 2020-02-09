@@ -1,14 +1,14 @@
 body {
   padding: 0px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-  background-color: #e2f8f6; }
+  background-color: #dde2e2; }
 
 .center-title {
   text-align: center;
   margin: 40px 0; }
 
 footer {
-  background-color: #b9dddb;
+  background-color: #ccd3d3;
   height: 50px;
   display: flex;
   align-content: center; }
@@ -17,14 +17,14 @@ footer {
     padding: 0 20px; }
 
 a {
-  color: #ff9f1c; }
+  color: #57886c; }
   a :hover {
-    color: #ff9f1c; }
+    color: #57886c; }
 
 /* Paso 6 */
 #form {
-  background: #e2f8f6;
-  border: 1px solid #b9dddb;
+  background: #dde2e2;
+  border: 1px solid #ccd3d3;
   border-radius: 10px;
   margin: 30px auto;
   width: 500px;
@@ -39,8 +39,8 @@ a {
 
 #form input,
 #form button {
-  background: #e2f8f6;
-  border: 1px solid #b9dddb;
+  background: #dde2e2;
+  border: 1px solid #ccd3d3;
   border-radius: 5px;
   box-sizing: border-box;
   font-size: 14px;
@@ -50,8 +50,8 @@ a {
   margin-bottom: 20px; }
 
 #form button {
-  background: #ff9f1c;
-  border: 1px solid #ff9f1c;
+  background: #57886c;
+  border: 1px solid #57886c;
   border-radius: 4px;
   color: #fff;
   cursor: pointer;
@@ -64,8 +64,8 @@ a {
   width: 100%; }
 
 #form button:hover {
-  background: #e2f8f6;
-  color: #ff9f1c;
+  background: #dde2e2;
+  color: #57886c;
   transition: 0.3s ease background; }
 
 /* Paso 9 damos estilo al mensage de error*/
@@ -89,8 +89,8 @@ a {
   width: 60vw; }
 
 .private-main a {
-  background: #ff9f1c;
-  border: 1px solid #ff9f1c;
+  background: #57886c;
+  border: 1px solid #57886c;
   border-radius: 4px;
   color: #fff;
   cursor: pointer;
@@ -104,8 +104,8 @@ a {
   text-align: center;
   margin: 10px; }
   .private-main a :hover {
-    background: #e2f8f6;
-    color: #ff9f1c;
+    background: #dde2e2;
+    color: #57886c;
     transition: 0.3s ease background; }
   .private-main a .links {
     display: flex; }
@@ -121,10 +121,10 @@ a {
     max-width: 500px; }
 
 .bg-light {
-  background-color: #b9dddb !important; }
+  background-color: #ccd3d3 !important; }
 
 .dropdown-menu {
-  background-color: #e2f8f6;
-  border: 1px solid #b9dddb; }
+  background-color: #dde2e2;
+  border: 1px solid #ccd3d3; }
 
 /*# sourceMappingURL=style.css.map */
