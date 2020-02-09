@@ -49,6 +49,11 @@ app.post(
   }
 );*/
 
+router.get("/logout", async (req, res, next) => {
+  req.logout();
+  res.redirect("/");
+});
+
 router.get("/private-page", ensureLogin.ensureLoggedIn(), (req, res) => {
   res.render("passport/private", { user: req.user });
 });
