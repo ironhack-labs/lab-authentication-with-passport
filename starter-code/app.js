@@ -73,6 +73,8 @@ app.use(async (req, res, next) => {
     signup: false
   };
 
+  res.locals.user = req.user;
+
   const messageTypes = [
     { flashName: "error", className: "danger" },
     { flashName: "info", className: "info" }
