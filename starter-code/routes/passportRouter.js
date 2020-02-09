@@ -2,8 +2,9 @@
 
 const express = require("express");
 const passportRouter = express.Router();
+
 // Require user model
-const User = require("../models/user");
+const User = require("../models/User");
 
 // Add bcrypt to encrypt passwords
 const bcrypt = require("bcrypt");
@@ -11,8 +12,29 @@ const bcryptSalt = 10;
 
 // Add passport
 const passport = require("passport");
-
 const ensureLogin = require("connect-ensure-login");
+
+/* GET singup */
+passportRouter.get("/signup", (req, res, next) => {
+  res.render("passport/signup");
+});
+
+/* POST singup*/
+passportRouter.post("/signup", async (req, res, next) => {
+  const { username, password } = req.body;
+  try {
+    const existUser = await User.findOne({ username });
+    if (!existUser) {
+      const cryptPass = bcrypt.hashSync(password, 10);
+      await User.create({ username, password: cryptPass });
+      return res.redirect("/");
+    } else {
+      return res.render("passport/signup");
+    }
+  } catch (e) {
+    next(e);
+  }
+});
 
 /* GET private */
 passportRouter.get(
@@ -22,52 +44,5 @@ passportRouter.get(
     res.render("passport/private", { user: req.user });
   }
 );
-
-/* GET singup */
-router.get("/signup", (req, res, next) => {
-  res.render("passport/signup");
-});
-
-/* POST singup */
-router.post("/signup", (req, res, next) => {
-  const username = req.body.username;
-  const password = req.body.password;
-
-  if (username === "" || password === "") {
-    res.render("passport/signup", {
-      message: "Indicate username and password"
-    });
-    return;
-  }
-
-  User.findOne({ username })
-    .then(user => {
-      if (user !== null) {
-        res.render("passport/signup", {
-          message: "The username already exists"
-        });
-        return;
-      }
-
-      const salt = bcrypt.genSaltSync(bcryptSalt);
-      const hashPass = bcrypt.hashSync(password, salt);
-
-      const newUser = new User({
-        username,
-        password: hashPass
-      });
-
-      newUser.save(err => {
-        if (err) {
-          res.render("auth/signup", { message: "Something went wrong" });
-        } else {
-          res.redirect("/");
-        }
-      });
-    })
-    .catch(error => {
-      next(error);
-    });
-});
 
 module.exports = passportRouter;

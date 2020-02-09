@@ -11,8 +11,15 @@ const mongoose = require("mongoose");
 const logger = require("morgan");
 const path = require("path");
 
+const session = require("express-session");
+const bcrypt = require("bcrypt");
+const passport = require("passport");
+const LocalStrategy = require("passport-local").Strategy;
+
 mongoose
-  .connect("mongodb://localhost/starter-code", { useNewUrlParser: true })
+  .connect("mongodb://localhost/authentication-with-passport", {
+    useNewUrlParser: true
+  })
   .then(x => {
     console.log(
       `Connected to Mongo! Database name: "${x.connections[0].name}"`
@@ -50,13 +57,19 @@ app.set("view engine", "hbs");
 app.use(express.static(path.join(__dirname, "public")));
 app.use(favicon(path.join(__dirname, "public", "images", "favicon.ico")));
 
+// Partials
+hbs.registerPartials(__dirname + "/views/partials");
+
 // default value for title local
-app.locals.title = "Express - Generated with IronGenerator";
+app.locals.title = "Express - Authentication with passport";
 
 // Routes middleware goes here
 const index = require("./routes/index");
 app.use("/", index);
 const passportRouter = require("./routes/passportRouter");
 app.use("/", passportRouter);
+
+// app.use(passport.initialize());
+// app.use(passport.session());
 
 module.exports = app;
