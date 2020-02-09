@@ -35,6 +35,13 @@ passportRouter.get('/login', (req, res, next) => {
 
 passportRouter.post('/login', passport.authenticate('local', { successRedirect: '/', failureRedirect: '/login' }));
 
+// Logout
+passportRouter.get('/logout', (req, res, next) => {
+	console.log(req.user.username, 'just logged out');
+	req.logout();
+	res.redirect('/');
+});
+
 // Add passport
 const ensureLogin = require('connect-ensure-login');
 
