@@ -1,9 +1,20 @@
-<div>Private page</div>
+<h2 class="username center-align">{{user.username}}</h2>
 {{#if user}}
-  <div>
-    <h1>Who's the best developer?</h1>
-    <h1>You are, <span style="color: red;">{{ user.username}}</span>. You are! </h1>
-    <img src="http://media.giphy.com/media/UsK5GqD3e0huU/giphy.gif" alt="You rock.">
-    <a href="/">Index</a>
+<div class="container">
+  <div class="card medium">
+    <div class="card-content center-align">
+      <span class="activator card-title">Who's the best developer?
+        <i class="material-icons right">more_vert</i>
+      </span>
+    </div>
+    <div class="card-reveal center-align">
+      <span class="card-title">
+        You are, {{user.username}}. You are!
+          <i class="material-icons right">close</i>
+        </span>
+      <img src="../images/thumbs-up.gif" alt="You rock.">
+    </div>
   </div>
+</div>
 {{/if}}
+

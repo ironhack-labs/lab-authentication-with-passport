@@ -8,3 +8,29 @@ form {
 		margin-top: 2em;
 	}
 }
+.home-page {
+	img {
+		max-width: 90%;
+		border-radius: .5em;
+	}
+}
+.title {
+	color: #7c4dff;
+}
+
+.username {
+	color: #ec407a;
+}
+
+.card {
+	.card-content {
+		color: #8e24aa;
+	}
+	.card-reveal {
+		color: #ec407a;
+	}
+	img {
+		margin-top: 1em;
+		width: 50%;
+	}
+}

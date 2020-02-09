@@ -55,13 +55,17 @@ passport.deserializeUser((id, done) => {
 });
 passport.use(
 	new LocalStrategy(async (username, password, done) => {
-		const registeredUser = await User.findOne({ username });
-		if (!registeredUser || !checkHash(password, registeredUser.password)) {
-			console.log('invalid credentials');
-			return done(null, false);
-		} else {
-			console.log(`${registeredUser} just logged in`);
-			return done(null, registeredUser);
+		try {
+			const registeredUser = await User.findOne({ username });
+			if (!registeredUser || !checkHash(password, registeredUser.password)) {
+				console.log('Invalid credentials');
+				return done(null, false, { message: 'Invalid credentials' });
+			} else {
+				console.log(`${registeredUser} just logged in`);
+				return done(null, registeredUser);
+			}
+		} catch (error) {
+			return done(error);
 		}
 	})
 );
@@ -70,7 +74,7 @@ app.use(passport.session());
 
 // Setup user for every view
 app.use((req, res, next) => {
-	console.log(req.session);
+	// console.log(req.session);
 	res.locals.user = req.user;
 	next();
 });
@@ -92,7 +96,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));
 
 // default value for title local
-app.locals.title = 'Express - Generated with IronGenerator';
+app.locals.title = 'Passport - Generated Registration';
 
 // Routes middleware goes here
 const index = require('./routes/index');
