@@ -65,6 +65,26 @@ router.post(
   }
 );
 
+/* intenté crear una autenticacion manual para hacer un mejor handling de los mensajes de flash pero no he dado con la solucion 
+router.post("/login", function(req, res, next) {
+  passport.authenticate("local", function(err, user, info) {
+    if (!user) {
+      if (err) {
+        req.flash("error", err);
+        return res.redirect("/auth/login");
+      }
+      return res.redirect("/auth/login");
+    }
+    req.logIn(user, function(err) {
+      if (err) {
+        return next(err);
+      }
+      return res.redirect("/");
+    });
+  })(req, res, next);
+});
+*/
+
 router.get(
   "/logout",
   ensureLogin.ensureLoggedIn("/auth/login"),
