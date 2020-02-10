@@ -58,7 +58,7 @@ router.post(
   ensureLogin.ensureLoggedOut(),
   passport.authenticate("local", {
     failureRedirect: "/auth/login",
-    failureFlash: "Wrong username and/or password"
+    failureFlash: "Incorret username or password"
   }),
   function(req, res) {
     res.redirect("/");
