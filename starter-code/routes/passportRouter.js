@@ -38,12 +38,8 @@ passportRouter.post(
   })
 );
 
-passportRouter.get(
-  "/private-page",
-  ensureLogin.ensureLoggedIn(),
-  (req, res) => {
-    res.render("passport/private", { user: req.user });
-  }
-);
+passportRouter.get("/private", ensureLogin.ensureLoggedIn(), (req, res) => {
+  res.render("passport/private", { user: req.user });
+});
 
 module.exports = passportRouter;
