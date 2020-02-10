@@ -38,6 +38,11 @@ passportRouter.post(
   })
 );
 
+passportRouter.get("/logout", ensureLogin.ensureLoggedIn(), (req, res) => {
+  req.logout();
+  res.redirect("/");
+});
+
 passportRouter.get("/private", ensureLogin.ensureLoggedIn(), (req, res) => {
   res.render("passport/private", { user: req.user });
 });

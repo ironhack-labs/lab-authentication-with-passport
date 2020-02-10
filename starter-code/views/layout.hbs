@@ -29,15 +29,23 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav">
+        {{#if user}}
         <li class="nav-item active">
           <a class="nav-link" href="/private">Private <span class="sr-only">(current)</span></a>
         </li>
         <li class="nav-item">
+          {{else}}
           <a class="nav-link" href="/login">Login</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="/signup">Register</a>
         </li>
+        {{/if}}
+        {{#if user}}
+        <li class="nav-item">
+          <a class="nav-link" href="/logout">Logout</a>
+        </li>
+        {{/if}}
       </ul>
     </div>
   </nav>

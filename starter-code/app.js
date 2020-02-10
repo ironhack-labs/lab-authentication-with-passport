@@ -51,6 +51,11 @@ app.use(flash());
 
 require("./passport")(app);
 
+app.use((req, res, next) => {
+  res.locals.user = req.user;
+  next();
+});
+
 // Express View engine setup
 
 app.use(
