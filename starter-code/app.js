@@ -10,7 +10,7 @@ const logger = require("morgan");
 const path = require("path");
 const session = require("express-session");
 const MongoStore = require("connect-mongo");
-const flash = require ("flash");
+const flash = require("flash");
 
 mongoose
   .connect(process.env.MONGODB_URL, {
@@ -46,6 +46,7 @@ app.use(
     store: new MongoStore({ mongooseConnection: mongoose.connection })
   })
 );
+
 app.use(flash());
 
 // require("./passport")(app);
