@@ -1,8 +1,21 @@
+//
+// CSS Base
+// --------------------------------------------------
+
+html {
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
 body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+    font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+	color: #555;
 }
 
 a {
-  color: #00B7FF;
+	&:hover,
+	&:focus,
+	&:active {
+		outline: 0;
+	}
 }
