@@ -45,8 +45,10 @@ app.use(
     store: new MongoStore({ mongooseConnection: mongoose.connection })
   })
 );
-//require("./passport")(app);
+
 app.use(flash());
+
+require("./passport")(app);
 
 // Express View engine setup
 
@@ -67,11 +69,12 @@ app.use(favicon(path.join(__dirname, "public", "images", "favicon.ico")));
 app.use((req, res, next) => {
   res.locals.user = req.user;
   res.locals.errors = req.flash("error");
+  console.log(res.locals.errors);
   next();
 });
 
 // default value for title local
-app.locals.title = "Express - Generated with IronGenerator";
+app.locals.title = "Passport authentication";
 
 // Routes middleware goes here
 const index = require("./routes/index");

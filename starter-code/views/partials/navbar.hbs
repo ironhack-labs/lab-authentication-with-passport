@@ -9,13 +9,7 @@
     <ul class="navbar-nav mr-auto">
       {{#if user}}
       <li class="nav-item">
-        <span class="navbar-text">Hola {{user.username}}</span>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/private">Private</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/auth/logout">Logout</a>
+        <a class="nav-link" href="/auth/private-page">Private</a>
       </li>
       {{else}}
       <li class="nav-item">
@@ -25,6 +19,17 @@
         <a class="nav-link" href="/auth/register">Register</a>
       </li>
       {{/if}}
-
+    </ul>
+    {{#if user}}
+    <div class="nav-item dropdown">
+      <span class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+        aria-haspopup="true" aria-expanded="false">
+        {{user.username}}
+      </span>
+      <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+        <a class="dropdown-item" href="/auth/logout">Logout</a>
+      </div>
+    </div>
+    {{/if}}
   </div>
 </nav>
