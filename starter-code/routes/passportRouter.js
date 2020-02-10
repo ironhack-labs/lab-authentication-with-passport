@@ -58,24 +58,6 @@ router.post("/signup", (req, res) => {
 });
 
 //LOGIN
-router.get("/login", (req, res) => res.render("passport/login"));
-
-// router.get("/login", (req, res) =>
-//   res.render("passport/login", {
-
-
-//     message: req.flash("error")
-//   })
-// );
-router.post(
-  "/login",
-  passport.authenticate("local", {
-    successRedirect: "/",
-    failureRedirect: "/login",
-    failureFlash: true,
-    passReqToCallback: true
-  })
-);
 
 router.get("/login", (req, res) => res.render("passport/login", {
   message: req.flash("error")
@@ -86,27 +68,6 @@ router.post('/login', passport.authenticate("local", {
   failureFlash: true,
   passReqToCallback: true
 }))
-
-// router.post("/login", (req, res) => {
-//   const {
-//     username,
-//     password
-//   } = req.body;
-
-//   if (username === "" || password === "") {
-//     res.render("passport/login", {
-//       message: "Rellena los campos"
-//     });
-//     return;
-//   }
-//   passport.authenticate("local", {
-//       successRedirect: "/",
-//       failureRedirect: "/login",
-//       failureFlash: true,
-//       passReqToCallback: true
-//     })
-//     .catch(error => next(error));
-// });
 
 
 //Logout
