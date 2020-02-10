@@ -17,7 +17,7 @@ a:hover {
 
 h1, h2 {
   color: #149972;
-  margin-bottom: 20px;  
+  margin-bottom: 30px;  
 }
 
 nav {
@@ -30,9 +30,25 @@ nav {
 }
 
 img {
-  max-width: 50px;
+  max-width: 70px;
 }
 
+footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #149972;
+  height: 80px;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  margin: 0;
+  left: 0;
+}
+
+footer p {
+  margin-bottom: 0px;
+}
 .button-color {
   background-color: #149972;
   border: none;
