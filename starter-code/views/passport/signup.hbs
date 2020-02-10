@@ -1,0 +1,7 @@
+{{#if errorMessage}}
+{{>error}}
+{{/if}}
+
+<main>
+    {{>form tittleForm:Register in our application!, action:"/auth/signup", textButton:Sign Up}}
+</main>
