@@ -1,0 +1,17 @@
+{{#if flashMessage}}
+    <div class="alert alert-danger" role="alert">{{flashMessage}}</div>
+{{/if}}
+<main>
+    <h1>Sign up!</h1>
+    <form method="POST" action="/signup">
+        <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" class="form-control" id="username" name="username" required autofocus>
+        </div>
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" class="form-control" id="password" name="password" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Sign Up</button>
+    </form>
+</main>
