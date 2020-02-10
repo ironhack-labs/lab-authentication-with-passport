@@ -10,6 +10,7 @@ const logger = require("morgan");
 const path = require("path");
 const flash = require("flash");
 const session = require("express-session");
+const MongoStore = require("connect-mongo")(session);
 const bcrypt = require("bcrypt");
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
@@ -19,7 +20,6 @@ const dbUrl = process.env.MONGODB_URL
 mongoose
   .connect(dbUrl, {
     useNewUrlParser: true,
-    useUnifiedTopology: true
   })
   .then(x => {
     console.log(
@@ -47,7 +47,10 @@ app.use(session({
   secret: "my-cat-has-three-legs",
   resave: true,
   saveUninitialized: true,
-}));
+  store: new MongoStore({
+  mongooseConnection: mongoose.connection
+  })
+})); 
 
 
 passport.serializeUser((user, cb) => {
