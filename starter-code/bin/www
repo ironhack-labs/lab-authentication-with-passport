@@ -1,25 +1,26 @@
 #!/usr/bin/env node
 
-const http = require('http');
-const handlingError = require("../lib/handling-error")
+const http = require("http");
+const handlingError = require("../lib/handling-error");
 
-let app = require('../app');
+let app = require("../app");
 
 app.use(handlingError.notFound);
 app.use(handlingError.error);
 
 let server = http.createServer(app);
 
-server.on('error', error => {
-  if (error.syscall !== 'listen') { throw error }
+server.on("error", error => {
+  if (error.syscall !== "listen") {
+    throw error;
+  }
 
-  // handle specific listen errors with friendly messages
   switch (error.code) {
-    case 'EACCES':
+    case "EACCES":
       console.error(`Port ${process.env.PORT} requires elevated privileges`);
       process.exit(1);
       break;
-    case 'EADDRINUSE':
+    case "EADDRINUSE":
       console.error(`Port ${process.env.PORT} is already in use`);
       process.exit(1);
       break;

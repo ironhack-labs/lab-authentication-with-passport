@@ -7,10 +7,16 @@ const hbs = require("hbs");
 const mongoose = require("mongoose");
 const logger = require("morgan");
 const path = require("path");
-const flash = require('connect-flash');
+const flash = require("connect-flash");
+const session = require("express-session");
+const MongoStore = require("connect-mongo")(session);
 
 mongoose
-  .connect("mongodb://localhost/express-passport", { useNewUrlParser: true })
+  .set("useCreateIndex", true)
+  .connect("mongodb://localhost/express-passport", {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  })
   .then(x => {
     console.log(
       `Connected to Mongo! Database name: "${x.connections[0].name}"`
@@ -51,7 +57,7 @@ app.use(
 
 app.use((req, res, next) => {
   res.locals.user = req.user;
-  res.locals.errors = req.session.flash.map(e => e.message);
+  res.locals.message = req.session.flash.map(e => e.message);
   next();
 });
 
