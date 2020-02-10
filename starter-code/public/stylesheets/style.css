@@ -1,14 +1,14 @@
 body {
   padding: 0px;
-  font: 14px monospace, Helvetica, Arial, sans-serif;
-  background-color: #f5f8f8; }
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  background-color: #d0f3f3e3; }
 
 .center-title {
   text-align: center;
   margin: 40px 0; }
 
 footer {
-  background-color: #e0e6e5;
+  background-color: #B9DDDB;
   height: 50px;
   display: flex;
   align-content: center; }
@@ -21,11 +21,10 @@ a {
   a :hover {
     color: #ff9f1c; }
 
-/* Paso 6 */
 #form {
-  background: #d5e4e3;
-  border: 1px solid #b9dddb;
-  border-radius: 50px;
+  background: #d0f3f3e3;
+  border: 1px solid #B9DDDB;
+  border-radius: 10px;
   margin: 30px auto;
   width: 500px;
   padding: 50px; }
@@ -39,8 +38,8 @@ a {
 
 #form input,
 #form button {
-  background: #e9eeed9f;
-  border: 1px solid #e2f8f69f;
+  background: #d0f3f3e3;
+  border: 1px solid #B9DDDB;
   border-radius: 5px;
   box-sizing: border-box;
   font-size: 14px;
@@ -50,8 +49,8 @@ a {
   margin-bottom: 20px; }
 
 #form button {
-  background: #add9e4;
-  border: 1px solid #add9e4;
+  background: #ff9f1c;
+  border: 1px solid #ff9f1c;
   border-radius: 4px;
   color: #fff;
   cursor: pointer;
@@ -64,11 +63,10 @@ a {
   width: 100%; }
 
 #form button:hover {
-  background: #e2f8f6;
-  color: #8cb5c5;
+  background: #f1f8f8;
+  color: #ff9f1c;
   transition: 0.3s ease background; }
 
-/* Paso 9 damos estilo al mensage de error*/
 .error-message {
   background: #f02b63;
   box-sizing: border-box;
@@ -103,8 +101,9 @@ a {
   width: 20%;
   text-align: center;
   margin: 10px; }
+  
   .private-main a :hover {
-    background: #e2f8f6;
+    background: #f1f8f8;
     color: #ff9f1c;
     transition: 0.3s ease background; }
   .private-main a .links {
@@ -121,12 +120,12 @@ a {
     max-width: 500px; }
 
 .bg-light {
-  background-color: #D5E4E3 !important; }
-
-  .private{
-    display: flex;
+  background-color: #B9DDDB !important; }
+  
+.private{
+  display: flex;
+    height: 70vh;
     flex-direction: column;
     align-items: center;
-    height: 80vh;
     justify-content: space-evenly;
-  }
+}
