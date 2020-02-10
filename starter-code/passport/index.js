@@ -3,6 +3,7 @@ const model = require("../models/user");
 
 // REQUIRE ALL STRATEGIES HERE!!!
 require("./strategies/local");
+// si quiero añadir más estrategias de Passport (como github o Steam) hay que hacerlo aquí
 
 passport.serializeUser((user, cb) => {
   cb(null, user._id);

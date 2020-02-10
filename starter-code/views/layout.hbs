@@ -23,15 +23,23 @@
         <li class="nav-item">
           <a class="nav-link" href="/">Home</a>
         </li>
+        {{#if user}}
+        <li class="nav-item">
+          <a class="nav-link" href="/private-page">Private</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/logout">Logout</a>
+        </li>
+
+        {{else}}
         <li class="nav-item">
           <a class="nav-link" href="/signup">Signup</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="/login">Login</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/logout">Logout</a>
-        </li>
+
+        {{/if}}
       </ul>
     </div>
   </nav>

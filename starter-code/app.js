@@ -10,7 +10,6 @@ const logger = require("morgan");
 const path = require("path");
 const session = require("express-session");
 const MongoStore = require("connect-mongo")(session);
-const flash = require("connect-flash");
 const { setLog } = require("@faable/flogg");
 setLog("express-passport");
 
@@ -47,9 +46,13 @@ app.use(
   })
 );
 
-app.use(flash());
-
 require("./passport")(app);
+
+app.use((req, res, next) => {
+  // res.locals.user = req.session.currentUser;
+  res.locals.user = req.user;
+  next();
+})
 
 // Express View engine setup
 
@@ -67,7 +70,7 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(favicon(path.join(__dirname, "public", "images", "favicon.ico")));
 
 // default value for title local
-app.locals.title = "Express - Generated with IronGenerator";
+app.locals.title = "Express - LAB Auth with Passport";
 
 // Routes middleware goes here
 const index = require("./routes/index");

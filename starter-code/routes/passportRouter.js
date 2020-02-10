@@ -3,7 +3,7 @@ const passportRouter = express.Router();
 const model = require("../models/user");
 const { hashPassword, checkHashed } = require("../lib/hashing");
 const passport = require("passport");
-const { isLoggedIn, isLoggedOut } = require("../lib/isLoggedMiddleware");
+const ensureLogin = require("connect-ensure-login");
 
 passportRouter.get("/signup", (req, res, next) => {
   res.render("passport/signup");
@@ -24,25 +24,22 @@ passportRouter.post("/signup", async (req, res, next) => {
   }
 });
 
-passportRouter.get("/login", isLoggedOut(), (req, res, next) => {
+passportRouter.get("/login", (req, res, next) => {
   res.render("passport/login");
 });
 
 passportRouter.post(
   "/login",
-  isLoggedOut(),
   passport.authenticate("local", {
     successRedirect: "/",
     failureRedirect: "/signup"
   })
 );
 
-passportRouter.get("/logout", isLoggedIn(), async (req, res, next) => {
+passportRouter.get("/logout", async (req, res, next) => {
   req.logout();
   res.redirect("/");
 });
-
-const ensureLogin = require("connect-ensure-login");
 
 passportRouter.get(
   "/private-page",
