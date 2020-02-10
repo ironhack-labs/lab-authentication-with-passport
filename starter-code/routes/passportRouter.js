@@ -1,22 +1,28 @@
 const express = require('express');
 const passportRouter = express.Router();
 const User = require('../models/user');
-const bcrypt = require('bcrypt');
+const { hashPassword } = require('../lib/hashing');
 const passport = require('passport');
+const { isLoggedIn, isLoggedOut } = require("../lib/isLoggedIn");
 
-const ensureLogin = require('connect-ensure-login');
-
-function hashPassword(password) {
-    const salt = bcrypt.genSaltSync(10);
-    return bcrypt.hashSync(password, salt);
-}
-
-passportRouter.get('/private-page', ensureLogin.ensureLoggedIn(), (req, res) => {
+passportRouter.get('/private-page', isLoggedIn(), (req, res) => {
   res.render('passport/private', { user: req.user });
 });
 
-passportRouter.get("/signup", (req, res, next) =>
-    res.render("passport/signup")
+passportRouter.get('/login', isLoggedOut(), (req, res, next) => {
+    res.render('passport/login')
+});
+
+passportRouter.post(
+    '/login',
+    passport.authenticate('local', {
+        successRedirect: '/',
+        failureRedirect: '/login'
+    })
+);
+
+passportRouter.get('/signup', (req, res, next) =>
+    res.render('passport/signup')
 );
 
 passportRouter.post('/signup', async (req, res) => {
@@ -35,10 +41,15 @@ passportRouter.post('/signup', async (req, res) => {
         }
         await User.create({ username, password: hashPassword(password) });
         req.flash('sucess', 'User created successfully!');
-        return res.redirect('/')
+        return res.redirect('/login')
     } catch (e) {
         next(e);
     }
+});
+
+passportRouter.get("/logout", isLoggedIn(), async (req, res, next) => {
+    req.logout();
+    res.redirect("/");
 });
 
 module.exports = passportRouter;
