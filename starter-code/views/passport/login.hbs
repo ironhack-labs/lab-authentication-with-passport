@@ -1,0 +1,23 @@
+<h2>Start Session</h2>
+
+<form action="/login" method="POST">
+  <div>
+    <label for="username">Username:</label>
+    <input type="text" name="username">
+  </div>
+  <div>
+    <label for="password">Password:</label>
+    <input type="password" name="password">
+  </div>
+  <div>
+    <input type="submit" value="Log In">
+  </div>
+
+  {{#if message}}
+  <div class="error-message"
+    style="background: red; color: white; font-weight: bold; font-style: italic; text-transform: uppercase">
+    {{ message }}</div>
+  {{/if}}
+</form>
+
+<a href="/">Back</a>
