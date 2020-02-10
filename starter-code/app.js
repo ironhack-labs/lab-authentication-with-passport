@@ -8,6 +8,9 @@ const hbs = require("hbs");
 const mongoose = require("mongoose");
 const logger = require("morgan");
 const path = require("path");
+const session = require("express-session");
+const MongoStore = require("connect-mongo");
+const flash = require ("flash");
 
 mongoose
   .connect(process.env.MONGODB_URL, {
@@ -35,6 +38,17 @@ app.use(logger("dev"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(
+  session({
+    secret: "holadiego",
+    resave: true,
+    saveUninitialized: true,
+    store: new MongoStore({ mongooseConnection: mongoose.connection })
+  })
+);
+app.use(flash());
+
+// require("./passport")(app);
 
 // Express View engine setup
 
