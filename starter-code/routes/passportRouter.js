@@ -16,6 +16,7 @@ passportRouter.post('/signup', async (req, res, next) => {
 
 		if (registeredUser) {
 			console.log(`User ${registeredUser.username} already exists`);
+			req.flash('error', `User ${registeredUser.username} already exists`);
 			return res.redirect('/signup');
 		} else {
 			const newUser = await User.create({ username, password: hashPassword(password) });

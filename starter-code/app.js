@@ -11,6 +11,7 @@ const path = require('path');
 const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
 const passport = require('passport');
+const flash = require('connect-flash');
 const LocalStrategy = require('passport-local').Strategy;
 const { checkHash } = require('./lib/hashing');
 const User = require('./models/user');
@@ -44,6 +45,7 @@ app.use(
 		})
 	})
 );
+app.use(flash());
 passport.serializeUser((user, done) => done(null, user._id));
 passport.deserializeUser((id, done) => {
 	console.log('deserializing user');
@@ -54,12 +56,13 @@ passport.deserializeUser((id, done) => {
 		.catch(error => done(error));
 });
 passport.use(
-	new LocalStrategy(async (username, password, done) => {
+	new LocalStrategy({ passReqToCallback: true }, async (req, username, password, done) => {
 		try {
 			const registeredUser = await User.findOne({ username });
 			if (!registeredUser || !checkHash(password, registeredUser.password)) {
 				console.log('Invalid credentials');
-				return done(null, false, { message: 'Invalid credentials' });
+				req.flash('error', 'Invalid credentials');
+				return done(null, false);
 			} else {
 				console.log(`${registeredUser} just logged in`);
 				return done(null, registeredUser);
@@ -76,6 +79,7 @@ app.use(passport.session());
 app.use((req, res, next) => {
 	// console.log(req.session);
 	res.locals.user = req.user;
+	res.locals.message = req.flash('error');
 	next();
 });
 
