@@ -1,8 +1,12 @@
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif; }
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale; }
 
-a {
-  color: #00B7FF; }
+body {
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  color: #555; }
+
+a:hover, a:focus, a:active {
+  outline: 0; }
 
 /*# sourceMappingURL=style.css.map */
