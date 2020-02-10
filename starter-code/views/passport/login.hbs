@@ -1,0 +1,20 @@
+<section class="credentials-form">
+  <form action="/login" method="POST">
+    <h2>Log in</h2>
+    <div>
+      <label for="username">Username:</label>
+      <input type="text" name="username" placeholder="User name">
+    </div>
+    <div>
+      <label for="password">Password:</label>
+      <input type="password" name="password" placeholder="Password">
+    </div>
+    {{#if message}}
+    <div class="error-message">{{ message }}</div>
+    {{/if}}
+    <div class="options">
+      <input type="submit" value="Log In">
+      <a href="signup">Sign up</a>
+    </div>
+  </form>
+</section>
