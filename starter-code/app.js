@@ -55,6 +55,6 @@ const index = require('./routes/index');
 app.use('/', index);
 const passportRouter = require("./routes/passportRouter");
 app.use('/', passportRouter);
-
+// const auth = require('./')
 
 module.exports = app;
