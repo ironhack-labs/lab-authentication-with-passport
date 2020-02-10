@@ -1,0 +1,21 @@
+<h2>inicia sesióin</h2>
+
+<form action="/login" method="POST">
+  <div>
+    <label for="username">Username:</label>
+    <input type="text" name="username">
+  </div>
+  <div>
+    <label for="password">Password:</label>
+    <input type="password" name="password">
+  </div>
+  <div>
+    <input type="submit" value="Log In">
+  </div>
+
+  {{#if message}}
+  <div class="error-message"
+    style="background: blue; color: rgb(224, 47, 216); font-weight: bold; font-style: italic; text-transform: uppercase">
+    {{ message }}</div>
+  {{/if}}
+</form>
