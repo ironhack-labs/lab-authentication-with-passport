@@ -57,7 +57,7 @@ app.use(
 
 app.use((req, res, next) => {
   res.locals.user = req.user;
-  res.locals.message = req.session.flash.map(e => e.message);
+  res.locals.message = req.session.flash;
   next();
 });
 

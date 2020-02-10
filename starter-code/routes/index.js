@@ -9,7 +9,7 @@ router.use("/auth", auth);
 router.use("/private", private);
 
 router.get("/", isLoggedIn(), (req, res, next) => {
-  return res.render("home", { user: req.user });
+  return res.render("home", { user: req.session.user });
 });
 
 module.exports = router;

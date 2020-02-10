@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const { isLoggedIn, isLoggedOut } = require("../lib/logging");
+const { hashPassword, checkHashedPassword } = require("../lib/hashing");
 const User = require("../models/User");
 // Require user model
 
@@ -8,10 +9,10 @@ const User = require("../models/User");
 
 // Add passport
 
-const ensureLogin = require("connect-ensure-login");
+//const ensureLogin = require("connect-ensure-login");
 
 router.get("/signup", isLoggedOut(), (req, res, next) => {
-  res.render("auth/signup", { message: req.locals.message });
+  res.render("auth/signup");
 });
 
 router.post("/signup", async (req, res, next) => {
@@ -21,7 +22,7 @@ router.post("/signup", async (req, res, next) => {
     if (!user) {
       const hash = hashPassword(password);
       const user = await User.create({ username, password: hash });
-      req.session.currentUser = user;
+      req.session.user = user;
       return res.redirect("/");
     }
     res.render("auth/signup", {
@@ -33,7 +34,12 @@ router.post("/signup", async (req, res, next) => {
 });
 
 router.get("/login", isLoggedOut(), (req, res, next) => {
-  res.render("auth/login", { message: req.locals.message });
+  res.render("auth/login");
+});
+
+router.get("/logout", async (req, res, next) => {
+  req.session.destroy();
+  res.redirect("/");
 });
 
 /*
