@@ -45,7 +45,12 @@ app.use(
 );
 app.use(flash());
 
-require("./passport")(app); // Ask Giorgio
+require("./passport")(app);
+
+app.use((req, res, next) => {
+  res.locals.user = req.user;
+  next();
+});
 
 // Express View engine setup
 

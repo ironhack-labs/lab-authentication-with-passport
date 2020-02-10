@@ -44,6 +44,15 @@ passportRouter.post(
 );
 
 passportRouter.get(
+  "/logout",
+  ensureLogin.ensureLoggedIn(),
+  async (req, res, next) => {
+    req.logout();
+    res.redirect("/");
+  }
+);
+
+passportRouter.get(
   "/private-page",
   ensureLogin.ensureLoggedIn(),
   (req, res) => {
