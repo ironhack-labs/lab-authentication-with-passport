@@ -40,18 +40,6 @@ app.use(logger("dev"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-// app.use(passport.initialize());
-// app.use(passport.session());
-
-// Express View engine setup
-
-app.use(
-  require("node-sass-middleware")({
-    src: path.join(__dirname, "public"),
-    dest: path.join(__dirname, "public"),
-    sourceMap: true
-  })
-);
 
 app.use(
   session({
@@ -62,47 +50,77 @@ app.use(
   })
 );
 
+// app.use(passport.initialize());
+// app.use(passport.session());
+
+// Express View engine setup
+
+require("./passport")(app);
+
+app.use(
+  require("node-sass-middleware")({
+    src: path.join(__dirname, "public"),
+    dest: path.join(__dirname, "public"),
+    sourceMap: true
+  })
+);
+
+
+
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "hbs");
 app.use(express.static(path.join(__dirname, "public")));
 app.use(favicon(path.join(__dirname, "public", "images", "favicon.ico")));
 
+//middleware para usuario
+app.use((req, res, next) => {
+  res.locals.user = req.user;
+  next()
+})
+
+
 // default value for title local
 app.locals.title = "Express - Generated with IronGenerator";
 
-require("./passport")(app);
 
-passport.serializeUser((user, callback) => {
-  callback(null, user._id);
-});
 
-passport.deserializeUser((id, callback) => {
-  User.findById(id)
-    .then(user => {
-      callback(null, user);
-    })
-    .catch(error => {
-      callback(error);
-    });
-});
 
-passport.use(
-  new LocalStrategy((username, password, callback) => {
-    User.findOne({ username })
-      .then(user => {
-        if (!user) {
-          return callback(null, false, { message: "Incorrect username" });
-        }
-        if (!bcrypt.compareSync(password, user.password)) {
-          return callback(null, false, { message: "incorrect password" });
-        }
-        callback(null, user);
-      })
-      .catch(error => {
-        callback(error);
-      });
-  })
-);
+
+//para ver si el usuario esta logueado o no logueado, esta en el index.js
+// passport.serializeUser((user, callback) => {
+//   callback(null, user._id);
+// });
+
+// passport.deserializeUser((id, callback) => {
+//   User.findById(id)
+//     .then(user => {
+//       callback(null, user);
+//     })
+//     .catch(error => {
+//       callback(error);
+//     });
+// });
+
+
+//comprobamos que cuando se loguee el usuario existe, esta en el local.js
+// passport.use(  
+//   new LocalStrategy((username, password, callback) => {
+//     User.findOne({ username })
+//       .then(user => {
+//         if (!user) {
+//           return callback(null, false, { message: "Incorrect username" });
+//         }
+//         if (!bcrypt.compareSync(password, user.password)) {
+//           return callback(null, false, { message: "incorrect password" });
+//         }
+//         app.locals.user = user //para sacar el usuario de la base de datos
+//         callback(null, user);
+//       })
+//       .catch(error => {
+//         callback(error);
+//       });
+//   })
+// );
 // Routes middleware goes here
 const index = require("./routes/index");
 app.use("/", index);
