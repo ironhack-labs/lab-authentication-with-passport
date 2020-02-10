@@ -31,6 +31,16 @@ form {
 	}
 	img {
 		margin-top: 1em;
-		width: 50%;
+		min-width: 45%;
 	}
+}
+
+.error-msg {
+	border: .05em solid #d50000;
+	border-radius: .5em;
+	padding: 1em;
+	background-color: #ef9a9a;
+	color: #fff;
+	text-transform: uppercase;
+	font-size: 1.2rem;
 }
