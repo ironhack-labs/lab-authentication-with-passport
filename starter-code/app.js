@@ -77,7 +77,7 @@ app.use(passport.session());
 
 // Setup user for every view
 app.use((req, res, next) => {
-	// console.log(req.session);
+	console.log(req.session);
 	res.locals.user = req.user;
 	res.locals.message = req.flash('error');
 	next();

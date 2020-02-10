@@ -3,6 +3,7 @@ const passportRouter = express.Router();
 const User = require('../models/user');
 const { hashPassword } = require('../lib/hashing');
 const passport = require('passport');
+const ensureLogin = require('connect-ensure-login');
 
 // Signup route
 passportRouter.get('/signup', (req, res, next) => {
@@ -27,6 +28,7 @@ passportRouter.post('/signup', async (req, res, next) => {
 		}
 	} catch (error) {
 		console.log('Credentials are necessary');
+		req.flash('error', 'Credentials are necessary');
 		res.redirect('/signup');
 	}
 });
@@ -42,12 +44,10 @@ passportRouter.post('/login', passport.authenticate('local', { successRedirect: 
 passportRouter.get('/logout', (req, res, next) => {
 	console.log(req.user.username, 'just logged out');
 	req.logout();
-	res.redirect('/');
+	res.redirect('/login');
 });
 
-// Add passport
-const ensureLogin = require('connect-ensure-login');
-
+// Private route
 passportRouter.get('/private-page', ensureLogin.ensureLoggedIn(), (req, res) => {
 	res.render('passport/private', { user: req.user, title: req.user.username });
 });
