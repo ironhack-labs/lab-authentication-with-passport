@@ -1,18 +1,22 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary px-5">
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
     aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-    <div class="navbar-nav">
+    <div class="navbar-nav mr-auto">
       <a class="nav-item nav-link" href="/">Home</a>
       <a class="nav-item nav-link" href="/private-page">Private page</a>
-      {{#if user}}
-      <a class="nav-item nav-link" href="/logout">Log out</a>
-      {{else}}
-      <a class="nav-item nav-link" href="/signup">Sign up</a>
-      <a class="nav-item nav-link" href="/login">Log in</a>
-      {{/if}}
     </div>
+    {{#if user}}
+    <div class="dropdown text-right">
+      <div class="navbar-text dropdown-toggle" data-toggle="dropdown">
+        <i class="fas fa-user"></i> {{user.username}}
+      </div>
+      <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+        <a class="dropdown-item" href="/logout">Log out</a>
+      </div>
+    </div>
+    {{/if}}
   </div>
 </nav>
