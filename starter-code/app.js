@@ -9,7 +9,7 @@ const mongoose = require("mongoose");
 const logger = require("morgan");
 const path = require("path");
 const session = require("express-session");
-const MongoStore = require("connect-mongo");
+const MongoStore = require("connect-mongo")(session);
 const flash = require("flash");
 
 mongoose
@@ -49,7 +49,7 @@ app.use(
 
 app.use(flash());
 
-// require("./passport")(app);
+require("./passport")(app);
 
 // Express View engine setup
 
