@@ -9,12 +9,14 @@ const mongoose = require("mongoose");
 const logger = require("morgan");
 const path = require("path");
 const session = require("express-session");
+const MongoStore = require("connect-mongo")(session);
 const passport = require("passport");
 const flash = require("connect-flash");
 
 mongoose
   .connect("mongodb://localhost/lab-authentication-with-passport", {
-    useNewUrlParser: true
+    useNewUrlParser: true,
+    useUnifiedTopology: true
   })
   .then(x => {
     console.log(
@@ -32,12 +34,19 @@ const debug = require("debug")(
 
 const app = express();
 
+// Middleware Setup
+app.use(logger("dev"));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cookieParser());
+
 // Session
 app.use(
   session({
     secret: "lab-authentication-with-passport",
     resave: true,
-    saveUninitialized: true
+    saveUninitialized: true,
+    store: new MongoStore({ mongooseConnection: mongoose.connection })
   })
 );
 
@@ -50,12 +59,6 @@ app.use((req, res, next) => {
   res.locals.user = req.user;
   next();
 });
-
-// Middleware Setup
-app.use(logger("dev"));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
 
 // Express View engine setup
 app.use(
