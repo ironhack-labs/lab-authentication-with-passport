@@ -1,0 +1,22 @@
+<div class="container" style="margin-top: 70px;">
+  <form action="/login" method="POST" id="form">
+
+    <h2 style="margin-bottom: 50px; margin-left: 140px">Signin</h2>
+
+    <label for="username">Username</label>
+    <input type="text" name="username" required>
+
+    <label for="password">Password</label>
+    <input type="password" name="password" required>
+
+    {{#if errorMessage }}
+    <div class="error-message">{{ errorMessage }}</div>
+    {{/if}}
+
+    <button>Sign in</button>
+
+    <p class="account-message">
+      Don't have an account? <a href="/signup">Sign up</a>
+    </p>
+  </form>
+</div>
