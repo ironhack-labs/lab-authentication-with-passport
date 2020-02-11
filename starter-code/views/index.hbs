@@ -1,2 +1,7 @@
 <h1>{{title}}</h1>
 <p>Welcome to {{title}}</p>
+{{#if user}}
+<p>Now you can view the awesome <a href="/private-page">Private Page</a></p>
+{{else}}
+<p>Please <a href="/login">Login</a> or <a href="/signup">Signup</a></p>
+{{/if}}
