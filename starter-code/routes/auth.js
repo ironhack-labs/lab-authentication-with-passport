@@ -20,12 +20,11 @@ router.post("/signup", async (req, res, next) => {
     if (!user) {
       const hash = hashPassword(password);
       const user = await User.create({ username, password: hash });
-      req.session.user = user;
+      req.user = user;
       return res.redirect("/");
-    }
-    else {
+    } else {
       req.flash("error", "User already exists! Please, try again.");
-      return res.render("auth/signup");
+      return res.redirect("/auth/signup");
     }
   } catch (e) {
     next(e);
@@ -41,15 +40,15 @@ router.post(
   isLoggedOut(),
   passport.authenticate("local", {
     successRedirect: "/",
-    failureRedirect: "/login",
-    failureFlash: "Invalid username or password. Please, try again!",
+    failureRedirect: "/auth/login",
+    failureFlash: "Invalid username or password! Please, try again.",
     passReqToCallback: true
   })
 );
 
-router.get("/logout", isLoggedIn(), async (req, res, next) => {
-  req.session.destroy();
-  res.redirect("/");
+router.get("/logout", async (req, res, next) => {
+  req.logout();
+  res.redirect("/auth/login");
 });
 
 module.exports = router;
