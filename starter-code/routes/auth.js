@@ -1,15 +1,11 @@
 const express = require("express");
-const router = express.Router();
-const { isLoggedIn, isLoggedOut } = require("../lib/logging");
-const { hashPassword, checkHashedPassword } = require("../lib/hashing");
+const passport = require("passport");
 const User = require("../models/User");
-// Require user model
 
-// Add bcrypt to encrypt passwords
+const { isLoggedIn, isLoggedOut } = require("../lib/logging");
+const { hashPassword } = require("../lib/hashing");
 
-// Add passport
-
-//const ensureLogin = require("connect-ensure-login");
+const router = express.Router();
 
 router.get("/signup", isLoggedOut(), (req, res, next) => {
   res.render("auth/signup");
@@ -17,17 +13,20 @@ router.get("/signup", isLoggedOut(), (req, res, next) => {
 
 router.post("/signup", async (req, res, next) => {
   const { username, password } = req.body;
+
   try {
     const user = await User.findOne({ username });
+
     if (!user) {
       const hash = hashPassword(password);
       const user = await User.create({ username, password: hash });
       req.session.user = user;
       return res.redirect("/");
     }
-    res.render("auth/signup", {
-      errorMessage: "User already exists! Please, try again."
-    });
+    else {
+      req.flash("error", "User already exists! Please, try again.");
+      return res.render("auth/signup");
+    }
   } catch (e) {
     next(e);
   }
@@ -37,15 +36,21 @@ router.get("/login", isLoggedOut(), (req, res, next) => {
   res.render("auth/login");
 });
 
-router.get("/logout", async (req, res, next) => {
+router.post(
+  "/login",
+  isLoggedOut(),
+  passport.authenticate("local", {
+    successRedirect: "/",
+    failureRedirect: "/login",
+    failureFlash: true,
+    successFlash: "Esto es una prueba, hay que mirar que sale.",
+    passReqToCallback: true
+  })
+);
+
+router.get("/logout", isLoggedIn(), async (req, res, next) => {
   req.session.destroy();
   res.redirect("/");
 });
-
-/*
-router.get("/private-page", ensureLogin.ensureLoggedIn(), (req, res) => {
-  res.render("passport/private", { user: req.user });
-});
-*/
 
 module.exports = router;

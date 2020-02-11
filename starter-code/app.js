@@ -7,9 +7,11 @@ const hbs = require("hbs");
 const mongoose = require("mongoose");
 const logger = require("morgan");
 const path = require("path");
-const flash = require("connect-flash");
 const session = require("express-session");
 const MongoStore = require("connect-mongo")(session);
+const session = require("express-session");
+const passport = require("passport");
+const flash = require("connect-flash");
 
 mongoose
   .set("useCreateIndex", true)
@@ -55,9 +57,16 @@ app.use(
   })
 );
 
+require("./passport");
+app.use(passport.initialize());
+app.use(passport.session());
+
 app.use((req, res, next) => {
-  res.locals.user = req.user;
-  res.locals.message = req.session.flash;
+  res.locals.user = req.session.user;
+
+  res.locals.errors = req.flash("error");
+  res.locals.info = req.flash("info");
+  
   next();
 });
 

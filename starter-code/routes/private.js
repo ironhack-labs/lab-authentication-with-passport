@@ -4,9 +4,12 @@ const router = express.Router();
 
 router.use(isLoggedIn);
 
-router.get("/", (req, res, next) => {
-  if (req.session.currentUser) return res.render("private/private");
-  res.redirect("auth/login");
+//const ensureLogin = require("connect-ensure-login");
+
+/*
+router.get("/private-page", ensureLogin.ensureLoggedIn(), (req, res) => {
+  res.render("passport/private", { user: req.session.user });
 });
+*/
 
 module.exports = router;
