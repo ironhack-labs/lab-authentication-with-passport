@@ -6,6 +6,7 @@ const { hashPassword, checkHashedPassword } = require("../../lib/hashing");
 const LocalStrategy = require("passport-local").Strategy;
 
 passport.use(
+  { passReqToCallback: true },
   new LocalStrategy(async (username, password, next) => {
     try {
       const user = await User.findOne({ username });

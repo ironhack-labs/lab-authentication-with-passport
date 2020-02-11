@@ -42,8 +42,7 @@ router.post(
   passport.authenticate("local", {
     successRedirect: "/",
     failureRedirect: "/login",
-    failureFlash: true,
-    successFlash: "Esto es una prueba, hay que mirar que sale.",
+    failureFlash: "Invalid username or password. Please, try again!",
     passReqToCallback: true
   })
 );
