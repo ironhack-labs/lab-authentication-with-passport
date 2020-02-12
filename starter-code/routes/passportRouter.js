@@ -1,11 +1,11 @@
-const express        = require("express");
+const express = require("express");
 const passportRouter = express.Router();
 // Require user model
 const User = require("../models/user");
 // Add bcrypt to encrypt passwords
 const bcrypt = require("bcrypt");
 const bcryptSalt = 10;
-// Add passport 
+// Add passport
 const passport = require("passport");
 
 const ensureLogin = require("connect-ensure-login");
@@ -14,18 +14,22 @@ passportRouter.get("/signup", (req, res, next) => {
   res.render("passport/signup");
 });
 
-passportRouter.post('/signup', (req, res, next) => {
+passportRouter.post("/signup", (req, res, next) => {
   const { username, password } = req.body;
 
   if (!username || !password) {
-    res.render('passport/signup', { errorMessage: 'Indicate username and password' });
+    res.render("passport/signup", {
+      errorMessage: "Indicate username and password"
+    });
     return;
   }
 
   User.findOne({ username: username })
     .then(user => {
       if (user !== null) {
-        res.render('passport/signup', { errorMessage: 'The username already exists' });
+        res.render("passport/signup", {
+          errorMessage: "The username already exists"
+        });
         return;
       }
 
@@ -49,14 +53,14 @@ passportRouter.post('/signup', (req, res, next) => {
 });
 
 passportRouter.get("/login", (req, res, next) => {
-  res.render("passport/login")
+  res.render("passport/login");
 });
 
 passportRouter.post(
-  '/login',
-  passport.authenticate('local', {
-    successRedirect: '/private',
-    failureRedirect: '/login',
+  "/login",
+  passport.authenticate("local", {
+    successRedirect: "/private",
+    failureRedirect: "/login",
     failureFlash: true,
     passReqToCallback: true
   })
@@ -66,9 +70,9 @@ passportRouter.get("/private", ensureLogin.ensureLoggedIn(), (req, res) => {
   res.render("passport/private", { user: req.user });
 });
 
-passportRouter.get('/logout', (req, res) => {
+passportRouter.get("/logout", (req, res) => {
   req.logout();
-  res.redirect('/login');
+  res.redirect("/login");
 });
 
 module.exports = passportRouter;
