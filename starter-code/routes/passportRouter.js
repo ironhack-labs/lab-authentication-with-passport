@@ -1,7 +1,7 @@
 const express        = require("express");
 const passportRouter = express.Router();
 // Require user model
-
+const User = require("../models/user");
 // Add bcrypt to encrypt passwords
 const bcrypt = require("bcrypt");
 const bcryptSalt = 10;
@@ -10,24 +10,43 @@ const passport = require("passport");
 
 const ensureLogin = require("connect-ensure-login");
 
-
-passportRouter.get("/private-page", ensureLogin.ensureLoggedIn(), (req, res) => {
-  res.render("passport/private", { user: req.user });
-});
-
 passportRouter.get("/signup", (req, res, next) => {
   res.render("passport/signup");
 });
 
-passportRouter.post("/signup", (req, res, next) => {
-  const username = req.body.username;
-  const password = req.body.password;
-  const salt = bcrypt.genSaltSync(bcryptSalt);
-  const hashPass = bcrypt.hashSync(password, salt);
+passportRouter.post('/signup', (req, res, next) => {
+  const { username, password } = req.body;
 
-  // res.render("passport/signup")
-  res.redirect("login")
-}); 
+  if (!username || !password) {
+    res.render('passport/signup', { errorMessage: 'Indicate username and password' });
+    return;
+  }
+
+  User.findOne({ username: username })
+    .then(user => {
+      if (user !== null) {
+        res.render('passport/signup', { errorMessage: 'The username already exists' });
+        return;
+      }
+
+      const salt = bcrypt.genSaltSync(bcryptSalt);
+      const hashPass = bcrypt.hashSync(password, salt);
+
+      User.create({
+        username,
+        password: hashPass
+      })
+        .then(() => {
+          res.redirect("/login");
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    })
+    .catch(error => {
+      next(error);
+    });
+});
 
 passportRouter.get("/login", (req, res, next) => {
   res.render("passport/login")
@@ -36,24 +55,20 @@ passportRouter.get("/login", (req, res, next) => {
 passportRouter.post(
   '/login',
   passport.authenticate('local', {
-    successRedirect: '/',
+    successRedirect: '/private',
     failureRedirect: '/login',
     failureFlash: true,
     passReqToCallback: true
   })
 );
 
-// passportRouter.post("/login", (req, res, next) => {
-//   const username = req.body.username;
-//   const password = req.body.password;
-//   const salt = bcrypt.genSaltSync(bcryptSalt);
-//   const hashPass = bcrypt.hashSync(password, salt);
+passportRouter.get("/private", ensureLogin.ensureLoggedIn(), (req, res) => {
+  res.render("passport/private", { user: req.user });
+});
 
-//   res.render("passport/login")
-// });
-
-passportRouter.get('/private-page', ensureLogin.ensureLoggedIn(), (req, res) => {
-  res.render('private', { user: req.user });
+passportRouter.get('/logout', (req, res) => {
+  req.logout();
+  res.redirect('/login');
 });
 
 module.exports = passportRouter;

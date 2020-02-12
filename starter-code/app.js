@@ -12,10 +12,11 @@ const session = require('express-session');
 const bcrypt = require('bcrypt');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
-
+const User = require("./models/user");
+const dbUrl = process.env.DBURL;
 
 mongoose
-  .connect('mongodb://localhost/starter-code', {useNewUrlParser: true})
+  .connect(dbUrl, {useNewUrlParser: true})
   .then(x => {
     console.log(`Connected to Mongo! Database name: "${x.connections[0].name}"`)
   })
@@ -29,6 +30,18 @@ const debug = require('debug')(`${app_name}:${path.basename(__filename).split('.
 const app = express();
 
 // Middleware Setup
+
+app.use(logger('dev'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cookieParser());
+app.use(
+  session({
+    secret: 'our-passport-local-strategy-app',
+    resave: true,
+    saveUninitialized: true
+  })
+);
 
 passport.serializeUser((user, callback) => {
   callback(null, user._id);
@@ -62,17 +75,6 @@ passport.use(
   })
 );
 
-app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(
-  session({
-    secret: 'my-passport-local-strategy-app',
-    resave: true,
-    saveUninitialized: true
-  })
-);
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -93,7 +95,7 @@ app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));
 
 
 // default value for title local
-app.locals.title = 'Express - Generated with IronGenerator';
+app.locals.title = 'Autentication with passport lab';
 
 
 // Routes middleware goes here
