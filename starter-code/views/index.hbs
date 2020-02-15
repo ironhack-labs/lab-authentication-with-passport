@@ -1,4 +1,22 @@
 <h1>{{title}}</h1>
 <p>Welcome to {{title}}</p>
+{{#unless user}}
 <a class="btn btn-primary" href="/signup" role="button">Sign up</a>
 <a class="btn btn-primary" href="/login" role="button">Log in</a>
+{{/unless}}
+{{#if user.spotifyId}}
+<p>Hi, {{user.username}}. You come from Spotify!</p>
+<h2 class="text-success">This is your Top 20 artists list</h2>
+{{#if artists}}
+<ul id="topArtistsList" class="list-group my-4">
+  {{#each artists}}
+  <li class="list-group-item">
+    <div class="artist-popularity" style="width: {{this.popularity}}%">
+      <div></div>
+    </div>
+    <img src="{{this.images.2.url}}"> <span>{{this.name}}</span>
+  </li>
+  {{/each}}
+</ul>
+{{/if}}
+{{/if}}

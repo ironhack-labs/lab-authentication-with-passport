@@ -5,6 +5,7 @@ const bcrypt = require("bcrypt");
 const passport = require("passport");
 const { isLoggedIn, isLoggedOut } = require("../lib/isLoggedMiddleware");
 
+// Sign up
 router.get("/signup", isLoggedOut(), (req, res, next) =>
   res.render("passport/signup")
 );
@@ -23,7 +24,7 @@ router.post("/signup", isLoggedOut(), async (req, res, next) => {
       const salt = bcrypt.genSaltSync(10);
       const hashPass = bcrypt.hashSync(password, salt);
       await User.create({ username, password: hashPass });
-      req.flash("error", "User created");
+      req.flash("success", "User created");
       return res.redirect("/");
     } else {
       req.flash("error", "User already exists");
@@ -34,10 +35,12 @@ router.post("/signup", isLoggedOut(), async (req, res, next) => {
   }
 });
 
+// Log in
 router.get("/login", isLoggedOut(), (req, res, next) => {
   return res.render("passport/login");
 });
 
+// Local strategy
 router.post(
   "/login",
   isLoggedOut(),
@@ -50,6 +53,25 @@ router.post(
   })
 );
 
+// Spotify strategy
+router.get(
+  "/auth/spotify",
+  passport.authenticate("spotify", {
+    scope: ["user-top-read"],
+    showDialog: true
+  }),
+  function(req, res) {}
+);
+
+router.get(
+  "/auth/spotify/callback",
+  passport.authenticate("spotify", { failureRedirect: "/login" }),
+  function(req, res) {
+    res.redirect("/spotify");
+  }
+);
+
+// Log out
 router.get("/logout", isLoggedIn(), (req, res, text) => {
   req.logOut();
   return res.redirect("/");

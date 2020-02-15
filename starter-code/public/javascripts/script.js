@@ -6,4 +6,9 @@ window.onload = () => {
       e.classList.toggle("showAlert");
     }, 2000);
   });
+
+  let artistPopularity = document.querySelectorAll(".artist-popularity div");
+  artistPopularity.forEach(e => {
+    e.classList.toggle("show-popularity");
+  });
 };

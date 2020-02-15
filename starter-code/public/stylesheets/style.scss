@@ -26,3 +26,46 @@ a {
 .showAlert {
   bottom: 0;
 }
+
+ul#topArtistsList {
+  counter-reset: artists-counter;
+
+  li {
+    counter-increment: artists-counter;
+    background-color: transparent;
+    border: 2px solid white;
+
+    div.artist-popularity {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      z-index: -1;
+
+      div {
+        background-color: lightcyan;
+        display: block;
+        height: 100%;
+        width: 0%;
+        transition: all 2s ease-in;
+      }
+
+      div.show-popularity {
+        width: 100%;
+      }
+    }
+  }
+
+  li span::before {
+    content: counter(artists-counter) ". ";
+    color: green;
+    font-weight: bold;
+  }
+
+  img {
+    height: 50px;
+    width: 50px;
+    object-fit: cover;
+    margin-right: 10px;
+  }
+}
