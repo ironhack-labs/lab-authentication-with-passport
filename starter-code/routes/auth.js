@@ -20,8 +20,13 @@ router.post("/signup", async (req, res, next) => {
     if (!user) {
       const hash = hashPassword(password);
       const user = await User.create({ username, password: hash });
-      req.user = user;
-      return res.redirect("/");
+      req.login(user, function(err) {
+        if (err) {
+          req.flash("error", "User signup! Has ocurred an error while login.");
+          return res.redirect("/auth/login");
+        }
+        return res.redirect("/");
+      });
     } else {
       req.flash("error", "User already exists! Please, try again.");
       return res.redirect("/auth/signup");

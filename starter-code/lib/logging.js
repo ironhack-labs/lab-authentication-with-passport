@@ -1,5 +1,4 @@
 const isLoggedIn = (redirectRoute = "/auth/login") => (req, res, next) => {
-  console.log(req);
   console.log(req.user);
   return req.user ? next() : res.redirect(redirectRoute);
 };

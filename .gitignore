@@ -1,6 +1,21 @@
 
-# Created by https://www.gitignore.io/api/node,macos,visualstudiocode
-# Edit at https://www.gitignore.io/?templates=node,macos,visualstudiocode
+# Created by https://www.gitignore.io/api/node,linux,macos,visualstudiocode
+# Edit at https://www.gitignore.io/?templates=node,linux,macos,visualstudiocode
+
+### Linux ###
+*~
+
+# temporary files which can be created if a process still has a handle open of a deleted file
+.fuse_hidden*
+
+# KDE directory preferences
+.directory
+
+# Linux trash folder which might appear on any partition or disk
+.Trash-*
+
+# .nfs files are created when an open file is removed but is still being accessed
+.nfs*
 
 ### macOS ###
 # General
@@ -147,4 +162,4 @@ temp/
 # Ignore all local history of files
 .history
 
-# End of https://www.gitignore.io/api/node,macos,visualstudiocode
+# End of https://www.gitignore.io/api/node,linux,macos,visualstudiocode
