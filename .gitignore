@@ -1,0 +1,11 @@
+# Dependency directory
+node_modules
+
+# Debug log from npm
+npm-debug.log
+
+# Environment Variables should NEVER be published
+# For learning purposes we will leave .env visible, but make sure you never push it when working on your projects  
+# .env
+
+package-lock.json
