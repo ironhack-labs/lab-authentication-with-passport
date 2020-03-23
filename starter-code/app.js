@@ -78,5 +78,5 @@ app.use('/', passportRouter);
 
 
 module.exports = app;
-module.exports = passport;
+
 

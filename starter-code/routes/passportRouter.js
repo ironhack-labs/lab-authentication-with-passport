@@ -17,12 +17,14 @@ passportRouter.get("/signup", (req, res, next) => {
 
 passportRouter.post("/signup", (req, res, next) => {
   const { username, password } = req.body;
+  
 
   bcrypt.hash(password, 10).then(hash => {
     return User.create({
       username: username,
       password: hash
     }).then(user => {
+      console.log({username})
       res.redirect("/");
     });
   });
