@@ -16,27 +16,28 @@ passportRouter.get("/signup", (req, res, next) => {
 })
 
 passportRouter.post("/signup", (req, res, next) => {
+  console.log('works'+ JSON.stringify(req.body))
   const { username, password } = req.body;
-  
-
-  bcrypt.hash(password, 10).then(hash => {
-    return User.create({
-      username: username,
-      password: hash
-    }).then(user => {
-      console.log({username})
-      res.redirect("/");
+      bcrypt.hash(password, 10).then(hash => {
+        User.create({
+          username: username,
+          password: hash
+        }).then(user => {
+          console.log(username)
+          res.render("passport/private", { user });
+        });
+      });
     });
-  });
-});
+
+
 
 passportRouter.get("/login", (req, res, next) => {
   res.render("passport/login", { message: req.flash("error") });
 });
 passportRouter.post("/login",
   passport.authenticate("local", {
-    successRedirect: "/",
-    failureRedirect: "/passport/login",
+    successRedirect: "passport/private",
+    failureRedirect: "passport/login",
     failureFlash: true
   })
 );
