@@ -1,0 +1,13 @@
+<a href="/">Back to Home</a>
+<h1>Login</h1>
+<form action="/login" method="POST">
+    <label for="username" id="username">Username</label>
+    <input type="text" name="username" id="username">
+    <label for="password" id="password">Password</label>
+    <input type="text" name="password" id="password">
+     {{#if message}}
+    <div class="error-message">{{ message }}</div>
+    {{/if}}
+    <button>Login</button>
+    <p>Still don't have an account? <a href="/signup">Sign Up</a></p>
+</form>
