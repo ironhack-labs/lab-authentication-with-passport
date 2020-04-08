@@ -42,6 +42,7 @@ app.locals.title = 'Express - Generated with IronGenerator';
 // Routes middleware goes here
 const index = require('./routes/index.routes');
 app.use('/', index);
+// middleware login
 const authRoutes = require('./routes/auth.routes');
 app.use('/', authRoutes);
 
