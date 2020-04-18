@@ -9,6 +9,17 @@ const mongoose = require('mongoose');
 const logger = require('morgan');
 const path = require('path');
 
+const User = require('./models/User.model');
+
+// require passport, passport-local, express-session
+const passport = require('passport')
+const session = require ('express-session')
+const LocalStrategy = require('passport-local').Strategy;
+const bcrypt = require('bcrypt');
+
+// storing in db
+const MongoStore = require("connect-mongo")(session);
+
 mongoose
   .connect('mongodb://localhost/auth-with-passport', {
     useNewUrlParser: true,
@@ -22,6 +33,59 @@ const app_name = require('./package.json').name;
 const debug = require('debug')(`${app_name}:${path.basename(__filename).split('.')[0]}`);
 
 const app = express();
+
+
+// express-session configuration
+app.use(session({
+  secret: "abc",
+  cookie: { maxAge: 24 * 60 * 60 * 1000 }, // 1 day
+  store: new MongoStore({
+    mongooseConnection: mongoose.connection,
+    resave: true,
+    saveUninitialized: false,
+    ttl: 24 * 60 * 60 // 1 day
+  })
+}));
+
+// associate user with a session // store the user into the session
+passport.serializeUser((user, callback) => {
+  callback(null, user._id);
+});
+
+
+// it makes the current user available as req.user
+passport.deserializeUser((id, callback) => {
+  User.findById(id)
+    .then(user => {
+      callback(null, user);
+    })
+    .catch(error => {
+      callback(error);
+    });
+});
+
+passport.use(
+  new LocalStrategy((username, password, callback) => {
+    User.findOne({ username })
+      .then(user => {
+        if (!user) {
+          return callback(null, false, { message: 'Incorrect username' });
+        }
+        if (!bcrypt.compareSync(password, user.password)) {
+          return callback(null, false, { message: 'Incorrect password' });
+        }
+        callback(null, user);
+      })
+      .catch(error => {
+        callback(error);
+      });
+  })
+);
+
+// basic passport setup
+app.use(passport.initialize());
+app.use(passport.session());
+
 
 // Middleware Setup
 app.use(logger('dev'));
