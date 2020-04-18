@@ -17,6 +17,9 @@ const session = require ('express-session')
 const LocalStrategy = require('passport-local').Strategy;
 const bcrypt = require('bcrypt');
 
+// require passport-github
+const GitHubStrategy = require('passport-github').Strategy;
+
 // storing in db
 const MongoStore = require("connect-mongo")(session);
 
@@ -81,6 +84,19 @@ passport.use(
       });
   })
 );
+
+// trying to implement github strategy
+/* passport.use(new GitHubStrategy({
+  clientID: process.env.GITHUB_CLIENT_ID,
+  clientSecret: process.env.GITHUB_CLIENT_SECRET,
+  callbackURL: "http://127.0.0.1:3000"
+},
+function(accessToken, refreshToken, profile, cb) {
+  User.findOrCreate({ githubId: profile.id }, function (err, user) {
+    return cb(err, user);
+  });
+}
+)); */
 
 // basic passport setup
 app.use(passport.initialize());
