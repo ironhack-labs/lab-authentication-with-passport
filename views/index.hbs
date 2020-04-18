@@ -1,2 +1,15 @@
+{{#if user}}
+Your are logged in! 
+<a href="/logout">Logout</a>
+{{/if}}
+
 <h1>{{title}}</h1>
-<p>Welcome to {{title}}</p>
+<p>Hi, {{user.username}} welcome to {{title}}</p>
+
+<br>
+
+{{#unless user}}
+<a href="/login">Login</a> or <a href="/signup">Signup</a>
+{{/unless}}
+
+
