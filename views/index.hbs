@@ -1,15 +1,17 @@
 <h1>{{title}}</h1>
 
 
+
 {{#if user}}
 <p>Welcome {{user.username}}</p>
 
-<a href="/logout">LOGOUT</a>
+Go to <a href="/private">PRIVATE PAGE</a><br>
+or <a href="/logout">LOGOUT</a>
 
 {{else}}
 
 <p>Welcome Stranger</p>
 
-<a href="/login">LOGIN</a>
+<a href="/login">LOGIN</a> or <a href="/signup">SIGNUP</a>
 
 {{/if}}

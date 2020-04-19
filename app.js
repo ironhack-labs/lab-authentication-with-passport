@@ -9,13 +9,12 @@ const mongoose = require('mongoose');
 const logger = require('morgan');
 const path = require('path');
 
-const session = require('express-session')
-const bcrypt = require('bcrypt')
-const passport = require('passport')
-
+const session = require('express-session');
+const bcrypt = require('bcrypt');
+const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 
-const MongoStore = require('connect-mongo')(session);
+const MongoStore = require("connect-mongo")(session);
 
 const User = require('./models/User.model')
 
@@ -35,8 +34,8 @@ const app = express();
 
 // express-session configuration 
 app.use(session({
-  secret:'abc',
-  cookie: { MaxAge: 24 * 60 * 60 * 1000}, //1 day
+  secret: "abc",
+  cookie: { maxAge: 24 * 60 * 60 * 1000 }, // 1 day
   store: new MongoStore({
     mongooseConnection: mongoose.connection,
     resave: true,
@@ -50,14 +49,16 @@ passport.serializeUser((user, callback) => {
   callback(null, user._id);
 });
 
+// this happens on every single request (if the user is logged in // if user._id exists in the session)
+// it makes the current user available as req.user
 passport.deserializeUser((id, callback) => {
   User.findById(id)
-  .then(user => {
-    callback(null, user);
-  })
-  .catch(error => {
-    callback(error);
-  });
+    .then(user => {
+      callback(null, user);
+    })
+    .catch(error => {
+      callback(error);
+    });
 });
 
 passport.use(
@@ -83,7 +84,6 @@ passport.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-
 // Middleware Setup
 app.use(logger('dev'));
 app.use(bodyParser.json());
@@ -91,6 +91,11 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 // Express View engine setup
+app.use(require('node-sass-middleware')({
+  src: path.join(__dirname, 'public'),
+  dest: path.join(__dirname, 'public'),
+  sourceMap: true
+}));
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
