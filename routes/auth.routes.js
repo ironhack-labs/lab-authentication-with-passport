@@ -12,6 +12,10 @@ const bcryptSalt = 10
 
 // Add passport
 
+const passport = require('passport')
+
+//SIGNUP FORM
+
 router.get('/signup', (req, res) => {
   res.render('auth/signup')
 })
@@ -48,6 +52,18 @@ router.post('/signup', (req, res) => {
     })
     .catch((err) => next(err))
 })
+
+//LOGIN FORM
+
+router.get('/login', (req, res) => res.render('auth/login'))
+
+router.post('/login', passport.authenticate('local', {
+  successRedirect: "/",
+  failureRedirect: "/login",
+  failureFlash: true,
+  passReqToCallback: true,
+  badRequestMessage: "Por favor, rellene todos los campos."
+}))
 
 const ensureLogin = require('connect-ensure-login')
 
