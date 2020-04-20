@@ -30,6 +30,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 // Express View engine setup
+require('./passport.config')(app)
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');

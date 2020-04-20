@@ -1,8 +1,13 @@
 body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif; }
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif
+}
 
-a {
-  color: #00B7FF; }
+.error-msg {
+  padding: 20px;
+  margin-top: 10px;
+  background-color: red;
+  color: white;
+  border-radius: 10px;
 
+}
 /*# sourceMappingURL=style.css.map */
