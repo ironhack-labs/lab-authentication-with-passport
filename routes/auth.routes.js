@@ -68,7 +68,7 @@ router.post('/login', passport.authenticate('local', {
 const ensureLogin = require('connect-ensure-login')
 
 router.get('/private-page', ensureLogin.ensureLoggedIn(), (req, res) => {
-  res.render('passport/private', { user: req.user })
+  res.render('auth/private', { user: req.user })
 })
 
 module.exports = router
