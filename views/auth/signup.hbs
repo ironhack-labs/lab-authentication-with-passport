@@ -1,0 +1,15 @@
+<form method="POST" action="/signup">
+  <div class="form-group">
+    <label for="detail1">Username</label>
+    <input type="text" class="form-control" id="detail1" aria-describedby="emailHelp" name="username">
+  </div>
+  <div class="form-group">
+    <label for="detail2">Password</label>
+    <input type="password" class="form-control" id="detail2" name="password">
+  </div>
+  <button type="submit" class="btn btn-dark">Signup</button>
+
+  {{#if errorMsg}}
+      <div id="errorMsg">{{{errorMsg}}}</div>
+  {{/if}}
+</form>

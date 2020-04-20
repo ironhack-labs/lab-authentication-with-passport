@@ -1,8 +1,15 @@
 body {
-  padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif; }
-
-a {
-  color: #00B7FF; }
-
+ 
+  .private-user{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+  .private-user img{
+    width: 100%;
+  }
+  .private-user button{
+    margin: 20px 0;
+  }
 /*# sourceMappingURL=style.css.map */
