@@ -1,2 +1,22 @@
 <h1>{{title}}</h1>
 <p>Welcome to {{title}}</p>
+
+<a href="/signup">Sign Up here</a>
+<br>
+<br>
+<p>If you already have an account you can login here</p>
+<a href="/login">Login</a>
+<br><br>
+
+<h3>Social logins</h3>
+
+{{!-- SLACK LOGIN --}}
+{{#unless user}}
+<a href="/auth/slack">Login With Slack</a>
+{{/unless}}
+<br><br>
+
+{{!-- GOOGLE LOGIN --}}
+{{#unless user}}
+<a href="/auth/google">Login With Google</a>
+{{/unless}}
