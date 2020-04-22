@@ -1,5 +1,6 @@
 require('dotenv').config();
 
+
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const express = require('express');
@@ -10,6 +11,8 @@ const logger = require('morgan');
 const path = require('path');
 const User = require('./models/User.model');
 const bcryptjs = require('bcryptjs');
+//const flash = require("connect-flash"); - could not get connect to flash even after trying to install
+
 
 const session    = require("express-session");
 const MongoStore = require("connect-mongo")(session);
@@ -41,7 +44,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 app.use(session({
-  secret:  process.env.SESSION_SECRET,
+  secret: 'somethingSecret',
   cookie: { maxAge: 60000 },
   store: new MongoStore({
     mongooseConnection: mongoose.connection,
@@ -64,6 +67,8 @@ passport.deserializeUser((id, done) => {
       done(err);
     });
 });
+
+//app.use(flash());
 
 passport.use(
   new LocalStrategy((username, password, done) => {

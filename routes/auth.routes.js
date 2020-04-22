@@ -10,8 +10,9 @@ const passport = require('passport');
 
 const ensureLogin = require('connect-ensure-login');
 
+
 router.get('/private-page', ensureLogin.ensureLoggedIn(), (req, res) => {
-  res.render('passport/private', { user: req.user });
+  res.render('auth/private', { user: req.user });
 });
 
 router.get('/signup', (req, res) => {
@@ -19,14 +20,14 @@ router.get('/signup', (req, res) => {
 });
 
 router.get('/login', (req, res) => {
-  res.render('auth/login'/* , { errorMessage: req.flash('error')  }*/)
+  res.render('auth/login', /* { errorMessage: req.flash('error')  } */)
 });
 
 
 router.post(
   '/login',
   passport.authenticate('local', {
-    successRedirect: '/dfdfsdfds',
+    successRedirect: '/',
     failureRedirect: '/login',
     failureFlash: true,
     passReqToCallback: true
