@@ -2,7 +2,68 @@ body {
   padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif; }
 
-a {
-  color: #00B7FF; }
+
+  .heading{
+    color:rgb(182, 177, 177);
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  button{
+    background-color: pink;
+    margin-top:5rem;
+    margin-bottom:5rem;
+    height:7rem;
+    width: 20rem;
+    border-radius: 15px;
+ box-shadow: none;
+  }
+  button:hover{
+    background-color: grey;
+  }
+
+  button:active{
+    background-color: pink;
+    color:grey;
+    box-shadow: 0 5px #666;
+  transform: translateY(4px);
+
+  }
+
+  .homepageLinks{
+    margin:6rem;
+    line-height: 10;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+   
+  }
+  a{
+    text-decoration: none;
+    font-size:30px;
+    color:rgb(182, 177, 177);
+  }
+
+  form{
+    font-size: 30px;
+    color: hotpink;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+
+  }
+  form >button{
+    width:80px;
+    height:40px;
+    color:rgb(182, 177, 177);
+  }
+  
+
+
+
 
 /*# sourceMappingURL=style.css.map */

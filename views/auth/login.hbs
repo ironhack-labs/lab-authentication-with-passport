@@ -1,0 +1,14 @@
+<form id="form" action="/auth/login" method="post">
+<label for="username">Username:</label>
+<input type="text" name="username" id="username">
+
+<label for="password">Password:</label>
+<input type="text" name="password" id="password">
+
+{{#if errormessage}}
+<p class="error-message">{{errormessage}}</p>
+{{/if}}
+
+<button type="submit">Log in</button>
+</form>
+<button><a href="/auth/github">Login via Github</a></button>
