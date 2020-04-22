@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
+const passport = require("passport");
 
 // Require user model
 const User = require("../models/User.model");
@@ -10,43 +11,51 @@ const bcrypt = require("bcrypt");
 const bcryptSalt = 10;
 
 // Add passport
-const passport = require("passport");
+
 const ensureLogin = require("connect-ensure-login");
+
+router.get('/private-page', ensureLogin.ensureLoggedIn(), (req, res) => {
+  res.render('auth/private', { user: req.user });
+});
+
 
 //sign up functionality iteration 1
 
-router.get("/signup", (req, res, next) => {
+router.get("/signup", (req, res) => {
   res.render("auth/signup");
 });
 
-router.post("/signup", (req, res, next) => {
-  const username = req.body.username;
-  const password = req.body.password;
+router.post('/signup', (req, res, next) => {
+  const { username, password } = req.body;
 
   if (password.length < 8) {
-    res.render("auth/signup", {
-      message: "Your password must be 8 characters minimum",
+    res.render('auth/signup', {
+      message: 'Your password must be 8 characters minimun.'
     });
     return;
   }
- 
-  if (username === "" || password === "") {
-    res.render("auth/signup", { message: "Indicate username and password" });
+  if (username === '') {
+    res.render('auth/signup', { message: 'Your username cannot be empty' });
     return;
   }
-
-  User.findOne({ username: username }).then((found) => {
+  User.findOne({ username: username }).then(found => {
     if (found !== null) {
-      res.render("auth/signup", { message: "Username is already taken" });
+      res.render('auth/signup', { message: 'This username is already taken' });
     } else {
       const salt = bcrypt.genSaltSync();
-      const hashPass = bcrypt.hashSync(password, salt);
+      const hash = bcrypt.hashSync(password, salt);
 
-      User.create({ username: username, password: hashPass })
-        .then((dbUser) => {
-          res.render("auth/login");
+      User.create({ username: username, password: hash })
+        .then(dbUser => {
+          req.login(dbUser, err => {
+            if (err) {
+              next(err);
+            } else {
+              res.redirect('/');
+            }
+          })
         })
-        .catch((err) => {
+        .catch(err => {
           next(err);
         });
     }
@@ -55,34 +64,24 @@ router.post("/signup", (req, res, next) => {
 
 //login functionality iteration 2
 
-router.get("/login", (req, res) => {
-  res.render("auth/login");
+router.get("/login", (req, res, next) => {
+  res.render("auth/login", { "message": req.flash("error") });
 });
 
 router.post(
-  "/login",
-  passport.authenticate("local", {
-    successRedirect: "/",
-    failureRedirect: "/auth/login",
+  '/login',
+  passport.authenticate('local', {
+    // here you can add your own routes 
+    successRedirect: '/private-page',
+    failureRedirect: '/login',
+    // this is set
     failureFlash: true,
-    passReqToCallback: true,
+    passReqToCallback: true
   })
 );
-
-const loginCheck = () => {
-  return (req, res, next) => {
-    if (req.isAuthenticated()) {
-      next();
-    } else {
-      res.redirect("/auth/login");
-    }
-  };
-};
-
-// Add passport, must go below other routes
-
-router.get('/private-page', ensureLogin.ensureLoggedIn(), (req, res) => {
-  res.render('passport/private', { user: req.user });
+router.get("/logout", (req, res) => {
+  req.logout();
+  res.redirect("/login");
 });
 
 module.exports = router;

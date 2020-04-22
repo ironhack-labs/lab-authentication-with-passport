@@ -1,5 +1,5 @@
 require("dotenv").config();
-
+const flash = require("connect-flash");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const express = require("express");
@@ -45,51 +45,48 @@ app.use(cookieParser());
 
 // configure the express middleware, set the secret key
 
-app.use(
-  session({
+app.use(session({
     secret: "our-passport-local-strategy-app",
     resave: true,
     saveUninitialized: true,
   })
 );
 
-//serialize and deserialize functions
-passport.serializeUser((user, done) => {
-  done(null, user._id);
+//Passports and serialize and deserialize functions
+app.use(passport.initialize());
+app.use(passport.session());
+passport.serializeUser((user, cb) => {
+  cb(null, user._id);
+});
+ 
+passport.deserializeUser((id, cb) => {
+  User.findById(id, (err, user) => {
+    if (err) { return cb(err); }
+    cb(null, user);
+  });
 });
 
-passport.deserializeUser((id, done) => {
-  User.findById(id)
-    .then((dbUser) => {
-      done(null, dbUser);
-    })
-    .catch((err) => {
-      done(err);
-    });
-});
+//Using flash
+app.use(flash());
 
 passport.use(
-  new LocalStrategy((username, password, next) => {
-    User.findOne({ username }, (err, user) => {
-      if (err) {
-        return next(err);
-      }
-      if (!user) {
-        return next(null, false, { message: "Incorrect username" });
-      }
-      if (!bcrypt.compareSync(password, user.password)) {
-        return next(null, false, { message: "Incorrect password" });
-      }
-
-      return next(null, user);
-    });
+  new LocalStrategy((username, password, done) => {
+    User.findOne({ username: username })
+      .then(found => {
+        if (found === null) {
+          done(null, false, { message: 'Wrong credentials' });
+        } else if (!bcrypt.compareSync(password, found.password)) {
+          done(null, false, { message: 'Wrong credentials' });
+        } else {
+          done(null, found);
+        }
+      })
+      .catch(err => {
+        done(err, false);
+      });
   })
 );
 
-
-//initialise passport and passport session
-app.use(passport.initialize());
-app.use(passport.session());
 
 // Express View engine setup
 
