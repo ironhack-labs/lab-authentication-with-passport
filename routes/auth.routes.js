@@ -1,79 +1,57 @@
+//require
 const express = require('express');
 const router = express.Router();
-const User = require('../models/user.model');
 
+const passport = require('passport')
+// Link to model User
+const User = require('../models/User.model');
+
+// Bcrypt in order to encrypt passwords in the mongodb
 const bcrypt = require('bcrypt');
 const bcryptSalt = 10;
-const bodyParser = require('body-parser');
-router.use(bodyParser.urlencoded({ extended: true }));
-// Add passport
-const passport = require('passport')
-const ensureLogin = require('connect-ensure-login');
 
-router.get('/private-page', ensureLogin.ensureLoggedIn(), (req, res) => {
-  res.render('private', { user: req.user });
-});
-
-router.get('/login', (req, res, next) => {
-  res.render('auth/login');
-});
-
-router.post(
-  '/login',
- 
-  passport.authenticate('local', {
-    successRedirect: '/',
-    failureRedirect: '/login',
-    failureFlash: true,
-    passReqToCallback: true
-  })
- 
-)
-
-
-
-
+const loggedInUser = require('../helpers/middlewares').loggedInUser
+const userIsAdmin = require('../helpers/middlewares').userIsAdmin
 
 router.get('/signup', (req, res, next) => {
   res.render('auth/signup');
 });
 
-//receive data from signup form
-router.post('/signup', (req, res) => {
+
+router.post('/signup', (req, res, next) => {
   const salt = bcrypt.genSaltSync(bcryptSalt);
   const hashPass = bcrypt.hashSync(req.body.password, salt);
-
   let user = new User({ username: req.body.username, password: hashPass })
-  user.save().then(() => {
+  // console.log(user)
+  //save the user and automatically log him in
+  user.save().then((theUser) => {
+    req.login(theUser, () => { res.redirect('/') }) 
+  })})
 
-    res.redirect('/login')
+router.get('/login', (req, res) => {
 
+  req.flash('message') //has to be an array
+
+  // redirect to homepage if already logged in
+  if (req.user) {
+    res.redirect('/')
+  }
+
+  res.render('auth/login', { errorArr: req.flash('message') })
 })
 
-
-//receive data from login form
-router.post('/login', (req, res) => {
-
-  res.send(req.body.username).then(() => {
-
-    // res.redirect('/login')
-
-})
-
-
-})})
-
-
+// use LocalStrategy for authentication
+router.post('/login', passport.authenticate('local', {
+  successRedirect: '/', // pick up the redirectBackTo parameter and after login redirect the user there. ( default / )
+  failureRedirect: '/login',
+  failureFlash: true,
+  // passReqToCallback: true
+}))
 
 router.get('/logout', (req, res) => {
   req.logout() // this one deletes the user from the session
   res.render('auth/logout');
 })
-
-
-
-
-
 
 
 module.exports = router;

@@ -18,8 +18,10 @@
     "express": "^4.17.1",
     "express-session": "^1.17.1",
     "hbs": "^4.1.0",
+    "middleware-helpers": "0.0.1",
     "mongoose": "^5.9.5",
     "morgan": "^1.9.1",
+    "node-sass-middleware": "^0.11.0",
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",
     "serve-favicon": "^2.5.0"
