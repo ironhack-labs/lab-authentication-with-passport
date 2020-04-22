@@ -18,6 +18,24 @@ router.get('/signup', (req, res) => {
   res.render('auth/signup')
 });
 
+router.get('/login', (req, res) => {
+  res.render('auth/login'/* , { errorMessage: req.flash('error')  }*/)
+});
+
+
+router.post(
+  '/login',
+  passport.authenticate('local', {
+    successRedirect: '/dfdfsdfds',
+    failureRedirect: '/login',
+    failureFlash: true,
+    passReqToCallback: true
+  })
+);
+
+
+
+
 router.post('/signup', (req, res, next) => {
   const { username, password } = req.body;
 

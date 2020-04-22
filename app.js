@@ -4,10 +4,21 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const express = require('express');
 const favicon = require('serve-favicon');
-const hbs = require('hbs');
+//const hbs = require('hbs');
 const mongoose = require('mongoose');
 const logger = require('morgan');
 const path = require('path');
+const User = require('./models/User.model');
+const bcryptjs = require('bcryptjs');
+
+const session    = require("express-session");
+const MongoStore = require("connect-mongo")(session);
+
+
+
+const passport = require("passport");
+const LocalStrategy = require("passport-local").Strategy;
+
 
 mongoose
   .connect('mongodb://localhost/auth-with-passport', {
@@ -28,6 +39,55 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+
+app.use(session({
+  secret:  process.env.SESSION_SECRET,
+  cookie: { maxAge: 60000 },
+  store: new MongoStore({
+    mongooseConnection: mongoose.connection,
+    ttl: 24 * 60 * 60 // 1 day
+  })
+}));
+
+
+
+passport.serializeUser((user, done) => {
+  done(null, user._id);
+});
+
+passport.deserializeUser((id, done) => {
+  User.findById(id)
+    .then(dbUser => {
+      done(null, dbUser);
+    })
+    .catch(err => {
+      done(err);
+    });
+});
+
+passport.use(
+  new LocalStrategy((username, password, done) => {
+    User.findOne({ username: username })
+      .then(found => {
+        if (found === null) {
+          done(null, false, { message: 'Wrong credentials' });
+        } else if (!bcryptjs.compareSync(password, found.password)) {
+          done(null, false, { message: 'Wrong credentials' });
+        } else {
+          done(null, found);
+        }
+      })
+      .catch(err => {
+        done(err, false);
+      });
+  })
+);
+
+
+
+app.use(passport.initialize());
+app.use(passport.session());
+
 
 // Express View engine setup
 
