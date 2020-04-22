@@ -1,0 +1,34 @@
+NOTES 
+
+1) npm install passport passport local in terminal in this folder
+2) to register passport as middleware by creating const for user, bycrypt, passport, LocalStrategy
+3) create use statements passport init and session 
+app.use(passport.initialize());
+app.use(passport.session());
+4) serialize the id field of user to keep info that is stored to min serialize
+5) deserialize id to reverse and retrieve the user form the database (this is something passport just does when storing user info)
+6) Add usage code passage from passport github docss
+7) require const passport in auth.js t
+8) add the route to loginm 
+9) post to login with callback that calls function on passport called 'authenticate'. 
+This function gets a few parameters. failure redirect (in case authentification fails)
+10) passport method to check authentificaiton for log in is req.isAuthenticated() (note req is my object passed into function)
+11)in index.js: router.get homepage  passport syntax is different: 
+const user = req.user;
+res.render('index);
+12) create user with salt and hash constants, User.create etc as usual
+13) destroy the session for logout, different to usual.
+14) app.js - require connect flash for the messages
+const flash = require(connect-flash');
+15) next line register as middle ware and use it 
+app.use(flash());
+16) show an error on the login route in auth.js WITHIN res.render as object error message within the router.get('/signup')
+17) render error message in view
+18) option automatic log in: in auth.js within User.create .then function:
+req.login(dbUser, err => {
+    if (err) {
+        next (err); //same as in the .catch call back
+    } else {
+        res.redirect('/'); 
+    }
+})

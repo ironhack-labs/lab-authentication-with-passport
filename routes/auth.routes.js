@@ -1,15 +1,91 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
+const passport = require("passport");
+const ensureLogin = require("connect-ensure-login");
+
 // Require user model
-
+const User = require("../models/User.model");
 // Add bcrypt to encrypt passwords
+const bcrypt = require("bcrypt");
+const bcryptSalt = 10;
 
-// Add passport
+//sign up functionality iteration 1
 
-const ensureLogin = require('connect-ensure-login');
+router.get("/signup", (req, res) => {
+  res.render("auth/signup");
+});
 
-router.get('/private-page', ensureLogin.ensureLoggedIn(), (req, res) => {
-  res.render('passport/private', { user: req.user });
+router.post("/signup", (req, res, next) => {
+  const username = req.body.username;
+  const password = req.body.password;
+  if (password.length < 8) {
+    res.render("auth/signup", {
+      message: "Your password must be 8 characters minimum",
+    });
+    return;
+  }
+  if (username === "") {
+    res.render("auth/signup", { message: "Your username cannot be empty" });
+    return;
+  }
+
+  User.findOne({ username: username }).then((found) => {
+    if (found !== null) {
+      res.render("signup", { message: "Username is already taken" });
+    } else {
+      const salt = bcrypt.genSaltSync();
+      const hashPass = bcrypt.hashSync(password, salt);
+
+      User.create({ username: username, password: hashPass })
+        .then((dbUser) => {
+          // login the user
+          req.login(dbUser, (err) => {
+            if (err) next(err);
+            else res.redirect("/");
+          });
+          res.redirect("/login");
+        })
+        .catch((err) => {
+          next(err);
+        });
+    }
+  });
+});
+
+//login functionality iteration 2
+
+router.get("/login", (req, res) => {
+  res.render("auth/login");
+});
+
+router.post(
+  "/login",
+  passport.authenticate("local", {
+    successRedirect: "/",
+    failureRedirect: "/auth/login",
+    failureFlash: true,
+    passReqToCallback: true,
+  })
+);
+
+router.get("/login", (req, res) => {
+  res.render("auth/login", { errorMessage: req.flash("error") });
+});
+
+const loginCheck = () => {
+  return (req, res, next) => {
+    if (req.isAuthenticated()) {
+      next();
+    } else {
+      res.redirect("/auth/login");
+    }
+  };
+};
+
+// Add passport, must go below other routes
+
+router.get("/private", ensureLogin.ensureLoggedIn(), (req, res) => {
+  res.render("passport/auth/private", { user: req.user });
 });
 
 module.exports = router;
