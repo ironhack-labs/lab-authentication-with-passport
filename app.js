@@ -1,5 +1,5 @@
 require("dotenv").config();
-const flash = require("connect-flash");
+
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const express = require("express");
@@ -16,6 +16,7 @@ const bcrypt = require("bcrypt");
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 
+const flash = require("connect-flash");
 
 mongoose
   .connect("mongodb://localhost/auth-with-passport", {
