@@ -67,8 +67,6 @@ router.post("/signup", (request, response, next) => {
 });
 
 // Iteration 2:
-// const flash = require("connect-flash");
-// app.use(flash());
 
 router.get("/login", (request, response) => {
   response.render("auth/login", { message: request.flash("error") });
@@ -81,6 +79,17 @@ router.post(
     failureRedirect: "/login",
     failureFlash: true,
     passReqToCallback: true,
+  })
+);
+
+// Bonus: Social Login
+
+router.get("/auth/slack", passport.authenticate("slack"));
+router.get(
+  "/auth/slack/callback",
+  passport.authenticate("slack", {
+    successRedirect: "/private-page",
+    failureRedirect: "/", // here you would navigate to the classic login page
   })
 );
 

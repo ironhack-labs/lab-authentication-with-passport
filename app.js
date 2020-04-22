@@ -96,6 +96,43 @@ passport.use(
   )
 );
 
+// Bonus: Social Login
+// see lecture instructions
+const SlackStrategy = require("passport-slack").Strategy;
+
+passport.use(
+  new SlackStrategy(
+    {
+      clientID: "1012534720640.1091954637505",
+      clientSecret: "a10680ea274740d72bd0476a16eef92b",
+      callbackURL: "/auth/slack/callback",
+    },
+    (accessToken, refreshToken, profile, done) => {
+      // to see the structure of the data in received response:
+      console.log("Slack account details:", profile);
+
+      User.findOne({ slackID: profile.id })
+        .then((user) => {
+          if (user) {
+            done(null, user);
+            return;
+          }
+
+          User.create({ slackID: profile.id })
+            .then((newUser) => {
+              done(null, newUser);
+            })
+            .catch((error) => {
+              done(error);
+            }); // closes User.create()
+        })
+        .catch((error) => {
+          done(error);
+        }); // closes User.findOne()
+    }
+  )
+);
+
 app.use(passport.initialize());
 app.use(passport.session());
 
