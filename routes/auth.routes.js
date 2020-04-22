@@ -31,7 +31,7 @@ router.post("/signup", (req, res, next) => {
 
   User.findOne({ username: username }).then((found) => {
     if (found !== null) {
-      res.render("signup", { message: "Username is already taken" });
+      res.render("auth/signup", { message: "Username is already taken" });
     } else {
       const salt = bcrypt.genSaltSync();
       const hashPass = bcrypt.hashSync(password, salt);
@@ -39,11 +39,12 @@ router.post("/signup", (req, res, next) => {
       User.create({ username: username, password: hashPass })
         .then((dbUser) => {
           // login the user
-          req.login(dbUser, (err) => {
-            if (err) next(err);
-            else res.redirect("/");
-          });
-          res.redirect("/login");
+          // req.login(dbUser, (err) => {
+          //   if (err) next(err);
+          //   else res.redirect("/");
+          // });
+          res.render("auth/login");
+          //res.redirect("auth/login");   //Why does res.render work and not res.redirect?
         })
         .catch((err) => {
           next(err);
@@ -67,10 +68,6 @@ router.post(
     passReqToCallback: true,
   })
 );
-
-router.get("/login", (req, res) => {
-  res.render("auth/login", { errorMessage: req.flash("error") });
-});
 
 const loginCheck = () => {
   return (req, res, next) => {

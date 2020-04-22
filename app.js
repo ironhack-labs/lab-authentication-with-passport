@@ -8,7 +8,7 @@ const hbs = require("hbs");
 const mongoose = require("mongoose");
 const logger = require("morgan");
 const path = require("path");
-const flash = require("connect-flash");
+const User = require("./models/User.model");
 
 //require passport and express packages
 const session = require("express-session");
@@ -39,7 +39,6 @@ app.use(logger("dev"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(flash());
 
 // configure the express middleware, set the secret key
 
