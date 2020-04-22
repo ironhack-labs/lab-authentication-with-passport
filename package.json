@@ -11,6 +11,7 @@
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
     "connect-ensure-login": "^0.1.1",
+    "connect-flash": "^0.1.1",
     "connect-mongo": "^3.2.0",
     "cookie-parser": "^1.4.5",
     "dotenv": "^8.2.0",
@@ -18,10 +19,12 @@
     "express-session": "^1.17.1",
     "hbs": "^4.1.0",
     "mongoose": "^5.9.5",
+    "mongoose-findorcreate": "^3.0.0",
     "morgan": "^1.9.1",
     "passport": "^0.4.1",
     "passport-github": "^1.1.0",
     "passport-local": "^1.0.0",
+    "passport-slack": "0.0.7",
     "serve-favicon": "^2.5.0"
   },
   "devDependencies": {

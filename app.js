@@ -9,11 +9,13 @@ const mongoose = require('mongoose');
 const logger = require('morgan');
 const path = require('path');
 
+const flash = require('connect-flash')
+
 const User = require('./models/User.model');
 
 // require passport, passport-local, express-session
 const passport = require('passport')
-const session = require ('express-session')
+const session = require('express-session')
 const LocalStrategy = require('passport-local').Strategy;
 const bcrypt = require('bcrypt');
 
@@ -22,6 +24,7 @@ const GitHubStrategy = require('passport-github').Strategy;
 
 // storing in db
 const MongoStore = require("connect-mongo")(session);
+
 
 mongoose
   .connect('mongodb://localhost/auth-with-passport', {
@@ -36,12 +39,14 @@ const app_name = require('./package.json').name;
 const debug = require('debug')(`${app_name}:${path.basename(__filename).split('.')[0]}`);
 
 const app = express();
-
+app.use(flash());
 
 // express-session configuration
 app.use(session({
   secret: process.env.SECRET,
-  cookie: { maxAge: 24 * 60 * 60 * 1000 }, // 1 day
+  cookie: {
+    maxAge: 24 * 60 * 60 * 1000
+  }, // 1 day
   store: new MongoStore({
     mongooseConnection: mongoose.connection,
     resave: true,
@@ -69,13 +74,19 @@ passport.deserializeUser((id, callback) => {
 
 passport.use(
   new LocalStrategy((username, password, callback) => {
-    User.findOne({ username })
+    User.findOne({
+        username
+      })
       .then(user => {
         if (!user) {
-          return callback(null, false, { message: 'Incorrect username' });
+          return callback(null, false, {
+            message: 'Incorrect username'
+          });
         }
         if (!bcrypt.compareSync(password, user.password)) {
-          return callback(null, false, { message: 'Incorrect password' });
+          return callback(null, false, {
+            message: 'Incorrect password'
+          });
         }
         callback(null, user);
       })
@@ -86,16 +97,38 @@ passport.use(
 );
 
 // trying to implement github strategy
-/* passport.use(new GitHubStrategy({
-  clientID: process.env.GITHUB_CLIENT_ID,
-  clientSecret: process.env.GITHUB_CLIENT_SECRET,
-  callbackURL: "http://127.0.0.1:3000"
-},
-function(accessToken, refreshToken, profile, cb) {
-  User.findOrCreate({ githubId: profile.id }, function (err, user) {
-    return cb(err, user);
-  });
-}
+passport.use(new GitHubStrategy({
+    clientID: process.env.GITHUB_CLIENT_ID,
+    clientSecret: process.env.GITHUB_CLIENT_SECRET,
+    callbackURL: "http://localhost:3000/auth/github/callback"
+  },
+  function(accessToken, refreshToken, profile, cb) {
+    User.findOrCreate({ githubId: profile.id }, function (err, user) {
+      return cb(err, user);
+    });
+  }
+));
+
+
+  /* (accessToken, refreshToken, profile, cb) => {
+    User.findOrCreate({
+        githubId: profile.id
+      })
+      .then(user => {
+        if (user) {
+          done(null, user);
+          return;
+        }
+        User.create({
+            githubId: profile.id
+          })
+          .then(newUser => {
+            done(null, newUser);
+          })
+          .catch(err => done(err)); // closes User.create()
+      })
+      .catch(err => done(err)); // closes User.findOne()
+  }
 )); */
 
 // basic passport setup
@@ -106,7 +139,9 @@ app.use(passport.session());
 // Middleware Setup
 app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({
+  extended: false
+}));
 app.use(cookieParser());
 
 // Express View engine setup

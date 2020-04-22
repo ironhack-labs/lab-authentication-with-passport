@@ -47,7 +47,7 @@ router.get('/login', (req, res, next) => {
 router.post('/login', passport.authenticate('local', {
   successRedirect: '/', // pick up the redirectBackTo parameter and after login redirect the user there. ( default / )
   failureRedirect: '/login',
-  // failureFlash: true,
+  failureFlash: true,
   // passReqToCallback: true
 }));
   // IMPORTANT LEARNING: do use passport.authenticate, just a res.send does not store anything
@@ -63,9 +63,29 @@ router.get('/private', (req, res, next) => {
     res.render('auth/private', {user: req.user})
   }
   else {
+    //req.flash('error', 'you have to belogged in')
     res.send('sorry, you are not logged in yet')
   }
 })
 // --------------------- END Private Page
+
+
+// --------------------- START Github Login
+router.get("/auth/github", passport.authenticate("github"));
+
+router.get(
+  "/auth/github/callback",
+  passport.authenticate("github", {
+    successRedirect: "/",
+    failureRedirect: "/login" // here you would navigate to the classic login page
+  })
+);
+// --------------------- END Github Login
+
+router.get('/logout', (req, res) => {
+  req.logout() // this one deletes user from the session
+  res.render('auth/logout');
+})
+
 
 module.exports = router;
