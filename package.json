@@ -21,7 +21,10 @@
     "mongoose": "^5.9.5",
     "morgan": "^1.9.1",
     "passport": "^0.4.1",
+    "passport-facebook": "^3.0.0",
+    "passport-google-oauth20": "^2.0.0",
     "passport-local": "^1.0.0",
+    "passport-slack": "0.0.7",
     "serve-favicon": "^2.5.0"
   },
   "devDependencies": {

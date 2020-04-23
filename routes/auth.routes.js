@@ -73,4 +73,13 @@ router.get('/private-page', ensureLogin.ensureLoggedIn(), (req, res) => {
   res.render('auth/private', { user: req.user });
 });
 
+router.get('/slack', passport.authenticate('slack'));
+router.get(
+  '/slack/callback',
+  passport.authenticate('slack', {
+    successRedirect: '/auth/private-page',
+    failureRedirect: '/auth/login',
+  })
+);
+
 module.exports = router;

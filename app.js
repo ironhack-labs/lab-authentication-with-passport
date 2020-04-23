@@ -16,6 +16,8 @@ const bcrypt = require('bcrypt');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 
+const SlackStrategy = require('passport-slack').Strategy;
+
 mongoose
   .connect('mongodb://localhost/auth-with-passport', {
     useNewUrlParser: true,
@@ -57,25 +59,6 @@ app.use(
   })
 );
 
-//Iteration #2: we serialize only the `_id` field of the user to keep the information stored minimum
-passport.serializeUser((user, done) => {
-  done(null, user._id);
-});
-
-//Iteration #2: when we need the information for the user, the deserializeUser function is called
-// with the id that we previously serialized to fetch the user from the database
-passport.deserializeUser((id, done) => {
-  User.findById(id)
-    .then((dbUser) => {
-      done(null, dbUser);
-    })
-    .catch((err) => {
-      done(err);
-    });
-});
-
-app.use(flash());
-
 //Iteration #2: LocalStrategy it finds the user and check if the password matches.
 passport.use(
   new LocalStrategy((username, password, done) => {
@@ -94,6 +77,54 @@ passport.use(
       });
   })
 );
+
+passport.use(
+  new SlackStrategy(
+    {
+      clientID: process.env.SLACK_ID,
+      clientSecret: process.env.SLACK_SECRET,
+      callbackURL: 'http://localhost:3000/auth/slack/callback',
+    },
+    (accessToken, refreshToken, profile, done) => {
+      // to see the structure of the data in received response:
+      console.log('Slack account details:', profile);
+
+      User.findOne({ slackID: profile.id })
+        .then((user) => {
+          if (user) {
+            done(null, user);
+            return;
+          }
+
+          User.create({ slackID: profile.id })
+            .then((newUser) => {
+              done(null, newUser);
+            })
+            .catch((err) => done(err)); // closes User.create()
+        })
+        .catch((err) => done(err)); // closes User.findOne()
+    }
+  )
+);
+
+//Iteration #2: we serialize only the `_id` field of the user to keep the information stored minimum
+passport.serializeUser((user, done) => {
+  done(null, user._id);
+});
+
+//Iteration #2: when we need the information for the user, the deserializeUser function is called
+// with the id that we previously serialized to fetch the user from the database
+passport.deserializeUser((id, done) => {
+  User.findById(id)
+    .then((dbUser) => {
+      done(null, dbUser);
+    })
+    .catch((err) => {
+      done(err);
+    });
+});
+
+app.use(flash());
 
 //Iteration #2: register passport as middleware
 app.use(passport.initialize());
