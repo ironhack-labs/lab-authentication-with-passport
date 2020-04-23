@@ -1,0 +1,17 @@
+  
+{{!-- Iteration #2: login form  --}}
+
+<form id="form" action="/auth/login" method="POST">
+
+  <label for="username">Username</label><br />
+  <input type="text" name="username" />
+
+  <label for="password">Password</label><br />
+  <input type="password" name="password" />
+
+  {{#if errorMessage}}
+    <div class="error-message">{{errorMessage}}</div>
+  {{/if}}
+
+  <button type="submit">Log in</button>
+</form>
