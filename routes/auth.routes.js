@@ -20,7 +20,7 @@ router.get('/signup', (req, res) => {
 });
 
 router.get('/login', (req, res) => {
-  res.render('auth/login', /* { errorMessage: req.flash('error')  } */)
+  res.render('auth/login', { errorMessage: req.flash('error')  })
 });
 
 

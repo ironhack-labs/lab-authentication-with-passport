@@ -11,7 +11,7 @@ const logger = require('morgan');
 const path = require('path');
 const User = require('./models/User.model');
 const bcryptjs = require('bcryptjs');
-//const flash = require("connect-flash"); - could not get connect to flash even after trying to install
+const flash = require("connect-flash");
 
 
 const session    = require("express-session");
@@ -44,7 +44,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 app.use(session({
-  secret: 'somethingSecret',
+  secret: process.env.SESSION_SECRET,
   cookie: { maxAge: 60000 },
   store: new MongoStore({
     mongooseConnection: mongoose.connection,
@@ -68,7 +68,7 @@ passport.deserializeUser((id, done) => {
     });
 });
 
-//app.use(flash());
+app.use(flash());
 
 passport.use(
   new LocalStrategy((username, password, done) => {
