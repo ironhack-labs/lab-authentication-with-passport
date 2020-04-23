@@ -5,6 +5,7 @@ const userSchema = new Schema(
   {
     username: String,
     password: String,
+    slackID: String,
     googleID: String,
   },
   {
