@@ -40,6 +40,12 @@ router.get('/login', (req, res) => {
   res.render('auth/login', { errorArr: req.flash('message') })
 })
 
+
+
+router.get('/private-page', loggedInUser,  (req, res, next) => {
+  res.render('auth/private', { user: req.user });
+});
+
 // use LocalStrategy for authentication
 router.post('/login', passport.authenticate('local', {
   successRedirect: '/', // pick up the redirectBackTo parameter and after login redirect the user there. ( default / )
