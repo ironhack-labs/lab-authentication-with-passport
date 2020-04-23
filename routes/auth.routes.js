@@ -45,7 +45,7 @@ router.get('/login', (req, res, next) => {
 });
 
 router.post('/login', passport.authenticate('local', {
-  successRedirect: '/', // pick up the redirectBackTo parameter and after login redirect the user there. ( default / )
+  successRedirect: '/private', // pick up the redirectBackTo parameter and after login redirect the user there. ( default / )
   failureRedirect: '/login',
   failureFlash: true,
   // passReqToCallback: true
@@ -76,7 +76,7 @@ router.get("/auth/github", passport.authenticate("github"));
 router.get(
   "/auth/github/callback",
   passport.authenticate("github", {
-    successRedirect: "/",
+    successRedirect: "/private",
     failureRedirect: "/login" // here you would navigate to the classic login page
   })
 );

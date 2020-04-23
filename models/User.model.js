@@ -8,6 +8,7 @@ const userSchema = new Schema({
   username: String,
   password: String,
   githubId: String,
+  githubName: String,
   slackId: String
 }, {
   timestamps: true
