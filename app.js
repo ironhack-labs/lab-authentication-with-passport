@@ -103,8 +103,8 @@ const SlackStrategy = require("passport-slack").Strategy;
 passport.use(
   new SlackStrategy(
     {
-      clientID: "1012534720640.1091954637505",
-      clientSecret: "a10680ea274740d72bd0476a16eef92b",
+      clientID: process.env.CLIENT_ID,
+      clientSecret: process.env.CLIENT_SECRET,
       callbackURL: "/auth/slack/callback",
     },
     (accessToken, refreshToken, profile, done) => {
