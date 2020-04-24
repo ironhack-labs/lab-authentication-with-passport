@@ -14,6 +14,7 @@ const session = require("express-session");
 const bcrypt = require("bcrypt");
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
+const SlackStrategy = require("passport-slack").Strategy;
 
 mongoose
   .connect('mongodb://localhost/auth-with-passport', {
@@ -53,7 +54,7 @@ passport.deserializeUser((id, cb) => {
 });
 
 app.use(flash());
- 
+
 passport.use(new LocalStrategy((username, password, next) => {
   User.findOne({ username }, (err, user) => {
     if (err) {
@@ -69,6 +70,35 @@ passport.use(new LocalStrategy((username, password, next) => {
     return next(null, user);
   });
 }));
+
+passport.use(
+  new SlackStrategy(
+    {
+      clientID: "1012534720640.1108617494144",
+      clientSecret: "302d17f3c9b01d1f66d5702b5b666316",
+      callbackURL: "/auth/slack/callback"
+    },
+    (accessToken, refreshToken, profile, done) => {
+      // to see the structure of the data in received response:
+      console.log("Slack account details:", profile);
+ 
+      User.findOne({ slackID: profile.id })
+        .then(user => {
+          if (user) {
+            done(null, user);
+            return;
+          }
+ 
+          User.create({ slackID: profile.id })
+            .then(newUser => {
+              done(null, newUser);
+            })
+            .catch(err => done(err)); // closes User.create()
+        })
+        .catch(err => done(err)); // closes User.findOne()
+    }
+  )
+);
 app.use(passport.initialize());
 app.use(passport.session());
 

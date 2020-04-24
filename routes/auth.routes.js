@@ -57,6 +57,15 @@ router.post("/signup", (req, res, next) => {
   })
 });
 
+ 
+router.get("/auth/slack", passport.authenticate("slack"));
+router.get(
+  "/auth/slack/callback",
+  passport.authenticate("slack", {
+    successRedirect: "/private",
+    failureRedirect: "/login" 
+  })
+);
 
 
 router.get("/login", (req, res, next) => {
