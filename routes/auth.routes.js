@@ -1,5 +1,5 @@
-const express        = require("express");
-const passportRouter = express.Router();
+const express = require('express');
+const router = express.Router();
 // TODO: Require user model
 
 // TODO: Add bcrypt to encrypt passwords
@@ -11,8 +11,8 @@ passportRouter.get("/private-page", (req, res) => {
     res.redirect('/login');
     return;
   }
-  
+
   res.render("passport/private", { user: req.user });
 });
 
-module.exports = passportRouter;
+module.exports = router;
