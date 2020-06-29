@@ -8,6 +8,13 @@ const hbs = require('hbs');
 const mongoose = require('mongoose');
 const logger = require('morgan');
 const path = require('path');
+const session = require("express-session")
+const bcrypt = require("bcrypt")
+const passport = require("passport")
+const LocalStrategy = require("passport-local").Strategy
+const flash = require("connect-flash")
+
+
 
 mongoose
   .connect('mongodb://localhost/auth-with-passport', {
@@ -28,8 +35,16 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+//SERIALIZACION Y DESERIALIZACION DE USER
+
+
+
+
+
 
 // Express View engine setup
+
+require('./config/passport.config')(app)
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
