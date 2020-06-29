@@ -3,11 +3,17 @@ require('dotenv').config();
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const express = require('express');
+const session = require("express-session");
 const favicon = require('serve-favicon');
 const hbs = require('hbs');
 const mongoose = require('mongoose');
 const logger = require('morgan');
 const path = require('path');
+const passport = require("passport")
+const LocalStrategy = require("passport-local").Strategy
+const User = require("./models/User.model");
+const bcryptjs = require("bcryptjs")
+
 
 mongoose
   .connect('mongodb://localhost/auth-with-passport', {
@@ -28,6 +34,48 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+
+
+
+
+
+app.use(passport.initialize())
+app.use(passport.session())
+
+app.use(session({
+  secret: "pruebaPassport",
+  resave: true,
+  saveUninitialized: true
+}))
+
+
+passport.serializeUser((user, cb) => cb(null, user._id))
+
+passport.deserializeUser((id, cb) => {
+  User.findById(id, (err, user) => {
+    if (err) { return cb(err) }
+    cb(null, user)
+  })
+})
+
+
+passport.use(new LocalStrategy({ passReqToCallback: true }, (req, username, password, next) => {
+  User.findOne({ username }, (err, user) => {
+    if (err) {
+      return next(err)
+    }
+    if (!user) {
+      return next(null, false, { message: "Usuario inexistente" });
+    }
+    if (!bcryptjs.compareSync(password, user.password)) {
+      return next(null, false, { message: "Contraseña incorrecta" });
+    }
+    return next(null, user)
+  })
+}))
+
+
+
 
 // Express View engine setup
 
