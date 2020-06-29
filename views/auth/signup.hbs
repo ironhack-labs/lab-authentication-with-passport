@@ -1,0 +1,19 @@
+<h2> Sing Up</h2>
+
+<form action="/signup" method="POST">
+    <label for="username">Username</label>
+    <input id="username" type="next" name="username" placeholder="Username">
+    <br><br>
+    <label for="password">Password</label>
+    <input id="password" type="password" name="password" placeholder="Your password">
+
+    {{#if errorMsg}}
+    <div style="color: red">{{ message }}</div>
+    {{/if}}
+    <br><br>
+
+    <button> Create account</button>
+
+    <p>Do you already have an account ? <a href="/login">LogIn</a></p>
+
+</form>
