@@ -1,5 +1,9 @@
 require('dotenv').config();
 
+//Configs
+require('./configs/passport.config')(app)
+
+
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const express = require('express');
@@ -38,6 +42,8 @@ app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));
 
 // default value for title local
 app.locals.title = 'Express - Generated with IronGenerator';
+
+
 
 // Routes middleware goes here
 const index = require('./routes/index.routes');
