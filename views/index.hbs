@@ -1,2 +1,20 @@
 <h1>{{title}}</h1>
 <p>Welcome to {{title}}</p>
+
+
+<div class="row">
+    {{#if isLogged}}    
+        <div class="col col-lg-2"><a class="btn btn-primary" href="/auth/logout" role="button">Log Out</a></div>
+    {{else}}    
+        <div class="col col-lg-2"><a class="btn btn-primary" href="/auth/signup" role="button">Sign Up</a></div>
+        <div class="col col-lg-2"><a class="btn btn-primary" href="/auth/login" role="button">Login</a></div>
+    {{/if}}
+</div>
+<br>
+<br>
+<div class="row justify-content-md-center">
+
+    {{#if isLogged}}    
+        <div class="col col-lg-2"><a class="btn btn-danger" href="/auth/private" role="button">Private</a></div>
+    {{/if}}  
+</div>
