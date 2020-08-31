@@ -1,0 +1,14 @@
+<div class="authenticate">
+    <h1>Connect to your account</h1>
+    {{#if error}}
+    <p style="color: red;">{{error}}</p>
+    {{/if}}
+    <form action="/login" method="POST">
+        <label for="username">Username:</label>
+        <input type="text" name="username" required>
+        <label for="password">Password:</label>
+        <input type="password" name="password" required>
+        <button type="submit">Login</button>
+    </form>
+    <p>You don't have an account yet?<br><a href="/signup">Sign up here!</a></p>
+</div>

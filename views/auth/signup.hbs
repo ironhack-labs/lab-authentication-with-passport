@@ -1,8 +1,11 @@
 <div class="authenticate">
+    <h1>Create a new account</h1>
     <form action="/signup" method="POST">
         <label for="username">Username:</label>
         <input type="text" name="username" required>
         <label for="password">Password:</label>
-        <input type="text" name="password" required>
+        <input type="password" name="password" required>
+        <button type="submit">Sign up</button>
     </form>
+    <p>You already have an account?<br><a href="/login">Login here!</a></p>
 </div>

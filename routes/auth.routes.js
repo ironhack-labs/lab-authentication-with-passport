@@ -1,16 +1,24 @@
 const express = require('express');
 const router = express.Router();
-// Add passport
-// const passport = require('passport');
-const ensureLogin = require('connect-ensure-login');
 const {
-    signupView
+    ensureLogin
+} = require('../middlewares/index');
+const {
+    signupView,
+    signupProcess,
+    loginView,
+    loginProcess,
+    logout
 } = require('../controllers/auth');
 
 router.get('/signup', signupView);
+router.post('/signup', signupProcess);
+router.get('/login', loginView);
+router.post('/login', loginProcess);
+router.get('/logout', logout);
 
-router.get('/private-page', ensureLogin.ensureLoggedIn(), (req, res) => {
-    res.render('passport/private', {
+router.get('/private-page', ensureLogin('/login'), (req, res) => {
+    res.render('auth/private', {
         user: req.user
     });
 });
