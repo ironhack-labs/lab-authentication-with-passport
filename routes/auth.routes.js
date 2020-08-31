@@ -1,15 +1,28 @@
 const express = require('express');
 const router = express.Router();
-// Require user model
+const User = require("../models/User.model")
+const {signupView,
+    signupProcess,
+    loginView,
+    loginProcess,
+    private,
+    logout}  = require("../control/index")
 
-// Add bcrypt to encrypt passwords
+const {enssureLogin} =  require("../middlewares")
 
-// Add passport
+//signUp
+router.get("/auth/signup", signupView)
+router.post("/auth/signup", signupProcess)
 
-const ensureLogin = require('connect-ensure-login');
+//login
+router.get("/auth/login", loginView)
+router.post("/auth/login", loginProcess)
+router.get("/logout", logout)
 
-router.get('/private-page', ensureLogin.ensureLoggedIn(), (req, res) => {
-  res.render('passport/private', { user: req.user });
-});
+//private
+router.get("/auth/private", enssureLogin("/auth/login"), (req, res)=>{
+  res.render("auth/private", {user : req.user})
+})
+
 
 module.exports = router;
