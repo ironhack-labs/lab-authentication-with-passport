@@ -1,0 +1,21 @@
+<h2>Ingresar</h2>
+
+<form action="/signup" method="POST" id="form-container">
+  <label for="username">Usuario</label>
+  <input id="username" type="text" name="username" placeholder="yourUsarname">
+  <br><br>
+  <label for="password">Password</label>
+  <input id="password" type="password" name="password" placeholder="**********">
+
+  {{#if error}} 
+    <div class="error-message">{{ error }}</div>
+  {{/if}}
+  <br><br>
+
+  <button>Sign Up</button>
+
+  <p class="account-message">
+   Usuarios registrados
+    <a href="/login">Login</a>
+  </p>
+</form>
