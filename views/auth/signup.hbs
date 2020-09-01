@@ -1,0 +1,15 @@
+<form action="/auth/signup" method="POST">
+    <div class="form-group">
+        <label for="username">Username</label>
+        <input type="text" class="form-control" name="username" id="username">
+    </div>
+    <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" class="form-control" name="password" id="password">
+    </div>
+    <button class="btn btn-primary">Create account</button>
+</form>
+<br>
+{{#if error}}
+    <div class="error-message">{{error}}</div>
+{{/if}}
