@@ -14,7 +14,7 @@ const {enssureLogin} =  require("../middlewares")
 router.get("/auth/signup", signupView)
 router.post("/auth/signup", signupProcess)
 
-//login
+// //login
 router.get("/auth/login", loginView)
 router.post("/auth/login", loginProcess)
 router.get("/logout", logout)
