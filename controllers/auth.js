@@ -39,6 +39,6 @@ exports.runLogin = passport.authenticate("local", {
     failureRedirect: '/login'
 })
 
-exports.private = (req, res, next) => {
+exports.private = (req, res) => {
     res.render('auth/private', req.user)
 }

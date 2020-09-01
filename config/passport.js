@@ -32,9 +32,9 @@ passport.serializeUser((user, done) => {
 passport.deserializeUser(async (id, done) => {
     try{
         // En ese ejemplo sólo vamos a necesitar el username, por eso destructuramos
-        const {username} = await User.findById(id)
+        const user = await User.findById(id)
         // Pasamos el done con la información recabada, ese done pasará como argumento para lo que se venga en la ruta
-        done(null, {username})
+        done(null, {user})
     }catch(error){
         console.log(error)
         done(error)

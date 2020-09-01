@@ -12,7 +12,7 @@ const {
 } = require('../controllers/auth')
 
 // Requerir middleware
-const ensureLogin = require("../middlewares/")
+const {ensureLogin} = require("../middlewares")
 
 // router.get('/private-page', ensureLogin('/private'), (req, res) => {
 //   res.render('passport/private', { user: req.user });
@@ -23,7 +23,7 @@ router.post('/signup', runSignup)
 // LOGIN
 router.get('/login', showLogin)
 router.post('/login', runLogin)
-// PRIVATE
-router.get('/private',ensureLogin('/login'), private)
+
+router.get('/private', ensureLogin('/login'), private)
 
 module.exports = router;
