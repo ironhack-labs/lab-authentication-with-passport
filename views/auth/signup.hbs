@@ -1,0 +1,16 @@
+<form action="/signup" method="POST">
+    <div class="form-row justify-content-center pt-3">
+        <div class="form-group col-7 m-2">
+            <label for="username">Username</label>
+            <input class="form-control text-secondary" type="text" name="username" placeholder="Your name">
+        </div>
+        <div class="form-group col-7 m-2">
+            <label for="password">Password</label>
+            <input class="form-control text-secondary" type="password" name="password" placeholder="Your password">
+        </div>
+        {{#if message}}
+        <p class="col-7 m-2" style="color: red">{{ message }}</p>
+        {{/if}}
+        <button class="btn btn-outline-success col-7 m-2">SignUp</button>
+    </div>
+</form>

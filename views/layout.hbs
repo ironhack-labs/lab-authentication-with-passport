@@ -1,16 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>{{title}}</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <link rel="stylesheet" href="/stylesheets/style.css" />
 </head>
-<body>
 
+<body>
+  <nav class="navbar navbar bg-dark justify-content-center">
+    <ul class="nav">
+      <li class="nav-item">
+        <a class="nav-link text-light" href="/">Home</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link text-light" href="/login">Login</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link text-light" href="/signup">Signup</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link text-light" href="/private-page">Private</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link text-light" href="/logout">Logout</a>
+      </li>
+    </ul>
+  </nav>
   {{{body}}}
 
   <script src="/javascripts/script.js"></script>
 </body>
+
 </html>
