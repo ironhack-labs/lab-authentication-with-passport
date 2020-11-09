@@ -43,10 +43,11 @@ router.post('/signup', (req, res) => {
   // console.log(user);
 });
 
-
+// create a GET route that will display the login form. Create a login form in the views/auth/login.hbs
 router.get('/login', (req, res) => {
   res.render('auth/login');
 });
+//Create a login form in the views/auth/login.hbs. The form should make a POST request to /login
 router.post('/login', (req, res) => {
   // console.log(req.body);
   const {
@@ -60,6 +61,9 @@ router.post('/login', (req, res) => {
   });
   // console.log(user);
 });
+
+//Once you have the form, add another route to the router. This route needs to receive the data from the form and log the user in.
+
 
 module.exports = router;
 
