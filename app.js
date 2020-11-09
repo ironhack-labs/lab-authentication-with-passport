@@ -7,7 +7,8 @@ const favicon = require('serve-favicon');
 const hbs = require('hbs');
 const mongoose = require('mongoose');
 const logger = require('morgan');
-const path = require('path');
+const path = require('path')
+  chalkAnimation = require('chalk-animation');
 
 mongoose
   .connect('mongodb://localhost/auth-with-passport', {
@@ -15,7 +16,7 @@ mongoose
     useUnifiedTopology: true,
     useCreateIndex: true
   })
-  .then(x => console.log(`Connected to Mongo! Database name: "${x.connections[0].name}"`))
+  .then(x => chalkAnimation.rainbow(`Connected to Mongo! Database name: "${x.connections[0].name}"`))
   .catch(err => console.error('Error connecting to mongo', err));
 
 const app_name = require('./package.json').name;
@@ -26,7 +27,9 @@ const app = express();
 // Middleware Setup
 app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({
+  extended: false
+}));
 app.use(cookieParser());
 
 // Express View engine setup
