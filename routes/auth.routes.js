@@ -4,13 +4,16 @@ const express = require('express'),
   app = express(),
   bcrypt = require("bcrypt"),
   User = require("../models/User.model.js"),
-  passport = require('passport');
-  Strategy = require('passport-local').Strategy;;
+  passport = require("../config/passport");
 // Require user model
 
 // Add bcrypt to encrypt passwords
 
 // Add passport
+router.use(passport.initialize());
+router.use(passport.session());
+// Add the line below, which you're missing:
+// require('./path/to/passport/config/file')(passport);
 
 const ensureLogin = require('connect-ensure-login');
 //Add a new GET route to your routes/auth.routes.js file with the path /signup and point it to your views/auth/signup.hbs file.
@@ -50,19 +53,11 @@ router.get('/login', (req, res) => {
   res.render('auth/login');
 });
 //Create a login form in the views/auth/login.hbs. The form should make a POST request to /login
-router.post('/login', passport.authenticate('local', { failureRedirect: '/login' }),(req, res) => {
-  // console.log(req.body);
-  const {
-    username,
-    password
-  } = req.body
-  console.log(username, password);
-  res.render('auth/login', {
-    username,
-    password
+router.post('/login',
+  passport.authenticate('local', { failureRedirect: '/login' }),
+  function(req, res) {
+    res.redirect('/');
   });
-  // console.log(user);
-});
 
 //Once you have the form, add another route to the router. This route needs to receive the data from the form and log the user in.
 
