@@ -28,6 +28,18 @@ router.post('/signup', (req, res) => {
   // console.log(user);
 });
 
+
+router.get('/login', (req, res) => {
+  res.render('login');
+});
+router.post('/login', (req, res) => {
+  // console.log(req.body);
+  const  { username, password} = req.body
+  console.log(username, password);
+  res.render('login', { username, password});
+  // console.log(user);
+});
+
 module.exports = router;
 
 // app.listen(3000, () => chalkAnimation.rainbow('running on port 3000  🔊'));
