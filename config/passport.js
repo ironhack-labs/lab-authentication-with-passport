@@ -6,13 +6,13 @@ const User = require("../models/User.model.js")
 passport.use(
   new LocalStrategy(
     {
-      usernameField: "email",
+      usernameField: "username",
       passwordField: "password"
     },
-    async (email, password, done) => {
-      const user = await User.findOne({ email })
+    async (username, password, done) => {
+      const user = await User.findOne({ username })
       if (!user) {
-        return done(null, false, { message: "Incorrect email" })
+        return done(null, false, { message: "Incorrect username" })
       }
       if (!bcrypt.compareSync(password, user.password)) {
         return done(null, false, { message: "Incorrect password" })

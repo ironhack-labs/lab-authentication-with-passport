@@ -10,8 +10,8 @@ const express = require('express'),
 // Add bcrypt to encrypt passwords
 
 // Add passport
-router.use(passport.initialize());
-router.use(passport.session());
+// router.use(passport.initialize());
+// router.use(passport.session());
 // Add the line below, which you're missing:
 // require('./path/to/passport/config/file')(passport);
 
@@ -37,12 +37,12 @@ router.post('/signup', (req, res) => {
   const hashPass = bcrypt.hashSync(password, salt)
   let user = User.create({
     username: username,
-    password: hashPass
+    password: password //hashPass//cambiar por
   })
 
 
 
-  res.render('auth/signup', {
+  res.render('auth/login', {
     user
   });
   // console.log(user);
@@ -54,10 +54,12 @@ router.get('/login', (req, res) => {
 });
 //Create a login form in the views/auth/login.hbs. The form should make a POST request to /login
 router.post('/login',
-  passport.authenticate('local', { failureRedirect: '/login' }),
-  function(req, res) {
-    res.redirect('/');
-  });
+  passport.authenticate(
+    'local', {
+      successRedirect: "/",
+      failureRedirect: "/login"
+    })
+);
 
 //Once you have the form, add another route to the router. This route needs to receive the data from the form and log the user in.
 
