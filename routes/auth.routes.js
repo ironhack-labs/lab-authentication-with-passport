@@ -15,7 +15,15 @@ router.get('/private-page', ensureLogin.ensureLoggedIn(), (req, res) => {
 });
 
 router.get('/signup', (req, res) => {
-  res.render('auth/signup', { user: req.user });
+  res.render('auth/signup');
+});
+// dd a POST route to your routes/auth.routes.js to receive the data from the signup form and create a new user with the data.
+router.post('/signup', (req, res) => {
+  // console.log(req.body);
+  const  { username, password} = req.body
+  console.log(username, password);
+  res.render('auth/signup', { username, password});
+  // console.log(user);
 });
 
 module.exports = router;
