@@ -3,7 +3,9 @@ const express = require('express'),
   chalkAnimation = require('chalk-animation'),
   app = express(),
   bcrypt = require("bcrypt"),
-  User = require("../models/User.model.js");
+  User = require("../models/User.model.js"),
+  passport = require('passport');
+  Strategy = require('passport-local').Strategy;;
 // Require user model
 
 // Add bcrypt to encrypt passwords
@@ -48,7 +50,7 @@ router.get('/login', (req, res) => {
   res.render('auth/login');
 });
 //Create a login form in the views/auth/login.hbs. The form should make a POST request to /login
-router.post('/login', (req, res) => {
+router.post('/login', passport.authenticate('local', { failureRedirect: '/login' }),(req, res) => {
   // console.log(req.body);
   const {
     username,
