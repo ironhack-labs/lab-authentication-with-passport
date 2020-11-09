@@ -49,3 +49,4 @@ const authRoutes = require('./routes/auth.routes');
 app.use('/', authRoutes);
 
 module.exports = app;
+app.listen(5000);
