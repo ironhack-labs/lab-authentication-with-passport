@@ -1,7 +1,9 @@
 const express = require('express'),
   router = express.Router(),
   chalkAnimation = require('chalk-animation'),
-  app = express();
+  app = express(),
+  crypt = require("bcrypt")
+;
 // Require user model
 
 // Add bcrypt to encrypt passwords
