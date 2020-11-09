@@ -5,11 +5,24 @@ const router = express.Router();
 // Add bcrypt to encrypt passwords
 
 // Add passport
+const {
+    signupView,
+    loginView,
+    signupMethod,
+    loginMethod,
+    privateView,
+    logoutView
+} = require("../controllers/auth")
 
-const ensureLogin = require('connect-ensure-login');
+// const ensureLogin = require('connect-ensure-login');
 
-router.get('/private-page', ensureLogin.ensureLoggedIn(), (req, res) => {
-  res.render('passport/private', { user: req.user });
-});
+const { isAuth, isNotAuth } = require('../middlewares')
+
+router.get("/signup", signupView)
+router.post("/signup", signupMethod)
+router.get("/login", loginView)
+router.post("/login", loginMethod)
+router.get('/private-page', isAuth, privateView)
+router.get('/logout', logoutView)
 
 module.exports = router;
