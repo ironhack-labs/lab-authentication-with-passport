@@ -8,7 +8,8 @@ const hbs = require('hbs');
 const mongoose = require('mongoose');
 const logger = require('morgan');
 const path = require('path')
-  chalkAnimation = require('chalk-animation');
+  chalkAnimation = require('chalk-animation'),
+  port = 5000;
 
 mongoose
   .connect('mongodb://localhost/auth-with-passport', {
@@ -49,4 +50,4 @@ const authRoutes = require('./routes/auth.routes');
 app.use('/', authRoutes);
 
 module.exports = app;
-app.listen(5000);
+app.listen(port,()=>{chalkAnimation.rainbow(`running on ${port}`)});
