@@ -30,13 +30,13 @@ router.post('/signup', (req, res) => {
 
 
 router.get('/login', (req, res) => {
-  res.render('login');
+  res.render('auth/login');
 });
 router.post('/login', (req, res) => {
   // console.log(req.body);
   const  { username, password} = req.body
   console.log(username, password);
-  res.render('login', { username, password});
+  res.render('auth/login', { username, password});
   // console.log(user);
 });
 
