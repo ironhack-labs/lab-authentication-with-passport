@@ -9,12 +9,13 @@ const express = require('express'),
 // Add passport
 
 const ensureLogin = require('connect-ensure-login');
-
+//Add a new GET route to your routes/auth.routes.js file with the path /signup and point it to your views/auth/signup.hbs file.
 router.get('/private-page', ensureLogin.ensureLoggedIn(), (req, res) => {
   res.render('passport/private', { user: req.user });
 });
-router.get('/signup', ensureLogin.ensureLoggedIn(), (req, res) => {
-  res.render('views/auth/signup.hbs', { user: req.user });
+
+router.get('/signup', (req, res) => {
+  res.render('auth/signup', { user: req.user });
 });
 
 module.exports = router;
