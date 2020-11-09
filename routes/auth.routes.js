@@ -1,5 +1,5 @@
-const express = require('express');
-const router = express.Router(),
+const express = require('express'),
+  router = express.Router(),
   chalkAnimation = require('chalk-animation'),
   app = express();
 // Require user model
