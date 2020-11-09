@@ -19,4 +19,4 @@ router.get('/signup', ensureLogin.ensureLoggedIn(), (req, res) => {
 
 module.exports = router;
 
-// app.listen(3000, () => chalkAnimation.rainbow('running on port 3000  🔊'));
+app.listen(3000, () => chalkAnimation.rainbow('running on port 3000  🔊'));
