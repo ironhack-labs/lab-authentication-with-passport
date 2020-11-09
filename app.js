@@ -16,7 +16,7 @@ mongoose
     useUnifiedTopology: true,
     useCreateIndex: true
   })
-  .then(x => chalkAnimation.rainbow(`Connected to Mongo! Database name: "${x.connections[0].name}"`))
+  .then(x => chalkAnimation.karaoke(`Connected to Mongo! Database name: "${x.connections[0].name}"`))
   .catch(err => console.error('Error connecting to mongo', err));
 
 const app_name = require('./package.json').name;
