@@ -17,8 +17,8 @@ router.use(passport.session());
 
 const ensureLogin = require('connect-ensure-login');
 //Add a new GET route to your routes/auth.routes.js file with the path /signup and point it to your views/auth/signup.hbs file.
-router.get('/private-page', ensureLogin.ensureLoggedIn(), (req, res) => {
-  res.render('passport/private', {
+router.get('/private-page',  (req, res) => {
+  res.render('auth/private', {
     user: req.user
   });
 });
@@ -56,7 +56,7 @@ router.get('/login', (req, res) => {
 router.post('/login',
   passport.authenticate(
     'local', {
-      successRedirect: "/",
+      successRedirect: "/private-page",
       failureRedirect: "/login"
     })
 );
