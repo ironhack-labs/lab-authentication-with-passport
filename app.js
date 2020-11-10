@@ -8,6 +8,12 @@ const hbs = require('hbs');
 const mongoose = require('mongoose');
 const logger = require('morgan');
 const path = require('path');
+const session = require('express-session');
+const MongoStore = require('connect-mongo')(session);
+ 
+const bcrypt = require('bcrypt');
+const passport = require('passport');
+const LocalStrategy = require('passport-local').Strategy;
 
 mongoose
   .connect('mongodb://localhost/auth-with-passport', {
@@ -28,6 +34,16 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(
+  session({
+    secret:"ElSecretoDeAmor...seecreetooooo",
+    store: new MongoStore({mongooseConnection:mongoose.connection}),
+    resave:true,
+    saveUninitialized:true
+  })
+)
+app.use(passport.initialize())
+app.use(passport.session())
 
 // Express View engine setup
 
@@ -40,9 +56,42 @@ app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));
 app.locals.title = 'Express - Generated with IronGenerator';
 
 // Routes middleware goes here
+const User= require('./models/User.model.js')
 const index = require('./routes/index.routes');
 app.use('/', index);
 const authRoutes = require('./routes/auth.routes');
 app.use('/', authRoutes);
+
+
+passport.serializeUser((user, cb) => {
+  cb(null, user._id);
+});
+passport.deserializeUser((id, cb) => {
+  User.findById(id)
+    .then(user => cb(null, user))
+    .catch(err => cb(err))
+  ;
+});
+
+passport.use(new LocalStrategy(
+  {
+    usernameField: 'username', 
+    passwordField: 'password'  
+  },
+  async (username, password, done) => {
+    User.findOne({username})
+      .then(user => {
+        if (!user) {
+          return done(null, false, { message: "Incorrect username" });
+        }
+        if (!bcrypt.compareSync(password, user.password)) {
+          return done(null, false, { message: "Incorrect password" });
+        }
+        done(null, user);
+      })
+      .catch(err => done(err))
+    ;
+  }
+));
 
 module.exports = app;

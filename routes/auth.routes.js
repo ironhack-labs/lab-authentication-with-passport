@@ -7,6 +7,10 @@ const User=require('../models/User.model')
 // Add bcrypt to encrypt passwords
 const bcrypt=require('bcrypt')
 // Add passport
+const session=require('express-session')
+const MongoStore=require('connect-mongo')(session)
+const passport=require('passport')
+const LocalStrategy=require('passport-local').Strategy
 
 const ensureLogin = require('connect-ensure-login');
 
@@ -37,6 +41,19 @@ router.post('/signup', async (req,res)=>{
     //5. Dar respuesta al usuario
     res.redirect('private')
   }
+})
+
+router.get('/login',(req,res)=>{
+  res.render('auth/login')
+})
+
+router.post('/login',passport.authenticate('local',{
+  successRedirect:'/private',
+  failureRedirect:'/login'
+}))
+
+router.get('/private',(req,res)=>{
+  
 })
 
 module.exports = router;
