@@ -9,6 +9,9 @@ const mongoose = require('mongoose');
 const logger = require('morgan');
 const path = require('path');
 
+const passport = require("./config/passport")
+const flash = require("connect-flash")
+
 mongoose
   .connect('mongodb://localhost/auth-with-passport', {
     useNewUrlParser: true,
@@ -29,6 +32,12 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
+require("./config/session")(app)
+
+app.use(passport.initialize())
+app.use(passport.session())
+app.use(flash())
+
 // Express View engine setup
 
 app.set('views', path.join(__dirname, 'views'));
@@ -37,12 +46,12 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));
 
 // default value for title local
-app.locals.title = 'Express - Generated with IronGenerator';
+app.locals.title = 'My app'
 
 // Routes middleware goes here
-const index = require('./routes/index.routes');
+const index = require('./routes/index');
 app.use('/', index);
-const authRoutes = require('./routes/auth.routes');
+const authRoutes = require('./routes/auth');
 app.use('/', authRoutes);
 
 module.exports = app;
