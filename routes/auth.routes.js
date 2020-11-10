@@ -53,7 +53,16 @@ router.post('/login',passport.authenticate('local',{
 }))
 
 router.get('/private',(req,res)=>{
-  
+  if(!req.user){
+    res.redirect('/')
+    return
+  }
+  res.render('auth/private',{user:req.user})
+})
+
+router.get('/logout',(req,res)=>{
+  req.logout()
+  res.redirect('/')
 })
 
 module.exports = router;
