@@ -3,8 +3,14 @@ const Schema   = mongoose.Schema;
 
 const userSchema = new Schema({
   username: String,
-  password: String
-}, {
+  password: String,
+  role:{
+    type:String,
+    enum:["gatekeeper", "admin", "normie"],
+    default: "hermit"
+  }
+},
+ {
   timestamps: true
 });
 
