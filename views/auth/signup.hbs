@@ -1,0 +1,18 @@
+<div class = "content">
+    <h1>Sign up</h1>
+    {{#if error}}
+    <p style="color: crimson;">{{error}}</p>
+    {{/if}}
+    <form action="/signup" method="post">
+        <label for="username">Username:
+            <input type="text" name="username" id="usernam">
+        </label>
+        <br>
+        <label for="password">Password:
+            <input type="text" name="password" id="password">
+        </label>
+        <br>
+        <br>
+        <button type="submit">Sign up</button>
+    </form>
+</div>

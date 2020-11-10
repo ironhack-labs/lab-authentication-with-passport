@@ -1,8 +1,42 @@
 body {
-  padding: 50px;
+  padding: 0;
+  margin: 0;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif; }
 
-a {
-  color: #00B7FF; }
+body ul {
+  padding-left: 30px;
+  margin: 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background-color: #00B7FF;
+  width: 100vw;
+  height: 40px;
+}
+body ul li {
+  margin-right: 20px;
+  list-style-type: none;
+  color: white;
+}
 
+a {
+  text-decoration: none;
+  color: white; }
+
+a:hover {
+  color: #00B7FF;
+}
+
+button {
+  color: white;
+  height: 30px;
+  padding: 0 10px;
+  border-radius: 15px;
+  background-color: #00B7FF;
+  border-width: 0;
+}
+
+.content {
+  margin: 30px;
+}
 /*# sourceMappingURL=style.css.map */
