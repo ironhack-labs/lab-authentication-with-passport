@@ -4,20 +4,26 @@ const express = require('express'),
   app = express(),
   bcrypt = require("bcrypt"),
   User = require("../models/User.model.js"),
-  passport = require("../config/passport");
+  passport = require("../config/passport"),
+   flash = require("connect-flash")
+  ;
 // Require user model
 
 // Add bcrypt to encrypt passwords
 
 // Add passport
+require("../config/session.js")(router)
+
 router.use(passport.initialize());
 router.use(passport.session());
+router.use(flash())
+
 // Add the line below, which you're missing:
 // require('./path/to/passport/config/file')(passport);
 
 const ensureLogin = require('connect-ensure-login');
 //Add a new GET route to your routes/auth.routes.js file with the path /signup and point it to your views/auth/signup.hbs file.
-router.get('/private-page',  (req, res) => {
+router.get('/private-page', ensureLogin.ensureLoggedIn(), (req, res) => {
   res.render('auth/private', {
     user: req.user
   });
