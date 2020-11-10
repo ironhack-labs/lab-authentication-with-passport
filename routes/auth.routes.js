@@ -10,8 +10,8 @@ const express = require('express'),
 // Add bcrypt to encrypt passwords
 
 // Add passport
-// router.use(passport.initialize());
-// router.use(passport.session());
+router.use(passport.initialize());
+router.use(passport.session());
 // Add the line below, which you're missing:
 // require('./path/to/passport/config/file')(passport);
 
@@ -37,7 +37,7 @@ router.post('/signup', (req, res) => {
   const hashPass = bcrypt.hashSync(password, salt)
   let user = User.create({
     username: username,
-    password: password //hashPass//cambiar por
+    password: hashPass
   })
 
 
