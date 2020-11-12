@@ -6,3 +6,89 @@ a {
   color: #00B7FF; }
 
 /*# sourceMappingURL=style.css.map */
+
+.btn1 {
+  background-color: salmon;
+  color: white;
+  font-weight: bold;
+  text-decoration: none;
+  padding: 10px 20px;
+  border-radius: 25px;
+  margin: 10px;
+}
+
+.btn2 {
+  background-color: mediumseagreen;
+  color: white;
+  font-weight: bold;
+  text-decoration: none;
+  padding: 10px 20px;
+  border-radius: 25px;
+  margin: 10px;
+}
+
+.btn3 {
+  background-color: purple;
+  color: white;
+  font-weight: bold;
+  text-decoration: none;
+  padding: 10px 20px;
+  border-radius: 25px;
+  margin: 10px;
+}
+
+.btn4 {
+  background-color: darkcyan;
+  color: white;
+  font-weight: bold;
+  text-decoration: none;
+  padding: 10px 20px;
+  border-radius: 25px;
+  margin: 10px;
+}
+
+.btn5 {
+  background-color: silver;
+  color: white;
+  font-weight: bold;
+  text-decoration: none;
+  padding: 10px 20px;
+  border-radius: 25px;
+  margin: 10px;
+}
+
+.btn6 {
+  background-color: gold;
+  color: black;
+  font-weight: bold;
+  border-style: none;
+  padding: 10px 20px;
+  border-radius: 25px;
+  margin-top: 20px;
+}
+
+ul {
+  list-style-type: none;
+  display: flex;
+  flex-direction: row;
+}
+
+nav {
+  display: flex;
+  flex-direction: row;
+}
+
+.container {
+  margin-left: 50px;
+}
+
+.form-container {
+  display: flex;
+  flex-flow: column;
+  line-height: 40px;
+}
+
+input {
+  width: 300px;
+  height: 20px;
+}
