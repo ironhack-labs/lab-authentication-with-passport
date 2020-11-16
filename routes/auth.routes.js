@@ -1,15 +1,52 @@
-const express = require('express');
-const router = express.Router();
-// Require user model
+const express = require('express')
+const router = express.Router()
+const passport = require('passport')
 
-// Add bcrypt to encrypt passwords
+const User = require('./../models/user.model')
 
-// Add passport
+const bcrypt = require('bcrypt')
+const bcryptSalt = 10
 
-const ensureLogin = require('connect-ensure-login');
+router.get("/registro", (req, res) => res.render("auth/signup"))
 
-router.get('/private-page', ensureLogin.ensureLoggedIn(), (req, res) => {
-  res.render('passport/private', { user: req.user });
-});
+router.post("/registro", (req, res, next) => {
+    const { username, password } = req.body 
 
-module.exports = router;
+    if(!username || !password){
+        res.render("auth/signup", {errorMsg: "Rellena todos los campos"})
+        return
+    }
+
+    User
+        .findOne({username})
+        .then(user => {
+            if(user){
+                res.render("auth/signup", {errorMsg: "El usuario ya existe"})
+                return
+            }
+
+            const salt = bcrypt.genSaltSync(bcryptSalt)
+            const hashPass = bcrypt.hashSync(password, salt)
+
+            User
+                .create({username, password: hashPass})
+                .then(() => res.redirect('/'))
+                .catch(() => res.render("auth/signup", {errorMsg: "Hubo un error"}))
+        })
+        .catch(err => next(err))
+})
+
+router.get("/inicio-sesion", (req, res) => res.render("auth/login", {errorMsg: req.flash("error")}))
+
+router.post("/inicio-sesion", passport.authenticate("local", {
+    successRedirect: "/",
+    failureRedirect: "/inicio-sesion",
+    failureFlash: true,
+    passReqToCallback: true
+}))
+
+router.get("/cerrar-sesion", (req, res) => {
+    req.logout()
+    res.redirect("/inicio-sesion")
+})
+module.exports = router
