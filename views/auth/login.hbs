@@ -1,0 +1,26 @@
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+
+            <h1>Login</h1>
+
+            <form action="/login" method="POST">
+                <div class='form-group'>
+                    <label for='username'>Username</label>
+                    <input name='username' type='text' class='form-control' placeholder='username'
+                        id='username'>
+                </div>
+                <div class='form-group'>
+                    <label for='password'>Password</label>
+                    <input name='password' type='password' class='form-control' placeholder='password' id='password'>
+                </div>
+                <button type='submit' class='btn btn-danger btn-block'>Login</button>
+                {{#if errorMsg}}
+                <p style="margin-top: 10px;background: red; color: white; text-align: center; padding: 10px">
+                    {{errorMsg}}</p>
+                {{/if}}
+            </form>
+
+        </div>
+    </div>
+</div>
