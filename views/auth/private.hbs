@@ -1,9 +1,25 @@
-<div>Private page</div>
-{{#if user}}
-  <div>
-    <h1>Who's the best developer?</h1>
-    <h1>You are, <span style="color: red;">{{ user.username}}</span>. You are! </h1>
-    <img src="http://media.giphy.com/media/UsK5GqD3e0huU/giphy.gif" alt="You rock.">
-    <a href="/">Index</a>
-  </div>
-{{/if}}
+<section class="container">
+
+    <article class="row justify-content-center">
+
+        <div class="col-md-8 column">
+
+            {{#if user}}
+
+            <h1>Who's the best developer?</h1>
+            <h1>You are, <span style="color: red;">{{ user.username}}</span>. You are! </h1>
+            <hr>
+
+            <img src="http://media.giphy.com/media/UsK5GqD3e0huU/giphy.gif" alt="You rock.">
+            <br>
+            <br>
+            
+            <a href="/" class="btn btn-lg btn-info">Home</a>
+
+            {{/if}} 
+
+        </div>
+
+    </article>
+    
+</section>
