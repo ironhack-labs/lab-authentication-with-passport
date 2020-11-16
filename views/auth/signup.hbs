@@ -1,0 +1,26 @@
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+
+            <h1>User sign up</h1>
+
+            <form action="/signup" method="POST">
+                <div class='form-group'>
+                    <label for='username'>Username</label>
+                    <input name='username' type='text' class='form-control' placeholder='Username'
+                        id='username'>
+                </div>
+                <div class='form-group'>
+                    <label for='password'>Password</label>
+                    <input name='password' type='password' class='form-control' placeholder='******' id='password'>
+                </div>
+                <button type='submit' class='btn btn-dark btn-block'>Register</button>
+                {{#if errorMsg}}
+                <p style="margin-top: 10px;background: red; color: white; text-align: center; padding: 10px">
+                    {{errorMsg}}</p>
+                {{/if}}
+            </form>
+
+        </div>
+    </div>
+</div>
