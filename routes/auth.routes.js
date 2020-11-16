@@ -10,10 +10,9 @@ const bcryptSalt = 10
 const ensureLogin = require('connect-ensure-login');
 
 
+const ensureAuthenticated = (req, res, next) => req.isAuthenticated() ? next() : res.render('auth/login', { errorMsg: 'Desautorizado, inicia sesión' })
 
-router.get('/private-page', ensureLogin.ensureLoggedIn(), (req, res) => {
-    res.render('auth/private', { user: req.user });
-});
+router.get('/private-page', ensureAuthenticated, (req, res) => res.render('auth/private', { user: req.user }))
 
 router.get('/signup', (req, res) => {
     res.render('auth/signup.hbs')
