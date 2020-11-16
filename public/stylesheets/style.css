@@ -1,8 +1,14 @@
 body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif; }
+  font-weight: 100;
+  font-family: sans-serif; }
 
-a {
-  color: #00B7FF; }
+.main-content {
+  margin: 50px; }
+
+h1 {
+  padding-bottom: 40px; }
+
+.container {
+  margin: 30px; }
 
 /*# sourceMappingURL=style.css.map */
