@@ -8,6 +8,12 @@ const hbs = require('hbs');
 const mongoose = require('mongoose');
 const logger = require('morgan');
 const path = require('path');
+const session = require('express-session')
+const passport = require('passport')
+const LocalStrategy = require('passport-local').Strategy
+const User = require('./models/User.model')
+const bcrypt = require('bcrypt')
+const flash = require('connect-flash')
 
 mongoose
   .connect('mongodb://localhost/auth-with-passport', {
@@ -28,6 +34,51 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(flash())
+
+// MIDDLEWARE PASSPORT CONFIGURATION
+app.use(session({
+  secret: process.env.SECRET,
+  resave: true,
+  saveUninitialized: true
+}))
+
+// SERIALIZE & DESERIALIZE USER
+passport.serializeUser((user, cb) => {
+  cb(null, user._id)
+})
+passport.deserializeUser((id, cb) => {
+  User.findById(id, (err, user) => {
+    if(err) { return cb(err) }
+    cb(null, user)
+  })
+})
+// SET STRATEGY
+passport.use(new LocalStrategy({passReqToCallback: true},(req, username, password, next) => {
+  User.findOne({ username })
+    .then(user => {
+      if(user){
+        bcrypt.compare(password, user.password)
+          .then(response => {
+            if(!response){
+              next(null, false, {errorMessage: 'Incorrect password'})
+            }else {
+              next(null, user)
+            }
+          })
+      }else {
+        next(null, false, {errorMessage: 'Incorrect username'})
+      }
+    })
+    .catch(err => {
+      console.error(err)
+      next(err)
+    })
+}))
+
+app.use(passport.initialize())
+app.use(passport.session())
+
 
 // Express View engine setup
 
@@ -37,7 +88,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));
 
 // default value for title local
-app.locals.title = 'Express - Generated with IronGenerator';
+// app.locals.title = 'Express - Generated with IronGenerator';
 
 // Routes middleware goes here
 const index = require('./routes/index.routes');
