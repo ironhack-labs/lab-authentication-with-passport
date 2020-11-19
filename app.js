@@ -1,13 +1,18 @@
 require('dotenv').config();
 
-const bodyParser = require('body-parser');
-const cookieParser = require('cookie-parser');
-const express = require('express');
-const favicon = require('serve-favicon');
-const hbs = require('hbs');
-const mongoose = require('mongoose');
-const logger = require('morgan');
-const path = require('path');
+const bodyParser    = require('body-parser');
+const cookieParser  = require('cookie-parser');
+const express       = require('express');
+const favicon       = require('serve-favicon');
+const hbs           = require('hbs');
+const mongoose      = require('mongoose');
+const logger        = require('morgan');
+const path          = require('path');
+const bcrypt        = require('bcrypt');
+const passport      = require('passport');
+const LocalStrategy = require('passport-local').Strategy;
+const session       = require('express-session');
+const flash       = require('connect-flash');
 
 mongoose
   .connect('mongodb://localhost/auth-with-passport', {
@@ -37,7 +42,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));
 
 // default value for title local
-app.locals.title = 'Express - Generated with IronGenerator';
+app.locals.title = 'LAB | Authentication with PassportJS';
 
 // Routes middleware goes here
 const index = require('./routes/index.routes');
