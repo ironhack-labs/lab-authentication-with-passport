@@ -9,6 +9,16 @@ const mongoose = require('mongoose');
 const logger = require('morgan');
 const path = require('path');
 
+//packages to make a session
+const session=require('express-session');
+const MongoStore=require('connect-mongo')(session);
+
+//packages for login
+const bcrypt= require('bcryptjs');
+const passport= require('passport');
+const LocalStrategy=require('passport-local');
+const User=require('./models/User.model');
+
 mongoose
   .connect('mongodb://localhost/auth-with-passport', {
     useNewUrlParser: true,
@@ -38,6 +48,56 @@ app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));
 
 // default value for title local
 app.locals.title = 'Express - Generated with IronGenerator';
+
+//session setup
+app.use(
+  session({
+    secret: process.env.SECRET_KEY,
+    store: new MongoStore( { mongooseConnection: mongoose.connection }),
+    resave: true,
+    saveUninitialized: true
+  })
+);
+
+//initialize passport and passport session like a middleware: always after the app.use(session...)
+app.use(passport.initialize());
+app.use(passport.session());
+
+//define serialize() & deserialize() methods
+passport.serializeUser((user, cb) => {
+  cb(null, user._id);
+});
+passport.deserializeUser((id, cb) => {
+  User.findById(id)
+    .then(user => cb(null, user))
+    .catch(err => cb(err))
+  ;
+});
+
+//define localStrategy method
+passport.use(new LocalStrategy(
+  {
+    usernameField: 'username', // by default
+    passwordField: 'password'  // by default
+  },
+  (username, password, done) => {
+    User.findOne({username})
+      .then(user => {
+        if (!user) {
+          return done(null, false, { message: "Incorrect username" });
+        }
+ 
+        if (!bcrypt.compareSync(password, user.password)) {
+          return done(null, false, { message: "Incorrect password" });
+        }
+ 
+        done(null, user);
+      })
+      .catch(err => done(err))
+    ;
+  }
+));
+
 
 // Routes middleware goes here
 const index = require('./routes/index.routes');
