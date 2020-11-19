@@ -34,7 +34,9 @@ router.post('/signup', (req, res, next)=>{
   .catch((err)=>res.send(err)) 
 })
 
-
+router.get('/login', (req, res, next)=>{
+  res.render('auth/login')
+})
 
 router.get('/private-page', ensureLogin.ensureLoggedIn(), (req, res) => {
   res.render('passport/private', { user: req.user });
