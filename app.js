@@ -34,6 +34,39 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
+app.use(session({secret: 'ourPassword', resave: true, saveUninitialized: true}))
+
+//Passport MDW
+passport.serializeUser((user, callback)=>{
+  callback(null, user._id)
+})
+
+passport.deserializeUser((id, callback)=>{
+  User.findById(id)
+  .then((user)=> callback(null, user))
+  .catch((err)=> callback(err))
+})
+
+app.use(flash())
+
+passport.use(new LocalStrategy({passReqToCallback: true}, (req, username, password, next)=>{
+  User.findOne({username})
+  .then((user)=>{
+    if(!user){
+      return next(null, false, {message: "Incorrect username"})
+    }
+    if(!bcrypt.compareSync(password, user.password)){
+      return next(null, false, {message: "Incorrect password"})
+    }
+    return next(null, user)
+  })
+  .catch((err)=> next(err))
+}))
+
+
+app.use(passport.initialize())
+app.use(passport.session())
+
 // Express View engine setup
 
 app.set('views', path.join(__dirname, 'views'));
@@ -48,6 +81,7 @@ app.locals.title = 'LAB | Authentication with PassportJS';
 const index = require('./routes/index.routes');
 app.use('/', index);
 const authRoutes = require('./routes/auth.routes');
+const User = require('./models/User.model');
 app.use('/', authRoutes);
 
 module.exports = app;
