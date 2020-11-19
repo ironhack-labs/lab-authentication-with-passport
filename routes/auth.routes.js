@@ -13,10 +13,22 @@ router.get('/signup', (req, res) => res.render('auth/signup') )
 
 router.get('/login', (req, res) => res.render('auth/login') )
 
-router.post('/login', passport.authenticate('local', { 
-    // successMessage: 'loggedin',
+router.get('/google', passport.authenticate("google", {
+  scope: [
+    "https://www.googleapis.com/auth/userinfo.profile",
+    "https://www.googleapis.com/auth/userinfo.email"
+  ]
+}))
+
+router.get('/google/callback', passport.authenticate('google', { 
     successRedirect: '/', 
     failureRedirect: '/login'
+  })
+)
+
+router.post('/google', passport.authenticate('local', { 
+  successRedirect: '/', 
+  failureRedirect: '/login'
   })
 )
 
