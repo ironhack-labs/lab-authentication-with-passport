@@ -1,0 +1,17 @@
+<h1>Login</h1>
+<form action="/login" method="POST">
+
+  <label for="username">Username:</label>
+  <input type="text" name="username" id="username"><br><br>
+
+  <label for="password">Password:</label>
+  <input type="password" name="password"><br><br>
+
+  <button type="submit">Log In </button><br><br>
+</form>
+
+{{!-- <a href="/github">Log in with GitHub</a> --}}
+
+{{#if message}}
+  <p style="color: red">{{message}}</p>
+{{/if}}
