@@ -1,13 +1,20 @@
 require('dotenv').config();
 
-const bodyParser = require('body-parser');
-const cookieParser = require('cookie-parser');
-const express = require('express');
-const favicon = require('serve-favicon');
-const hbs = require('hbs');
-const mongoose = require('mongoose');
-const logger = require('morgan');
-const path = require('path');
+const bodyParser    = require('body-parser');
+const cookieParser  = require('cookie-parser');
+const express       = require('express');
+const favicon       = require('serve-favicon');
+const hbs           = require('hbs');
+const mongoose      = require('mongoose');
+const logger        = require('morgan');
+const path          = require('path');
+const chalk         = require('chalk');
+const passport      = require('passport');
+const LocalStrategy = require('passport-local').Strategy;
+const session       = require('express-session');
+const bcrypt        = require('bcrypt');
+const flash         = require('connect-flash');
+const User          = require('./models/User.model');
 
 mongoose
   .connect('mongodb://localhost/auth-with-passport', {
@@ -15,7 +22,7 @@ mongoose
     useUnifiedTopology: true,
     useCreateIndex: true
   })
-  .then(x => console.log(`Connected to Mongo! Database name: "${x.connections[0].name}"`))
+  .then(x => console.log(chalk.greenBright.inverse.bold(`Connected to Mongo! Database name: "${x.connections[0].name}"`)))
   .catch(err => console.error('Error connecting to mongo', err));
 
 const app_name = require('./package.json').name;
@@ -28,6 +35,40 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+
+// Middleware de Session:
+app.use(session({secret: process.env.SECRET, resave: true, saveUninitialized: true}));
+
+// Middleware para serializar al user 
+passport.serializeUser((user, callback)=>{
+  callback(null, user._id);
+});
+
+// Middleware para des-serializar al user
+passport.deserializeUser((id, callback)=>{
+  User.findById(id)
+    .then((user)=>callback(null, user))
+    .catch((err)=>callback(err));
+});
+
+// Middleware de flash
+app.use(flash());
+
+// Middleware de la Strategy
+passport.use(new LocalStrategy({passReqToCallback: true}, (req, username, password, next)=>{
+  User.findOne({username})
+    .then((user)=>{
+      if(!user) return next(null, false, {message: 'Incorrect username'});
+      if(!bcrypt.compareSync(password, user.password)) return next(null, false, {message: 'Incorrect password'})
+      return next(null, user);
+    })
+    .catch((err)=>next(err));
+}));
+
+// Middleware de passport
+app.use(passport.initialize());
+app.use(passport.session());
+
 
 // Express View engine setup
 
@@ -42,6 +83,7 @@ app.locals.title = 'Express - Generated with IronGenerator';
 // Routes middleware goes here
 const index = require('./routes/index.routes');
 app.use('/', index);
+
 const authRoutes = require('./routes/auth.routes');
 app.use('/', authRoutes);
 
