@@ -8,9 +8,14 @@ const hbs = require('hbs');
 const mongoose = require('mongoose');
 const logger = require('morgan');
 const path = require('path');
+const passport      = require('passport');
+const LocalStrategy = require('passport-local').Strategy;
+const session       = require('express-session');
+const bcrypt        = require('bcryptjs')
+const flash         = require('connect-flash')
 
 mongoose
-  .connect('mongodb://localhost/auth-with-passport', {
+  .connect(`mongodb://localhost/${process.env.DB}`, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useCreateIndex: true
@@ -23,11 +28,53 @@ const debug = require('debug')(`${app_name}:${path.basename(__filename).split('.
 
 const app = express();
 
+const User = require('./models/User.model');
+
 // Middleware Setup
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+
+// Middleware de Session
+app.use(session({secret: `${process.env.SECRET}`, resave: true, saveUninitialized: true}))
+
+//Middleware para serializar al usuario
+passport.serializeUser((user, callback)=>{
+  callback(null, user._id)
+})
+
+//Middleware para des-serializar al usuario
+passport.deserializeUser((id, callback)=>{
+  User.findById(id)
+    .then((user) => callback(null, user))
+    .catch((err) => callback(err))
+})
+
+//Middleware de flash
+app.use(flash())
+
+//Middleware del Strategy
+passport.use(new LocalStrategy({passReqToCallback: true}, (req, username, password, next)=>{
+  User.findOne({username})
+    .then((user)=>{
+
+      if(!user){
+        return next(null, false, {message: "Incorrect username"})
+      }
+
+      if(!bcrypt.compareSync(password, user.password)){
+        return next(null, false, {message: "Incorrect password"})
+      }
+
+      return next(null, user)
+    })
+    .catch((err) => next(err))
+}))
+
+//Middleware de passport
+app.use(passport.initialize())
+app.use(passport.session())
 
 // Express View engine setup
 
