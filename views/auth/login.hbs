@@ -1,0 +1,14 @@
+<form action="/login" method="POST">
+    <label for="username">Username:</label>
+    <input type="text" name="username" id="username">
+
+    <label for="passowrd">Password:</label>
+    <input type="password" name="password" id="password">
+
+    <a href=""><button>Login</button></a>
+</form>
+{{#if message}}
+<strong style="color: blueviolet;">{{message}}</strong>
+{{/if}}
+
+<a href="/github"> <button> Login with Github</button></a>
