@@ -24,12 +24,14 @@ router.post('/signup', (req, res, next) => {
   const { username, password } = req.body
   if(username === '' || password === ''){
     res.render('auth/signup', {errorMessage: 'Need username or password!'})
-  }else {
+    return
+  }
     User.findOne({ username })
       .then(user => {
         if(user){
           res.render('auth/signup', {errorMessage: 'This username already exists'})
-        }else {
+          return
+        }
           bcrypt.genSalt(bcryptSalt)
             .then(salt => {
               bcrypt.hash(password, salt)
@@ -44,13 +46,12 @@ router.post('/signup', (req, res, next) => {
                     })
                 })
             })
-        }
+        
       })
       .catch(err=> {
         console.error(err)
         res.send(err)
       })
-  }
   
 })
 
