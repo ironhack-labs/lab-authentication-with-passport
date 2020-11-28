@@ -6,9 +6,11 @@ const ensureLogin = require('connect-ensure-login')
 
 const User = require('../models/User.model.js')
 
-//ROUTES
+// ROUTES //
 
-//SIGNUP
+///////////
+//SIGN UP//
+///////////
 
 router.get('/signup', (req, res, next) => {
   res.render('auth/signup');
@@ -38,7 +40,9 @@ router.post('/signup', (req, res)=>{
     .catch((err)=>res.send(err)) 
 })
 
-//LOGIN
+/////////
+//LOGIN//
+/////////
 
 router.get('/login', (req, res)=>{
   res.render('auth/login', {errorMessage: req.flash('error')})
@@ -51,8 +55,9 @@ router.post('/login', passport.authenticate("local", {
   passReqToCallback: true
 }))
 
-
-// PRIVATE PAGE
+////////////////
+//PRIVATE PAGE//
+////////////////
 
 router.get('/private-page', ensureLogin.ensureLoggedIn(), (req, res) => {
   res.render('auth/private', { user: req.user.username });
