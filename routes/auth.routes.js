@@ -6,7 +6,9 @@ const ensureLogin = require('connect-ensure-login')
 
 const User = require('../models/User.model.js')
 
+////////////
 // ROUTES //
+////////////
 
 ///////////
 //SIGN UP//
