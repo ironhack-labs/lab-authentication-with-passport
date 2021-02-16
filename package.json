@@ -8,17 +8,36 @@
     "dev-windows": "nodemon ./bin/www"
   },
   "dependencies": {
+    "bcrypt": "^5.0.0",
     "body-parser": "^1.19.0",
     "connect-ensure-login": "^0.1.1",
+    "connect-mongo": "^3.2.0",
     "cookie-parser": "^1.4.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "express-session": "^1.17.1",
     "hbs": "^4.1.0",
     "mongoose": "^5.9.5",
     "morgan": "^1.9.1",
+    "passport": "^0.4.1",
+    "passport-google-oauth20": "^2.0.0",
+    "passport-local": "^1.0.0",
     "serve-favicon": "^2.5.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.2"
-  }
+  },
+  "description": "![logo_ironhack_blue 7](https://user-images.githubusercontent.com/23629340/40541063-a07a0a8a-601a-11e8-91b5-2f13e4e6b441.png)",
+  "main": "app.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xavirepi/lab-authentication-with-passport-2.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/xavirepi/lab-authentication-with-passport-2/issues"
+  },
+  "homepage": "https://github.com/xavirepi/lab-authentication-with-passport-2#readme"
 }
