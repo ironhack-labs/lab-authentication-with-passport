@@ -3,8 +3,9 @@ const router = express.Router();
 const User = require('../models/User.model');
 const bcrypt = require('bcryptjs');
 const saltRounds = 10;
+const passport = require('passport');
 
-// Add passport
+
 
 const ensureLogin = require('connect-ensure-login');
 
@@ -39,7 +40,19 @@ router.post('/signup', (req, res, next) =>{
         });
     })
     .catch((error => console.error(error)));
-
 });
 
+
+router.get('/login', (req, res, next) =>{
+  res.render('auth/login');
+});
+
+router.post('/login', passport.authenticate('local', {
+  successRedirect: '/private',
+  failureRedirect: '/login',
+  passReqToCallback: true
+}));
+
+
 module.exports = router;
+
