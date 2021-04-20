@@ -8,6 +8,7 @@
     "dev-windows": "nodemon ./bin/www"
   },
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
     "connect-ensure-login": "^0.1.1",
     "cookie-parser": "^1.4.5",
@@ -16,6 +17,7 @@
     "hbs": "^4.1.0",
     "mongoose": "^5.9.5",
     "morgan": "^1.9.1",
+    "passport": "^0.4.1",
     "serve-favicon": "^2.5.0"
   },
   "devDependencies": {
