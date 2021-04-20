@@ -16,12 +16,13 @@ module.exports = (app) => {
 
     passport.use(new LocalStrategy({passReqToCallback: true}, (req, username, password, next) =>{
         User.findOne({username})
-            .then(user =>{
+            .then(user =>{                
                 if (!user){
                     return next(null, false, {errorMessage: 'User or password incorrect'});
                 }
 
                 if(bcrypt.compareSync(password, user.password)){
+                    console.log(user);
                     return next(null, user);
                 } else {
                     return next(null, false, {errorMessage:'User or password incorrect'});
