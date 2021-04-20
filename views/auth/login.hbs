@@ -1,6 +1,6 @@
 <h1>Login</h1>
 
-<form method="POST" action="/signup">
+<form method="POST" action="/login">
   <div class="mb-3 needs-validation">
     <label class="form-label">Username</label>
     <input type="text" class="form-control" id="username" aria-describedby="emailHelp" name="username" required>
@@ -12,6 +12,7 @@
 
   <button type="submit" class="btn btn-primary">Submit</button>
 </form>
+
 {{#if errorMessage}}
   <div>
    <p class="error-message"> {{ errorMessage }}</p>

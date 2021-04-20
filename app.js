@@ -19,6 +19,9 @@ const debug = require('debug')(`${app_name}:${path.basename(__filename).split('.
 
 const app = express();
 
+require('./configs/session.config')(app);
+require('./configs/passport.config')(app);
+
 // Middleware Setup
 app.use(logger('dev'));
 app.use(bodyParser.json());
@@ -35,8 +38,7 @@ app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));
 // default value for title local
 app.locals.title = 'Express - Generated with IronGenerator';
 
-require('./configs/session.config')(app);
-require('./configs/passport.config')(app);
+
 
 // Routes middleware goes here
 const index = require('./routes/index.routes');
