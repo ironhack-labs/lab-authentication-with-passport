@@ -58,8 +58,6 @@ router.get('/logout', (req, res) => {
   res.redirect('/');
 })
 
-// Add passport
-
 const ensureLogin = require('connect-ensure-login');
 
 router.get('/private-page', ensureLogin.ensureLoggedIn(), (req, res) => {
