@@ -1,19 +1,16 @@
 const express = require('express');
 const router = express.Router();
-
-// Require user model
-const User = require('../models/User.model');
-
-// Add bcrypt to encrypt passwords
 const bcrypt = require('bcryptjs');
+const User = require('../models/User.model');
 const saltRounds = 10;
 
 // Add passport
+const passport = require('passport')
 
 const ensureLogin = require('connect-ensure-login');
 
 router.get('/private-page', ensureLogin.ensureLoggedIn(), (req, res) => {
-  res.render('passport/private', { user: req.user });
+  res.render('auth/private', { user: req.user });
 });
 
 router.get('/signup', (req,res) => {
@@ -38,10 +35,20 @@ router.post('/signup', (req, res, next) => {
 
     User.create({ username, password: hashPassword})
     .then(() => {
-      res.render('auth/signup')
+      res.redirect('/')
     })
     .catch((error) => next(error))
   })
 })
+
+router.get('/login', (req, res) => {
+  res.render('auth/login');
+})
+
+router.post('/login', passport.authenticate("local",{
+  successRedirect : '/',
+  failureRedirect: '/auth/login',
+  passReqToCallback: true
+}));
 
 module.exports = router;
