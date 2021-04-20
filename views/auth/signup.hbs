@@ -1,0 +1,19 @@
+<h1>Signup</h1>
+
+<form method="POST" action="/signup">
+  <div class="mb-3 needs-validation">
+    <label class="form-label">Username</label>
+    <input type="text" class="form-control" id="username" aria-describedby="emailHelp" name="username" required>
+  </div>
+  <div class="mb-3">
+    <label class="form-label">Password</label>
+    <input type="password" class="form-control" id="password" name="password" required minlength="3">
+  </div>
+
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+{{#if errorMessage}}
+  <div>
+   <p class="error-message"> {{ errorMessage }}</p>
+  </div>
+{{/if}} 
