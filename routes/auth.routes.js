@@ -10,7 +10,6 @@ const passport = require('passport');
 const ensureLogin = require('connect-ensure-login');
 
 router.get('/private-page', ensureLogin.ensureLoggedIn(), (req, res) => {
-  console.log('private page user', req.user)
   res.render('auth/private', { user: req.user });
 });
 
@@ -40,7 +39,7 @@ router.post('/signup', (req, res, next) =>{
           return res.render('auth/signup', {errorMessage: 'Server error, try again'})
         });
     })
-    .catch((error => console.error(error)));
+    .catch((error => next(error)));
 });
 
 
@@ -53,6 +52,13 @@ router.post('/login', passport.authenticate('local', {
   failureRedirect: '/login',
   passReqToCallback: true
 }));
+
+router.get('/github', passport.authenticate('github'));
+
+router.get('/github/callback', passport.authenticate('github', {
+  successRedirect: '/profile',
+  failureRedirect: '/login'
+}))
 
 
 module.exports = router;
