@@ -1,7 +1,5 @@
 require('dotenv').config();
 
-const bodyParser = require('body-parser');
-const cookieParser = require('cookie-parser');
 const express = require('express');
 const favicon = require('serve-favicon');
 const hbs = require('hbs');
@@ -16,6 +14,7 @@ const User = require('./models/User.model');
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
 const app = express();
+
 
 
 app.use(
@@ -44,32 +43,7 @@ passport.serializeUser((user, cb) => {
       .catch((error) => cb(error))
   })
 
-
-// Local Strategy
-passport.use(new LocalStrategy({
-  passReqToCallback: true
-}, (req, username, password, next) => {
-  User.findOne({
-      username
-    })
-    .then(user => {
-      if (!user) {
-        return next(null, false, {
-          message: 'Usuario o contraseña incorrectos'
-        });
-      }
-
-      if (bcrypt.compareSync(password, user.password)) {
-        return next(null, user);
-      } else {
-        return next(null, false, {
-          message: 'Usuario o contraseña incorrectos.'
-        })
-      }
-    })
-    .catch(error => next(error))
-}))
-
+require('./configs/passport.config')(app);
 
 mongoose
   .connect('mongodb://localhost/auth-with-passport', {
@@ -86,12 +60,13 @@ const debug = require('debug')(`${app_name}:${path.basename(__filename).split('.
 
 
 // Middleware Setup
-app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({
-  extended: false
-}));
-app.use(cookieParser());
+// app.use(logger('dev'));
+// app.use(bodyParser.json());
+// app.use(bodyParser.urlencoded({
+//   extended: false
+// }));
+// app.use(cookieParser());
+require('./configs/middleware.config')(app);
 
 // Express View engine setup
 
@@ -108,5 +83,7 @@ const index = require('./routes/index.routes');
 app.use('/', index);
 const authRoutes = require('./routes/auth.routes');
 app.use('/', authRoutes);
+
+
 
 module.exports = app;
