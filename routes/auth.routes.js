@@ -14,27 +14,27 @@ const passport = require('passport')
 const ensureLogin = require('connect-ensure-login');
 
 router.get('/signup', (req,res) => {
-  res.render('./auth/signup')
+  res.render('auth/signup')
 })
 
 router.post('/signup', (req, res) => {
   const {username, password} = req.body;
 
   if(!username || !password) {
-    res.render('./auth/signup', {errorMessage: 'Username and password are required!'});
+    res.render('auth/signup', {errorMessage: 'Username and password are required!'});
   }
 
   User.findOne({username})
   .then(user => {
     if(user) {
-      res.render('./auth/signup', {errorMessage: 'User already exists!'})
+      res.render('auth/signup', {errorMessage: 'User already exists!'})
     }
     const salt = bcrypt.genSaltSync(saltRound);
     const hashPassword = bcrypt.hashSync(password, salt);
 
     User.create({username, password: hashPassword})
     .then(() => {
-      res.render('./auth/private');
+      res.render('auth/private');
     })
     .catch((error) => console.error(error));
   })
@@ -42,16 +42,16 @@ router.post('/signup', (req, res) => {
 
 
 router.get('/login' ,(req, res) => {
-  res.render('./auth/login');
+  res.render('auth/login');
 })
 router.post('/login', passport.authenticate("local", {
-  successRedirect: "/private/profile",
+  successRedirect: "/private-page",
   failureRedirect: "/auth/login",
   passReqToCallback: true
 }));
 
 router.get('/private-page', ensureLogin.ensureLoggedIn(), (req, res) => {
-   res.render('passport/private', { user: req.user });
+   res.render('auth/private', { user: req.user });
  });
 
 
