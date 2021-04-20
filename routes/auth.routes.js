@@ -1,5 +1,6 @@
 const express = require('express');
-const bcrypt = require("bcryptjs")
+const bcrypt = require("bcryptjs");
+const passport = require('passport');
 const router = express.Router();
 const saltRound = 10;
 // Require user model
@@ -41,7 +42,21 @@ router.post('/signup', (req, res, next) => {
     })
   })
 })
-// Add bcrypt to encrypt passwords
+
+router.get('/login', isLoggedOut, (req, res) => {
+  res.render('login');
+})
+
+router.post('./login', passport.authenticate("local", {
+  successRedirect: "/private/profile",
+  failureRedirect: "/auth/login",
+  passReqToCallback: true
+}));
+
+router.get('/logout', (req, res) => {
+  req.logout();
+  res.redirect('/');
+})
 
 // Add passport
 

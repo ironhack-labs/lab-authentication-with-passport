@@ -1,6 +1,8 @@
 const session = require("express-session");
 const MongoStore = require("connect-mongo");
 
+const DBURL = "mongodb://localhost/auth-with-passport";
+
 module.exports = (app) => {
     app.use(
         session({
@@ -11,7 +13,7 @@ module.exports = (app) => {
                 maxAge: 3600000
             },
             store: MongoStore.create({
-                mongoUrl: process.env.MONGODB_URL
+                mongoUrl: DBURL
             })
         })
     )
