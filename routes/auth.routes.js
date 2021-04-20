@@ -8,6 +8,7 @@ const User = require('../models/User.model')
 // Add bcrypt to encrypt passwords
 
 // Add passport
+const passport = require("passport")
 
 const ensureLogin = require('connect-ensure-login');
 
@@ -52,5 +53,18 @@ router.post('/signup', (req, res, next) => {
         })
     })
 })
+
+router.get("/login", (req, res) => {
+  res.render("auth/login")
+})
+
+
+router.post("/login", passport.authenticate("local", {
+  
+  successRedirect: "/private-page",
+  failureRedirect: "/auth/login",
+  passReqToCallback: true
+
+}));
 
 module.exports = router;
