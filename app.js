@@ -11,7 +11,7 @@ const path = require('path');
 
 // DB Mongo
 mongoose
-  .connect('mongodb://localhost/auth-with-passport', {
+  .connect(process.env.MONGODB_URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useCreateIndex: true
@@ -29,6 +29,9 @@ require('./configs/middleware.config')(app);
 
 // Express View engine setup
 require('./configs/views.config')(app);
+require('./configs/session.config')(app);
+require('./configs/passport.config')(app);
+
 
 // default value for title local
 app.locals.title = 'Express - Generated with IronGenerator';
@@ -36,7 +39,9 @@ app.locals.title = 'Express - Generated with IronGenerator';
 // Routes middleware goes here
 const index = require('./routes/index.routes');
 const authRoutes = require('./routes/auth.routes');
+const privateRouter = require('./routes/private.routes');
 app.use('/', index);
 app.use('/', authRoutes);
+app.use('/private', privateRouter);
 
 module.exports = app;

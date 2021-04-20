@@ -4,7 +4,7 @@ const {isLogedout} = require('../middlewares');
 const User = require('../models/User.model');
 const bcrypt = require('bcryptjs');
 const saltRound = 10;
-
+const passport = require('passport')
 // Require user model
 
 // Add bcrypt to encrypt passwords
@@ -40,8 +40,19 @@ router.post('/signup', (req, res) => {
   })
 })
 
+
+router.get('/login' ,(req, res) => {
+  res.render('./auth/login');
+})
+router.post('/login', passport.authenticate("local", {
+  successRedirect: "/private/profile",
+  failureRedirect: "/auth/login",
+  passReqToCallback: true
+}));
+
 router.get('/private-page', ensureLogin.ensureLoggedIn(), (req, res) => {
-  res.render('passport/private', { user: req.user });
-});
+   res.render('passport/private', { user: req.user });
+ });
+
 
 module.exports = router;
