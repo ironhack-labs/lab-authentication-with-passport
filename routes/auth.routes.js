@@ -19,26 +19,26 @@ router.get('/signup', (req, res, next) =>{
 router.post('/signup', (req, res, next) =>{
   const {username, password} = req.body;
   if (!username || !password){
-    res.render('auth/signup', {errorMessage: 'Username and password are required'});
+    return res.render('auth/signup', {errorMessage: 'Username and password are required'});
   };
 
   User.findOne({username})
     .then((user) =>{
       if(user){
-        res.render('auth/signup', {errorMessage: 'Username already exists'});
+        return res.render('auth/signup', {errorMessage: 'Username already exists'});
       }
       const salt = bcrypt.genSaltSync(saltRounds);
       const hashPassword = bcrypt.hashSync(password, salt);
 
       User.create({username, password: hashPassword})
         .then((newUser) =>{
-          res.redirect('/')
+          return res.redirect('/')
         })
         .catch((error) =>{
-          res.render('auth/signup', {errorMessage: 'Server error, try again'})
+          return res.render('auth/signup', {errorMessage: 'Server error, try again'})
         });
     })
-
+    .catch((error => console.error(error)));
 
 });
 
