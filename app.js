@@ -44,11 +44,6 @@ app.use(
 );
 // Middleware Setup
 
-
-
-
-
-
   passport.serializeUser((user, cb) => { cb(null, user._id) });
 
   passport.deserializeUser((id, cb) => {
