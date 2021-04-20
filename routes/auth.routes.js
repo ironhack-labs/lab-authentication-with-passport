@@ -48,15 +48,15 @@ router.post('/signup', (req, res) => {
     .catch((err) => res.send(err))
 });
 
-router.get('/login', (req, res, next)=>{
+router.get('/login', (req, res, next) => {
   res.render('auth/login')
 })
 
 router.post("/login", passport.authenticate("local", {
-    successRedirect: "/", 
-    failureRedirect: "/login",
-    passReqToCallback: true 
-  }
+  successRedirect: "/",
+  failureRedirect: "/login",
+  passReqToCallback: true
+}
 ));
 
 router.get('/private-page', ensureLogin.ensureLoggedIn(), (req, res) => {
