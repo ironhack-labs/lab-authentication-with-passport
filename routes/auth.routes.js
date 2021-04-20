@@ -7,6 +7,7 @@ const User = require('../models/User.model')
 const ensureLogin = require('connect-ensure-login');
 
 
+
 router.get('/signup', (req, res) => {
   res.render('auth/signup')
 })
@@ -24,22 +25,39 @@ router.post('/signup', (req, res, next) =>{
     }
     User.create({username, password: hashPassword})
     .then((user)=>{
-      console.log(user);
-      res.render('index', {user})
+      req.login(user, (error)=>{
+        if(error) next(error); //next corta la ejecución
+        return res.redirect('/auth/private-page')
+      }) 
+    })
+    .catch((error) =>{
+      console.error(error);
+      res.render('auth/signup', {errorMessage: "Server error. Try again"})
+
     })
 
   })
-
-
 })
 
+router.get('/login', (req, res) =>{
+  console.log(req.flash())
+  res.render('auth/login')
+})
+router.post('/login', passport.authenticate('local', {
+  successRedirect:"/auth/private-page",
+  failureRedirect: "/auth/login",
+  failureFlash: true,
+  passReqToCallback: true
 
-// Add bcrypt to encrypt passwords
+}))
 
-// Add passport
+router.get('/logout', (req, res)=>{
+  req.logout();
+  res.redirect('/')
+})
 
 router.get('/private-page', ensureLogin.ensureLoggedIn(), (req, res) => {
-  res.render('passport/private', { user: req.user });
+  res.render('auth/private', { user: req.user });
 });
 
 module.exports = router;
