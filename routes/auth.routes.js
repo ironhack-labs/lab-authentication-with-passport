@@ -40,8 +40,7 @@ router.post('/signup', (req, res, next) =>{
 })
 
 router.get('/login', (req, res) =>{
-  console.log(req.flash())
-  res.render('auth/login')
+  res.render('auth/login', {errorMessage: req.flash('error')[0]})
 })
 router.post('/login', passport.authenticate('local', {
   successRedirect:"/auth/private-page",

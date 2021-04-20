@@ -17,13 +17,13 @@ module.exports = (app) =>{
         User.findOne({ username })
           .then(user => {
             if (!user) {
-              return next(null, false, { errorMessage: 'Usuario o contraseña incorrectos' });
+              return next(null, false, { message: 'Wrong user or password' });
             }
     
             if (bcrypt.compareSync(password, user.password)) {
               return next(null, user);
             } else {
-              return next(null, false, { errorMessage: 'Usuario o contraseña incorrectos.' })
+              return next(null, false, { message: 'Wrong user or password.' })
             }
           })
           .catch(error => next(error))
