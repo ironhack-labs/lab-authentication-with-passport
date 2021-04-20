@@ -14,19 +14,19 @@ router.get('/private-page', ensureLogin.ensureLoggedIn(), (req, res) => {
 });
 
 router.get('/signup', (req, res, next) =>{
-  res.render('auth/signup');
+  res.render('auth/signup', { user: req.user });
 });
 
 router.post('/signup', (req, res, next) =>{
   const {username, password} = req.body;
   if (!username || !password){
-    return res.render('auth/signup', {errorMessage: 'Username and password are required'});
+    return res.render('auth/signup', {errorMessage: 'Username and password are required', user: req.user});
   };
 
   User.findOne({username})
     .then((user) =>{
       if(user){
-        return res.render('auth/signup', {errorMessage: 'Username already exists'});
+        return res.render('auth/signup', {errorMessage: 'Username already exists', user: req.user});
       }
       const salt = bcrypt.genSaltSync(saltRounds);
       const hashPassword = bcrypt.hashSync(password, salt);
@@ -36,7 +36,7 @@ router.post('/signup', (req, res, next) =>{
           return res.redirect('/')
         })
         .catch((error) =>{
-          return res.render('auth/signup', {errorMessage: 'Server error, try again'})
+          return res.render('auth/signup', {errorMessage: 'Server error, try again', user: req.user})
         });
     })
     .catch((error => next(error)));
@@ -44,7 +44,7 @@ router.post('/signup', (req, res, next) =>{
 
 
 router.get('/login', (req, res, next) =>{
-  res.render('auth/login');
+  res.render('auth/login', { user: req.user });
 });
 
 router.post('/login', passport.authenticate('local', {
@@ -60,6 +60,9 @@ router.get('/github/callback', passport.authenticate('github', {
   failureRedirect: '/login'
 }))
 
+router.get('/logout', (req, res, next)=>{
+  req.logout();
+  res.redirect('/')
+})
 
 module.exports = router;
-
