@@ -7,28 +7,30 @@ const router = express.Router();
 const saltRounds = 10;
 // Require user model
 
-router.get('/signup', isLoggedOut,(req, res) => {
-  res.render('signup');
+router.get('/auth/signup', isLoggedOut, (req, res) => {
+  res.render('auth/signup');
 })
 
-router.post('/signup', (req, res) => {
+router.post('/auth/signup', (req, res) => {
   const { username, password } = req.body;
-
+  console.log(req.body)
   if (!username || !password) {
-    res.render('signup', { errorMessage: 'Username and password are required.' })
+    res.render('auth/signup', { errorMessage: 'Username and password are required.'})
   }
 
   // const regularExpresion = new RegExp('');
   // regularExpresion.test(password)
 
-  if(password.length < 3){
-    res.render('signup', { errorMessage: 'Password should have at least 3 characters' })
+  if (password.length < 3) {
+    res.render('auth/signup', { errorMessage: 'Password should have at least 3 characters'})
   }
 
   User.findOne({ username })
     .then(user => {
       if (user) {
-        return res.render('signup', { errorMessage: 'User already exists.' })
+        return res.render('auth/signup', {
+          errorMessage: 'User already exists.'
+        })
       }
 
       const salt = bcrypt.genSaltSync(saltRounds);
@@ -38,20 +40,33 @@ router.post('/signup', (req, res) => {
         .then((newUser) => {
           // return res.redirect('/');
           req.login(newUser, (error) => {
-            if(error){
-              next(error)
-            }
-            return res.redirect('/private/profile')
+            if (error) {next(error)}
+            return res.redirect('/auth/private')
           })
         })
-        .catch((error) => {
-
-          console.log(error);
-          return res.render('signup', { errorMessage: 'Server error. Try again.' })
+        .catch((error) => {console.log(error);
+          return res.render('auth/signup', {
+            errorMessage: 'Server error. Try again.'
+          })
         })
 
     })
 });
+
+router.get('/auth/login', isLoggedOut, (req, res) => {
+  res.render('auth/login');
+})
+
+router.post('/auth/login', passport.authenticate("local", {
+  successRedirect: "/auth/private",
+  failureRedirect: "/auth/login",
+  passReqToCallback: true
+}));
+
+// router.get('/logout', (req, res) => {
+//   req.logout();
+//   res.redirect('/');
+// })
 
 // Add bcrypt to encrypt passwords
 
@@ -60,7 +75,9 @@ router.post('/signup', (req, res) => {
 const ensureLogin = require('connect-ensure-login');
 
 router.get('/private-page', ensureLogin.ensureLoggedIn(), (req, res) => {
-  res.render('passport/private', { user: req.user });
+  res.render('passport/private', {
+    user: req.user
+  });
 });
 
 module.exports = router;
