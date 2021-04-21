@@ -9,6 +9,16 @@ const mongoose = require('mongoose');
 const logger = require('morgan');
 const path = require('path');
 
+
+const bcrypt = require('bcrypt')
+const flash = require('connect-flash')
+const session = require('express-session')
+const passport = require('passport')
+const LocalStrategy = require('passport-local').Strategy;
+const { Passport } = require('passport');
+
+const User = require('./models/User.model')
+
 mongoose
   .connect('mongodb://localhost/auth-with-passport', {
     useNewUrlParser: true,
@@ -28,6 +38,62 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+
+
+
+//PASO 3 Configurar el middleware de Session --------------
+app.use(session({
+  secret: process.env.SECRET,
+  resave: true,
+  saveUninitialized: true
+}))
+
+//PASO 4 Configurar la serialización del usuario --------------------
+passport.serializeUser((user, callback)=> {
+  callback(null, user._id)
+})
+
+//PASO 5 Configurar la deserialización del usuario --------------------
+passport.deserializeUser((id, callback)=>{
+  User.findById(id)
+  .then((result)=>{
+    callback(null, result)
+  })
+  .catch((err)=>{
+    callback(err)
+  })
+})
+
+//PASO 6 Configurar el middleware de flash --------------------
+app.use(flash())
+
+//paso 7 Configurar el middleware del Strategy -------------------- Esto es lo que verifica si el usuario y la contraseña son correctos
+passport.use(new LocalStrategy({
+  usernameField: 'username',
+  passwordField: 'password',
+  passReqToCallback: true
+}, (req, username, password, next)=> {
+  User.findOne({username})
+  .then((user) => {
+    if(!user){ //Si el usuario no coincide
+      return next(null, false, {message: 'Incorrect username'})
+    }
+    
+    if(!bcrypt.compareSync(password, user.password)){ //Si la contraseña no coincide
+      return next(null, false, {message: 'Incorrect password'})
+    }
+    
+    return next(null, user)
+  })
+  .catch((err) => {
+    next(err)
+  });
+}))
+
+//PASO 10 Configurar el moddleware de passport -------------
+app.use(passport.initialize())
+app.use(passport.session())
+
 
 // Express View engine setup
 
