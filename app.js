@@ -8,6 +8,12 @@ const hbs = require('hbs');
 const mongoose = require('mongoose');
 const logger = require('morgan');
 const path = require('path');
+const bcrypt = require(`bcrypt`)
+const flash = require(`connect-flash`)
+const session = require(`express-session`)
+const passport = require(`passport`)
+const LocalStrategy = require(`passport-local`).Strategy
+const User = require(`./models/User.model`)
 
 mongoose
   .connect('mongodb://localhost/auth-with-passport', {
@@ -28,6 +34,58 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+
+
+//Configurar el middleware de Session.
+app.use(session({
+  secret: process.env.SECRET,
+  resave: true,
+  saveUninitialized: true
+}))
+
+//Configurar la serializacion del usuario.
+passport.serializeUser((user, callback)=>{
+  callback(null, user._id)
+})
+
+//Configurar la deserializacion del usuario.
+passport.deserializeUser((id, callback)=>{
+  User.findById(id)
+  .then((result) => {
+    callback(null, result)
+  }).catch((err) => {
+    callback(err)
+  });
+})
+
+//PASO 6: Configurar el middleware de flash
+app.use(flash())
+
+//Configurar el middleware del Strategy.
+passport.use(new LocalStrategy({
+  usernameField: `username`,
+  passwordField: `password`,
+  passReqToCallback: true
+}, (req, username, password, next)=>{
+  User.findOne({username})
+  .then((user)=>{
+    if(!user){//si el usuario no existe
+      return next(null, false, {message:`incorrect username`})
+    }
+    if(!bcrypt.compareSync(password, user.password)){
+      //Si la contraseña no coincide
+      return next(null,false, {message: `Incorrect password`})
+    }
+    return next(null, user)
+  })
+  .catch((err)=>{
+    next(err)
+  }) 
+}))
+
+//Configurar middleware de passport
+app.use(passport.initialize())
+app.use(passport.session())
 
 // Express View engine setup
 
