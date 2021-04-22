@@ -5,11 +5,12 @@ const passport = require('passport')
 const saltRounds = 10;
 const User = require('../models/User.model')
 const ensureLogin = require('connect-ensure-login');
+const { isLoggedOut } = require('../middlewares/auth');
 
 
 
-router.get('/signup', (req, res) => {
-  res.render('auth/signup')
+router.get('/signup', isLoggedOut, (req, res, next) => {
+    res.render('auth/signup');
 })
 router.post('/signup', (req, res, next) =>{
   const {username, password} = req.body;
@@ -39,7 +40,7 @@ router.post('/signup', (req, res, next) =>{
   })
 })
 
-router.get('/login', (req, res) =>{
+router.get('/login', isLoggedOut, (req, res) =>{
   res.render('auth/login', {errorMessage: req.flash('error')[0]})
 })
 router.post('/login', passport.authenticate('local', {
