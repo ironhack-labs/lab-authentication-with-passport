@@ -10,7 +10,7 @@ const logger = require('morgan');
 const path = require('path');
 
 mongoose
-  .connect('mongodb://localhost/auth-with-passport', {
+  .connect(`${process.env.MONGODB_URI}`, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useCreateIndex: true
