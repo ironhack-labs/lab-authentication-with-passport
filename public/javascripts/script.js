@@ -1,8 +1,10 @@
-document.addEventListener('DOMContentLoaded', () => {
-
-  console.log('IronGenerator JS imported successfully!');
-
-}, false);
+document.addEventListener(
+  "DOMContentLoaded",
+  () => {
+    console.log("passport JS imported successfully!");
+  },
+  false
+);
 
 document.querySelector('#password').addEventListener('keyup', e => {
   if (e.target.value.length >= 8) {
