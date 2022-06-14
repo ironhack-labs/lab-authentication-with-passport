@@ -2,6 +2,8 @@
 
 # LAB | Authentication with PassportJS
 
+![](https://images.unsplash.com/photo-1532188142562-df556b861e6a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2250&q=80)
+
 ## Introduction
 
 In previous lessons, we learned how important it is to manage your users (have them saved and retrieved) successfully. In this lab, you will do it one more time, just to make sure we are ready to move forward into new knowledge conquers. :wink:
@@ -62,7 +64,7 @@ To do that, we need to **configure the session** and **initialize a session with
 
 ## Iteration #3: Private page
 
-In the repo you forked, there is a file `views/auth/private.hbs`. This page is referenced in the `routes/auth.routes.js` with the path `/private-page`. We use the `ensureLogin.ensureLoggedIn()` method to make sure that the user is logged in before viewing this page.
+In the repo you forked, there is a file `views/auth/private.hbs`. This page is referenced in the `routes/auth.routes.js` with the path `/private-page`. We use the `req.user` object to make sure that the user is logged in before viewing this page.
 
 If everything worked correctly, the user should be able to sign up, login, and then visit the page, where they will receive a personalized greeting.
 

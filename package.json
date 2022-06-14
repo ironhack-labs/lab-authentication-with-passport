@@ -1,15 +1,14 @@
 {
-  "name": "starter-code",
+  "name": "auth-with-passport",
   "version": "0.0.0",
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "dev": "DEBUG=starter-code:* nodemon ./bin/www",
+    "dev": "DEBUG=auth-with-passport:* nodemon ./bin/www",
     "dev-windows": "nodemon ./bin/www"
   },
   "dependencies": {
     "body-parser": "^1.19.0",
-    "connect-ensure-login": "^0.1.1",
     "cookie-parser": "^1.4.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
