@@ -1,8 +1,22 @@
 body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif; }
+  padding: 0px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
 
 a {
-  color: #00B7FF; }
+  color: #00b7ff;
+}
+
+h1::first-letter {
+  color: #768fb5;
+  font-size: 2.5rem;
+  font-family: "Satisfy", cursive;
+}
+
+h2::first-letter {
+  color: #768fb5;
+  font-size: 3rem;
+  font-family: "Satisfy", cursive;
+}
 
 /*# sourceMappingURL=style.css.map */

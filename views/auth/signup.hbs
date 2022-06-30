@@ -1,0 +1,11 @@
+<h1 class="container mt-3">Sign up</h1>
+<form action="/signup" method="POST" class="container mt-3">
+  <label for="username">Username: </label>
+  <input type="text" name="username" />
+  <label for="password">Password: </label>
+  <input type="password" name="password" />
+  <button type="submit" class="bg-primary py-1 px-2 border-0">Sign up</button>
+  {{#if message}}
+    <p>{{message}}</p>
+  {{/if}}
+</form>
