@@ -91,6 +91,42 @@ passport.use(
   })
 );
 
+// Github strategy
+
+const GithubStrategy = require('passport-github').Strategy
+
+passport.use(new GithubStrategy({
+	clientID: process.env.ID,
+	clientSecret: process.env.SECRET,
+	callbackURL: 'http://127.0.0.1:3000/auth/github/callback'
+},
+	(accessToken, refreshToken, profile, done) => {
+		console.log(profile)
+		User.findOne({
+			githubId: profile.id
+		})
+			.then(user => {
+				if (user !== null) {
+					// pass the user to passport to serialize it
+					done(null, user)
+				} else {
+					// we don't have this user in the db so we create it
+					User.create({
+						githubId: profile.id,
+						username: profile.username,
+						avatar: profile._json.avatar_url
+					})
+						.then(user => {
+							done(null, user)
+						})
+				}
+			})
+	}))
+
+// end of Github strategy
+
+
+
 app.use(passport.initialize());
 app.use(passport.session());
 

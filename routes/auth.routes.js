@@ -26,6 +26,13 @@ router.get("/login", (req, res, next) => {
   res.render("auth/login", { errorMessage: req.flash("error") }); // !!!
 });
 
+router.get('/github', passport.authenticate('github'))
+
+router.get('/auth/github/callback', passport.authenticate('github', {
+	successRedirect: '/profile',
+	failureRedirect: '/signup'
+}));
+
 router.post("/signup", (req, res, next) => {
   const { username, password } = req.body;
   // is the password 4+ characters
