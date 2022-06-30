@@ -68,35 +68,6 @@ router.post("/signup", (req, res, next) => {
   });
 });
 
-router.post("/login", (req, res, next) => {
-  const { username, password } = req.body;
-  console.log(username, password);
-  console.log("SESSION =====> ", req.session);
-  if (username === "" || password === "") {
-    res.render("auth/login", {
-      errorMessage: "Please enter both, username and password to login.",
-    });
-    return;
-  }
-  User.findOne({ username })
-    .then((user) => {
-      if (!user) {
-        res.render("auth/login", {
-          errorMessage: "Username is not registered. Try with other username.",
-        });
-        return;
-      } else if (bcrypt.compareSync(password, user.password)) {
-        req.session.currentUser = user; // SESSION
-        res.render("auth/private", {
-          user: user,
-          userInSession: req.session.currentUser,
-        });
-      } else {
-        res.render("auth/login", { errorMessage: "Incorrect password." });
-      }
-    })
-    .catch((error) => next(error));
-});
 
 router.get("/private-page", (req, res) => {
   if (!req.user) {
@@ -117,13 +88,10 @@ router.post(
 );
 
 router.get("/logout", (req, res, next) => {
-  // this is how you log out via passport
   req.logout(function (err) {
-    // if there is an error we pass the error to the error handler via next()
     if (err) {
       return next(err);
     }
-    // if there is no error we redirect to home (or any other page)
     res.redirect("/");
   });
   res.redirect("/");
