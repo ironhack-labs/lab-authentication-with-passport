@@ -12,26 +12,26 @@ const bcrypt = require("bcryptjs");
 
 // ------------------------------------------------------------------- //
 
-// TODO: Add the /signup routes (GET and POST)
+///////////////////////////////////////////////////////////////////////
+//////////////////////////// GITHUB ///////////////////////////////////
+///////////////////////////////////////////////////////////////////////
+router.get("/github", passport.authenticate("github"));
+
+router.get(
+  "/auth/github/callback",
+  passport.authenticate("github", {
+    successRedirect: "/private-page",
+    failureRedirect: "/signup",
+  })
+);
+
+///////////////////////////////////////////////////////////////////////
+/////////////////////////// SIGN UP ///////////////////////////////////
+///////////////////////////////////////////////////////////////////////
 
 router.get("/signup", (req, res, next) => {
   res.render("auth/signup");
 });
-
-router.get("/login", (req, res, next) => {
-  res.render("auth/login");
-});
-
-router.get("/login", (req, res, next) => {
-  res.render("auth/login", { errorMessage: req.flash("error") }); // !!!
-});
-
-router.get('/github', passport.authenticate('github'))
-
-router.get('/auth/github/callback', passport.authenticate('github', {
-	successRedirect: '/profile',
-	failureRedirect: '/signup'
-}));
 
 router.post("/signup", (req, res, next) => {
   const { username, password } = req.body;
@@ -75,40 +75,49 @@ router.post("/signup", (req, res, next) => {
   });
 });
 
+///////////////////////////////////////////////////////////////////////
+/////////////////////////// PRIVATE PAGE //////////////////////////////
+///////////////////////////////////////////////////////////////////////
 
 router.get("/private-page", (req, res) => {
   if (!req.user) {
-    res.redirect("auth/login"); // can't access the page, so go and log in
+    res.redirect("/login"); // can't access the page, so go and log in
     return;
   }
   // ok, req.user is defined
   res.render("auth/private", { user: req.user });
 });
 
+///////////////////////////////////////////////////////////////////////
+/////////////////////////// LOGIN /////////////////////////////////////
+///////////////////////////////////////////////////////////////////////
+
+// router.get("/login", (req, res, next) => {
+//   res.render("auth/login");
+// });
+
+router.get("/login", (req, res, next) => {
+  res.render("auth/login", { errorMessage: req.flash("error") }); // !!!
+});
+
 router.post(
   "/login",
   passport.authenticate("local", {
     successRedirect: "/private-page",
-    failureRedirect: "auth/login",
+    failureRedirect: "/login",
     failureFlash: true, // !!!
   })
 );
 
-router.get("/logout", (req, res, next) => {
-  req.logout(function (err) {
-    if (err) {
-      return next(err);
-    }
+///////////////////////////////////////////////////////////////////////
+/////////////////////////// LOG OUT ///////////////////////////////////
+///////////////////////////////////////////////////////////////////////
+
+router.post("/logout", (req, res, next) => {
+  req.session.destroy((err) => {
+    if (err) next(err);
     res.redirect("/");
   });
-  res.redirect("/");
 });
-
-// router.post("/logout", (req, res, next) => {
-//   req.session.destroy((err) => {
-//     if (err) next(err);
-//     res.redirect("/");
-//   });
-// });
 
 module.exports = router;

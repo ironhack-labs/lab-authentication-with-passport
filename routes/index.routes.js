@@ -1,17 +1,19 @@
 const express = require('express');
 const router = express.Router();
 
-// middleware to protect routes
-function loginCheck() {
-  return (req, res, next) => {
-    // this is how you check for a logged in user in passport
-    if (req.isAuthenticated()) {
-      next()
-    } else {
-      res.redirect('/login')
-    }
-  }
-}
+// // middleware to protect routes
+// function loginCheck() {
+//   return (req, res, next) => {
+//     // this is how you check for a logged in user in passport
+//     if (req.isAuthenticated()) {
+//       next()
+//     } else {
+//       res.redirect('/login')
+//     }
+//   }
+// }
+
+
 
 /* GET home page */
 router.get('/', (req, res) => res.render('index'));
@@ -24,4 +26,4 @@ router.get('/profile', (req, res, next) => {
 });
 
 
-module.exports = router;
+module.exports = router

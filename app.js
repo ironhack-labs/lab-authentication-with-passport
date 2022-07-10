@@ -76,6 +76,8 @@ passport.deserializeUser((id, done) => {
     });
 });
 
+app.use(passport.authenticate('session'));
+
 // register the local strategy (authentication using username and password)
 passport.use(
   new LocalStrategy((username, password, done) => {
@@ -131,6 +133,9 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // Routes middleware goes here
+// const { loginOut } = require("./routes/middleware");
+// app.use("/", loginOut);
+
 const index = require("./routes/index.routes");
 app.use("/", index);
 

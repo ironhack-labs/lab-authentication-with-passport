@@ -4,6 +4,10 @@
   </div>
   {{#if user}}
     <div>
+
+      {{#if user.avatar}}
+        <img src="{{user.avatar}}" style="height: 150px; border-radius: 50%" />
+      {{/if}}
       <h1>Who's the best developer?</h1>
       <h1>You are,
         <span style="color: red;">{{user.username}}</span>. You are!
@@ -18,8 +22,8 @@
   <a href="/">
     <button type="button" class="btn btn-info mt-2" href="/">Index</button>
   </a>
-  <a href="/">
-    <button type="button" class="btn btn-info mt-2" href="/">Log Out</button>
-  </a>
+  <form id="logout-form" action="/logout" method="POST">
+    <button>Logout</button>
+  </form>
 
 </div>
